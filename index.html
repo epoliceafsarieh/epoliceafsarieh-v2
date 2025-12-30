@@ -1,55 +1,220 @@
-<style>
-  body{
-    margin:0;
-    font-family:Tahoma, Arial, sans-serif;
-    background:#0b3b7a; /* آبی دولتی */
-    color:#ffffff;
-  }
-  .wrap{
-    max-width:600px;
-    margin:0 auto;
-    padding:24px 16px;
-  }
-  h1{
-    text-align:center;
-    font-size:20px;
-    margin-bottom:10px;
-    font-weight:800;
-  }
-  p{
-    text-align:center;
-    font-size:14px;
-    opacity:.9;
-    margin-bottom:24px;
-  }
-  a{
-    display:block;
-    text-decoration:none;
-    background:#ffffff;
-    color:#0b3b7a;
-    border-radius:14px;
-    padding:16px;
-    margin-bottom:14px;
-    font-weight:800;
-    text-align:center;
-  }
-  a.primary{
-    background:#eaf2ff;
-<div class="wrap">
-  <h1>برای چه کاری مراجعه کرده‌اید؟</h1>
-  <p>یکی از گزینه‌های زیر را انتخاب کنید</p>
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>پلیس +۱۰ افسریه | راهنمای خدمات</title>
+  <style>
+    :root{
+      --blue:#0b3b7a;      /* آبی دولتی */
+      --blue2:#072f62;     /* تیره‌تر برای لبه‌ها */
+      --white:#ffffff;
+      --soft:#eaf2ff;      /* تاکید ملایم برای گزینه پول‌ساز */
+      --shadow:0 10px 30px rgba(2,8,23,.18);
+      --radius:16px;
+    }
 
-  <a class="primary" href="#">
-    خدمات اینترنتی (غیرحضوری)
-  </a>
+    *{box-sizing:border-box}
 
-  <a href="#">گذرنامه</a>
-  <a href="#">نظام وظیفه / معافیت تحصیلی</a>
-  <a href="#">پیگیری درخواست قبلی</a>
-</div>
+    body{
+      margin:0;
+      font-family:Tahoma, Arial, sans-serif;
+      background:var(--blue);
+      color:var(--white);
+      line-height:1.9;
+    }
 
-    
-    color:#0b3b7a;
-    border:2px solid #ffffff;
-  }
-</style>
+    .wrap{
+      max-width:640px;
+      margin:0 auto;
+      padding:28px 16px 22px;
+    }
+
+    .brand{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:10px;
+      margin-bottom:10px;
+      opacity:.95;
+      font-weight:800;
+      letter-spacing:-.2px;
+    }
+    .brand .dot{
+      width:10px;height:10px;border-radius:999px;background:rgba(255,255,255,.9);
+      box-shadow:0 0 0 4px rgba(255,255,255,.14);
+    }
+
+    h1{
+      margin:10px 0 8px;
+      text-align:center;
+      font-size:20px;
+      font-weight:900;
+    }
+
+    .subtitle{
+      margin:0 0 18px;
+      text-align:center;
+      font-size:14px;
+      opacity:.92;
+    }
+
+    .card{
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.18);
+      border-radius:var(--radius);
+      padding:14px;
+      box-shadow:var(--shadow);
+      backdrop-filter: blur(2px);
+    }
+
+    .actions{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:12px;
+    }
+
+    .btn{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      text-decoration:none;
+      background:var(--white);
+      color:var(--blue);
+      border-radius:14px;
+      padding:16px 14px;
+      font-weight:900;
+    }
+    .btn small{
+      font-weight:700;
+      opacity:.85;
+    }
+
+    /* تاکید خدمات اینترنتی */
+    .btn.primary{
+      background:var(--soft);
+      border:2px solid rgba(255,255,255,.95);
+    }
+
+    .section-title{
+      margin:18px 0 10px;
+      font-size:15px;
+      font-weight:900;
+      opacity:.96;
+    }
+
+    .popular{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+
+    .tile{
+      text-decoration:none;
+      background:rgba(255,255,255,.12);
+      border:1px solid rgba(255,255,255,.22);
+      color:var(--white);
+      border-radius:14px;
+      padding:14px 12px;
+      text-align:center;
+      font-weight:900;
+    }
+
+    .note{
+      margin-top:14px;
+      background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.22);
+      border-radius:14px;
+      padding:12px;
+      font-size:13px;
+      opacity:.95;
+    }
+    .note div{margin:6px 0}
+
+    .footer{
+      margin-top:16px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+      opacity:.95;
+      border-top:1px solid rgba(255,255,255,.22);
+      padding-top:12px;
+      font-size:12px;
+    }
+
+    .call{
+      text-decoration:none;
+      background:rgba(255,255,255,.18);
+      border:1px solid rgba(255,255,255,.32);
+      color:var(--white);
+      padding:10px 12px;
+      border-radius:12px;
+      font-weight:900;
+    }
+
+    /* موبایل‌های خیلی کوچک */
+    @media (max-width:360px){
+      .popular{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+
+    <div class="brand">
+      <span class="dot"></span>
+      <span>دفتر پلیس +۱۰ افسریه</span>
+    </div>
+
+    <h1>برای چه کاری مراجعه کرده‌اید؟</h1>
+    <p class="subtitle">یکی از گزینه‌های زیر را انتخاب کنید.</p>
+
+    <div class="card">
+      <div class="actions">
+        <a class="btn primary" href="#">
+          <span>خدمات اینترنتی (غیرحضوری)</span>
+          <small>اولویت دفتر</small>
+        </a>
+
+        <a class="btn" href="#">
+          <span>گذرنامه</span>
+          <small>مدارک و شرایط</small>
+        </a>
+
+        <a class="btn" href="#">
+          <span>نظام وظیفه / معافیت تحصیلی</span>
+          <small>مدارک و شرایط</small>
+        </a>
+
+        <a class="btn" href="#">
+          <span>پیگیری درخواست قبلی</span>
+          <small>پیگیری وضعیت</small>
+        </a>
+      </div>
+
+      <div class="section-title">کارهای پرتکرار</div>
+      <div class="popular">
+        <a class="tile" href="#">گذرنامه</a>
+        <a class="tile" href="#">ترخیص خودرو/موتور</a>
+        <a class="tile" href="#">خلافی خودرو</a>
+        <a class="tile" href="#">سایر خدمات</a>
+      </div>
+
+      <div class="note">
+        <div>• حضور متقاضی در برخی خدمات الزامی است.</div>
+        <div>• مدارک ناقص ممکن است پذیرش نشود.</div>
+      </div>
+
+      <div class="footer">
+        <span>آدرس و ساعات کاری را اینجا درج کنید</span>
+        <a class="call" href="tel:">تماس</a>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
