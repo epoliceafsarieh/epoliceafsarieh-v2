@@ -54,7 +54,7 @@
       opacity:.95;
     }
 
-    /* Triangle toggle - EXACT two triangles like your sketch */
+    /* Triangle toggle */
     .tri-toggle{
       display:flex;
       justify-content:center;
@@ -86,16 +86,8 @@
       inset:0;
       background:rgba(255,255,255,.12);
       border:2px solid rgba(255,255,255,.28);
-    }
-
-    .tri-btn.left::before{
-      clip-path:polygon(50% 100%, 0 0, 100% 0);
       border-radius:10px;
-    }
-
-    .tri-btn.right::before{
       clip-path:polygon(50% 100%, 0 0, 100% 0);
-      border-radius:10px;
     }
 
     .tri-slash{
@@ -152,7 +144,7 @@
       opacity:.8;
     }
 
-    /* BLOCK (Popular) */
+    /* BLOCK */
     .block{
       background:rgba(255,255,255,.12);
       border:1px solid rgba(255,255,255,.25);
@@ -188,23 +180,23 @@
 
       display:flex;
       align-items:center;
-      gap:10px;
+      gap:12px;
       justify-content:flex-start;
     }
 
-    /* Better icons (stroke style, larger, aligned with text) */
+    /* Mississippi-like: bigger icon, same line as text */
     .tile .ico{
-      width:34px;
-      height:34px;
-      flex:0 0 34px;
+      width:44px;
+      height:44px;
+      flex:0 0 44px;
       display:flex;
       align-items:center;
       justify-content:center;
-      opacity:.98;
+      opacity:1;
     }
     .tile .ico svg{
-      width:34px;
-      height:34px;
+      width:44px;
+      height:44px;
       display:block;
     }
     .tile .ico path,
@@ -214,12 +206,12 @@
     .tile .ico circle{
       stroke:#ffffff;
       fill:none;
-      stroke-width:1.9;
+      stroke-width:2.35;
       stroke-linecap:round;
       stroke-linejoin:round;
     }
 
-    /* Internet - NOT same as search, thinner */
+    /* Internet - thinner */
     .internet-thin{
       display:block;
       margin-top:12px;
@@ -288,6 +280,8 @@
       .footer-left{width:100%}
       .tri-btn{width:132px;height:60px}
       .tri-slash{height:66px}
+      .tile .ico{width:42px;height:42px;flex:0 0 42px}
+      .tile .ico svg{width:42px;height:42px}
     }
   </style>
 </head>
@@ -305,9 +299,9 @@
     <div class="mode-label">نوع جستجو را انتخاب کنید:</div>
 
     <div class="tri-toggle">
-      <button id="modeQuestion" class="tri-btn left" type="button">سوال</button>
+      <button id="modeQuestion" class="tri-btn" type="button">سوال</button>
       <div class="tri-slash" aria-hidden="true"></div>
-      <button id="modeService" class="tri-btn right active" type="button">خدمت</button>
+      <button id="modeService" class="tri-btn active" type="button">خدمت</button>
     </div>
 
     <input id="search" class="search-input" type="text"
@@ -321,57 +315,71 @@
     <div class="block-title">خدمات پرتکرار</div>
 
     <div class="popular">
+
+      <!-- PASSPORT (style based on your sample) -->
       <a class="tile" href="#">
         <span class="ico" aria-hidden="true">
           <svg viewBox="0 0 24 24">
-            <rect x="6" y="3.5" width="12" height="17" rx="2"></rect>
-            <line x1="9" y1="8" x2="15" y2="8"></line>
-            <circle cx="12" cy="12" r="1.7"></circle>
-            <line x1="9" y1="16.2" x2="15" y2="16.2"></line>
+            <rect x="6" y="3.5" width="12" height="17" rx="2.3"></rect>
+            <line x1="9" y1="7.2" x2="15" y2="7.2"></line>
+            <circle cx="12" cy="12" r="3.2"></circle>
+            <line x1="12" y1="8.8" x2="12" y2="15.2"></line>
+            <line x1="8.8" y1="12" x2="15.2" y2="12"></line>
           </svg>
         </span>
         <span>گذرنامه</span>
       </a>
 
+      <!-- TOW/TRAKHIS (style based on your sample) -->
       <a class="tile" href="#">
         <span class="ico" aria-hidden="true">
           <svg viewBox="0 0 24 24">
-            <path d="M6.5 13.5h11l-1.2-4a2 2 0 0 0-1.9-1.4H9.6A2 2 0 0 0 7.7 9.5l-1.2 4Z"></path>
-            <path d="M7 13.5v3.2a1 1 0 0 0 1 1h.8"></path>
-            <path d="M17 13.5v3.2a1 1 0 0 1-1 1h-.8"></path>
-            <circle cx="9" cy="18" r="1.4"></circle>
-            <circle cx="15" cy="18" r="1.4"></circle>
+            <path d="M3.5 14.5v-6.7c0-1 0.8-1.8 1.8-1.8h4.2v8.5"></path>
+            <path d="M9.5 14.5h4.6l3.7-3.1c.4-.3.6-.8.6-1.3V7.2c0-.7-.6-1.2-1.2-1.2H12"></path>
+            <path d="M18.4 8.2l2.1-1.7"></path>
+            <path d="M18.4 10.3h2.1"></path>
+            <path d="M11.8 10.4h3.8"></path>
+            <circle cx="6.5" cy="16.8" r="1.7"></circle>
+            <circle cx="12.8" cy="16.8" r="1.7"></circle>
+            <path d="M14.5 16.8h2.8"></path>
+            <path d="M17.3 16.8c0-1 0.8-1.8 1.8-1.8h.9"></path>
+            <circle cx="20" cy="16.8" r="1.7"></circle>
           </svg>
         </span>
         <span>ترخیص خودرو / موتور</span>
       </a>
 
+      <!-- DRIVER LICENSE -->
       <a class="tile" href="#">
         <span class="ico" aria-hidden="true">
           <svg viewBox="0 0 24 24">
-            <rect x="5.5" y="6" width="13" height="14" rx="2"></rect>
-            <circle cx="10" cy="12" r="1.6"></circle>
-            <line x1="12.8" y1="11" x2="16.2" y2="11"></line>
-            <line x1="12.8" y1="13.2" x2="16.2" y2="13.2"></line>
-            <line x1="8.5" y1="16.5" x2="16.5" y2="16.5"></line>
+            <rect x="4.5" y="6" width="15" height="12.5" rx="2.2"></rect>
+            <circle cx="9" cy="12" r="2.0"></circle>
+            <path d="M7.2 16c.7-1.2 2-2 3.6-2s2.9.8 3.6 2"></path>
+            <line x1="13.5" y1="10" x2="18" y2="10"></line>
+            <line x1="13.5" y1="12.6" x2="18" y2="12.6"></line>
+            <line x1="13.5" y1="15.2" x2="17.2" y2="15.2"></line>
           </svg>
         </span>
         <span>گواهینامه</span>
       </a>
 
+      <!-- OTHER SERVICES (grid) -->
       <a class="tile" href="#">
         <span class="ico" aria-hidden="true">
           <svg viewBox="0 0 24 24">
-            <rect x="6" y="6" width="5" height="5" rx="1"></rect>
-            <rect x="13" y="6" width="5" height="5" rx="1"></rect>
-            <rect x="6" y="13" width="5" height="5" rx="1"></rect>
-            <rect x="13" y="13" width="5" height="5" rx="1"></rect>
+            <rect x="5.2" y="5.2" width="5.8" height="5.8" rx="1.2"></rect>
+            <rect x="13" y="5.2" width="5.8" height="5.8" rx="1.2"></rect>
+            <rect x="5.2" y="13" width="5.8" height="5.8" rx="1.2"></rect>
+            <rect x="13" y="13" width="5.8" height="5.8" rx="1.2"></rect>
           </svg>
         </span>
         <span>سایر خدمات</span>
       </a>
+
     </div>
 
+    <!-- Internet (keep as you had; you can later add a matching icon if you want) -->
     <a class="internet-thin" href="#">
       خدمات اینترنتی (غیرحضوری)
     </a>
