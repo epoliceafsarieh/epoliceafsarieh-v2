@@ -48,7 +48,7 @@
       opacity:.9;
     }
 
-    /* SEARCH */
+    /* SEARCH (Option B) */
     .search-box{
       position:relative;
       margin-bottom:18px;
@@ -84,9 +84,7 @@
       cursor:pointer;
     }
 
-    .suggestions div:last-child{
-      border-bottom:none;
-    }
+    .suggestions div:last-child{border-bottom:none}
 
     .suggestions small{
       display:block;
@@ -95,48 +93,54 @@
       opacity:.8;
     }
 
-    /* MAIN ACTIONS */
-    .actions{
-      display:grid;
-      gap:14px;
-      margin-bottom:18px;
+    /* BLOCK (Popular) */
+    .block{
+      background:rgba(255,255,255,.12);
+      border:1px solid rgba(255,255,255,.25);
+      border-radius:16px;
+      padding:14px;
+      margin-bottom:16px;
     }
 
-    .btn{
-      display:block;
-      text-decoration:none;
-      background:var(--white);
-      color:var(--ms-blue);
-      border-radius:var(--radius);
-      padding:16px 14px;
+    .block-title{
       font-weight:900;
-      text-align:center;
-    }
-
-    .btn.primary{
-      background:var(--soft);
-      border:2px solid var(--white);
-    }
-
-    /* POPULAR */
-    .section-title{
-      margin:18px 0 10px;
-      font-size:15px;
-      font-weight:900;
+      margin:0 0 10px;
       text-align:center;
       opacity:.95;
+      font-size:15px;
+    }
+
+    /* Featured card (Internet services) - integrated, not "patched" */
+    .featured{
+      display:block;
+      text-decoration:none;
+      border-radius:16px;
+      padding:16px 14px;
+      text-align:center;
+      font-weight:900;
+      margin-bottom:12px;
+      background:rgba(255,255,255,.92);
+      color:#041E42;
+      border:2px solid rgba(255,255,255,.55);
+    }
+
+    .featured small{
+      display:block;
+      margin-top:6px;
+      font-size:12px;
+      font-weight:700;
+      opacity:.85;
     }
 
     .popular{
       display:grid;
       grid-template-columns:1fr 1fr;
       gap:12px;
-      margin-bottom:16px;
     }
 
     .tile{
       text-decoration:none;
-      background:rgba(255,255,255,.12);
+      background:rgba(255,255,255,.10);
       border:1px solid rgba(255,255,255,.25);
       color:var(--white);
       border-radius:14px;
@@ -145,15 +149,16 @@
       font-weight:900;
     }
 
-    /* NOTICE */
+    /* Notice */
     .note{
-      margin-bottom:16px;
       background:rgba(255,255,255,.12);
       border:1px solid rgba(255,255,255,.25);
       border-radius:14px;
       padding:12px;
       font-size:13px;
+      margin-bottom:16px;
     }
+    .note div{margin:6px 0}
 
     /* FOOTER */
     .footer{
@@ -162,9 +167,16 @@
       padding-top:12px;
       display:flex;
       justify-content:space-between;
-      align-items:center;
-      gap:10px;
+      align-items:flex-start;
+      gap:12px;
       font-size:12px;
+    }
+
+    .footer-left{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
     }
 
     .footer a{
@@ -174,10 +186,19 @@
       border-radius:12px;
       padding:8px 12px;
       font-weight:900;
+      white-space:nowrap;
     }
+
+    .addr{
+      opacity:.95;
+      line-height:1.7;
+    }
+    .addr div{margin:2px 0}
 
     @media (max-width:360px){
       .popular{grid-template-columns:1fr}
+      .footer{flex-direction:column}
+      .footer-left{width:100%}
     }
   </style>
 </head>
@@ -203,19 +224,22 @@
     </div>
   </div>
 
-  <!-- MAIN PATHS -->
-  <div class="actions">
-    <a class="btn primary" href="#">خدمات اینترنتی</a>
-     </div>
+  <!-- POPULAR BLOCK -->
+  <div class="block">
+    <div class="block-title">کارهای پرتکرار</div>
 
-  <!-- POPULAR -->
-  <div class="section-title">کارهای پرتکرار</div>
+    <!-- Featured / Internet services (integrated) -->
+    <a class="featured" href="#">
+      خدمات اینترنتی (غیرحضوری)
+      <small>فرم‌ها و خدمات آنلاین – سریع و بدون مراجعه</small>
+    </a>
 
-  <div class="popular">
-    <a class="tile" href="#">ترخیص خودرو / موتور</a>
-    <a class="tile" href="#">خلافی خودرو</a>
-    <a class="tile" href="#">گواهینامه</a>
-    <a class="tile" href="#">سایر خدمات</a>
+    <div class="popular">
+      <a class="tile" href="#">ترخیص خودرو / موتور</a>
+      <a class="tile" href="#">خلافی خودرو</a>
+      <a class="tile" href="#">گواهینامه</a>
+      <a class="tile" href="#">سایر خدمات</a>
+    </div>
   </div>
 
   <div class="note">
@@ -224,8 +248,15 @@
   </div>
 
   <div class="footer">
-    <a href="#">تماس</a>
-    <a href="hire.html">استخدام</a>
+    <div class="addr">
+      <div>آدرس: .................</div>
+      <div>ساعات کاری: .................</div>
+    </div>
+
+    <div class="footer-left">
+      <a href="#">تماس</a>
+      <a href="hire.html">استخدام</a>
+    </div>
   </div>
 
 </div>
