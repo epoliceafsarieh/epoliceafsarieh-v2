@@ -54,62 +54,65 @@
       opacity:.95;
     }
 
-    /* (CHANGE #1) triangle toggle like your sketch */
+    /* Triangle toggle - EXACT two triangles like your sketch */
     .tri-toggle{
       display:flex;
       justify-content:center;
-      gap:0;
+      gap:12px;
       margin-bottom:12px;
+      align-items:flex-end;
     }
 
-    .tri-opt{
-      position:relative;
+    .tri-btn{
       width:150px;
-      height:54px;
+      height:64px;
       border:none;
       cursor:pointer;
-      background:rgba(255,255,255,.12);
-      color:rgba(255,255,255,.92);
-      font-weight:900;
-      font-family:inherit;
       padding:0;
+      background:transparent;
+      color:#fff;
+      font-family:inherit;
+      font-weight:900;
+      position:relative;
       display:flex;
       align-items:center;
       justify-content:center;
-      border:2px solid rgba(255,255,255,.26);
+      filter: drop-shadow(0 8px 18px rgba(0,0,0,.22));
     }
 
-    /* left triangle */
-    .tri-opt.left{
-      clip-path:polygon(0 0, 100% 0, 70% 100%, 0 100%);
-      border-left:none;
-      border-radius:14px 0 0 14px;
+    .tri-btn::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:rgba(255,255,255,.12);
+      border:2px solid rgba(255,255,255,.28);
     }
 
-    /* right triangle (inverted-like) */
-    .tri-opt.right{
-      clip-path:polygon(30% 0, 100% 0, 100% 100%, 0 100%);
-      border-right:none;
-      border-radius:0 14px 14px 0;
+    .tri-btn.left::before{
+      clip-path:polygon(50% 100%, 0 0, 100% 0);
+      border-radius:10px;
     }
 
-    .tri-opt.active{
-      background:#ffffff;
+    .tri-btn.right::before{
+      clip-path:polygon(50% 100%, 0 0, 100% 0);
+      border-radius:10px;
+    }
+
+    .tri-slash{
+      width:10px;
+      height:70px;
+      transform:skewX(-16deg);
+      background:rgba(255,255,255,.30);
+      border-radius:6px;
+      border:2px solid rgba(255,255,255,.22);
+    }
+
+    .tri-btn.active{
       color:#041E42;
-      border-color:rgba(255,255,255,.85);
     }
-
-    /* thin center separator like your drawing line */
-    .tri-divider{
-      width:6px;
-      height:54px;
-      background:rgba(255,255,255,.22);
-      border-top:2px solid rgba(255,255,255,.26);
-      border-bottom:2px solid rgba(255,255,255,.26);
-    }
-    .tri-divider.active{
+    .tri-btn.active::before{
       background:#ffffff;
-      opacity:.9;
+      border-color:rgba(255,255,255,.95);
     }
 
     .search-input{
@@ -172,35 +175,49 @@
       gap:12px;
     }
 
-    /* (CHANGE #2) tiles thinner */
+    /* tiles thinner */
     .tile{
       text-decoration:none;
       background:rgba(255,255,255,.10);
       border:1px solid rgba(255,255,255,.25);
       color:var(--white);
       border-radius:14px;
-      padding:10px 12px;     /* کمتر */
-      text-align:right;       /* برای آیکون کنار نوشته */
+      padding:10px 12px;
+      text-align:right;
       font-weight:900;
 
-      display:flex;           /* (CHANGE #1/3) icon inline with text */
+      display:flex;
       align-items:center;
       gap:10px;
       justify-content:flex-start;
     }
 
-    /* (CHANGE #3) icon larger and aligned with text */
+    /* Better icons (stroke style, larger, aligned with text) */
     .tile .ico{
-      width:30px;
-      height:30px;
-      flex:0 0 30px;
+      width:34px;
+      height:34px;
+      flex:0 0 34px;
       display:flex;
       align-items:center;
       justify-content:center;
       opacity:.98;
     }
-    .tile .ico svg{width:30px;height:30px;display:block}
-    .tile .ico path{fill:#ffffff}
+    .tile .ico svg{
+      width:34px;
+      height:34px;
+      display:block;
+    }
+    .tile .ico path,
+    .tile .ico line,
+    .tile .ico polyline,
+    .tile .ico rect,
+    .tile .ico circle{
+      stroke:#ffffff;
+      fill:none;
+      stroke-width:1.9;
+      stroke-linecap:round;
+      stroke-linejoin:round;
+    }
 
     /* Internet - NOT same as search, thinner */
     .internet-thin{
@@ -269,7 +286,8 @@
       .popular{grid-template-columns:1fr}
       .footer{flex-direction:column}
       .footer-left{width:100%}
-      .tri-opt{width:132px}
+      .tri-btn{width:132px;height:60px}
+      .tri-slash{height:66px}
     }
   </style>
 </head>
@@ -286,11 +304,10 @@
 
     <div class="mode-label">نوع جستجو را انتخاب کنید:</div>
 
-    <!-- (CHANGE #1) two triangles -->
     <div class="tri-toggle">
-      <button id="modeQuestion" class="tri-opt left" type="button">سوال</button>
-      <div id="triDivider" class="tri-divider"></div>
-      <button id="modeService" class="tri-opt right active" type="button">خدمت</button>
+      <button id="modeQuestion" class="tri-btn left" type="button">سوال</button>
+      <div class="tri-slash" aria-hidden="true"></div>
+      <button id="modeService" class="tri-btn right active" type="button">خدمت</button>
     </div>
 
     <input id="search" class="search-input" type="text"
@@ -306,28 +323,50 @@
     <div class="popular">
       <a class="tile" href="#">
         <span class="ico" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="M7 3h8a3 3 0 0 1 3 3v14a1 1 0 0 1-1 1H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Zm0 2v14h9V6a1 1 0 0 0-1-1H7Zm2 3h5v2H9V8Zm0 4h5v2H9v-2Z"/></svg>
+          <svg viewBox="0 0 24 24">
+            <rect x="6" y="3.5" width="12" height="17" rx="2"></rect>
+            <line x1="9" y1="8" x2="15" y2="8"></line>
+            <circle cx="12" cy="12" r="1.7"></circle>
+            <line x1="9" y1="16.2" x2="15" y2="16.2"></line>
+          </svg>
         </span>
         <span>گذرنامه</span>
       </a>
 
       <a class="tile" href="#">
         <span class="ico" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="M7 6h10l2 6v7a1 1 0 0 1-1 1h-1a2 2 0 0 1-4 0H11a2 2 0 0 1-4 0H6a1 1 0 0 1-1-1v-7l2-6Zm1.4 2L7 12h10l-1.4-4H8.4ZM7 14v3h1.2a2 2 0 0 1 3.6 0h4.4a2 2 0 0 1 3.6 0H19v-3H7Z"/></svg>
+          <svg viewBox="0 0 24 24">
+            <path d="M6.5 13.5h11l-1.2-4a2 2 0 0 0-1.9-1.4H9.6A2 2 0 0 0 7.7 9.5l-1.2 4Z"></path>
+            <path d="M7 13.5v3.2a1 1 0 0 0 1 1h.8"></path>
+            <path d="M17 13.5v3.2a1 1 0 0 1-1 1h-.8"></path>
+            <circle cx="9" cy="18" r="1.4"></circle>
+            <circle cx="15" cy="18" r="1.4"></circle>
+          </svg>
         </span>
         <span>ترخیص خودرو / موتور</span>
       </a>
 
       <a class="tile" href="#">
         <span class="ico" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="M6 4h12a2 2 0 0 1 2 2v12a3 3 0 0 1-3 3H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Zm0 2v13h11a1 1 0 0 0 1-1V6H6Zm2 2h6v2H8V8Zm0 4h9v2H8v-2Z"/></svg>
+          <svg viewBox="0 0 24 24">
+            <rect x="5.5" y="6" width="13" height="14" rx="2"></rect>
+            <circle cx="10" cy="12" r="1.6"></circle>
+            <line x1="12.8" y1="11" x2="16.2" y2="11"></line>
+            <line x1="12.8" y1="13.2" x2="16.2" y2="13.2"></line>
+            <line x1="8.5" y1="16.5" x2="16.5" y2="16.5"></line>
+          </svg>
         </span>
         <span>گواهینامه</span>
       </a>
 
       <a class="tile" href="#">
         <span class="ico" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="M5 5h6v6H5V5Zm8 0h6v6h-6V5ZM5 13h6v6H5v-6Zm8 0h6v6h-6v-6Z"/></svg>
+          <svg viewBox="0 0 24 24">
+            <rect x="6" y="6" width="5" height="5" rx="1"></rect>
+            <rect x="13" y="6" width="5" height="5" rx="1"></rect>
+            <rect x="6" y="13" width="5" height="5" rx="1"></rect>
+            <rect x="13" y="13" width="5" height="5" rx="1"></rect>
+          </svg>
         </span>
         <span>سایر خدمات</span>
       </a>
@@ -363,7 +402,6 @@
 
   const modeServiceBtn = document.getElementById('modeService');
   const modeQuestionBtn = document.getElementById('modeQuestion');
-  const triDivider = document.getElementById('triDivider');
 
   let mode = 'service';
 
@@ -389,12 +427,10 @@
     if(mode === 'service'){
       modeServiceBtn.classList.add('active');
       modeQuestionBtn.classList.remove('active');
-      triDivider.classList.remove('active');
       input.placeholder = 'مثلاً: گذرنامه، معافیت، ترخیص...';
     } else {
       modeQuestionBtn.classList.add('active');
       modeServiceBtn.classList.remove('active');
-      triDivider.classList.add('active');
       input.placeholder = 'مثلاً: مدارک گذرنامه چیست؟ هزینه‌ها؟ زمان؟';
     }
 
@@ -406,8 +442,6 @@
   modeServiceBtn.addEventListener('click', () => setMode('service'));
   modeQuestionBtn.addEventListener('click', () => setMode('question'));
 
-  // service: startsWith(title)
-  // question: includes(title) so typing "گذرنامه" also works
   function renderSuggestions(list, q){
     const query = (q || '').trim();
     if(!query){
