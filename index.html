@@ -4,67 +4,183 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>پلیس +۱۰ افسریه | راهنمای خدمات</title>
+
   <style>
-    body {
-      margin: 0;
-      font-family: Tahoma, Arial, sans-serif;
-      background: #041E42; /* آبی رسمی Mississippi.gov */
-      color: #FFFFFF;
+    :root{
+      --ms-blue:#041E42;   /* Mississippi.gov */
+      --white:#ffffff;
+      --soft:#eaf2ff;
+      --radius:16px;
     }
-    .wrap {
-      max-width: 640px;
-      margin: 0 auto;
-      padding: 28px 16px 22px;
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      font-family:Tahoma, Arial, sans-serif;
+      background:var(--ms-blue);
+      color:var(--white);
+      line-height:1.9;
     }
-    h1 {
-      text-align: center;
-      font-size: 20px;
-      font-weight: 900;
-      margin-bottom: 8px;
+
+    .wrap{
+      max-width:640px;
+      margin:0 auto;
+      padding:28px 16px 24px;
     }
-    .subtitle {
-      text-align: center;
-      font-size: 14px;
-      opacity: .9;
-      margin-bottom: 18px;
+
+    .brand{
+      text-align:center;
+      font-weight:800;
+      opacity:.95;
+      margin-bottom:6px;
     }
-    .btn {
-      display: block;
-      text-decoration: none;
-      background: #FFFFFF;
-      color: #041E42;
-      border-radius: 12px;
-      padding: 14px;
-      margin: 10px 0;
-      font-weight: bold;
-      text-align: center;
+
+    h1{
+      margin:10px 0 6px;
+      text-align:center;
+      font-size:20px;
+      font-weight:900;
     }
-    .btn.primary {
-      background: #eaf2ff;
-      color: #041E42;
+
+    .subtitle{
+      margin:0 0 22px;
+      text-align:center;
+      font-size:14px;
+      opacity:.9;
+    }
+
+    .actions{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:14px;
+    }
+
+    .btn{
+      display:block;
+      text-decoration:none;
+      background:var(--white);
+      color:var(--ms-blue);
+      border-radius:var(--radius);
+      padding:16px 14px;
+      font-weight:900;
+      text-align:center;
+    }
+
+    .btn.primary{
+      background:var(--soft);
+      border:2px solid var(--white);
+    }
+
+    .section-title{
+      margin:22px 0 10px;
+      font-size:15px;
+      font-weight:900;
+      opacity:.95;
+      text-align:center;
+    }
+
+    .popular{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+
+    .tile{
+      text-decoration:none;
+      background:rgba(255,255,255,.12);
+      border:1px solid rgba(255,255,255,.25);
+      color:var(--white);
+      border-radius:14px;
+      padding:14px 10px;
+      text-align:center;
+      font-weight:900;
+    }
+
+    .note{
+      margin-top:16px;
+      background:rgba(255,255,255,.12);
+      border:1px solid rgba(255,255,255,.25);
+      border-radius:14px;
+      padding:12px;
+      font-size:13px;
+      opacity:.95;
+    }
+    .note div{margin:6px 0}
+
+    .footer{
+      margin-top:18px;
+      border-top:1px solid rgba(255,255,255,.25);
+      padding-top:12px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      flex-wrap:wrap;
+      gap:10px;
+      font-size:12px;
+      opacity:.95;
+    }
+
+    .call{
+      text-decoration:none;
+      color:var(--white);
+      border:1px solid rgba(255,255,255,.35);
+      border-radius:12px;
+      padding:8px 12px;
+      font-weight:900;
+    }
+
+    @media (max-width:360px){
+      .popular{grid-template-columns:1fr}
     }
   </style>
 </head>
+
 <body>
   <div class="wrap">
+
+    <div class="brand">دفتر پلیس +۱۰ افسریه</div>
+
     <h1>برای چه کاری مراجعه کرده‌اید؟</h1>
     <p class="subtitle">یکی از گزینه‌های زیر را انتخاب کنید</p>
 
-    <a class="btn primary" href="#">
-      خدمات اینترنتی (غیرحضوری)
-    </a>
+    <div class="actions">
+      <a class="btn primary" href="#">
+        خدمات اینترنتی (غیرحضوری)
+      </a>
 
-    <a class="btn" href="#">
-      گذرنامه
-    </a>
+      <a class="btn" href="#">
+        گذرنامه
+      </a>
 
-    <a class="btn" href="#">
-      نظام وظیفه / معافیت تحصیلی
-    </a>
+      <a class="btn" href="#">
+        نظام وظیفه / معافیت تحصیلی
+      </a>
 
-    <a class="btn" href="#">
-      پیگیری درخواست قبلی
-    </a>
+      <a class="btn" href="#">
+        پیگیری درخواست قبلی
+      </a>
+    </div>
+
+    <div class="section-title">کارهای پرتکرار</div>
+
+    <div class="popular">
+      <a class="tile" href="#">گذرنامه</a>
+      <a class="tile" href="#">ترخیص خودرو / موتور</a>
+      <a class="tile" href="#">خلافی خودرو</a>
+      <a class="tile" href="#">سایر خدمات</a>
+    </div>
+
+    <div class="note">
+      <div>• حضور متقاضی در برخی خدمات الزامی است.</div>
+      <div>• مدارک ناقص ممکن است پذیرش نشود.</div>
+    </div>
+
+    <div class="footer">
+      <span>آدرس و ساعات کاری دفتر</span>
+      <a class="call" href="tel:">تماس</a>
+    </div>
+
   </div>
 </body>
 </html>
