@@ -53,21 +53,32 @@
       justify-content:center;
       margin-bottom:10px;
     }
+
+    /* (CHANGE #1) Label to make it obvious these are selectable */
+    .mode-label{
+      text-align:center;
+      font-weight:900;
+      margin-bottom:8px;
+      opacity:.95;
+    }
+
+    /* (CHANGE #1) Make buttons look more obviously clickable */
     .mode button{
       border:none;
       cursor:pointer;
       font-family:inherit;
       font-weight:900;
-      border-radius:999px;
-      padding:8px 12px;
-      background:rgba(255,255,255,.12);
+      border-radius:14px;
+      padding:12px 14px;
+      background:rgba(255,255,255,.10);
       color:var(--white);
-      border:1px solid rgba(255,255,255,.25);
+      border:2px solid rgba(255,255,255,.28);
+      min-width:110px;
     }
     .mode button.active{
       background:#ffffff;
       color:#041E42;
-      border:1px solid rgba(255,255,255,.6);
+      border:2px solid rgba(255,255,255,.85);
     }
 
     .search-input{
@@ -147,12 +158,12 @@
       margin-top:12px;
       text-decoration:none;
 
-      background:rgba(255,255,255,.18);    /* متفاوت از سرچ */
+      background:rgba(255,255,255,.18);
       color:var(--white);
       border:1px solid rgba(255,255,255,.28);
 
       border-radius:14px;
-      padding:6px 12px;                    /* باریک‌تر از قبل */
+      padding:6px 12px;
       text-align:center;
       font-weight:900;
     }
@@ -221,13 +232,18 @@
 
   <!-- SEARCH -->
   <div class="search-box">
+
+    <!-- (CHANGE #1) -->
+    <div class="mode-label">نوع جستجو را انتخاب کنید:</div>
+
     <div class="mode">
       <button id="modeService" class="active" type="button">خدمت</button>
       <button id="modeQuestion" type="button">سوال</button>
     </div>
 
+    <!-- (CHANGE #2) placeholder: remove "خدمت یا سوال..." and keep "مثلاً..." -->
     <input id="search" class="search-input" type="text"
-      placeholder="خدمت یا سوال خود را جستجو کنید (مثلاً: گذرنامه، معافیت، ترخیص...)">
+      placeholder="مثلاً: گذرنامه، معافیت، ترخیص...">
 
     <div id="suggestions" class="suggestions"></div>
   </div>
@@ -297,11 +313,15 @@
     if(mode === 'service'){
       modeServiceBtn.classList.add('active');
       modeQuestionBtn.classList.remove('active');
-      input.placeholder = 'خدمت یا سوال خود را جستجو کنید (مثلاً: گذرنامه، معافیت، ترخیص...)';
+
+      /* (CHANGE #2) placeholder simplified */
+      input.placeholder = 'مثلاً: گذرنامه، معافیت، ترخیص...';
     } else {
       modeQuestionBtn.classList.add('active');
       modeServiceBtn.classList.remove('active');
-      input.placeholder = 'خدمت یا سوال خود را جستجو کنید (مثلاً: مدارک گذرنامه چیست؟ هزینه‌ها؟ زمان؟)';
+
+      /* (CHANGE #2) placeholder simplified */
+      input.placeholder = 'مثلاً: مدارک گذرنامه چیست؟ هزینه‌ها؟ زمان؟';
     }
     input.value = '';
     box.style.display = 'none';
@@ -311,6 +331,7 @@
   modeServiceBtn.addEventListener('click', () => setMode('service'));
   modeQuestionBtn.addEventListener('click', () => setMode('question'));
 
+  /* (CHANGE #3) Filter ONLY by title and ONLY if title starts with typed text */
   function renderSuggestions(list, q){
     const query = (q || '').trim();
     if(!query){
@@ -320,10 +341,16 @@
     }
 
     const filtered = list.filter(x =>
-      x.t.includes(query) || (x.s && x.s.includes(query))
+      (x.t || '').startsWith(query)
     );
 
-    const items = (filtered.length ? filtered : list).slice(0, 6);
+    if(!filtered.length){
+      box.innerHTML = `<div style="padding:12px 14px;font-weight:900;opacity:.8">نتیجه‌ای پیدا نشد</div>`;
+      box.style.display = 'block';
+      return;
+    }
+
+    const items = filtered.slice(0, 6);
 
     box.innerHTML = items.map(x => `
       <div>
