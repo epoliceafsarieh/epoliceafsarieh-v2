@@ -24,7 +24,28 @@
     .wrap{
       max-width:640px;
       margin:0 auto;
-      padding:26px 16px 22px;
+      padding:18px 16px 22px;
+    }
+
+    /* TOP BAR (very simple) */
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      margin-bottom:16px;
+    }
+    .topbar a{
+      text-decoration:none;
+      color:var(--white);
+      border:1px solid rgba(255,255,255,.35);
+      border-radius:14px;
+      padding:10px 12px;
+      font-weight:900;
+      white-space:nowrap;
+      background:rgba(255,255,255,.10);
+      flex:1;
+      text-align:center;
     }
 
     .brand{
@@ -41,16 +62,39 @@
     }
 
     .subtitle{
-      margin:0 0 14px;
+      margin:0 0 12px;
       text-align:center;
       font-size:14px;
       opacity:.9;
     }
 
-    /* SEARCH (Option B) */
+    /* SEARCH (Mode + suggestions) */
     .search-box{
       position:relative;
       margin-bottom:18px;
+    }
+
+    .mode{
+      display:flex;
+      gap:10px;
+      justify-content:center;
+      margin-bottom:10px;
+    }
+    .mode button{
+      border:none;
+      cursor:pointer;
+      font-family:inherit;
+      font-weight:900;
+      border-radius:999px;
+      padding:8px 12px;
+      background:rgba(255,255,255,.12);
+      color:var(--white);
+      border:1px solid rgba(255,255,255,.25);
+    }
+    .mode button.active{
+      background:#ffffff;
+      color:#041E42;
+      border:1px solid rgba(255,255,255,.6);
     }
 
     .search-input{
@@ -83,7 +127,6 @@
       cursor:pointer;
     }
     .suggestions div:last-child{border-bottom:none}
-
     .suggestions small{
       display:block;
       font-weight:normal;
@@ -125,25 +168,20 @@
       font-weight:900;
     }
 
-    /* Internet - thin, full width, under tiles */
+    /* Internet - thin, full width, like search color */
     .internet-thin{
       display:block;
       margin-top:12px;
       text-decoration:none;
-      background:rgba(255,255,255,.92);
-      color:#041E42;
-      border:2px solid rgba(255,255,255,.55);
+
+      background:#ffffff;          /* مثل سرچ */
+      color:#041E42;               /* متن سرمه‌ای */
+      border:1px solid rgba(255,255,255,.6);
+
       border-radius:14px;
-      padding:10px 12px;         /* باریک‌تر */
+      padding:8px 12px;            /* باریک */
       text-align:center;
       font-weight:900;
-    }
-    .internet-thin small{
-      display:block;
-      margin-top:4px;
-      font-size:12px;
-      font-weight:700;
-      opacity:.85;
     }
 
     /* Notice */
@@ -184,6 +222,7 @@
       padding:8px 12px;
       font-weight:900;
       white-space:nowrap;
+      background:rgba(255,255,255,.10);
     }
 
     .addr{
@@ -196,6 +235,8 @@
       .popular{grid-template-columns:1fr}
       .footer{flex-direction:column}
       .footer-left{width:100%}
+      .topbar{flex-direction:column}
+      .topbar a{width:100%}
     }
   </style>
 </head>
@@ -203,22 +244,27 @@
 <body>
 <div class="wrap">
 
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <a href="services.html">همه خدمات</a>
+    <a href="faq.html">سوالات پرتکرار</a>
+  </div>
+
   <div class="brand">دفتر پلیس +۱۰ افسریه</div>
 
   <h1>برای چه کاری مراجعه کرده‌اید؟</h1>
   <p class="subtitle">خدمت یا سوال خود را جستجو کنید</p>
 
-  <!-- SEARCH B -->
+  <!-- SEARCH B with MODE -->
   <div class="search-box">
-    <input id="search" class="search-input" type="text" placeholder="مثلاً: گذرنامه، خلافی، معافیت…">
-
-    <div id="suggestions" class="suggestions">
-      <div>گذرنامه <small>مدارک و شرایط</small></div>
-      <div>نظام وظیفه <small>معافیت تحصیلی و وضعیت مشمول</small></div>
-      <div>خلافی خودرو <small>استعلام و پرداخت</small></div>
-      <div>ترخیص خودرو <small>پارکینگ و توقیف</small></div>
-      <div>سوالات پرتکرار <small>پاسخ به سوالات رایج</small></div>
+    <div class="mode">
+      <button id="modeService" class="active" type="button">خدمت</button>
+      <button id="modeQuestion" type="button">سوال</button>
     </div>
+
+    <input id="search" class="search-input" type="text" placeholder="مثلاً: گذرنامه، معافیت، ترخیص…">
+
+    <div id="suggestions" class="suggestions"></div>
   </div>
 
   <!-- POPULAR BLOCK -->
@@ -232,10 +278,8 @@
       <a class="tile" href="#">سایر خدمات</a>
     </div>
 
-    <!-- Internet (thin, under tiles) -->
     <a class="internet-thin" href="#">
       خدمات اینترنتی (غیرحضوری)
-      <small>فرم‌ها و خدمات آنلاین – سریع و بدون مراجعه</small>
     </a>
   </div>
 
@@ -262,13 +306,81 @@
   const input = document.getElementById('search');
   const box = document.getElementById('suggestions');
 
+  const modeServiceBtn = document.getElementById('modeService');
+  const modeQuestionBtn = document.getElementById('modeQuestion');
+
+  let mode = 'service';
+
+  const serviceItems = [
+    {t:'گذرنامه', s:'مدارک و شرایط'},
+    {t:'نظام وظیفه', s:'معافیت تحصیلی و وضعیت مشمول'},
+    {t:'ترخیص خودرو', s:'پارکینگ و توقیف'},
+    {t:'گواهینامه', s:'تمدید و خدمات مرتبط'},
+    {t:'سایر خدمات', s:'لیست کامل خدمات'}
+  ];
+
+  const questionItems = [
+    {t:'مدارک گذرنامه چیست؟', s:'چک‌لیست مدارک'},
+    {t:'زمان انجام کار چقدر است؟', s:'زمان معمول هر خدمت'},
+    {t:'هزینه‌ها چقدر است؟', s:'تعرفه و هزینه دفتر'},
+    {t:'چه زمانی حضور الزامی است؟', s:'حضوری/غیرحضوری'},
+    {t:'سوالات پرتکرار', s:'مشاهده همه FAQ'}
+  ];
+
+  function setMode(newMode){
+    mode = newMode;
+    if(mode === 'service'){
+      modeServiceBtn.classList.add('active');
+      modeQuestionBtn.classList.remove('active');
+      input.placeholder = 'مثلاً: گذرنامه، معافیت، ترخیص…';
+    } else {
+      modeQuestionBtn.classList.add('active');
+      modeServiceBtn.classList.remove('active');
+      input.placeholder = 'مثلاً: مدارک گذرنامه چیست؟ هزینه‌ها؟ زمان؟';
+    }
+    input.value = '';
+    box.style.display = 'none';
+    box.innerHTML = '';
+  }
+
+  modeServiceBtn.addEventListener('click', () => setMode('service'));
+  modeQuestionBtn.addEventListener('click', () => setMode('question'));
+
+  function renderSuggestions(list, q){
+    const query = (q || '').trim();
+    if(!query){
+      box.style.display = 'none';
+      box.innerHTML = '';
+      return;
+    }
+
+    const filtered = list.filter(x =>
+      x.t.includes(query) || (x.s && x.s.includes(query))
+    );
+
+    const items = (filtered.length ? filtered : list).slice(0, 6);
+
+    box.innerHTML = items.map(x => `
+      <div>
+        ${x.t}
+        <small>${x.s || ''}</small>
+      </div>
+    `).join('');
+
+    box.style.display = 'block';
+  }
+
   input.addEventListener('input', () => {
-    box.style.display = input.value.trim() ? 'block' : 'none';
+    const list = (mode === 'service') ? serviceItems : questionItems;
+    renderSuggestions(list, input.value);
   });
 
   document.addEventListener('click', e => {
     if (!e.target.closest('.search-box')) box.style.display = 'none';
   });
+
+  // default mode
+  setMode('service');
 </script>
 
 </body>
