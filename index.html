@@ -50,49 +50,66 @@
     .mode-label{
       text-align:center;
       font-weight:900;
-      margin-bottom:8px;
+      margin-bottom:10px;
       opacity:.95;
     }
 
-    /* (CHANGE #1) Triangles mode switch */
-    .mode{
+    /* (CHANGE #1) triangle toggle like your sketch */
+    .tri-toggle{
       display:flex;
       justify-content:center;
-      gap:16px;
-      margin-bottom:10px;
-      align-items:center;
+      gap:0;
+      margin-bottom:12px;
     }
 
-    .tri-btn{
+    .tri-opt{
+      position:relative;
+      width:150px;
+      height:54px;
       border:none;
-      background:transparent;
       cursor:pointer;
-      padding:0;
-      font-family:inherit;
-      display:flex;
-      align-items:center;
-      gap:8px;
+      background:rgba(255,255,255,.12);
       color:rgba(255,255,255,.92);
       font-weight:900;
+      font-family:inherit;
+      padding:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border:2px solid rgba(255,255,255,.26);
     }
 
-    .tri{
-      width:0;height:0;
-      border-top:14px solid transparent;
-      border-bottom:14px solid transparent;
-      border-right:18px solid rgba(255,255,255,.35);
-      filter: drop-shadow(0 0 0 rgba(0,0,0,0));
-    }
-    .tri.down{
-      transform:rotate(90deg);
+    /* left triangle */
+    .tri-opt.left{
+      clip-path:polygon(0 0, 100% 0, 70% 100%, 0 100%);
+      border-left:none;
+      border-radius:14px 0 0 14px;
     }
 
-    /* active state: clear, light outline (no heavy animation) */
-    .tri-btn.active .tri{
-      border-right-color:#ffffff;
+    /* right triangle (inverted-like) */
+    .tri-opt.right{
+      clip-path:polygon(30% 0, 100% 0, 100% 100%, 0 100%);
+      border-right:none;
+      border-radius:0 14px 14px 0;
     }
-    .tri-btn.active{
-      color:#ffffff;
+
+    .tri-opt.active{
+      background:#ffffff;
+      color:#041E42;
+      border-color:rgba(255,255,255,.85);
+    }
+
+    /* thin center separator like your drawing line */
+    .tri-divider{
+      width:6px;
+      height:54px;
+      background:rgba(255,255,255,.22);
+      border-top:2px solid rgba(255,255,255,.26);
+      border-bottom:2px solid rgba(255,255,255,.26);
+    }
+    .tri-divider.active{
+      background:#ffffff;
+      opacity:.9;
     }
 
     .search-input{
@@ -155,25 +172,34 @@
       gap:12px;
     }
 
+    /* (CHANGE #2) tiles thinner */
     .tile{
       text-decoration:none;
       background:rgba(255,255,255,.10);
       border:1px solid rgba(255,255,255,.25);
       color:var(--white);
       border-radius:14px;
-      padding:14px 10px;
-      text-align:center;
+      padding:10px 12px;     /* کمتر */
+      text-align:right;       /* برای آیکون کنار نوشته */
       font-weight:900;
+
+      display:flex;           /* (CHANGE #1/3) icon inline with text */
+      align-items:center;
+      gap:10px;
+      justify-content:flex-start;
     }
 
-    /* (for future icons) */
+    /* (CHANGE #3) icon larger and aligned with text */
     .tile .ico{
-      width:22px;height:22px;
-      display:block;
-      margin:0 auto 8px;
-      opacity:.95;
+      width:30px;
+      height:30px;
+      flex:0 0 30px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      opacity:.98;
     }
-    .tile .ico svg{width:22px;height:22px;display:block}
+    .tile .ico svg{width:30px;height:30px;display:block}
     .tile .ico path{fill:#ffffff}
 
     /* Internet - NOT same as search, thinner */
@@ -243,6 +269,7 @@
       .popular{grid-template-columns:1fr}
       .footer{flex-direction:column}
       .footer-left{width:100%}
+      .tri-opt{width:132px}
     }
   </style>
 </head>
@@ -259,17 +286,11 @@
 
     <div class="mode-label">نوع جستجو را انتخاب کنید:</div>
 
-    <!-- (CHANGE #1) triangles -->
-    <div class="mode">
-      <button id="modeService" class="tri-btn active" type="button">
-        <span class="tri"></span>
-        <span>خدمت</span>
-      </button>
-
-      <button id="modeQuestion" class="tri-btn" type="button">
-        <span class="tri down"></span>
-        <span>سوال</span>
-      </button>
+    <!-- (CHANGE #1) two triangles -->
+    <div class="tri-toggle">
+      <button id="modeQuestion" class="tri-opt left" type="button">سوال</button>
+      <div id="triDivider" class="tri-divider"></div>
+      <button id="modeService" class="tri-opt right active" type="button">خدمت</button>
     </div>
 
     <input id="search" class="search-input" type="text"
@@ -285,34 +306,30 @@
     <div class="popular">
       <a class="tile" href="#">
         <span class="ico" aria-hidden="true">
-          <!-- passport icon -->
           <svg viewBox="0 0 24 24"><path d="M7 3h8a3 3 0 0 1 3 3v14a1 1 0 0 1-1 1H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Zm0 2v14h9V6a1 1 0 0 0-1-1H7Zm2 3h5v2H9V8Zm0 4h5v2H9v-2Z"/></svg>
         </span>
-        گذرنامه
+        <span>گذرنامه</span>
       </a>
 
       <a class="tile" href="#">
         <span class="ico" aria-hidden="true">
-          <!-- car release icon -->
           <svg viewBox="0 0 24 24"><path d="M7 6h10l2 6v7a1 1 0 0 1-1 1h-1a2 2 0 0 1-4 0H11a2 2 0 0 1-4 0H6a1 1 0 0 1-1-1v-7l2-6Zm1.4 2L7 12h10l-1.4-4H8.4ZM7 14v3h1.2a2 2 0 0 1 3.6 0h4.4a2 2 0 0 1 3.6 0H19v-3H7Z"/></svg>
         </span>
-        ترخیص خودرو / موتور
+        <span>ترخیص خودرو / موتور</span>
       </a>
 
       <a class="tile" href="#">
         <span class="ico" aria-hidden="true">
-          <!-- license icon -->
           <svg viewBox="0 0 24 24"><path d="M6 4h12a2 2 0 0 1 2 2v12a3 3 0 0 1-3 3H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Zm0 2v13h11a1 1 0 0 0 1-1V6H6Zm2 2h6v2H8V8Zm0 4h9v2H8v-2Z"/></svg>
         </span>
-        گواهینامه
+        <span>گواهینامه</span>
       </a>
 
       <a class="tile" href="#">
         <span class="ico" aria-hidden="true">
-          <!-- grid/other services icon -->
           <svg viewBox="0 0 24 24"><path d="M5 5h6v6H5V5Zm8 0h6v6h-6V5ZM5 13h6v6H5v-6Zm8 0h6v6h-6v-6Z"/></svg>
         </span>
-        سایر خدمات
+        <span>سایر خدمات</span>
       </a>
     </div>
 
@@ -346,6 +363,7 @@
 
   const modeServiceBtn = document.getElementById('modeService');
   const modeQuestionBtn = document.getElementById('modeQuestion');
+  const triDivider = document.getElementById('triDivider');
 
   let mode = 'service';
 
@@ -371,10 +389,12 @@
     if(mode === 'service'){
       modeServiceBtn.classList.add('active');
       modeQuestionBtn.classList.remove('active');
+      triDivider.classList.remove('active');
       input.placeholder = 'مثلاً: گذرنامه، معافیت، ترخیص...';
     } else {
       modeQuestionBtn.classList.add('active');
       modeServiceBtn.classList.remove('active');
+      triDivider.classList.add('active');
       input.placeholder = 'مثلاً: مدارک گذرنامه چیست؟ هزینه‌ها؟ زمان؟';
     }
 
@@ -386,9 +406,8 @@
   modeServiceBtn.addEventListener('click', () => setMode('service'));
   modeQuestionBtn.addEventListener('click', () => setMode('question'));
 
-  // (CHANGE #3 + FIX #2)
   // service: startsWith(title)
-  // question: includes(title) so typing "گذرنامه" works
+  // question: includes(title) so typing "گذرنامه" also works
   function renderSuggestions(list, q){
     const query = (q || '').trim();
     if(!query){
