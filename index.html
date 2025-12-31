@@ -7,7 +7,7 @@
 
   <style>
     :root{
-      --ms-blue:#041E42;   /* Mississippi.gov */
+      --ms-blue:#041E42;
       --white:#ffffff;
       --soft:#eaf2ff;
       --radius:16px;
@@ -31,8 +31,7 @@
 
     .brand{
       text-align:center;
-      font-weight:800;
-      opacity:.95;
+      font-weight:900;
       margin-bottom:6px;
     }
 
@@ -44,16 +43,27 @@
     }
 
     .subtitle{
-      margin:0 0 22px;
+      margin:0 0 16px;
       text-align:center;
       font-size:14px;
       opacity:.9;
     }
 
+    /* تصویر (در صورت استفاده) */
+    .hero{
+      width:100%;
+      height:140px;
+      object-fit:cover;
+      border-radius:16px;
+      margin:12px 0 16px;
+      border:1px solid rgba(255,255,255,.25);
+      display:none; /* فعلاً غیرفعال */
+    }
+
     .actions{
       display:grid;
-      grid-template-columns:1fr;
       gap:14px;
+      margin-bottom:18px;
     }
 
     .btn{
@@ -73,17 +83,18 @@
     }
 
     .section-title{
-      margin:22px 0 10px;
+      margin:18px 0 10px;
       font-size:15px;
       font-weight:900;
-      opacity:.95;
       text-align:center;
+      opacity:.95;
     }
 
     .popular{
       display:grid;
       grid-template-columns:1fr 1fr;
       gap:12px;
+      margin-bottom:16px;
     }
 
     .tile{
@@ -98,15 +109,63 @@
     }
 
     .note{
-      margin-top:16px;
+      margin-bottom:16px;
       background:rgba(255,255,255,.12);
       border:1px solid rgba(255,255,255,.25);
       border-radius:14px;
       padding:12px;
       font-size:13px;
-      opacity:.95;
     }
+
     .note div{margin:6px 0}
+
+    /* استخدام */
+    .hire-box{
+      margin-top:16px;
+      background:rgba(255,255,255,.12);
+      border:1px solid rgba(255,255,255,.25);
+      border-radius:16px;
+      padding:14px;
+    }
+
+    .hire-title{
+      font-weight:900;
+      margin-bottom:6px;
+    }
+
+    .hire-text{
+      font-size:13px;
+      margin-bottom:10px;
+    }
+
+    .hire-links{
+      display:grid;
+      gap:10px;
+      margin-bottom:12px;
+    }
+
+    .hire-links .pdf{
+      display:block;
+      text-decoration:none;
+      background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.25);
+      color:#fff;
+      border-radius:12px;
+      padding:12px;
+      font-weight:800;
+      text-align:center;
+    }
+
+    .whatsapp{
+      display:block;
+      text-decoration:none;
+      background:#ffffff;
+      color:#041E42;
+      border-radius:14px;
+      padding:14px;
+      font-weight:900;
+      text-align:center;
+    }
 
     .footer{
       margin-top:18px;
@@ -118,7 +177,6 @@
       flex-wrap:wrap;
       gap:10px;
       font-size:12px;
-      opacity:.95;
     }
 
     .call{
@@ -144,6 +202,9 @@
     <h1>برای چه کاری مراجعه کرده‌اید؟</h1>
     <p class="subtitle">یکی از گزینه‌های زیر را انتخاب کنید</p>
 
+    <!-- در صورت نیاز به عکس -->
+    <!-- <img class="hero" src="assets/hero.jpg" alt="دفتر پلیس +۱۰ افسریه"> -->
+
     <div class="actions">
       <a class="btn primary" href="#">
         خدمات اینترنتی (غیرحضوری)
@@ -165,9 +226,9 @@
     <div class="section-title">کارهای پرتکرار</div>
 
     <div class="popular">
-      <a class="tile" href="#">گذرنامه</a>
       <a class="tile" href="#">ترخیص خودرو / موتور</a>
       <a class="tile" href="#">خلافی خودرو</a>
+      <a class="tile" href="#">گواهینامه</a>
       <a class="tile" href="#">سایر خدمات</a>
     </div>
 
@@ -176,9 +237,25 @@
       <div>• مدارک ناقص ممکن است پذیرش نشود.</div>
     </div>
 
+    <div class="hire-box">
+      <div class="hire-title">استخدام / همکاری</div>
+      <div class="hire-text">
+        فرم‌ها را دانلود کنید، تکمیل کنید و از طریق واتساپ ارسال نمایید.
+      </div>
+
+      <div class="hire-links">
+        <a class="pdf" href="assets/forms/form-1.pdf" download>دانلود فرم ۱ (PDF)</a>
+        <a class="pdf" href="assets/forms/form-2.pdf" download>دانلود فرم ۲ (PDF)</a>
+      </div>
+
+      <a class="whatsapp" href="https://wa.me/*********" target="_blank" rel="noopener">
+        ارسال مدارک در واتساپ
+      </a>
+    </div>
+
     <div class="footer">
       <span>آدرس و ساعات کاری دفتر</span>
-      <a class="call" href="tel:">تماس</a>
+      <a class="call" href="#">تماس</a>
     </div>
 
   </div>
