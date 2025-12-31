@@ -9,7 +9,6 @@
     :root{
       --ms-blue:#041E42;
       --white:#ffffff;
-      --soft:#eaf2ff;
       --radius:16px;
     }
     *{box-sizing:border-box}
@@ -83,7 +82,6 @@
       font-weight:900;
       cursor:pointer;
     }
-
     .suggestions div:last-child{border-bottom:none}
 
     .suggestions small{
@@ -110,28 +108,6 @@
       font-size:15px;
     }
 
-    /* Featured card (Internet services) - integrated, not "patched" */
-    .featured{
-      display:block;
-      text-decoration:none;
-      border-radius:16px;
-      padding:16px 14px;
-      text-align:center;
-      font-weight:900;
-      margin-bottom:12px;
-      background:rgba(255,255,255,.92);
-      color:#041E42;
-      border:2px solid rgba(255,255,255,.55);
-    }
-
-    .featured small{
-      display:block;
-      margin-top:6px;
-      font-size:12px;
-      font-weight:700;
-      opacity:.85;
-    }
-
     .popular{
       display:grid;
       grid-template-columns:1fr 1fr;
@@ -147,6 +123,27 @@
       padding:14px 10px;
       text-align:center;
       font-weight:900;
+    }
+
+    /* Internet - thin, full width, under tiles */
+    .internet-thin{
+      display:block;
+      margin-top:12px;
+      text-decoration:none;
+      background:rgba(255,255,255,.92);
+      color:#041E42;
+      border:2px solid rgba(255,255,255,.55);
+      border-radius:14px;
+      padding:10px 12px;         /* باریک‌تر */
+      text-align:center;
+      font-weight:900;
+    }
+    .internet-thin small{
+      display:block;
+      margin-top:4px;
+      font-size:12px;
+      font-weight:700;
+      opacity:.85;
     }
 
     /* Notice */
@@ -228,18 +225,18 @@
   <div class="block">
     <div class="block-title">کارهای پرتکرار</div>
 
-    <!-- Featured / Internet services (integrated) -->
-    <a class="featured" href="#">
-      خدمات اینترنتی (غیرحضوری)
-      <small>فرم‌ها و خدمات آنلاین – سریع و بدون مراجعه</small>
-    </a>
-
     <div class="popular">
+      <a class="tile" href="#">گذرنامه</a>
       <a class="tile" href="#">ترخیص خودرو / موتور</a>
-      <a class="tile" href="#">خلافی خودرو</a>
       <a class="tile" href="#">گواهینامه</a>
       <a class="tile" href="#">سایر خدمات</a>
     </div>
+
+    <!-- Internet (thin, under tiles) -->
+    <a class="internet-thin" href="#">
+      خدمات اینترنتی (غیرحضوری)
+      <small>فرم‌ها و خدمات آنلاین – سریع و بدون مراجعه</small>
+    </a>
   </div>
 
   <div class="note">
