@@ -24,28 +24,7 @@
     .wrap{
       max-width:640px;
       margin:0 auto;
-      padding:18px 16px 22px;
-    }
-
-    /* TOP BAR (very simple) */
-    .topbar{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:10px;
-      margin-bottom:16px;
-    }
-    .topbar a{
-      text-decoration:none;
-      color:var(--white);
-      border:1px solid rgba(255,255,255,.35);
-      border-radius:14px;
-      padding:10px 12px;
-      font-weight:900;
-      white-space:nowrap;
-      background:rgba(255,255,255,.10);
-      flex:1;
-      text-align:center;
+      padding:26px 16px 22px;
     }
 
     .brand{
@@ -61,16 +40,10 @@
       font-weight:900;
     }
 
-    .subtitle{
-      margin:0 0 12px;
-      text-align:center;
-      font-size:14px;
-      opacity:.9;
-    }
-
-    /* SEARCH (Mode + suggestions) */
+    /* SEARCH */
     .search-box{
       position:relative;
+      margin-top:12px;
       margin-bottom:18px;
     }
 
@@ -168,18 +141,18 @@
       font-weight:900;
     }
 
-    /* Internet - thin, full width, like search color */
+    /* Internet - NOT same as search, thinner */
     .internet-thin{
       display:block;
       margin-top:12px;
       text-decoration:none;
 
-      background:#ffffff;          /* مثل سرچ */
-      color:#041E42;               /* متن سرمه‌ای */
-      border:1px solid rgba(255,255,255,.6);
+      background:rgba(255,255,255,.18);    /* متفاوت از سرچ */
+      color:var(--white);
+      border:1px solid rgba(255,255,255,.28);
 
       border-radius:14px;
-      padding:8px 12px;            /* باریک */
+      padding:6px 12px;                    /* باریک‌تر از قبل */
       text-align:center;
       font-weight:900;
     }
@@ -235,8 +208,6 @@
       .popular{grid-template-columns:1fr}
       .footer{flex-direction:column}
       .footer-left{width:100%}
-      .topbar{flex-direction:column}
-      .topbar a{width:100%}
     }
   </style>
 </head>
@@ -244,32 +215,26 @@
 <body>
 <div class="wrap">
 
-  <!-- TOP BAR -->
-  <div class="topbar">
-    <a href="services.html">همه خدمات</a>
-    <a href="faq.html">سوالات پرتکرار</a>
-  </div>
-
   <div class="brand">دفتر پلیس +۱۰ افسریه</div>
 
   <h1>برای چه کاری مراجعه کرده‌اید؟</h1>
-  <p class="subtitle">خدمت یا سوال خود را جستجو کنید</p>
 
-  <!-- SEARCH B with MODE -->
+  <!-- SEARCH -->
   <div class="search-box">
     <div class="mode">
       <button id="modeService" class="active" type="button">خدمت</button>
       <button id="modeQuestion" type="button">سوال</button>
     </div>
 
-    <input id="search" class="search-input" type="text" placeholder="مثلاً: گذرنامه، معافیت، ترخیص…">
+    <input id="search" class="search-input" type="text"
+      placeholder="خدمت یا سوال خود را جستجو کنید (مثلاً: گذرنامه، معافیت، ترخیص...)">
 
     <div id="suggestions" class="suggestions"></div>
   </div>
 
   <!-- POPULAR BLOCK -->
   <div class="block">
-    <div class="block-title">کارهای پرتکرار</div>
+    <div class="block-title">خدمات پرتکرار</div>
 
     <div class="popular">
       <a class="tile" href="#">گذرنامه</a>
@@ -332,11 +297,11 @@
     if(mode === 'service'){
       modeServiceBtn.classList.add('active');
       modeQuestionBtn.classList.remove('active');
-      input.placeholder = 'مثلاً: گذرنامه، معافیت، ترخیص…';
+      input.placeholder = 'خدمت یا سوال خود را جستجو کنید (مثلاً: گذرنامه، معافیت، ترخیص...)';
     } else {
       modeQuestionBtn.classList.add('active');
       modeServiceBtn.classList.remove('active');
-      input.placeholder = 'مثلاً: مدارک گذرنامه چیست؟ هزینه‌ها؟ زمان؟';
+      input.placeholder = 'خدمت یا سوال خود را جستجو کنید (مثلاً: مدارک گذرنامه چیست؟ هزینه‌ها؟ زمان؟)';
     }
     input.value = '';
     box.style.display = 'none';
@@ -379,7 +344,6 @@
     if (!e.target.closest('.search-box')) box.style.display = 'none';
   });
 
-  // default mode
   setMode('service');
 </script>
 
