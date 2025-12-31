@@ -50,37 +50,49 @@
 
     /* SEARCH */
     .search-box{
-      background:rgba(255,255,255,.15);
-      border:1px solid rgba(255,255,255,.35);
-      border-radius:18px;
-      padding:12px;
-      margin-bottom:16px;
+      position:relative;
+      margin-bottom:18px;
     }
 
     .search-input{
       width:100%;
-      padding:14px;
-      border-radius:14px;
+      padding:16px 14px;
+      border-radius:18px;
       border:none;
       font-size:14px;
       font-family:inherit;
     }
 
-    .search-actions{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:10px;
-      margin-top:10px;
+    .suggestions{
+      display:none;
+      position:absolute;
+      top:100%;
+      right:0;
+      left:0;
+      background:#ffffff;
+      color:#041E42;
+      border-radius:0 0 16px 16px;
+      overflow:hidden;
+      box-shadow:0 10px 30px rgba(0,0,0,.2);
+      z-index:10;
     }
 
-    .search-btn{
-      background:rgba(255,255,255,.2);
-      border:1px solid rgba(255,255,255,.4);
-      border-radius:12px;
-      padding:12px;
-      text-align:center;
+    .suggestions div{
+      padding:12px 14px;
+      border-bottom:1px solid #eee;
       font-weight:900;
       cursor:pointer;
+    }
+
+    .suggestions div:last-child{
+      border-bottom:none;
+    }
+
+    .suggestions small{
+      display:block;
+      font-weight:normal;
+      font-size:12px;
+      opacity:.8;
     }
 
     /* MAIN ACTIONS */
@@ -142,7 +154,6 @@
       padding:12px;
       font-size:13px;
     }
-    .note div{margin:6px 0}
 
     /* FOOTER */
     .footer{
@@ -177,15 +188,18 @@
   <div class="brand">دفتر پلیس +۱۰ افسریه</div>
 
   <h1>برای چه کاری مراجعه کرده‌اید؟</h1>
-  <p class="subtitle">خدمت یا سوال خود را انتخاب کنید</p>
+  <p class="subtitle">خدمت یا سوال خود را جستجو کنید</p>
 
-  <!-- SEARCH (Option A) -->
+  <!-- SEARCH B -->
   <div class="search-box">
-    <input class="search-input" type="text" placeholder="خدمت یا سوال خود را انتخاب کنید…" readonly>
+    <input id="search" class="search-input" type="text" placeholder="مثلاً: گذرنامه، خلافی، معافیت…">
 
-    <div class="search-actions">
-      <div class="search-btn">خدمات</div>
-      <div class="search-btn">سوالات پرتکرار</div>
+    <div id="suggestions" class="suggestions">
+      <div>گذرنامه <small>مدارک و شرایط</small></div>
+      <div>نظام وظیفه <small>معافیت تحصیلی و وضعیت مشمول</small></div>
+      <div>خلافی خودرو <small>استعلام و پرداخت</small></div>
+      <div>ترخیص خودرو <small>پارکینگ و توقیف</small></div>
+      <div>سوالات پرتکرار <small>پاسخ به سوالات رایج</small></div>
     </div>
   </div>
 
@@ -218,5 +232,19 @@
   </div>
 
 </div>
+
+<script>
+  const input = document.getElementById('search');
+  const box = document.getElementById('suggestions');
+
+  input.addEventListener('input', () => {
+    box.style.display = input.value.trim() ? 'block' : 'none';
+  });
+
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.search-box')) box.style.display = 'none';
+  });
+</script>
+
 </body>
 </html>
