@@ -34,7 +34,7 @@
     .wrap{max-width:860px;margin:18px auto 28px;padding:0 14px}
     .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
 
-    /* Brand bar (فقط هویت خدمت + بازگشت) */
+    /* نوار بالا: فقط هویت خدمت + بازگشت */
     .brandbar{
       background:var(--ms-blue);
       color:#fff;
@@ -47,36 +47,43 @@
     .brand-right{
       display:flex;
       align-items:center;
-      gap:12px;
+      gap:14px;
       min-width:0;
     }
 
-    /* آیکون سرویس بزرگ‌تر */
+    /* آیکون خیلی بزرگ‌تر + کادر دورش سورمه‌ای */
     .svc-badge{
-      width:46px;
-      height:46px;
-      border-radius:14px;
+      width:64px;
+      height:64px;
+      border-radius:16px;
       display:flex;
       align-items:center;
       justify-content:center;
-      border:1px solid rgba(255,255,255,.22);
-      background:rgba(255,255,255,.08);
+
+      /* زمینه کمی روشن‌تر از خود نوار تا دیده شود */
+      background:rgba(255,255,255,.10);
+
+      /* کادر دور آیکن سورمه‌ای */
+      border:2px solid var(--ms-blue);
+
       flex:0 0 auto;
     }
     .svc-icon{
-      width:34px;
-      height:34px;
+      width:48px;
+      height:48px;
       object-fit:contain;
       display:block;
     }
 
+    /* متن روبروی آیکن */
     .svc-title{
       font-weight:900;
-      font-size:16px;
+      font-size:18px;
       white-space:nowrap;
       overflow:hidden;
       text-overflow:ellipsis;
-      max-width:58vw;
+      max-width:60vw;
+      letter-spacing:-.2px;
     }
 
     .back-btn{
@@ -89,7 +96,8 @@
       white-space:nowrap;
     }
 
-    .header{padding:16px 16px 12px;border-bottom:1px solid var(--border);background:#fff}
+    /* Header: فقط متن راهنما (subtitle) + متا */
+    .header{padding:14px 16px 12px;border-bottom:1px solid var(--border);background:#fff}
     .title{margin:0 0 6px;font-size:20px;color:var(--ms-blue);text-align:center;letter-spacing:-.2px;font-weight:900}
     .subtitle{margin:0 auto 10px;font-size:13px;color:var(--muted);max-width:44rem;text-align:center}
 
@@ -106,7 +114,7 @@
     th,td{border:1px solid var(--border);padding:10px;text-align:center}
     th{background:#f2f5f9;font-weight:700}
 
-    /* Sections as details (open by default) */
+    /* Sections */
     .sec{margin-top:12px;border:1px solid var(--border);border-radius:12px;background:#fff;overflow:hidden}
     .sec summary{
       padding:12px 14px;
@@ -215,6 +223,11 @@
 
     const barTitle = svc.barTitle || svc.shortTitle || "";
 
+    // اگر hideTitle=true → تیتر بزرگ «مدارک مورد نیاز…» اصلاً نمایش داده نمی‌شود
+    const titleHtml = svc.hideTitle ? "" : `<h1 class="title">${esc(svc.title)}</h1>`;
+    // subtitle فقط اگر پر باشد نمایش داده می‌شود
+    const subtitleHtml = svc.subtitle ? `<div class="subtitle">${esc(svc.subtitle)}</div>` : "";
+
     app.innerHTML = `
       ${style}
       <div class="wrap">
@@ -229,8 +242,8 @@
           </div>
 
           <div class="header">
-            <h1 class="title">${esc(svc.title)}</h1>
-            ${svc.subtitle ? `<div class="subtitle">${esc(svc.subtitle)}</div>` : ""}
+            ${titleHtml}
+            ${subtitleHtml}
             <div class="meta">
               ${timePill}
               ${feeTable}
