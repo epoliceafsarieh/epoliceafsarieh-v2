@@ -1,4 +1,3 @@
-// fees.js
 const FEES = {
   passport: {
     issue: "—",
