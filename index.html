@@ -27,15 +27,11 @@ body{
   padding:26px 16px 22px;
 }
 
-.brand{text-align:center;margin-bottom:6px;}
-h1{text-align:center;font-size:20px;font-weight:900;margin:10px 0 4px;}
+.brand{text-align:center;margin-bottom:10px;}
 
-.search-box{margin-top:14px;margin-bottom:18px;}
+.search-box{margin-top:8px;margin-bottom:18px;}
 
-/* پیشنهادها Overlay */
-.search-area{
-  position:relative;
-}
+.search-area{position:relative;}
 
 .search-input{
   width:100%;
@@ -46,10 +42,10 @@ h1{text-align:center;font-size:20px;font-weight:900;margin:10px 0 4px;}
   font-family:inherit;
 }
 
-/* Dropdown (پیش‌فرض: پایین) */
+/* منو همیشه بالا باز می‌شود (موبایل و دسکتاپ یکسان) */
 .suggest{
   position:absolute;
-  top:calc(100% + 10px);
+  bottom:calc(100% + 10px);
   right:0;
   left:0;
   background:rgba(255,255,255,.12);
@@ -61,12 +57,6 @@ h1{text-align:center;font-size:20px;font-weight:900;margin:10px 0 4px;}
   filter:drop-shadow(0 10px 18px rgba(0,0,0,.25));
   max-height:220px;
   overflow:auto;
-}
-
-/* حالت موبایل: بالا باز شود */
-.suggest.up{
-  top:auto;
-  bottom:calc(100% + 10px);
 }
 
 .suggest button{
@@ -171,12 +161,10 @@ h1{text-align:center;font-size:20px;font-weight:900;margin:10px 0 4px;}
   <img src="assets/img/logo/logo_white.png" style="width:96px;">
 </div>
 
-<h1>برای چه خدمتی مراجعه کرده‌اید؟ (مثلاً: گذرنامه، گواهینامه، ترخیص...)</h1>
-
 <div class="search-box">
   <div class="search-area">
     <input id="search" class="search-input"
-      placeholder="نام خدمت را بنویسید"
+      placeholder="برای چه خدمتی مراجعه کرده‌اید؟ (مثلاً: گذرنامه، گواهینامه، ترخیص...)"
       autocomplete="off">
 
     <div id="suggest" class="suggest" aria-label="پیشنهاد خدمات"></div>
@@ -237,10 +225,6 @@ function norm(s){
     .toLowerCase();
 }
 
-function isMobileLike(){
-  return window.matchMedia("(max-width: 700px)").matches;
-}
-
 function hideSuggest(){
   suggest.style.display = "none";
   suggest.innerHTML = "";
@@ -270,24 +254,13 @@ function renderSuggestions(items){
 
 function update(){
   const q = norm(input.value);
-
   if (!q){
     hideSuggest();
     return;
   }
-
   const matches = SERVICES.filter(s => norm(s.title).includes(q));
   renderSuggestions(matches);
 }
-
-input.addEventListener("focus", ()=>{
-  if (isMobileLike()) suggest.classList.add("up");
-  else suggest.classList.remove("up");
-
-  setTimeout(()=>{
-    try{ input.scrollIntoView({ block:"center", inline:"nearest" }); }catch(_){}
-  }, 60);
-});
 
 input.addEventListener("input", update);
 
@@ -297,7 +270,6 @@ document.addEventListener("click", (e)=>{
 
 input.addEventListener("keydown", (e)=>{
   if (e.key !== "Enter") return;
-
   const q = norm(input.value);
   if (!q) return;
 
