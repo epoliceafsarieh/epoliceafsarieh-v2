@@ -29,7 +29,7 @@
   const style = `
   <style>
     :root{
-      --ms-blue:#041E42;     /* (تغییر ندادم) مبنای واحد رنگ */
+      --ms-blue:#041E42;
       --bg:#f5f7fb;
       --card:#fff;
       --text:#0f172a;
@@ -57,11 +57,11 @@
       box-shadow:var(--shadow);
     }
 
-    /* ✅ فقط این بخش: نوار بالا ۲۰٪ باریک‌تر + رنگ دقیقاً var(--ms-blue) */
+    /* فقط تغییر ۱ و ۲ همینجاست */
     .brandbar{
       background:var(--ms-blue);
       color:#fff;
-      padding:5px 12px;   /* قبلاً 6px بود → ۲۰٪ کمتر */
+      padding:5px 12px; /* قبلاً 6px بود → ۲۰٪ باریک‌تر */
       display:flex;
       align-items:center;
       justify-content:space-between;
@@ -74,7 +74,6 @@
       min-width:0;
     }
 
-    /* ✅ فقط این بخش: دور آیکون هم از همان var(--ms-blue) */
     .svc-badge{
       width:80px;
       height:80px;
@@ -82,12 +81,11 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      border:2px solid var(--ms-blue); /* هم‌رنگ نوار */
+      border:2px solid var(--ms-blue); /* دقیقاً هم‌رنگ نوار */
       background:rgba(255,255,255,.10);
       flex:0 0 auto;
     }
 
-    /* ✅ خود آیکون دست نخورده */
     .svc-icon{
       width:74px;
       height:74px;
@@ -121,7 +119,6 @@
       white-space:nowrap;
     }
 
-    /* --- بقیه: دقیقاً همان ساختار قبلی --- */
     .header{
       padding:14px 16px 12px;
       background:#fff;
