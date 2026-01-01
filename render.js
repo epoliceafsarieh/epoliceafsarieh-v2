@@ -29,7 +29,7 @@
   const style = `
   <style>
     :root{
-      --brand-blue:#041E42; /* منبع واحد رنگ */
+      --brand-blue:#041E42; /* همان سورمه‌ای خوب */
       --bg:#f5f7fb;
       --card:#fff;
       --text:#0f172a;
@@ -58,23 +58,30 @@
       box-shadow:var(--shadow);
     }
 
-    /* نوار بالا — باریک‌تر و هم‌رنگ دور آیکون */
+    /* ✅ نوار بالا: واقعاً باریک (آیکون overlay می‌شود) */
     .brandbar{
-      background:var(--brand-blue);
+      position:relative;
+      background:var(--brand-blue) !important;  /* برای اطمینان در موبایل */
       color:#fff;
-      padding:4px 12px; /* باریک‌تر از قبل */
+      padding:6px 12px;  /* padding کوچک */
+      height:44px;       /* نوار باریک واقعی */
       display:flex;
       align-items:center;
       justify-content:space-between;
       gap:10px;
     }
+
     .brand-right{
+      position:relative;
       display:flex;
       align-items:center;
       gap:12px;
       min-width:0;
+      /* چون آیکون مطلق می‌شود، این padding جلوی هم‌پوشانی عنوان را می‌گیرد */
+      padding-right:96px;
     }
 
+    /* ✅ دور آیکون transparent طبق درخواست شما */
     .svc-badge{
       width:80px;
       height:80px;
@@ -82,9 +89,16 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      border:2px solid var(--brand-blue); /* دقیقاً همان رنگ */
+      border:2px solid transparent; /* فقط همین */
       background:rgba(255,255,255,.10);
       flex:0 0 auto;
+
+      /* ✅ خارج کردن آیکون از ارتفاع نوار برای باریک شدن واقعی */
+      position:absolute;
+      right:12px;          /* سمت راست (RTL) */
+      top:50%;
+      transform:translateY(-50%);
+      z-index:2;
     }
 
     .svc-icon{
@@ -118,6 +132,7 @@
       font-weight:900;
       cursor:pointer;
       white-space:nowrap;
+      z-index:3;
     }
 
     .header{
@@ -148,9 +163,23 @@
       white-space:nowrap;
     }
 
+    details{margin:0}
+    summary{cursor:pointer;list-style:none}
+    summary::-webkit-details-marker{display:none}
+
+    .fee-box{
+      margin-top:10px;
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:12px;
+      background:#fff;
+    }
+    table{width:100%;border-collapse:collapse;font-size:13px}
+    th,td{border:1px solid var(--border);padding:10px;text-align:center}
+    th{background:#f2f5f9;font-weight:900}
+
     .content{padding:16px 16px 18px}
 
-    /* سکشن‌ها */
     .sec{
       margin-top:12px;
       border:1px solid var(--border);
@@ -178,7 +207,6 @@
     ul,ol{margin:0;padding-right:20px;font-size:14px}
     li{margin:8px 0;font-weight:normal}
 
-    /* نکات مهم — فقط عنوان بولد */
     .notdone{
       margin-top:14px;
       border:1px solid var(--border);
@@ -190,11 +218,8 @@
       font-weight:900;
       margin-bottom:8px;
     }
-    .notdone ol li{
-      font-weight:normal;
-    }
+    .notdone ol li{font-weight:normal}
 
-    /* FAQ */
     .faq-title{margin:14px 0 8px;font-size:15px;font-weight:900}
     .faq details{
       border:1px solid var(--border);
@@ -207,7 +232,7 @@
     .faq summary{
       padding:12px 14px;
       font-weight:900;
-      background:var(--section-bg); /* آبی کم‌رنگ */
+      background:var(--section-bg);
       cursor:pointer;
     }
     .faq .ans{
