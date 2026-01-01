@@ -29,7 +29,7 @@
   const style = `
   <style>
     :root{
-      --brand-blue:#041E42; /* همان سورمه‌ای خوب */
+      --brand-blue:#041E42;
       --bg:#f5f7fb;
       --card:#fff;
       --text:#0f172a;
@@ -58,13 +58,13 @@
       box-shadow:var(--shadow);
     }
 
-    /* ✅ نوار بالا: واقعاً باریک (آیکون overlay می‌شود) */
+    /* ✅ نوار بالا: ۲۰٪ بلندتر */
     .brandbar{
       position:relative;
-      background:var(--brand-blue) !important;  /* برای اطمینان در موبایل */
+      background:var(--brand-blue) !important;
       color:#fff;
-      padding:6px 12px;  /* padding کوچک */
-      height:44px;       /* نوار باریک واقعی */
+      padding:6px 12px;
+      height:53px; /* قبلاً 44px بود */
       display:flex;
       align-items:center;
       justify-content:space-between;
@@ -77,11 +77,10 @@
       align-items:center;
       gap:12px;
       min-width:0;
-      /* چون آیکون مطلق می‌شود، این padding جلوی هم‌پوشانی عنوان را می‌گیرد */
       padding-right:96px;
     }
 
-    /* ✅ دور آیکون transparent طبق درخواست شما */
+    /* ✅ دور باکس آیکون: قطعاً transparent */
     .svc-badge{
       width:80px;
       height:80px;
@@ -89,13 +88,12 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      border:2px solid transparent; /* فقط همین */
+      border:2px solid transparent !important;
       background:rgba(255,255,255,.10);
       flex:0 0 auto;
 
-      /* ✅ خارج کردن آیکون از ارتفاع نوار برای باریک شدن واقعی */
       position:absolute;
-      right:12px;          /* سمت راست (RTL) */
+      right:12px;
       top:50%;
       transform:translateY(-50%);
       z-index:2;
@@ -207,19 +205,6 @@
     ul,ol{margin:0;padding-right:20px;font-size:14px}
     li{margin:8px 0;font-weight:normal}
 
-    .notdone{
-      margin-top:14px;
-      border:1px solid var(--border);
-      background:#fff;
-      border-radius:14px;
-      padding:12px 14px;
-    }
-    .notdone-title{
-      font-weight:900;
-      margin-bottom:8px;
-    }
-    .notdone ol li{font-weight:normal}
-
     .faq-title{margin:14px 0 8px;font-size:15px;font-weight:900}
     .faq details{
       border:1px solid var(--border);
@@ -303,12 +288,18 @@
       </details>
     `).join("");
 
+    /* ✅ نکات مهم: تیتر داخل آبی کم‌رنگ مثل بقیه */
     const notDoneHtml = (svc.notDone && svc.notDone.length)
       ? `
-        <div class="notdone">
-          <div class="notdone-title">نکات مهم</div>
-          ${olList(svc.notDone)}
-        </div>
+        <details class="sec" open>
+          <summary>
+            <span>نکات مهم</span>
+            <small></small>
+          </summary>
+          <div class="sec-body">
+            ${olList(svc.notDone)}
+          </div>
+        </details>
       `
       : "";
 
