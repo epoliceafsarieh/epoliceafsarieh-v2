@@ -53,79 +53,45 @@
       opacity:.95;
     }
 
-    /* ===== مثلث‌ها (اصلاح شده) ===== */
+    /* ===================== */
+    /*   TRIANGLE TOGGLE     */
+    /* ===================== */
+
     .tri-toggle{
-      position:relative;
       display:flex;
       justify-content:center;
-      gap:0;                 /* چسبیده */
       margin-bottom:12px;
-      align-items:center;
-      height:76px;
     }
 
-    .tri-btn{
-      width:170px;
-      height:76px;
+    .tri-half{
+      width:150px;
+      height:64px;
       border:none;
-      cursor:pointer;
-      padding:0;
-      background:transparent;
+      background:rgba(255,255,255,.12);
       color:#fff;
-      font-family:inherit;
       font-weight:900;
+      cursor:pointer;
+      font-family:inherit;
       position:relative;
-      display:flex;
-      align-items:center;
-      justify-content:center;
       filter: drop-shadow(0 8px 18px rgba(0,0,0,.22));
     }
 
-    .tri-btn::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:rgba(255,255,255,.12);
-      border:2px solid rgba(255,255,255,.28);
-      border-radius:10px;
+    .tri-half[data-dir="down"]{
+      clip-path:polygon(0 0, 100% 0, 50% 100%);
+      border-radius:0 0 10px 10px;
     }
 
-    /* مثلث رو به پایین */
-    #modeService::before{
-      clip-path: polygon(0 0, 100% 0, 50% 100%);
+    .tri-half[data-dir="up"]{
+      clip-path:polygon(50% 0, 0 100%, 100% 100%);
+      border-radius:10px 10px 0 0;
     }
 
-    /* مثلث رو به بالا */
-    #modeQuestion::before{
-      clip-path: polygon(50% 0, 0 100%, 100% 100%);
-    }
-
-    /* دو خط قطرِ نزدیک به هم (به‌جای اسلش) */
-    .tri-toggle::before,
-    .tri-toggle::after{
-      content:"";
-      position:absolute;
-      top:6px;
-      bottom:6px;
-      width:3px;
-      background:rgba(255,255,255,.35);
-      border-radius:3px;
-      transform: rotate(-16deg);
-      left:50%;
-      transform-origin:center;
-      pointer-events:none;
-    }
-    .tri-toggle::before{ margin-left:-6px; }
-    .tri-toggle::after{  margin-left: 2px; }
-
-    .tri-btn.active{
+    .tri-half.active{
+      background:#ffffff;
       color:#041E42;
     }
-    .tri-btn.active::before{
-      background:#ffffff;
-      border-color:rgba(255,255,255,.95);
-    }
-    /* ===== پایان اصلاح مثلث‌ها ===== */
+
+    /* ===================== */
 
     .search-input{
       width:100%;
@@ -157,12 +123,6 @@
       cursor:pointer;
     }
     .suggestions div:last-child{border-bottom:none}
-    .suggestions small{
-      display:block;
-      font-weight:normal;
-      font-size:12px;
-      opacity:.8;
-    }
 
     .block{
       background:rgba(255,255,255,.12);
@@ -261,7 +221,6 @@
 <body>
 <div class="wrap">
 
-  <!-- LOGO -->
   <div class="brand">
     <img src="assets/img/logo/logo_white.png" alt="پلیس +۱۰ افسریه" style="width:96px;height:auto;">
   </div>
@@ -271,10 +230,9 @@
   <div class="search-box">
     <div class="mode-label">نوع جستجو را انتخاب کنید:</div>
 
-    <!-- اسلش حذف شد، فقط دو مثلث کنار هم -->
     <div class="tri-toggle">
-      <button id="modeQuestion" class="tri-btn" type="button">سوال</button>
-      <button id="modeService" class="tri-btn active" type="button">خدمت</button>
+      <button id="modeService" class="tri-half active" data-dir="down">خدمت</button>
+      <button id="modeQuestion" class="tri-half" data-dir="up">سوال</button>
     </div>
 
     <input id="search" class="search-input" type="text"
@@ -287,32 +245,13 @@
     <div class="block-title">خدمات پرتکرار</div>
 
     <div class="popular">
-
-      <a class="tile" href="#">
-        <span class="ico"><img src="assets/img/icons/passport.png" alt=""></span>
-        <span>گذرنامه</span>
-      </a>
-
-      <a class="tile" href="#">
-        <span class="ico"><img src="assets/img/icons/tow.png" alt=""></span>
-        <span>ترخیص خودرو / موتور</span>
-      </a>
-
-      <a class="tile" href="#">
-        <span class="ico"><img src="assets/img/icons/license.png" alt=""></span>
-        <span>گواهینامه</span>
-      </a>
-
-      <a class="tile" href="#">
-        <span class="ico"><img src="assets/img/icons/other.png" alt=""></span>
-        <span>سایر خدمات</span>
-      </a>
-
+      <a class="tile" href="#"><span class="ico"><img src="assets/img/icons/passport.png"></span>گذرنامه</a>
+      <a class="tile" href="#"><span class="ico"><img src="assets/img/icons/tow.png"></span>ترخیص خودرو / موتور</a>
+      <a class="tile" href="#"><span class="ico"><img src="assets/img/icons/license.png"></span>گواهینامه</a>
+      <a class="tile" href="#"><span class="ico"><img src="assets/img/icons/other.png"></span>سایر خدمات</a>
     </div>
 
-    <a class="internet-thin" href="#">
-      خدمات اینترنتی (غیرحضوری)
-    </a>
+    <a class="internet-thin" href="#">خدمات اینترنتی (غیرحضوری)</a>
   </div>
 
   <div class="note">
