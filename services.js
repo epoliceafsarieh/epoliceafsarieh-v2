@@ -1,5 +1,8 @@
 const SERVICES = {
   passport: {
+    shortTitle: "گذرنامه",
+    icon: "assets/img/icons/passport.png",
+
     title: "مدارک مورد نیاز گذرنامه بین‌المللی",
     subtitle: "این راهنما مربوط به گذرنامه بین‌المللی است (نه گذرنامه زیارتی).",
     meta: {
@@ -51,6 +54,9 @@ const SERVICES = {
   },
 
   khalafi: {
+    shortTitle: "خلافی",
+    // icon: "assets/img/icons/other.png",
+
     title: "خلافی خودرو",
     subtitle: "استعلام، پرداخت و چاپ رسید خلافی در دفتر",
     meta: {
@@ -87,6 +93,9 @@ const SERVICES = {
   },
 
   tarkhis: {
+    shortTitle: "ترخیص",
+    // icon: "assets/img/icons/tow.png",
+
     title: "ترخیص خودرو و موتورسیکلت توقیفی",
     subtitle: "راهنمای ترخیص وسیله نقلیه از پارکینگ و مراجع توقیف.",
     meta: {
