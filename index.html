@@ -32,15 +32,10 @@ h1{text-align:center;font-size:20px;font-weight:900;margin:10px 0 4px;}
 
 .search-box{margin-top:14px;margin-bottom:18px;}
 
-/*
-  آیتم ۱ (اصلاح موبایل):
-  مشکل: با تایپ، لیست در جریان صفحه ظاهر می‌شد و در موبایل باعث "پرش/اسکرول" می‌شد.
-  راه‌حل: یک "اسلات ثابت" زیر سرچ رزرو می‌کنیم تا صفحه جابه‌جا نشود.
-  - لیست داخل همین اسلات نمایش داده می‌شود
-  - اسلات همیشه ارتفاع ثابت دارد، پس layout shift نداریم
-*/
-
-.search-area{ }
+/* آیتم ۱: پیشنهادها Overlay (برای جلوگیری از پرش Layout) */
+.search-area{
+  position:relative;
+}
 
 .search-input{
   width:100%;
@@ -51,31 +46,19 @@ h1{text-align:center;font-size:20px;font-weight:900;margin:10px 0 4px;}
   font-family:inherit;
 }
 
-/* اسلات ثابت برای جلوگیری از پرش */
-.suggest-slot{
-  margin-top:10px;
-  height:208px;            /* 4 آیتم + حاشیه‌ها (ثابت) */
-}
-
-/* خود لیست */
+/* Dropdown: absolute => هیچ چیزی را هل نمی‌دهد */
 .suggest{
-  height:100%;
+  position:absolute;
+  top:calc(100% + 10px);
+  right:0;
+  left:0;
   background:rgba(255,255,255,.12);
   border:1px solid rgba(255,255,255,.25);
   border-radius:16px;
   overflow:hidden;
+  display:none;
+  z-index:50;
   filter:drop-shadow(0 10px 18px rgba(0,0,0,.25));
-
-  /* حالت پیش‌فرض: دیده نشود ولی فضا را نگه دارد */
-  opacity:0;
-  visibility:hidden;
-  pointer-events:none;
-}
-
-.suggest.is-open{
-  opacity:1;
-  visibility:visible;
-  pointer-events:auto;
 }
 
 .suggest button{
@@ -188,10 +171,7 @@ h1{text-align:center;font-size:20px;font-weight:900;margin:10px 0 4px;}
       placeholder="نام خدمت را بنویسید (مثلاً: گذرنامه، گواهینامه، ترخیص...)"
       autocomplete="off">
 
-    <!-- اسلات ثابت (برای جلوگیری از پرش در موبایل) -->
-    <div class="suggest-slot">
-      <div id="suggest" class="suggest" aria-label="پیشنهاد خدمات"></div>
-    </div>
+    <div id="suggest" class="suggest" aria-label="پیشنهاد خدمات"></div>
   </div>
 </div>
 
@@ -228,8 +208,10 @@ h1{text-align:center;font-size:20px;font-weight:900;margin:10px 0 4px;}
 
 <script>
 /*
-  آیتم ۱: پیشنهاد خدمات فقط بعد از تایپ
-  + جلوگیری از پرش موبایل با اسلات ثابت
+  آیتم ۱:
+  - پیشنهادها فقط بعد از تایپ (حداقل 1 کاراکتر)
+  - لیست Overlay است => هیچ پرش Layout نداریم
+  - قفل اسکرول هنگام تایپ در موبایل => جلوگیری از "پریدن" صفحه
 */
 
 const SERVICES = [
@@ -254,20 +236,15 @@ function norm(s){
     .toLowerCase();
 }
 
-function closeSuggest(){
-  suggest.classList.remove("is-open");
+function hideSuggest(){
+  suggest.style.display = "none";
   suggest.innerHTML = "";
-}
-
-function openSuggest(){
-  suggest.classList.add("is-open");
 }
 
 function renderSuggestions(items){
   suggest.innerHTML = "";
-
   if (!items.length){
-    closeSuggest();
+    hideSuggest();
     return;
   }
 
@@ -277,13 +254,13 @@ function renderSuggestions(items){
     btn.textContent = item.title;
     btn.onclick = ()=>{
       input.value = item.title;
-      closeSuggest();
+      hideSuggest();
       window.location.href = item.href;
     };
     suggest.appendChild(btn);
   });
 
-  openSuggest();
+  suggest.style.display = "block";
 }
 
 function update(){
@@ -291,7 +268,7 @@ function update(){
 
   // فقط بعد از تایپ
   if (!q){
-    closeSuggest();
+    hideSuggest();
     return;
   }
 
@@ -301,7 +278,12 @@ function update(){
 
 input.addEventListener("input", update);
 
-// Enter: اگر دقیقاً یکی match شد برو همان، وگرنه پیشنهادها را نشان بده
+// کلیک بیرون: بستن
+document.addEventListener("click", (e)=>{
+  if (!e.target.closest(".search-area")) hideSuggest();
+});
+
+// Enter: اگر دقیقاً یکی match شد برو همان، وگرنه لیست را نشان بده
 input.addEventListener("keydown", (e)=>{
   if (e.key !== "Enter") return;
 
@@ -314,6 +296,38 @@ input.addEventListener("keydown", (e)=>{
   } else {
     renderSuggestions(matches);
   }
+});
+
+/* قفل اسکرول برای جلوگیری از پرش در موبایل */
+let lockScroll = false;
+let lockedY = 0;
+
+function applyScrollLock(){
+  if (!lockScroll) return;
+  // در بعضی موبایل‌ها، فوکوس باعث جابه‌جایی می‌شود؛ این آن را برمی‌گرداند
+  window.scrollTo(0, lockedY);
+}
+
+input.addEventListener("focus", ()=>{
+  lockScroll = true;
+  lockedY = window.scrollY || 0;
+  // یک فریم بعد هم تثبیت کن
+  requestAnimationFrame(applyScrollLock);
+});
+
+input.addEventListener("blur", ()=>{
+  lockScroll = false;
+});
+
+input.addEventListener("input", ()=>{
+  if (!lockScroll) return;
+  requestAnimationFrame(applyScrollLock);
+});
+
+window.addEventListener("scroll", ()=>{
+  // اگر کاربر خودش اسکرول کرد و هنوز فوکوس هست، قفل نگه داریم
+  if (!lockScroll) return;
+  applyScrollLock();
 });
 </script>
 
