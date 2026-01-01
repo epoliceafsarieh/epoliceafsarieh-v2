@@ -32,10 +32,15 @@ h1{text-align:center;font-size:20px;font-weight:900;margin:10px 0 4px;}
 
 .search-box{margin-top:14px;margin-bottom:18px;}
 
-/* آیتم ۱: پیشنهاد فقط بعد از تایپ، بدون Overlay */
-.search-area{
-  /* دیگر position:relative لازم نیست چون dropdown absolute نداریم */
-}
+/*
+  آیتم ۱ (اصلاح موبایل):
+  مشکل: با تایپ، لیست در جریان صفحه ظاهر می‌شد و در موبایل باعث "پرش/اسکرول" می‌شد.
+  راه‌حل: یک "اسلات ثابت" زیر سرچ رزرو می‌کنیم تا صفحه جابه‌جا نشود.
+  - لیست داخل همین اسلات نمایش داده می‌شود
+  - اسلات همیشه ارتفاع ثابت دارد، پس layout shift نداریم
+*/
+
+.search-area{ }
 
 .search-input{
   width:100%;
@@ -46,15 +51,31 @@ h1{text-align:center;font-size:20px;font-weight:900;margin:10px 0 4px;}
   font-family:inherit;
 }
 
-/* پیشنهادها: به‌جای absolute، در جریان طبیعی صفحه قرار می‌گیرند */
-.suggest{
+/* اسلات ثابت برای جلوگیری از پرش */
+.suggest-slot{
   margin-top:10px;
+  height:208px;            /* 4 آیتم + حاشیه‌ها (ثابت) */
+}
+
+/* خود لیست */
+.suggest{
+  height:100%;
   background:rgba(255,255,255,.12);
   border:1px solid rgba(255,255,255,.25);
   border-radius:16px;
   overflow:hidden;
-  display:none; /* فقط وقتی تایپ شده و نتیجه هست */
   filter:drop-shadow(0 10px 18px rgba(0,0,0,.25));
+
+  /* حالت پیش‌فرض: دیده نشود ولی فضا را نگه دارد */
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+}
+
+.suggest.is-open{
+  opacity:1;
+  visibility:visible;
+  pointer-events:auto;
 }
 
 .suggest button{
@@ -167,8 +188,10 @@ h1{text-align:center;font-size:20px;font-weight:900;margin:10px 0 4px;}
       placeholder="نام خدمت را بنویسید (مثلاً: گذرنامه، گواهینامه، ترخیص...)"
       autocomplete="off">
 
-    <!-- پیشنهادها (Overlay نیست؛ صفحه را هل می‌دهد پایین) -->
-    <div id="suggest" class="suggest" aria-label="پیشنهاد خدمات"></div>
+    <!-- اسلات ثابت (برای جلوگیری از پرش در موبایل) -->
+    <div class="suggest-slot">
+      <div id="suggest" class="suggest" aria-label="پیشنهاد خدمات"></div>
+    </div>
   </div>
 </div>
 
@@ -206,9 +229,7 @@ h1{text-align:center;font-size:20px;font-weight:900;margin:10px 0 4px;}
 <script>
 /*
   آیتم ۱: پیشنهاد خدمات فقط بعد از تایپ
-  - بدون Overlay
-  - فقط چند نتیجه محدود
-  - کلیک روی پیشنهاد => رفتن به صفحه خدمت
+  + جلوگیری از پرش موبایل با اسلات ثابت
 */
 
 const SERVICES = [
@@ -233,15 +254,20 @@ function norm(s){
     .toLowerCase();
 }
 
-function hideSuggest(){
-  suggest.style.display = "none";
+function closeSuggest(){
+  suggest.classList.remove("is-open");
   suggest.innerHTML = "";
+}
+
+function openSuggest(){
+  suggest.classList.add("is-open");
 }
 
 function renderSuggestions(items){
   suggest.innerHTML = "";
+
   if (!items.length){
-    hideSuggest();
+    closeSuggest();
     return;
   }
 
@@ -251,13 +277,13 @@ function renderSuggestions(items){
     btn.textContent = item.title;
     btn.onclick = ()=>{
       input.value = item.title;
-      hideSuggest();
+      closeSuggest();
       window.location.href = item.href;
     };
     suggest.appendChild(btn);
   });
 
-  suggest.style.display = "block";
+  openSuggest();
 }
 
 function update(){
@@ -265,7 +291,7 @@ function update(){
 
   // فقط بعد از تایپ
   if (!q){
-    hideSuggest();
+    closeSuggest();
     return;
   }
 
