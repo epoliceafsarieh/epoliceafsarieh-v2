@@ -1,22 +1,3 @@
-// ⬇️ فقط بخش‌های کلیدی را می‌بینی؛ کل فایل را جایگزین کن
-// تفاوت اصلی: subtitle و photo pill دیگر رندر نمی‌شوند
-
-// داخل renderService:
-
-const metaPills = [];
-if (svc.meta?.time)
-  metaPills.push(`<div class="pill">زمان معمول: ${esc(svc.meta.time)}</div>`);
-
-// ❌ عکس/بیومتریک عمداً حذف شد
-
-// در HTML خروجی:
-
-<div class="header">
-  <div class="meta">
-    ${metaPills.join("")}
-    ${feeTable}
-  </div>
-</div>
 (function () {
   function esc(s) {
     return String(s ?? "")
@@ -24,79 +5,112 @@ if (svc.meta?.time)
       .replaceAll("<", "&lt;")
       .replaceAll(">", "&gt;");
   }
-  function liList(items) {
-    if (!items || !items.length) return "";
-    return `<ul>${items.map(x => `<li>${esc(x)}</li>`).join("")}</ul>`;
-  }
+
   function safeText(v) {
     const t = (v ?? "").toString().trim();
     return t ? t : "—";
   }
 
+  function ul(items) {
+    if (!items || !items.length) return "";
+    return `<ul>${items.map(x => `<li>${esc(x)}</li>`).join("")}</ul>`;
+  }
+
+  function ol(items) {
+    if (!items || !items.length) return "";
+    return `<ol>${items.map(x => `<li>${esc(x)}</li>`).join("")}</ol>`;
+  }
+
+  // ---------- Guards ----------
+  const app = document.getElementById("app");
+  if (!app) return;
+
   if (typeof window.SERVICES === "undefined") {
-    const el = document.getElementById("app");
-    if (el) el.innerHTML = `<div style="padding:16px;font-family:tahoma">خطا: فایل services.js بارگذاری نشده است.</div>`;
+    app.innerHTML = `<div style="padding:16px;font-family:tahoma">خطا: فایل services.js بارگذاری نشده است.</div>`;
     return;
   }
 
+  // ---------- Shared Styles ----------
   const style = `
   <style>
     :root{
-      --ms-blue:#041E42;
-      --bg:#f5f7fb; --card:#fff; --text:#0f172a; --muted:#475569;
-      --border:#e6e8ee; --soft:#f1f5ff;
-      --warn:#fff6e5; --warn-border:#ffd89a;
-      --shadow:0 10px 30px rgba(2,8,23,.06); --radius:16px;
-    }
-    *{box-sizing:border-box}
-    body{font-family:Tahoma,Arial,sans-serif;margin:0;background:var(--bg);color:var(--text);line-height:1.95}
-    .wrap{max-width:860px;margin:18px auto 28px;padding:0 14px}
-    .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
+      --brand:#0b3b7a;
+      --bg:#f5f7fb;
+      --card:#ffffff;
+      --text:#0f172a;
+      --muted:#475569;
+      --border:#e6e8ee;
+      --soft:#f1f5ff;
 
-    /* نوار بالا */
+      --danger-bg:#fff1f2;
+      --danger-border:#fecdd3;
+      --danger-text:#9f1239;
+
+      --shadow:0 10px 30px rgba(2,8,23,.06);
+      --radius:16px;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      font-family:Tahoma, Arial, sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.9;
+    }
+
+    .wrap{max-width:860px;margin:16px auto 24px;padding:0 14px}
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      overflow:hidden;
+      box-shadow:var(--shadow);
+    }
+
+    /* ---------- Top brand bar (باریک) ---------- */
     .brandbar{
-      background:var(--ms-blue);
+      background:var(--brand);
       color:#fff;
-      padding:12px 14px;
+      padding:8px 12px;          /* باریک */
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap:12px;
+      gap:10px;
     }
+
     .brand-right{
       display:flex;
       align-items:center;
-      gap:14px;
+      gap:12px;
       min-width:0;
     }
 
-    /* آیکون خیلی بزرگ‌تر */
+    /* ---------- Service icon (بزرگ) ---------- */
     .svc-badge{
-      width:84px;
-      height:84px;
-      border-radius:18px;
+      width:78px;
+      height:78px;
+      border-radius:16px;
       display:flex;
       align-items:center;
       justify-content:center;
-
-      /* کادر دور آیکن: دقیقاً رنگ نوار */
-      border:3px solid var(--ms-blue);
-
-      /* زمینه خیلی ملایم برای اینکه سفیدی آیکن بهتر دیده شود */
+      border:3px solid var(--brand);
       background:rgba(255,255,255,.12);
-
       flex:0 0 auto;
     }
+
     .svc-icon{
-      width:64px;
-      height:64px;
+      width:58px;
+      height:58px;
       object-fit:contain;
       display:block;
     }
 
     .svc-title{
       font-weight:900;
-      font-size:19px;
+      font-size:18px;
       white-space:nowrap;
       overflow:hidden;
       text-overflow:ellipsis;
@@ -105,143 +119,220 @@ if (svc.meta?.time)
     }
 
     .back-btn{
-      display:inline-flex;align-items:center;gap:6px;
-      padding:8px 10px;border-radius:12px;
-      background:rgba(255,255,255,.12);
-      border:1px solid rgba(255,255,255,.22);
-      color:#fff;text-decoration:none;font-size:13px;font-weight:900;
+      padding:6px 10px;
+      border-radius:12px;
+      background:rgba(255,255,255,.15);
+      border:1px solid rgba(255,255,255,.25);
+      color:#fff;
+      font-weight:900;
+      text-decoration:none;
+      font-size:13px;
       cursor:pointer;
       white-space:nowrap;
     }
 
-    /* زیر نوار: فقط متن راهنما (subtitle) + متا */
-    .header{padding:14px 16px 12px;border-bottom:1px solid var(--border);background:#fff}
-    .subtitle{margin:0 auto 10px;font-size:13px;color:var(--muted);max-width:44rem;text-align:center}
+    /* ---------- Header under brand bar (فقط متا) ---------- */
+    .header{
+      padding:12px 16px 10px;
+      border-bottom:1px solid var(--border);
+      background:#fff;
+    }
 
-    .content{padding:16px 16px 18px}
+    .meta{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:center;
+      align-items:center;
+    }
 
-    .meta{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:8px}
-    .pill{background:var(--soft);border:1px solid var(--border);border-radius:999px;padding:8px 12px;font-size:13px;display:flex;align-items:center;gap:8px;white-space:nowrap}
+    .pill{
+      background:var(--soft);
+      border:1px solid var(--border);
+      border-radius:999px;
+      padding:6px 10px;
+      font-size:12px;
+      font-weight:900;
+      color:#0f172a;
+      white-space:nowrap;
+    }
+
     details{margin:0}
     summary{cursor:pointer;list-style:none}
     summary::-webkit-details-marker{display:none}
 
-    .fee-box{margin-top:10px;border:1px solid var(--border);border-radius:12px;padding:12px;background:#fff}
+    .fee-pill summary{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      justify-content:center;
+    }
+
+    .fee-box{
+      margin-top:10px;
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:10px;
+      background:#fff;
+    }
+
     table{width:100%;border-collapse:collapse;font-size:13px}
     th,td{border:1px solid var(--border);padding:10px;text-align:center}
-    th{background:#f2f5f9;font-weight:700}
+    th{background:#f2f5f9;font-weight:900}
 
-    .sec{margin-top:12px;border:1px solid var(--border);border-radius:12px;background:#fff;overflow:hidden}
-    .sec summary{
-      padding:12px 14px;
-      font-size:15px;font-weight:900;color:#0f172a;
-      display:flex;justify-content:space-between;gap:10px;
-      background:#f8fbff;
+    /* ---------- Content ---------- */
+    .content{padding:16px}
+
+    .sec{
+      margin-top:12px;
+      border:1px solid var(--border);
+      border-radius:12px;
+      background:#fff;
+      overflow:hidden;
     }
-    .sec summary small{font-weight:700;color:#64748b;font-size:12px}
-    .sec .sec-body{padding:12px 14px}
 
-    ul{margin:0;padding-right:20px;font-size:14px}
-    li{margin:8px 0}
+    .sec summary{
+      padding:10px 14px;
+      font-weight:900;
+      background:#f8fbff;
+      cursor:pointer;
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+    }
 
-    .note{background:var(--warn);border:1px solid var(--warn-border);border-radius:14px;padding:12px;font-size:13px;color:#3b2a00;margin-top:14px}
-    .note div{margin:6px 0;font-weight:900}
+    .sec summary small{
+      font-weight:900;
+      font-size:12px;
+      color:#64748b;
+    }
 
-    .footer{margin-top:14px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding-top:8px;border-top:1px dashed #e9edf5}
-    .btn{background:#eaf2ff;border:1px solid #cfe0ff;padding:10px 12px;border-radius:14px;font-weight:900;color:#0a58ca;text-decoration:none}
+    .sec-body{padding:12px 14px}
+
+    ul{margin:0;padding-right:18px}
+    li{margin:6px 0}
+
+    /* ---------- Not done (قرمز + شماره‌دار) ---------- */
+    .danger{
+      margin-top:14px;
+      border:1px solid var(--danger-border);
+      background:var(--danger-bg);
+      border-radius:14px;
+      padding:12px 14px;
+      color:var(--danger-text);
+    }
+
+    .danger-title{
+      font-weight:900;
+      margin-bottom:8px;
+      color:var(--danger-text);
+    }
+
+    .danger ol{
+      margin:0;
+      padding-right:18px;
+      font-weight:900;
+      color:#7f1d1d;
+    }
+
+    .danger li{margin:8px 0}
+
+    /* ---------- Footer ---------- */
+    .footer{
+      margin-top:16px;
+      border-top:1px dashed #e9edf5;
+      padding-top:10px;
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    .btn{
+      background:#eaf2ff;
+      border:1px solid #cfe0ff;
+      padding:8px 12px;
+      border-radius:14px;
+      font-weight:900;
+      color:#0a58ca;
+      text-decoration:none;
+    }
+
     .hint{font-size:12px;color:#777}
-
-    .faq-title{margin:14px 0 8px;font-size:15px;font-weight:900;color:#0f172a}
-    .faq details{border:1px solid var(--border);border-radius:12px;padding:10px 12px;background:#fff;margin-top:10px}
-    .faq summary{font-weight:900}
-    .faq .ans{margin-top:8px;color:#334155;font-size:13px}
   </style>`;
 
-  function renderService(serviceKey) {
-    const svc = window.SERVICES[serviceKey];
-    const app = document.getElementById("app");
-    if (!app) return;
-
+  // ---------- Renderer ----------
+  function renderService(key) {
+    const svc = window.SERVICES[key];
     if (!svc) {
       app.innerHTML = `${style}<div class="wrap"><div class="card"><div class="content">این خدمت پیدا نشد.</div></div></div>`;
       return;
     }
 
+    // Meta pills (فقط زمان + هزینه)
+    const metaParts = [];
+
+    if (svc?.meta?.time) {
+      metaParts.push(`<div class="pill">زمان معمول: ${esc(svc.meta.time)}</div>`);
+    }
+
+    // Fee table (optional)
+    let feeHtml = "";
     const feeKey = svc?.meta?.feeKey;
     const feeObj = (typeof window.FEES !== "undefined" && feeKey && window.FEES[feeKey]) ? window.FEES[feeKey] : null;
 
-    let feeTable = "";
     if (feeObj && Array.isArray(svc.feeRows) && svc.feeRows.length) {
-      const feeRows = svc.feeRows.map(r => ({ title: r.label, value: feeObj[r.field] }));
-      feeTable = `
-        <details class="pill">
+      const rows = svc.feeRows.map(r => ({
+        label: r.label,
+        value: feeObj[r.field]
+      }));
+
+      feeHtml = `
+        <details class="pill fee-pill">
           <summary>هزینه: ${esc(svc?.meta?.feeSummary || "مطابق تعرفه رسمی")} (جزئیات)</summary>
           <div class="fee-box">
             <table>
               <tr><th>عنوان</th><th>مبلغ/توضیح</th></tr>
-              ${feeRows.map(r => `<tr><td>${esc(r.title)}</td><td>${esc(safeText(r.value))}</td></tr>`).join("")}
+              ${rows.map(r => `<tr><td>${esc(r.label)}</td><td>${esc(safeText(r.value))}</td></tr>`).join("")}
             </table>
           </div>
         </details>
       `;
     }
 
-    const timePill = svc?.meta?.time ? `<div class="pill">زمان معمول: ${esc(svc.meta.time)}</div>` : "";
-    const photoPill = svc?.meta?.photo ? `<div class="pill">عکس: ${esc(svc.meta.photo)}</div>` : "";
-
+    // Sections
     const sectionsHtml = (svc.sections || []).map(sec => `
       <details class="sec" open>
         <summary>
           <span>${esc(sec.heading || "")}</span>
           <small>${esc(sec.tag || "")}</small>
         </summary>
-        <div class="sec-body">
-          ${liList(sec.items || [])}
-        </div>
+        <div class="sec-body">${ul(sec.items || [])}</div>
       </details>
     `).join("");
 
+    // Not done (قرمز + شماره‌دار)
     const notDoneHtml = (svc.notDone && svc.notDone.length)
       ? `
-        <details class="sec" open>
-          <summary>
-            <span>چه کارهایی در این خدمت انجام نمی‌شود</span>
-            <small>شفاف‌سازی</small>
-          </summary>
-          <div class="sec-body">
-            ${liList(svc.notDone)}
-          </div>
-        </details>
-      `
-      : "";
-
-    const faqHtml = (svc.faq && svc.faq.length)
-      ? `
-        <div class="faq">
-          <div class="faq-title">سؤالات پرتکرار</div>
-          ${svc.faq.map(f => `
-            <details>
-              <summary>${esc(f.q || "")}</summary>
-              <div class="ans">${esc(f.a || "")}</div>
-            </details>
-          `).join("")}
+        <div class="danger">
+          <div class="danger-title">چه کارهایی در این خدمت انجام نمی‌شود</div>
+          ${ol(svc.notDone)}
         </div>
-      `
-      : "";
+      ` : "";
 
+    // Optional notice (اگر خواستی نگه داریم؛ فعلاً دست نمی‌زنیم)
     const noticeHtml = (svc.notice && svc.notice.length)
-      ? `<div class="note">${(svc.notice || []).map(n => `<div>• ${esc(n)}</div>`).join("")}</div>`
-      : "";
+      ? `
+        <div class="sec" style="padding:12px 14px">
+          <div style="font-weight:900;margin-bottom:8px">نکات مهم</div>
+          ${ul(svc.notice)}
+        </div>
+      ` : "";
 
-    const svcIcon = svc.icon
+    const iconHtml = svc.icon
       ? `<div class="svc-badge"><img class="svc-icon" src="${esc(svc.icon)}" alt=""></div>`
       : "";
-
-    const barTitle = svc.barTitle || svc.shortTitle || "";
-
-    // طبق دستور: عنوان «مدارک مورد نیاز...» باید حذف باشد
-    // پس وقتی hideTitle=true هیچ عنوانی تولید نمی‌کنیم.
-    const subtitleHtml = svc.subtitle ? `<div class="subtitle">${esc(svc.subtitle)}</div>` : "";
 
     app.innerHTML = `
       ${style}
@@ -250,25 +341,22 @@ if (svc.meta?.time)
 
           <div class="brandbar">
             <div class="brand-right">
-              ${svcIcon}
-              <div class="svc-title">${esc(barTitle)}</div>
+              ${iconHtml}
+              <div class="svc-title">${esc(svc.barTitle || svc.shortTitle || "")}</div>
             </div>
             <a class="back-btn" href="index.html">بازگشت</a>
           </div>
 
           <div class="header">
-            ${subtitleHtml}
             <div class="meta">
-              ${timePill}
-              ${feeTable}
-              ${photoPill}
+              ${metaParts.join("")}
+              ${feeHtml}
             </div>
           </div>
 
           <div class="content">
             ${sectionsHtml}
             ${notDoneHtml}
-            ${faqHtml}
             ${noticeHtml}
 
             <div class="footer">
@@ -282,10 +370,10 @@ if (svc.meta?.time)
     `;
   }
 
+  // ---------- Entry ----------
   const key = window.SERVICE_KEY;
   if (!key) {
-    const app = document.getElementById("app");
-    if (app) app.innerHTML = `${style}<div class="wrap"><div class="card"><div class="content">شناسه خدمت تنظیم نشده است.</div></div></div>`;
+    app.innerHTML = `${style}<div class="wrap"><div class="card"><div class="content">شناسه خدمت مشخص نیست.</div></div></div>`;
     return;
   }
 
