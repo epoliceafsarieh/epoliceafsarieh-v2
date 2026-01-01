@@ -179,13 +179,21 @@ body{
   <div class="block-title">خدمات پرتکرار</div>
 
   <div class="popular">
-    <a class="tile" href="#"><img src="assets/img/icons/passport.png">گذرنامه</a>
-    <a class="tile" href="#"><img src="assets/img/icons/tow.png">ترخیص خودرو / موتور</a>
-    <a class="tile" href="#"><img src="assets/img/icons/license.png">گواهینامه</a>
-    <a class="tile" href="#"><img src="assets/img/icons/other.png">سایر خدمات</a>
+    <a class="tile" href="passport.html">
+      <img src="assets/img/icons/passport.png">گذرنامه
+    </a>
+    <a class="tile" href="tarkhis.html">
+      <img src="assets/img/icons/tow.png">ترخیص خودرو / موتور
+    </a>
+    <a class="tile" href="driving.html">
+      <img src="assets/img/icons/license.png">گواهینامه
+    </a>
+    <a class="tile" href="other.html">
+      <img src="assets/img/icons/other.png">سایر خدمات
+    </a>
   </div>
 
-  <a class="internet-thin" href="#">خدمات اینترنتی (غیرحضوری)</a>
+  <a class="internet-thin" href="internet.html">خدمات اینترنتی (غیرحضوری)</a>
 </div>
 
 <!-- مسیر تکمیلی: سرچ -->
@@ -221,12 +229,12 @@ body{
 
 <script>
 const SERVICES = [
-  { title:"گذرنامه", href:"#"},
-  { title:"گواهینامه", href:"#"},
-  { title:"ترخیص خودرو / موتور", href:"#"},
-  { title:"نظام وظیفه", href:"#"},
-  { title:"کارت سوخت", href:"#"},
-  { title:"خلافی خودرو", href:"#"}
+  { title:"گذرنامه", href:"passport.html"},
+  { title:"گواهینامه", href:"driving.html"},
+  { title:"ترخیص خودرو / موتور", href:"tarkhis.html"},
+  { title:"نظام وظیفه", href:"other.html"},
+  { title:"کارت سوخت", href:"other.html"},
+  { title:"خلافی خودرو", href:"khalafi.html"}
 ];
 
 const input = document.getElementById("search");
