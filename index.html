@@ -53,45 +53,18 @@
       opacity:.95;
     }
 
-    /* ======== TRIANGLES (ONLY FIXED PART) ======== */
-
+    /* ====== TRI TOGGLE (NO SLASH) ====== */
     .tri-toggle{
       display:flex;
       justify-content:center;
+      align-items:center;
+      gap:0;                 /* نزدیک */
       margin-bottom:12px;
     }
 
-    .tri-pair{
-      position:relative;
-      width:300px;
-      height:70px;
-      filter: drop-shadow(0 8px 18px rgba(0,0,0,.22));
-    }
-
-    /* دو خط مورب نزدیک به هم */
-    .tri-pair::before,
-    .tri-pair::after{
-      content:"";
-      position:absolute;
-      top:6px;
-      bottom:6px;
-      left:50%;
-      width:3px;
-      background:rgba(255,255,255,.25);
-      transform:translateX(-50%) skewX(-18deg);
-      border-radius:4px;
-      z-index:2;
-    }
-    .tri-pair::after{
-      left:calc(50% + 6px);
-      opacity:.9;
-    }
-
     .tri-btn{
-      position:absolute;
-      top:0;
-      bottom:0;
-      width:50%;
+      width:150px;
+      height:64px;
       border:none;
       cursor:pointer;
       padding:0;
@@ -99,11 +72,16 @@
       color:#fff;
       font-family:inherit;
       font-weight:900;
+      position:relative;
       display:flex;
       align-items:center;
       justify-content:center;
-      -webkit-tap-highlight-color: transparent;
+      filter: drop-shadow(0 8px 18px rgba(0,0,0,.22));
     }
+
+    /* چسباندن دو مثلث به هم */
+    .tri-btn.tri-up{  margin-left:-14px; }
+    .tri-btn.tri-down{ margin-right:-14px; }
 
     .tri-btn::before{
       content:"";
@@ -112,24 +90,14 @@
       background:rgba(255,255,255,.12);
       border:2px solid rgba(255,255,255,.28);
       border-radius:10px;
-      z-index:1;
     }
 
-    /* سوال – مثلث رو به بالا (چپ) */
-    .tri-up{ left:0; }
-    .tri-up::before{
+    /* جهت‌ها ثابت */
+    .tri-btn.tri-up::before{
       clip-path:polygon(50% 0, 0 100%, 100% 100%);
     }
-
-    /* خدمت – مثلث رو به پایین (راست) */
-    .tri-down{ right:0; }
-    .tri-down::before{
+    .tri-btn.tri-down::before{
       clip-path:polygon(0 0, 100% 0, 50% 100%);
-    }
-
-    .tri-btn span{
-      position:relative;
-      z-index:3;
     }
 
     .tri-btn.active{
@@ -137,10 +105,9 @@
     }
     .tri-btn.active::before{
       background:#ffffff;
-      border-color:#ffffff;
+      border-color:rgba(255,255,255,.95);
     }
-
-    /* ======== END TRIANGLES ======== */
+    /* ====== /TRI TOGGLE ====== */
 
     .search-input{
       width:100%;
@@ -149,6 +116,34 @@
       border:none;
       font-size:14px;
       font-family:inherit;
+    }
+
+    .suggestions{
+      display:none;
+      position:absolute;
+      top:100%;
+      right:0;
+      left:0;
+      background:#ffffff;
+      color:#041E42;
+      border-radius:0 0 16px 16px;
+      overflow:hidden;
+      box-shadow:0 10px 30px rgba(0,0,0,.2);
+      z-index:10;
+    }
+
+    .suggestions div{
+      padding:12px 14px;
+      border-bottom:1px solid #eee;
+      font-weight:900;
+      cursor:pointer;
+    }
+    .suggestions div:last-child{border-bottom:none}
+    .suggestions small{
+      display:block;
+      font-weight:normal;
+      font-size:12px;
+      opacity:.8;
     }
 
     .block{
@@ -189,6 +184,7 @@
     .tile .ico{
       width:44px;
       height:44px;
+      flex:0 0 44px;
       display:flex;
       align-items:center;
       justify-content:center;
@@ -197,6 +193,7 @@
     .tile .ico img{
       width:44px;
       height:44px;
+      display:block;
     }
 
     .internet-thin{
@@ -246,8 +243,9 @@
 <body>
 <div class="wrap">
 
+  <!-- LOGO -->
   <div class="brand">
-    <img src="assets/img/logo/logo_white.png" style="width:96px">
+    <img src="assets/img/logo/logo_white.png" alt="پلیس +۱۰ افسریه" style="width:96px;height:auto;">
   </div>
 
   <h1>برای چه کاری مراجعه کرده‌اید؟</h1>
@@ -256,31 +254,46 @@
     <div class="mode-label">نوع جستجو را انتخاب کنید:</div>
 
     <div class="tri-toggle">
-      <div class="tri-pair">
-        <button id="modeQuestion" class="tri-btn tri-up" type="button">
-          <span>سوال</span>
-        </button>
-        <button id="modeService" class="tri-btn tri-down active" type="button">
-          <span>خدمت</span>
-        </button>
-      </div>
+      <button id="modeQuestion" class="tri-btn tri-up" type="button">سوال</button>
+      <button id="modeService" class="tri-btn tri-down active" type="button">خدمت</button>
     </div>
 
-    <input class="search-input" type="text"
+    <input id="search" class="search-input" type="text"
       placeholder="مثلاً: گذرنامه، معافیت، ترخیص...">
+
+    <div id="suggestions" class="suggestions"></div>
   </div>
 
   <div class="block">
     <div class="block-title">خدمات پرتکرار</div>
 
     <div class="popular">
-      <a class="tile"><span class="ico"><img src="assets/img/icons/passport.png"></span>گذرنامه</a>
-      <a class="tile"><span class="ico"><img src="assets/img/icons/tow.png"></span>ترخیص خودرو / موتور</a>
-      <a class="tile"><span class="ico"><img src="assets/img/icons/license.png"></span>گواهینامه</a>
-      <a class="tile"><span class="ico"><img src="assets/img/icons/other.png"></span>سایر خدمات</a>
+
+      <a class="tile" href="#">
+        <span class="ico"><img src="assets/img/icons/passport.png" alt=""></span>
+        <span>گذرنامه</span>
+      </a>
+
+      <a class="tile" href="#">
+        <span class="ico"><img src="assets/img/icons/tow.png" alt=""></span>
+        <span>ترخیص خودرو / موتور</span>
+      </a>
+
+      <a class="tile" href="#">
+        <span class="ico"><img src="assets/img/icons/license.png" alt=""></span>
+        <span>گواهینامه</span>
+      </a>
+
+      <a class="tile" href="#">
+        <span class="ico"><img src="assets/img/icons/other.png" alt=""></span>
+        <span>سایر خدمات</span>
+      </a>
+
     </div>
 
-    <a class="internet-thin">خدمات اینترنتی (غیرحضوری)</a>
+    <a class="internet-thin" href="#">
+      خدمات اینترنتی (غیرحضوری)
+    </a>
   </div>
 
   <div class="note">
@@ -294,25 +307,34 @@
       <div>ساعات کاری: .................</div>
     </div>
     <div>
-      <a>تماس</a>
-      <a>استخدام</a>
+      <a href="#">تماس</a>
+      <a href="hire.html">استخدام</a>
     </div>
   </div>
 
 </div>
 
 <script>
-  const q = document.getElementById('modeQuestion');
-  const s = document.getElementById('modeService');
+  const modeQuestion = document.getElementById('modeQuestion');
+  const modeService  = document.getElementById('modeService');
+  const searchInput  = document.getElementById('search');
 
-  q.onclick = () => {
-    q.classList.add('active');
-    s.classList.remove('active');
-  };
-  s.onclick = () => {
-    s.classList.add('active');
-    q.classList.remove('active');
-  };
+  function setMode(mode){
+    if(mode === 'question'){
+      modeQuestion.classList.add('active');
+      modeService.classList.remove('active');
+      searchInput.placeholder = 'مثلاً: سوال درباره گذرنامه، معافیت، ترخیص...';
+    } else {
+      modeService.classList.add('active');
+      modeQuestion.classList.remove('active');
+      searchInput.placeholder = 'مثلاً: گذرنامه، معافیت، ترخیص...';
+    }
+  }
+
+  modeQuestion.addEventListener('click', () => setMode('question'));
+  modeService.addEventListener('click',  () => setMode('service'));
+
+  setMode(modeService.classList.contains('active') ? 'service' : 'question');
 </script>
 
 </body>
