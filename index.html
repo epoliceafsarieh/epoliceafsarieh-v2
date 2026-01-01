@@ -27,9 +27,9 @@ body{
   padding:26px 16px 22px;
 }
 
-.brand{text-align:center;margin-bottom:10px;}
+.brand{text-align:center;margin-bottom:14px;}
 
-.search-box{margin-top:8px;margin-bottom:18px;}
+.search-box{margin-top:14px;margin-bottom:18px;}
 
 .search-area{position:relative;}
 
@@ -42,7 +42,7 @@ body{
   font-family:inherit;
 }
 
-/* منو همیشه بالا باز می‌شود (موبایل و دسکتاپ یکسان) */
+/* منو پیشنهاد همیشه بالا باز می‌شود */
 .suggest{
   position:absolute;
   bottom:calc(100% + 10px);
@@ -124,7 +124,7 @@ body{
   font-weight:900;
 }
 
-/* Footer (طبق درخواست): سه دکمه افقی + استخدام سمت چپ، با بازشدن زیر همان ردیف */
+/* Footer */
 .footer{
   margin-top:18px;
   border-top:1px solid rgba(255,255,255,.25);
@@ -135,23 +135,16 @@ body{
 .footer-row{
   display:flex;
   justify-content:space-between;
-  align-items:stretch;
   gap:10px;
 }
 
-/* گروه راست: ساعات کاری، تماس، آدرس (به همین ترتیب) */
 .footer-actions{
   display:flex;
   gap:10px;
-  flex-wrap:nowrap;
 }
 
 .footer-btn,
 .footer-link{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  white-space:nowrap;
   border:1px solid rgba(255,255,255,.35);
   border-radius:12px;
   padding:10px 12px;
@@ -163,16 +156,6 @@ body{
   font-family:inherit;
 }
 
-.footer-btn{
-  background:rgba(255,255,255,.10);
-}
-
-.footer-btn:focus{
-  outline:none;
-  background:rgba(255,255,255,.16);
-}
-
-/* پنل بازشونده زیر ردیف */
 .footer-panel{
   margin-top:10px;
   display:none;
@@ -180,19 +163,6 @@ body{
   border:1px solid rgba(255,255,255,.25);
   border-radius:14px;
   padding:12px;
-  line-height:1.8;
-}
-
-.footer-panel a{
-  color:#fff;
-  text-decoration:none;
-  border-bottom:1px dashed rgba(255,255,255,.45);
-}
-
-/* حالت موبایل: اگر جا نشد، ردیف به دو خط برود ولی ترتیب حفظ شود */
-@media (max-width:420px){
-  .footer-row{flex-wrap:wrap;}
-  .footer-actions{flex-wrap:wrap;}
 }
 </style>
 </head>
@@ -204,16 +174,7 @@ body{
   <img src="assets/img/logo/logo_white.png" style="width:96px;">
 </div>
 
-<div class="search-box">
-  <div class="search-area">
-    <input id="search" class="search-input"
-      placeholder="برای چه خدمتی مراجعه کرده‌اید؟ (مثلاً: گذرنامه، گواهینامه، ترخیص...)"
-      autocomplete="off">
-
-    <div id="suggest" class="suggest" aria-label="پیشنهاد خدمات"></div>
-  </div>
-</div>
-
+<!-- مسیر اصلی: کارت‌ها -->
 <div class="block">
   <div class="block-title">خدمات پرتکرار</div>
 
@@ -227,32 +188,32 @@ body{
   <a class="internet-thin" href="#">خدمات اینترنتی (غیرحضوری)</a>
 </div>
 
+<!-- مسیر تکمیلی: سرچ -->
+<div class="search-box">
+  <div class="search-area">
+    <input id="search" class="search-input"
+      placeholder="اگر خدمت شما اینجا نیست، بنویسید (مثلاً: نظام وظیفه، کارت سوخت...)"
+      autocomplete="off">
+    <div id="suggest" class="suggest"></div>
+  </div>
+</div>
+
+<!-- Footer -->
 <div class="footer">
   <div class="footer-row">
-    <!-- راست: ساعات کاری، تماس، آدرس -->
     <div class="footer-actions">
-      <button class="footer-btn" type="button" data-panel="hoursPanel">ساعات کاری</button>
-      <button class="footer-btn" type="button" data-panel="contactPanel">تماس</button>
-      <button class="footer-btn" type="button" data-panel="addressPanel">آدرس</button>
+      <button class="footer-btn" data-panel="hours">ساعات کاری</button>
+      <button class="footer-btn" data-panel="contact">تماس</button>
+      <button class="footer-btn" data-panel="address">آدرس</button>
     </div>
-
-    <!-- چپ: استخدام -->
     <a class="footer-link" href="hire.html">استخدام</a>
   </div>
 
-  <!-- پنل‌ها: فقط یکی باز می‌شود -->
-  <div id="hoursPanel" class="footer-panel">
-    ساعات کاری: .............
-  </div>
-
-  <div id="contactPanel" class="footer-panel">
-    تلفن دفتر: .............<br>
-    واتساپ: .............
-  </div>
-
-  <div id="addressPanel" class="footer-panel">
-    <a href="#" target="_blank" rel="noopener">مشاهده روی Google Maps</a><br>
-    آدرس: .................
+  <div id="hours" class="footer-panel">ساعات کاری: .............</div>
+  <div id="contact" class="footer-panel">تلفن: .............<br>واتساپ: .............</div>
+  <div id="address" class="footer-panel">
+    <a href="#" target="_blank">مشاهده روی Google Maps</a><br>
+    آدرس: .............
   </div>
 </div>
 
@@ -260,101 +221,50 @@ body{
 
 <script>
 const SERVICES = [
-  { title: "گذرنامه", href: "#" },
-  { title: "ترخیص خودرو / موتور", href: "#" },
-  { title: "گواهینامه", href: "#" },
-  { title: "خلافی خودرو", href: "#" },
-  { title: "نظام وظیفه", href: "#" },
-  { title: "کارت سوخت", href: "#" }
+  { title:"گذرنامه", href:"#"},
+  { title:"گواهینامه", href:"#"},
+  { title:"ترخیص خودرو / موتور", href:"#"},
+  { title:"نظام وظیفه", href:"#"},
+  { title:"کارت سوخت", href:"#"},
+  { title:"خلافی خودرو", href:"#"}
 ];
-
-const MAX_SHOW = 4;
 
 const input = document.getElementById("search");
 const suggest = document.getElementById("suggest");
 
-function norm(s){
-  return (s || "")
-    .toString()
-    .trim()
-    .replace(/\s+/g," ")
-    .toLowerCase();
-}
-
 function hideSuggest(){
-  suggest.style.display = "none";
-  suggest.innerHTML = "";
+  suggest.style.display="none";
+  suggest.innerHTML="";
 }
 
-function renderSuggestions(items){
-  suggest.innerHTML = "";
-  if (!items.length){
-    hideSuggest();
-    return;
-  }
-
-  items.slice(0, MAX_SHOW).forEach(item=>{
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.textContent = item.title;
-    btn.onclick = ()=>{
-      input.value = item.title;
-      hideSuggest();
-      window.location.href = item.href;
-    };
-    suggest.appendChild(btn);
+function render(list){
+  suggest.innerHTML="";
+  list.slice(0,4).forEach(i=>{
+    const b=document.createElement("button");
+    b.textContent=i.title;
+    b.onclick=()=>location.href=i.href;
+    suggest.appendChild(b);
   });
-
-  suggest.style.display = "block";
+  suggest.style.display="block";
 }
 
-function update(){
-  const q = norm(input.value);
-  if (!q){
-    hideSuggest();
-    return;
-  }
-  const matches = SERVICES.filter(s => norm(s.title).includes(q));
-  renderSuggestions(matches);
-}
-
-input.addEventListener("input", update);
-
-document.addEventListener("click", (e)=>{
-  if (!e.target.closest(".search-area")) hideSuggest();
+input.addEventListener("input",()=>{
+  const q=input.value.trim();
+  if(!q){hideSuggest();return;}
+  render(SERVICES.filter(s=>s.title.includes(q)));
 });
 
-input.addEventListener("keydown", (e)=>{
-  if (e.key !== "Enter") return;
-  const q = norm(input.value);
-  if (!q) return;
-
-  const matches = SERVICES.filter(s => norm(s.title).includes(q));
-  if (matches.length === 1){
-    window.location.href = matches[0].href;
-  } else {
-    renderSuggestions(matches);
-  }
+document.addEventListener("click",e=>{
+  if(!e.target.closest(".search-area")) hideSuggest();
 });
 
-/* Footer toggle */
-const footerButtons = document.querySelectorAll(".footer-btn");
-const footerPanels = document.querySelectorAll(".footer-panel");
-
-function closeAllPanels(){
-  footerPanels.forEach(p => p.style.display = "none");
-}
-
-footerButtons.forEach(btn=>{
-  btn.addEventListener("click", ()=>{
-    const id = btn.getAttribute("data-panel");
-    const panel = document.getElementById(id);
-    if (!panel) return;
-
-    const isOpen = panel.style.display === "block";
-    closeAllPanels();
-    panel.style.display = isOpen ? "none" : "block";
-  });
+/* footer panels */
+document.querySelectorAll(".footer-btn").forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll(".footer-panel").forEach(p=>p.style.display="none");
+    const p=document.getElementById(b.dataset.panel);
+    p.style.display="block";
+  };
 });
 </script>
 
