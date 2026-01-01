@@ -61,32 +61,48 @@
       align-items:flex-end;
     }
 
-    .tri-btn{
-      width:150px;
-      height:64px;
-      border:none;
-      cursor:pointer;
-      padding:0;
-      background:transparent;
-      color:#fff;
-      font-family:inherit;
-      font-weight:900;
-      position:relative;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      filter: drop-shadow(0 8px 18px rgba(0,0,0,.22));
-    }
+   .tri-btn{
+  width:150px;
+  height:64px;
+  border:none;
+  cursor:pointer;
+  padding:0;
+  background:transparent;
+  color:#fff;
+  font-family:inherit;
+  font-weight:900;
 
-    .tri-btn::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:rgba(255,255,255,.12);
-      border:2px solid rgba(255,255,255,.28);
-      border-radius:10px;
-      clip-path:polygon(50% 100%, 0 0, 100% 0);
-    }
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  /* مهم: لایه‌بندی درست */
+  isolation:isolate;
+  z-index:0;
+
+  filter: drop-shadow(0 8px 18px rgba(0,0,0,.22));
+}
+
+
+  .tri-btn::before{
+  content:"";
+  position:absolute;
+  inset:0;
+
+  /* مهم: برو پشت متن */
+  z-index:-1;
+
+  background:rgba(255,255,255,.12);
+  border:2px solid rgba(255,255,255,.28);
+
+  /* خودِ مثلث */
+  clip-path:polygon(50% 100%, 0 0, 100% 0);
+
+  /* اگر گوشه‌های گرد می‌خواهی، این را حذف نکن */
+  border-radius:10px;
+}
+
 
     .tri-slash{
       width:10px;
