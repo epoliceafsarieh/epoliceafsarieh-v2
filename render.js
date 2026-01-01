@@ -14,7 +14,6 @@
     return t ? t : "—";
   }
 
-  // Guard
   if (typeof window.SERVICES === "undefined") {
     const el = document.getElementById("app");
     if (el) el.innerHTML = `<div style="padding:16px;font-family:tahoma">خطا: فایل services.js بارگذاری نشده است.</div>`;
@@ -35,7 +34,7 @@
     .wrap{max-width:860px;margin:18px auto 28px;padding:0 14px}
     .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
 
-    /* Brand bar (هماهنگ با Index) */
+    /* Brand bar (فقط هویت خدمت + بازگشت) */
     .brandbar{
       background:var(--ms-blue);
       color:#fff;
@@ -45,21 +44,41 @@
       justify-content:space-between;
       gap:12px;
     }
-    .brand-left{
+    .brand-right{
       display:flex;
       align-items:center;
-      gap:10px;
+      gap:12px;
       min-width:0;
     }
-    .brand-logo{width:34px;height:34px;object-fit:contain}
-    .svc-icon{width:34px;height:34px;object-fit:contain}
-    .brand-title{
+
+    /* آیکون سرویس بزرگ‌تر */
+    .svc-badge{
+      width:46px;
+      height:46px;
+      border-radius:14px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border:1px solid rgba(255,255,255,.22);
+      background:rgba(255,255,255,.08);
+      flex:0 0 auto;
+    }
+    .svc-icon{
+      width:34px;
+      height:34px;
+      object-fit:contain;
+      display:block;
+    }
+
+    .svc-title{
       font-weight:900;
+      font-size:16px;
       white-space:nowrap;
       overflow:hidden;
       text-overflow:ellipsis;
-      font-size:14px;
+      max-width:58vw;
     }
+
     .back-btn{
       display:inline-flex;align-items:center;gap:6px;
       padding:8px 10px;border-radius:12px;
@@ -67,6 +86,7 @@
       border:1px solid rgba(255,255,255,.22);
       color:#fff;text-decoration:none;font-size:13px;font-weight:900;
       cursor:pointer;
+      white-space:nowrap;
     }
 
     .header{padding:16px 16px 12px;border-bottom:1px solid var(--border);background:#fff}
@@ -128,11 +148,7 @@
 
     let feeTable = "";
     if (feeObj && Array.isArray(svc.feeRows) && svc.feeRows.length) {
-      const feeRows = svc.feeRows.map(r => ({
-        title: r.label,
-        value: feeObj[r.field]
-      }));
-
+      const feeRows = svc.feeRows.map(r => ({ title: r.label, value: feeObj[r.field] }));
       feeTable = `
         <details class="pill">
           <summary>هزینه: ${esc(svc?.meta?.feeSummary || "مطابق تعرفه رسمی")} (جزئیات)</summary>
@@ -193,9 +209,11 @@
       ? `<div class="note">${(svc.notice || []).map(n => `<div>• ${esc(n)}</div>`).join("")}</div>`
       : "";
 
-    // آیکن سفید فقط در نوار سرمه‌ای (نه در بدنه سفید)
-    const svcIcon = svc.icon ? `<img class="svc-icon" src="${esc(svc.icon)}" alt="">` : "";
-    const shortTitle = svc.shortTitle || "راهنمای خدمت";
+    const svcIcon = svc.icon
+      ? `<div class="svc-badge"><img class="svc-icon" src="${esc(svc.icon)}" alt=""></div>`
+      : "";
+
+    const barTitle = svc.barTitle || svc.shortTitle || "";
 
     app.innerHTML = `
       ${style}
@@ -203,10 +221,9 @@
         <div class="card">
 
           <div class="brandbar">
-            <div class="brand-left">
-              <img class="brand-logo" src="assets/img/logo/logo_white.png" alt="">
+            <div class="brand-right">
               ${svcIcon}
-              <div class="brand-title">${esc(shortTitle)}</div>
+              <div class="svc-title">${esc(barTitle)}</div>
             </div>
             <a class="back-btn" href="index.html">بازگشت</a>
           </div>
@@ -238,7 +255,6 @@
     `;
   }
 
-  // In scenario #2 every service page sets this:
   const key = window.SERVICE_KEY;
   if (!key) {
     const app = document.getElementById("app");
