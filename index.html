@@ -31,57 +31,9 @@ body{
 h1{text-align:center;font-size:20px;font-weight:900;margin:10px 0 4px;}
 
 .search-box{margin-top:12px;margin-bottom:18px;}
-.mode-label{text-align:center;font-weight:900;margin-bottom:10px;}
 
-.tri-toggle{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:0;
-  margin-bottom:12px;
-}
-
-.tri-btn{
-  width:150px;
-  height:64px;
-  border:none;
-  cursor:pointer;
-  background:transparent;
-  color:#fff;
-  font-weight:900;
-  position:relative;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  filter:drop-shadow(0 8px 18px rgba(0,0,0,.25));
-}
-
-.tri-btn::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:rgba(255,255,255,.15);
-  border:2px solid rgba(255,255,255,.35);
-}
-
-/* مثلث بالا */
-.tri-up::before{
-  clip-path:polygon(50% 0, 0 100%, 100% 100%);
-}
-.tri-up{margin-left:-14px;}
-
-/* مثلث پایین */
-.tri-down::before{
-  clip-path:polygon(50% 100%, 0 0, 100% 0);
-}
-.tri-down{margin-right:-14px;}
-.tri-btn.active{
-  color:#041E42;
-}
-.tri-btn.active::before{
-  background:#ffffff;
-  border-color:#fff;
-}
+/* آیتم ۱: حذف انتخاب نوع جستجو (سؤال/خدمت) */
+/* هدف: یک ورودی غالب و بدون تصمیم اضافی در لحظه ورود */
 
 .search-input{
   width:100%;
@@ -90,6 +42,13 @@ h1{text-align:center;font-size:20px;font-weight:900;margin:10px 0 4px;}
   border:none;
   font-size:14px;
   font-family:inherit;
+}
+
+.search-help{
+  margin-top:8px;
+  font-size:12px;
+  opacity:.9;
+  text-align:center;
 }
 
 .block{
@@ -176,15 +135,13 @@ h1{text-align:center;font-size:20px;font-weight:900;margin:10px 0 4px;}
 <h1>برای چه کاری مراجعه کرده‌اید؟</h1>
 
 <div class="search-box">
-  <div class="mode-label">نوع جستجو را انتخاب کنید:</div>
-
-  <div class="tri-toggle">
-    <button id="modeQuestion" class="tri-btn tri-up">سوال</button>
-    <button id="modeService" class="tri-btn tri-down active">خدمت</button>
-  </div>
-
+  <!-- آیتم ۱: حذف کامل کنترل انتخاب نوع جستجو -->
   <input id="search" class="search-input"
-   placeholder="مثلاً: گذرنامه، معافیت، ترخیص...">
+   placeholder="خدمت یا سؤال خود را بنویسید (مثلاً: گذرنامه، معافیت، ترخیص...)">
+
+  <div class="search-help">
+    اگر مطمئن نیستید چه خدمتی دارید، همان سؤال را بنویسید.
+  </div>
 </div>
 
 <div class="block">
@@ -218,23 +175,6 @@ h1{text-align:center;font-size:20px;font-weight:900;margin:10px 0 4px;}
 
 </div>
 
-<script>
-const q=document.getElementById("modeQuestion");
-const s=document.getElementById("modeService");
-const input=document.getElementById("search");
-
-q.onclick=()=>{
-  q.classList.add("active");
-  s.classList.remove("active");
-  input.placeholder="سؤال خود را بنویسید...";
-}
-
-s.onclick=()=>{
-  s.classList.add("active");
-  q.classList.remove("active");
-  input.placeholder="مثلاً: گذرنامه، معافیت، ترخیص...";
-}
-</script>
-
+<!-- آیتم ۱: اسکریپت کنترل مود حذف شد -->
 </body>
 </html>
