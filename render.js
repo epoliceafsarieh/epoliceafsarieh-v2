@@ -82,7 +82,7 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      border:2px solid var(--brand-blue); /* دقیقاً همان رنگ */
+      border:2px solid currentColor; /* دقیقاً همان رنگ */
       background:rgba(255,255,255,.10);
       flex:0 0 auto;
     }
