@@ -29,7 +29,7 @@
   const style = `
   <style>
     :root{
-      --ms-blue:#041E42;
+      --brand-blue:#041E42; /* منبع واحد رنگ */
       --bg:#f5f7fb;
       --card:#fff;
       --text:#0f172a;
@@ -38,6 +38,7 @@
       --soft:#f1f5ff;
       --shadow:0 10px 30px rgba(2,8,23,.06);
       --radius:16px;
+      --section-bg:#f8fbff;
     }
 
     *{box-sizing:border-box}
@@ -57,11 +58,11 @@
       box-shadow:var(--shadow);
     }
 
-    /* فقط تغییر ۱ و ۲ همینجاست */
+    /* نوار بالا — باریک‌تر و هم‌رنگ دور آیکون */
     .brandbar{
-      background:var(--ms-blue);
+      background:var(--brand-blue);
       color:#fff;
-      padding:5px 12px; /* قبلاً 6px بود → ۲۰٪ باریک‌تر */
+      padding:4px 12px; /* باریک‌تر از قبل */
       display:flex;
       align-items:center;
       justify-content:space-between;
@@ -81,7 +82,7 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      border:2px solid var(--ms-blue); /* دقیقاً هم‌رنگ نوار */
+      border:2px solid var(--brand-blue); /* دقیقاً همان رنگ */
       background:rgba(255,255,255,.10);
       flex:0 0 auto;
     }
@@ -147,23 +148,9 @@
       white-space:nowrap;
     }
 
-    details{margin:0}
-    summary{cursor:pointer;list-style:none}
-    summary::-webkit-details-marker{display:none}
-
-    .fee-box{
-      margin-top:10px;
-      border:1px solid var(--border);
-      border-radius:12px;
-      padding:12px;
-      background:#fff;
-    }
-    table{width:100%;border-collapse:collapse;font-size:13px}
-    th,td{border:1px solid var(--border);padding:10px;text-align:center}
-    th{background:#f2f5f9;font-weight:900}
-
     .content{padding:16px 16px 18px}
 
+    /* سکشن‌ها */
     .sec{
       margin-top:12px;
       border:1px solid var(--border);
@@ -179,43 +166,56 @@
       display:flex;
       justify-content:space-between;
       gap:10px;
-      background:#f8fbff;
+      background:var(--section-bg);
     }
     .sec summary small{
-      font-weight:800;
+      font-weight:600;
       color:#64748b;
       font-size:12px;
     }
     .sec-body{padding:12px 14px}
 
-    ul{margin:0;padding-right:20px;font-size:14px}
-    li{margin:8px 0}
+    ul,ol{margin:0;padding-right:20px;font-size:14px}
+    li{margin:8px 0;font-weight:normal}
 
+    /* نکات مهم — فقط عنوان بولد */
     .notdone{
       margin-top:14px;
       border:1px solid var(--border);
       background:#fff;
       border-radius:14px;
       padding:12px 14px;
-      color:var(--text);
     }
     .notdone-title{
       font-weight:900;
       margin-bottom:8px;
-      color:var(--text);
     }
-    .notdone ol{
-      margin:0;
-      padding-right:20px;
-      font-weight:800;
-      color:#0f172a;
+    .notdone ol li{
+      font-weight:normal;
     }
-    .notdone li{margin:8px 0}
 
-    .faq-title{margin:14px 0 8px;font-size:15px;font-weight:900;color:#0f172a}
-    .faq details{border:1px solid var(--border);border-radius:12px;padding:10px 12px;background:#fff;margin-top:10px}
-    .faq summary{font-weight:900}
-    .faq .ans{margin-top:8px;color:#334155;font-size:13px}
+    /* FAQ */
+    .faq-title{margin:14px 0 8px;font-size:15px;font-weight:900}
+    .faq details{
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:0;
+      background:#fff;
+      margin-top:10px;
+      overflow:hidden;
+    }
+    .faq summary{
+      padding:12px 14px;
+      font-weight:900;
+      background:var(--section-bg); /* آبی کم‌رنگ */
+      cursor:pointer;
+    }
+    .faq .ans{
+      padding:10px 14px;
+      color:#334155;
+      font-size:13px;
+      font-weight:normal;
+    }
 
     .footer{
       margin-top:14px;
