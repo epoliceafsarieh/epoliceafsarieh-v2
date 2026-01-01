@@ -32,7 +32,7 @@ h1{text-align:center;font-size:20px;font-weight:900;margin:10px 0 4px;}
 
 .search-box{margin-top:14px;margin-bottom:18px;}
 
-/* آیتم ۱: پیشنهادها Overlay */
+/* پیشنهادها Overlay */
 .search-area{
   position:relative;
 }
@@ -63,7 +63,7 @@ h1{text-align:center;font-size:20px;font-weight:900;margin:10px 0 4px;}
   overflow:auto;
 }
 
-/* حالت موبایل/کیبورد: پیشنهادها بالا باز شوند (Drop-up) */
+/* حالت موبایل: بالا باز شود */
 .suggest.up{
   top:auto;
   bottom:calc(100% + 10px);
@@ -171,12 +171,12 @@ h1{text-align:center;font-size:20px;font-weight:900;margin:10px 0 4px;}
   <img src="assets/img/logo/logo_white.png" style="width:96px;">
 </div>
 
-<h1>برای چه کاری مراجعه کرده‌اید؟</h1>
+<h1>برای چه خدمتی مراجعه کرده‌اید؟ (مثلاً: گذرنامه، گواهینامه، ترخیص...)</h1>
 
 <div class="search-box">
   <div class="search-area">
     <input id="search" class="search-input"
-      placeholder="نام خدمت را بنویسید (مثلاً: گذرنامه، گواهینامه، ترخیص...)"
+      placeholder="نام خدمت را بنویسید"
       autocomplete="off">
 
     <div id="suggest" class="suggest" aria-label="پیشنهاد خدمات"></div>
@@ -215,12 +215,6 @@ h1{text-align:center;font-size:20px;font-weight:900;margin:10px 0 4px;}
 </div>
 
 <script>
-/*
-  هدف این اصلاح:
-  1) پرش موبایل هنگام فوکوس/تایپ کمتر شود (با scrollIntoView کنترل‌شده)
-  2) پیشنهادها در موبایل به جای پایین، "بالا" باز شوند تا زیر کیبورد/بخش پایین نیفتند
-*/
-
 const SERVICES = [
   { title: "گذرنامه", href: "#" },
   { title: "ترخیص خودرو / موتور", href: "#" },
@@ -286,29 +280,21 @@ function update(){
   renderSuggestions(matches);
 }
 
-/* فوکوس موبایل: input را در محدوده بهتر نگه می‌داریم */
 input.addEventListener("focus", ()=>{
-  // در موبایل، پیشنهادها را بالا باز می‌کنیم
   if (isMobileLike()) suggest.classList.add("up");
   else suggest.classList.remove("up");
 
-  // بسیاری از موبایل‌ها بعد از باز شدن کیبورد صفحه را جابه‌جا می‌کنند.
-  // این کد بعد از یک مکث کوتاه، input را وسط/بالا نگه می‌دارد تا پرش کمتر شود.
   setTimeout(()=>{
-    try{
-      input.scrollIntoView({ block:"center", inline:"nearest" });
-    }catch(_){}
+    try{ input.scrollIntoView({ block:"center", inline:"nearest" }); }catch(_){}
   }, 60);
 });
 
 input.addEventListener("input", update);
 
-// کلیک بیرون: بستن
 document.addEventListener("click", (e)=>{
   if (!e.target.closest(".search-area")) hideSuggest();
 });
 
-// Enter: اگر دقیقاً یکی match شد برو همان
 input.addEventListener("keydown", (e)=>{
   if (e.key !== "Enter") return;
 
