@@ -124,6 +124,7 @@ body{
   font-weight:900;
 }
 
+/* Footer: همه موارد داخل کادر مثل دکمه */
 .footer{
   margin-top:18px;
   border-top:1px solid rgba(255,255,255,.25);
@@ -132,17 +133,41 @@ body{
   justify-content:space-between;
   gap:12px;
   font-size:12px;
+  align-items:flex-start;
 }
 
-.footer a{
-  text-decoration:none;
+/* ستون راست: تماس/آدرس/ساعت کاری زیر هم */
+.footer-right{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  min-width:160px;
+}
+
+/* ستون چپ: استخدام */
+.footer-left{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.footer-box{
+  display:block;
   color:#fff;
   border:1px solid rgba(255,255,255,.35);
   border-radius:12px;
-  padding:8px 12px;
+  padding:10px 12px;
   font-weight:900;
   background:rgba(255,255,255,.10);
+  text-decoration:none;
+  line-height:1.6;
 }
+
+.footer-box span{
+  opacity:.92;
+  font-weight:900;
+}
+
 </style>
 </head>
 
@@ -177,13 +202,14 @@ body{
 </div>
 
 <div class="footer">
-  <div>
-    آدرس: .................<br>
-    ساعات کاری: .............
+  <div class="footer-right">
+    <a class="footer-box" href="#">تماس</a>
+    <div class="footer-box"><span>آدرس:</span> .................</div>
+    <div class="footer-box"><span>ساعات کاری:</span> .............</div>
   </div>
-  <div>
-    <a href="#">تماس</a>
-    <a href="hire.html">استخدام</a>
+
+  <div class="footer-left">
+    <a class="footer-box" href="hire.html">استخدام</a>
   </div>
 </div>
 
