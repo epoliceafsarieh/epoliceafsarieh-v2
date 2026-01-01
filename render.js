@@ -29,7 +29,7 @@
   const style = `
   <style>
     :root{
-      --ms-blue:#041E42;     /* سورمه‌ای اصلی */
+      --ms-blue:#041E42;
       --bg:#f5f7fb;
       --card:#fff;
       --text:#0f172a;
@@ -38,11 +38,6 @@
       --soft:#f1f5ff;
       --shadow:0 10px 30px rgba(2,8,23,.06);
       --radius:16px;
-
-      /* قرمز برای notDone */
-      --danger-bg:#fff1f2;
-      --danger-border:#fecdd3;
-      --danger-text:#9f1239;
     }
 
     *{box-sizing:border-box}
@@ -62,11 +57,11 @@
       box-shadow:var(--shadow);
     }
 
-    /* نوار بالا (باریک‌تر + رنگ درست) */
+    /* نوار بالا: ۲۰٪ باریک‌تر */
     .brandbar{
       background:var(--ms-blue);
       color:#fff;
-      padding:8px 12px;     /* باریک */
+      padding:6px 12px;   /* قبلاً 8px بود */
       display:flex;
       align-items:center;
       justify-content:space-between;
@@ -79,21 +74,23 @@
       min-width:0;
     }
 
-    /* باکس آیکون: کوچک‌تر از قبل + خود آیکون بزرگ‌تر */
+    /* باکس آیکون کمی بزرگ‌تر، ضخامت دور ثابت */
     .svc-badge{
-      width:72px;
-      height:72px;
+      width:80px;
+      height:80px;
       border-radius:16px;
       display:flex;
       align-items:center;
       justify-content:center;
-      border:2px solid var(--ms-blue);     /* هم‌رنگ نوار */
+      border:2px solid var(--ms-blue);
       background:rgba(255,255,255,.10);
       flex:0 0 auto;
     }
+
+    /* خود آیکون ۲۰٪ بزرگ‌تر */
     .svc-icon{
-      width:62px;  /* آیکون واقعاً بزرگ */
-      height:62px;
+      width:74px;
+      height:74px;
       object-fit:contain;
       display:block;
     }
@@ -124,13 +121,12 @@
       white-space:nowrap;
     }
 
-    /* زیر نوار: مثل ورژن قبلی (سفید + pills) */
+    /* زیر نوار */
     .header{
       padding:14px 16px 12px;
       background:#fff;
       border-bottom:1px solid var(--border);
     }
-
     .meta{
       display:flex;
       gap:10px;
@@ -139,7 +135,6 @@
       align-items:center;
       margin-top:6px;
     }
-
     .pill{
       background:var(--soft);
       border:1px solid var(--border);
@@ -170,7 +165,6 @@
 
     .content{padding:16px 16px 18px}
 
-    /* کارت‌های بخش‌ها مثل قبل */
     .sec{
       margin-top:12px;
       border:1px solid var(--border);
@@ -198,29 +192,29 @@
     ul{margin:0;padding-right:20px;font-size:14px}
     li{margin:8px 0}
 
-    /* notDone قرمز + شماره‌دار */
-    .danger{
+    /* نوشته‌های notDone: عادی/نرمال (نه قرمز) */
+    .notdone{
       margin-top:14px;
-      border:1px solid var(--danger-border);
-      background:var(--danger-bg);
+      border:1px solid var(--border);
+      background:#fff;
       border-radius:14px;
       padding:12px 14px;
-      color:var(--danger-text);
+      color:var(--text);
     }
-    .danger-title{
+    .notdone-title{
       font-weight:900;
       margin-bottom:8px;
-      color:var(--danger-text);
+      color:var(--text);
     }
-    .danger ol{
+    .notdone ol{
       margin:0;
       padding-right:20px;
       font-weight:800;
-      color:#7f1d1d;
+      color:#0f172a;
     }
-    .danger li{margin:8px 0}
+    .notdone li{margin:8px 0}
 
-    /* FAQ اگر بود */
+    /* FAQ */
     .faq-title{margin:14px 0 8px;font-size:15px;font-weight:900;color:#0f172a}
     .faq details{border:1px solid var(--border);border-radius:12px;padding:10px 12px;background:#fff;margin-top:10px}
     .faq summary{font-weight:900}
@@ -255,13 +249,12 @@
       return;
     }
 
-    // Pills بالا: فقط زمان + هزینه (عکس/بیومتریک و subtitle حذف)
+    // بالا: فقط زمان + هزینه (عکس/بیومتریک و subtitle نمایش داده نمی‌شود)
     const metaParts = [];
     if (svc?.meta?.time) {
       metaParts.push(`<div class="pill">زمان معمول: ${esc(svc.meta.time)}</div>`);
     }
 
-    // fee (اختیاری)
     let feeHtml = "";
     const feeKey = svc?.meta?.feeKey;
     const feeObj = (typeof window.FEES !== "undefined" && feeKey && window.FEES[feeKey]) ? window.FEES[feeKey] : null;
@@ -293,8 +286,8 @@
 
     const notDoneHtml = (svc.notDone && svc.notDone.length)
       ? `
-        <div class="danger">
-          <div class="danger-title">چه کارهایی در این خدمت انجام نمی‌شود</div>
+        <div class="notdone">
+          <div class="notdone-title">نکات مهم</div>
           ${olList(svc.notDone)}
         </div>
       `
