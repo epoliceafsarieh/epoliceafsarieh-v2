@@ -32,9 +32,9 @@ h1{text-align:center;font-size:20px;font-weight:900;margin:10px 0 4px;}
 
 .search-box{margin-top:14px;margin-bottom:18px;}
 
-/* آیتم ۱: پیشنهاد فقط بعد از تایپ (نه روی کلیک/فوکوس) */
+/* آیتم ۱: پیشنهاد فقط بعد از تایپ، بدون Overlay */
 .search-area{
-  position:relative;
+  /* دیگر position:relative لازم نیست چون dropdown absolute نداریم */
 }
 
 .search-input{
@@ -46,12 +46,8 @@ h1{text-align:center;font-size:20px;font-weight:900;margin:10px 0 4px;}
   font-family:inherit;
 }
 
-/* Dropdown */
+/* پیشنهادها: به‌جای absolute، در جریان طبیعی صفحه قرار می‌گیرند */
 .suggest{
-  position:absolute;
-  top:100%;
-  right:0;
-  left:0;
   margin-top:10px;
   background:rgba(255,255,255,.12);
   border:1px solid rgba(255,255,255,.25);
@@ -171,7 +167,7 @@ h1{text-align:center;font-size:20px;font-weight:900;margin:10px 0 4px;}
       placeholder="نام خدمت را بنویسید (مثلاً: گذرنامه، گواهینامه، ترخیص...)"
       autocomplete="off">
 
-    <!-- پیشنهادها فقط بعد از تایپ -->
+    <!-- پیشنهادها (Overlay نیست؛ صفحه را هل می‌دهد پایین) -->
     <div id="suggest" class="suggest" aria-label="پیشنهاد خدمات"></div>
   </div>
 </div>
@@ -210,9 +206,9 @@ h1{text-align:center;font-size:20px;font-weight:900;margin:10px 0 4px;}
 <script>
 /*
   آیتم ۱: پیشنهاد خدمات فقط بعد از تایپ
-  - روی focus/کلیک چیزی باز نمی‌شود
-  - فقط چند نتیجه محدود نشان داده می‌شود
-  - Enter: اگر دقیقاً یکی match شد می‌رود همان
+  - بدون Overlay
+  - فقط چند نتیجه محدود
+  - کلیک روی پیشنهاد => رفتن به صفحه خدمت
 */
 
 const SERVICES = [
@@ -267,7 +263,7 @@ function renderSuggestions(items){
 function update(){
   const q = norm(input.value);
 
-  // فقط بعد از تایپ (حداقل 1 کاراکتر)
+  // فقط بعد از تایپ
   if (!q){
     hideSuggest();
     return;
@@ -278,13 +274,6 @@ function update(){
 }
 
 input.addEventListener("input", update);
-
-// کلیک بیرون: بستن
-document.addEventListener("click", (e)=>{
-  if (!e.target.closest(".search-area")) {
-    hideSuggest();
-  }
-});
 
 // Enter: اگر دقیقاً یکی match شد برو همان، وگرنه پیشنهادها را نشان بده
 input.addEventListener("keydown", (e)=>{
