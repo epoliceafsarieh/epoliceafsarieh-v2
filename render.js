@@ -34,7 +34,7 @@
     .wrap{max-width:860px;margin:18px auto 28px;padding:0 14px}
     .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
 
-    /* نوار بالا: فقط هویت خدمت + بازگشت */
+    /* نوار بالا */
     .brandbar{
       background:var(--ms-blue);
       color:#fff;
@@ -51,34 +51,33 @@
       min-width:0;
     }
 
-    /* آیکون خیلی بزرگ‌تر + کادر دورش سورمه‌ای */
+    /* آیکون خیلی بزرگ‌تر */
     .svc-badge{
-      width:64px;
-      height:64px;
-      border-radius:16px;
+      width:84px;
+      height:84px;
+      border-radius:18px;
       display:flex;
       align-items:center;
       justify-content:center;
 
-      /* زمینه کمی روشن‌تر از خود نوار تا دیده شود */
-      background:rgba(255,255,255,.10);
+      /* کادر دور آیکن: دقیقاً رنگ نوار */
+      border:3px solid var(--ms-blue);
 
-      /* کادر دور آیکن سورمه‌ای */
-      border:2px solid var(--ms-blue);
+      /* زمینه خیلی ملایم برای اینکه سفیدی آیکن بهتر دیده شود */
+      background:rgba(255,255,255,.12);
 
       flex:0 0 auto;
     }
     .svc-icon{
-      width:48px;
-      height:48px;
+      width:64px;
+      height:64px;
       object-fit:contain;
       display:block;
     }
 
-    /* متن روبروی آیکن */
     .svc-title{
       font-weight:900;
-      font-size:18px;
+      font-size:19px;
       white-space:nowrap;
       overflow:hidden;
       text-overflow:ellipsis;
@@ -96,9 +95,8 @@
       white-space:nowrap;
     }
 
-    /* Header: فقط متن راهنما (subtitle) + متا */
+    /* زیر نوار: فقط متن راهنما (subtitle) + متا */
     .header{padding:14px 16px 12px;border-bottom:1px solid var(--border);background:#fff}
-    .title{margin:0 0 6px;font-size:20px;color:var(--ms-blue);text-align:center;letter-spacing:-.2px;font-weight:900}
     .subtitle{margin:0 auto 10px;font-size:13px;color:var(--muted);max-width:44rem;text-align:center}
 
     .content{padding:16px 16px 18px}
@@ -114,7 +112,6 @@
     th,td{border:1px solid var(--border);padding:10px;text-align:center}
     th{background:#f2f5f9;font-weight:700}
 
-    /* Sections */
     .sec{margin-top:12px;border:1px solid var(--border);border-radius:12px;background:#fff;overflow:hidden}
     .sec summary{
       padding:12px 14px;
@@ -223,9 +220,8 @@
 
     const barTitle = svc.barTitle || svc.shortTitle || "";
 
-    // اگر hideTitle=true → تیتر بزرگ «مدارک مورد نیاز…» اصلاً نمایش داده نمی‌شود
-    const titleHtml = svc.hideTitle ? "" : `<h1 class="title">${esc(svc.title)}</h1>`;
-    // subtitle فقط اگر پر باشد نمایش داده می‌شود
+    // طبق دستور: عنوان «مدارک مورد نیاز...» باید حذف باشد
+    // پس وقتی hideTitle=true هیچ عنوانی تولید نمی‌کنیم.
     const subtitleHtml = svc.subtitle ? `<div class="subtitle">${esc(svc.subtitle)}</div>` : "";
 
     app.innerHTML = `
@@ -242,7 +238,6 @@
           </div>
 
           <div class="header">
-            ${titleHtml}
             ${subtitleHtml}
             <div class="meta">
               ${timePill}
