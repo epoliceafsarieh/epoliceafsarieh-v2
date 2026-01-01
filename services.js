@@ -1,11 +1,15 @@
 const SERVICES = {
   passport: {
-    shortTitle: "گذرنامه",
     barTitle: "گذرنامه بین‌المللی",
+    shortTitle: "گذرنامه",
     icon: "assets/img/icons/passport.png",
 
+    // نمایش داده نمی‌شود چون hideTitle=true
     title: "مدارک مورد نیاز گذرنامه‌ی بین‌المللی",
+    // فقط همین باید زیر نوار سرمه‌ای بماند
     subtitle: "این راهنما مربوط به گذرنامه بین‌المللی است (نه گذرنامه زیارتی).",
+
+    hideTitle: true,
 
     meta: {
       time: "۷ تا ۱۴ روز کاری",
@@ -57,6 +61,7 @@ const SERVICES = {
 
   khalafi: {
     shortTitle: "خلافی",
+    barTitle: "خلافی",
     title: "خلافی خودرو",
     subtitle: "استعلام، پرداخت و چاپ رسید خلافی در دفتر",
     meta: {
@@ -94,6 +99,7 @@ const SERVICES = {
 
   tarkhis: {
     shortTitle: "ترخیص",
+    barTitle: "ترخیص",
     title: "ترخیص خودرو و موتورسیکلت توقیفی",
     subtitle: "راهنمای ترخیص وسیله نقلیه از پارکینگ و مراجع توقیف.",
     meta: {
