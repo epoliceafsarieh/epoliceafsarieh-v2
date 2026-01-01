@@ -53,6 +53,10 @@
       opacity:.95;
     }
 
+    /* =====================
+       TRIANGLE TOGGLE (FIXED)
+       ===================== */
+
     .tri-toggle{
       display:flex;
       justify-content:center;
@@ -61,48 +65,44 @@
       align-items:flex-end;
     }
 
-   .tri-btn{
-  width:150px;
-  height:64px;
-  border:none;
-  cursor:pointer;
-  padding:0;
-  background:transparent;
-  color:#fff;
-  font-family:inherit;
-  font-weight:900;
+    .tri-btn{
+      width:150px;
+      height:64px;
+      border:none;
+      cursor:pointer;
+      padding:0;
+      background:transparent;
+      color:#fff;
+      font-family:inherit;
+      font-weight:900;
+      position:relative;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      z-index:0;
+    }
 
-  position:relative;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+    .tri-btn::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:rgba(255,255,255,.12);
+      border:2px solid rgba(255,255,255,.28);
+      border-radius:10px;
+      clip-path:polygon(50% 100%, 0 0, 100% 0);
+      -webkit-clip-path:polygon(50% 100%, 0 0, 100% 0);
+      box-shadow:0 8px 18px rgba(0,0,0,.22);
+      z-index:-1;
+    }
 
-  /* مهم: لایه‌بندی درست */
-  isolation:isolate;
-  z-index:0;
+    .tri-btn.active{
+      color:#041E42;
+    }
 
-  filter: drop-shadow(0 8px 18px rgba(0,0,0,.22));
-}
-
-
-  .tri-btn::before{
-  content:"";
-  position:absolute;
-  inset:0;
-
-  /* مهم: برو پشت متن */
-  z-index:-1;
-
-  background:rgba(255,255,255,.12);
-  border:2px solid rgba(255,255,255,.28);
-
-  /* خودِ مثلث */
-  clip-path:polygon(50% 100%, 0 0, 100% 0);
-
-  /* اگر گوشه‌های گرد می‌خواهی، این را حذف نکن */
-  border-radius:10px;
-}
-
+    .tri-btn.active::before{
+      background:#ffffff;
+      border-color:rgba(255,255,255,.95);
+    }
 
     .tri-slash{
       width:10px;
@@ -113,13 +113,7 @@
       border:2px solid rgba(255,255,255,.22);
     }
 
-    .tri-btn.active{
-      color:#041E42;
-    }
-    .tri-btn.active::before{
-      background:#ffffff;
-      border-color:rgba(255,255,255,.95);
-    }
+    /* ===================== */
 
     .search-input{
       width:100%;
@@ -255,7 +249,6 @@
 <body>
 <div class="wrap">
 
-  <!-- LOGO -->
   <div class="brand">
     <img src="assets/img/logo/logo_white.png" alt="پلیس +۱۰ افسریه" style="width:96px;height:auto;">
   </div>
@@ -283,22 +276,22 @@
     <div class="popular">
 
       <a class="tile" href="#">
-        <span class="ico"><img src="assets/img/icons/passport.png" alt=""></span>
+        <span class="ico"><img src="assets/img/icons/passport.png"></span>
         <span>گذرنامه</span>
       </a>
 
       <a class="tile" href="#">
-        <span class="ico"><img src="assets/img/icons/tow.png" alt=""></span>
+        <span class="ico"><img src="assets/img/icons/tow.png"></span>
         <span>ترخیص خودرو / موتور</span>
       </a>
 
       <a class="tile" href="#">
-        <span class="ico"><img src="assets/img/icons/license.png" alt=""></span>
+        <span class="ico"><img src="assets/img/icons/license.png"></span>
         <span>گواهینامه</span>
       </a>
 
       <a class="tile" href="#">
-        <span class="ico"><img src="assets/img/icons/other.png" alt=""></span>
+        <span class="ico"><img src="assets/img/icons/other.png"></span>
         <span>سایر خدمات</span>
       </a>
 
