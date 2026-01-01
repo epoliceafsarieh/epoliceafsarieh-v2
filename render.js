@@ -5,23 +5,19 @@
       .replaceAll("<", "&lt;")
       .replaceAll(">", "&gt;");
   }
-
   function safeText(v) {
     const t = (v ?? "").toString().trim();
     return t ? t : "—";
   }
-
-  function ul(items) {
+  function liList(items) {
     if (!items || !items.length) return "";
     return `<ul>${items.map(x => `<li>${esc(x)}</li>`).join("")}</ul>`;
   }
-
-  function ol(items) {
+  function olList(items) {
     if (!items || !items.length) return "";
     return `<ol>${items.map(x => `<li>${esc(x)}</li>`).join("")}</ol>`;
   }
 
-  // ---------- Guards ----------
   const app = document.getElementById("app");
   if (!app) return;
 
@@ -30,38 +26,34 @@
     return;
   }
 
-  // ---------- Shared Styles ----------
   const style = `
   <style>
     :root{
-      --brand:#0b3b7a;
+      --ms-blue:#041E42;     /* سورمه‌ای اصلی */
       --bg:#f5f7fb;
-      --card:#ffffff;
+      --card:#fff;
       --text:#0f172a;
       --muted:#475569;
       --border:#e6e8ee;
       --soft:#f1f5ff;
+      --shadow:0 10px 30px rgba(2,8,23,.06);
+      --radius:16px;
 
+      /* قرمز برای notDone */
       --danger-bg:#fff1f2;
       --danger-border:#fecdd3;
       --danger-text:#9f1239;
-
-      --shadow:0 10px 30px rgba(2,8,23,.06);
-      --radius:16px;
     }
 
     *{box-sizing:border-box}
-
     body{
       margin:0;
-      font-family:Tahoma, Arial, sans-serif;
+      font-family:Tahoma,Arial,sans-serif;
       background:var(--bg);
       color:var(--text);
-      line-height:1.9;
+      line-height:1.95;
     }
-
-    .wrap{max-width:860px;margin:16px auto 24px;padding:0 14px}
-
+    .wrap{max-width:860px;margin:18px auto 28px;padding:0 14px}
     .card{
       background:var(--card);
       border:1px solid var(--border);
@@ -70,17 +62,16 @@
       box-shadow:var(--shadow);
     }
 
-    /* ---------- Top brand bar (باریک) ---------- */
+    /* نوار بالا (باریک‌تر + رنگ درست) */
     .brandbar{
-      background:var(--brand);
+      background:var(--ms-blue);
       color:#fff;
-      padding:8px 12px;          /* باریک */
+      padding:8px 12px;     /* باریک */
       display:flex;
       align-items:center;
       justify-content:space-between;
       gap:10px;
     }
-
     .brand-right{
       display:flex;
       align-items:center;
@@ -88,22 +79,21 @@
       min-width:0;
     }
 
-    /* ---------- Service icon (بزرگ) ---------- */
+    /* باکس آیکون: کوچک‌تر از قبل + خود آیکون بزرگ‌تر */
     .svc-badge{
-      width:78px;
-      height:78px;
+      width:72px;
+      height:72px;
       border-radius:16px;
       display:flex;
       align-items:center;
       justify-content:center;
-      border:3px solid var(--brand);
-      background:rgba(255,255,255,.12);
+      border:2px solid var(--ms-blue);     /* هم‌رنگ نوار */
+      background:rgba(255,255,255,.10);
       flex:0 0 auto;
     }
-
     .svc-icon{
-      width:58px;
-      height:58px;
+      width:62px;  /* آیکون واقعاً بزرگ */
+      height:62px;
       object-fit:contain;
       display:block;
     }
@@ -119,23 +109,26 @@
     }
 
     .back-btn{
-      padding:6px 10px;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:7px 10px;
       border-radius:12px;
-      background:rgba(255,255,255,.15);
-      border:1px solid rgba(255,255,255,.25);
+      background:rgba(255,255,255,.12);
+      border:1px solid rgba(255,255,255,.22);
       color:#fff;
-      font-weight:900;
       text-decoration:none;
       font-size:13px;
+      font-weight:900;
       cursor:pointer;
       white-space:nowrap;
     }
 
-    /* ---------- Header under brand bar (فقط متا) ---------- */
+    /* زیر نوار: مثل ورژن قبلی (سفید + pills) */
     .header{
-      padding:12px 16px 10px;
-      border-bottom:1px solid var(--border);
+      padding:14px 16px 12px;
       background:#fff;
+      border-bottom:1px solid var(--border);
     }
 
     .meta{
@@ -144,16 +137,19 @@
       flex-wrap:wrap;
       justify-content:center;
       align-items:center;
+      margin-top:6px;
     }
 
     .pill{
       background:var(--soft);
       border:1px solid var(--border);
       border-radius:999px;
-      padding:6px 10px;
-      font-size:12px;
-      font-weight:900;
-      color:#0f172a;
+      padding:8px 12px;
+      font-size:13px;
+      font-weight:800;
+      display:flex;
+      align-items:center;
+      gap:8px;
       white-space:nowrap;
     }
 
@@ -161,28 +157,20 @@
     summary{cursor:pointer;list-style:none}
     summary::-webkit-details-marker{display:none}
 
-    .fee-pill summary{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      justify-content:center;
-    }
-
     .fee-box{
       margin-top:10px;
       border:1px solid var(--border);
       border-radius:12px;
-      padding:10px;
+      padding:12px;
       background:#fff;
     }
-
     table{width:100%;border-collapse:collapse;font-size:13px}
     th,td{border:1px solid var(--border);padding:10px;text-align:center}
     th{background:#f2f5f9;font-weight:900}
 
-    /* ---------- Content ---------- */
-    .content{padding:16px}
+    .content{padding:16px 16px 18px}
 
+    /* کارت‌های بخش‌ها مثل قبل */
     .sec{
       margin-top:12px;
       border:1px solid var(--border);
@@ -190,29 +178,27 @@
       background:#fff;
       overflow:hidden;
     }
-
     .sec summary{
-      padding:10px 14px;
+      padding:12px 14px;
+      font-size:15px;
       font-weight:900;
-      background:#f8fbff;
-      cursor:pointer;
+      color:#0f172a;
       display:flex;
       justify-content:space-between;
       gap:10px;
+      background:#f8fbff;
     }
-
     .sec summary small{
-      font-weight:900;
-      font-size:12px;
+      font-weight:800;
       color:#64748b;
+      font-size:12px;
     }
-
     .sec-body{padding:12px 14px}
 
-    ul{margin:0;padding-right:18px}
-    li{margin:6px 0}
+    ul{margin:0;padding-right:20px;font-size:14px}
+    li{margin:8px 0}
 
-    /* ---------- Not done (قرمز + شماره‌دار) ---------- */
+    /* notDone قرمز + شماره‌دار */
     .danger{
       margin-top:14px;
       border:1px solid var(--danger-border);
@@ -221,114 +207,112 @@
       padding:12px 14px;
       color:var(--danger-text);
     }
-
     .danger-title{
       font-weight:900;
       margin-bottom:8px;
       color:var(--danger-text);
     }
-
     .danger ol{
       margin:0;
-      padding-right:18px;
-      font-weight:900;
+      padding-right:20px;
+      font-weight:800;
       color:#7f1d1d;
     }
-
     .danger li{margin:8px 0}
 
-    /* ---------- Footer ---------- */
+    /* FAQ اگر بود */
+    .faq-title{margin:14px 0 8px;font-size:15px;font-weight:900;color:#0f172a}
+    .faq details{border:1px solid var(--border);border-radius:12px;padding:10px 12px;background:#fff;margin-top:10px}
+    .faq summary{font-weight:900}
+    .faq .ans{margin-top:8px;color:#334155;font-size:13px}
+
     .footer{
-      margin-top:16px;
-      border-top:1px dashed #e9edf5;
-      padding-top:10px;
+      margin-top:14px;
       display:flex;
       justify-content:space-between;
+      align-items:center;
       gap:10px;
       flex-wrap:wrap;
-      align-items:center;
+      padding-top:8px;
+      border-top:1px dashed #e9edf5;
     }
-
     .btn{
       background:#eaf2ff;
       border:1px solid #cfe0ff;
-      padding:8px 12px;
+      padding:10px 12px;
       border-radius:14px;
       font-weight:900;
       color:#0a58ca;
       text-decoration:none;
     }
-
     .hint{font-size:12px;color:#777}
   </style>`;
 
-  // ---------- Renderer ----------
-  function renderService(key) {
-    const svc = window.SERVICES[key];
+  function renderService(serviceKey) {
+    const svc = window.SERVICES[serviceKey];
     if (!svc) {
       app.innerHTML = `${style}<div class="wrap"><div class="card"><div class="content">این خدمت پیدا نشد.</div></div></div>`;
       return;
     }
 
-    // Meta pills (فقط زمان + هزینه)
+    // Pills بالا: فقط زمان + هزینه (عکس/بیومتریک و subtitle حذف)
     const metaParts = [];
-
     if (svc?.meta?.time) {
       metaParts.push(`<div class="pill">زمان معمول: ${esc(svc.meta.time)}</div>`);
     }
 
-    // Fee table (optional)
+    // fee (اختیاری)
     let feeHtml = "";
     const feeKey = svc?.meta?.feeKey;
     const feeObj = (typeof window.FEES !== "undefined" && feeKey && window.FEES[feeKey]) ? window.FEES[feeKey] : null;
 
     if (feeObj && Array.isArray(svc.feeRows) && svc.feeRows.length) {
-      const rows = svc.feeRows.map(r => ({
-        label: r.label,
-        value: feeObj[r.field]
-      }));
-
+      const rows = svc.feeRows.map(r => ({ title: r.label, value: feeObj[r.field] }));
       feeHtml = `
-        <details class="pill fee-pill">
+        <details class="pill">
           <summary>هزینه: ${esc(svc?.meta?.feeSummary || "مطابق تعرفه رسمی")} (جزئیات)</summary>
           <div class="fee-box">
             <table>
               <tr><th>عنوان</th><th>مبلغ/توضیح</th></tr>
-              ${rows.map(r => `<tr><td>${esc(r.label)}</td><td>${esc(safeText(r.value))}</td></tr>`).join("")}
+              ${rows.map(r => `<tr><td>${esc(r.title)}</td><td>${esc(safeText(r.value))}</td></tr>`).join("")}
             </table>
           </div>
         </details>
       `;
     }
 
-    // Sections
     const sectionsHtml = (svc.sections || []).map(sec => `
       <details class="sec" open>
         <summary>
           <span>${esc(sec.heading || "")}</span>
           <small>${esc(sec.tag || "")}</small>
         </summary>
-        <div class="sec-body">${ul(sec.items || [])}</div>
+        <div class="sec-body">${liList(sec.items || [])}</div>
       </details>
     `).join("");
 
-    // Not done (قرمز + شماره‌دار)
     const notDoneHtml = (svc.notDone && svc.notDone.length)
       ? `
         <div class="danger">
           <div class="danger-title">چه کارهایی در این خدمت انجام نمی‌شود</div>
-          ${ol(svc.notDone)}
+          ${olList(svc.notDone)}
         </div>
-      ` : "";
+      `
+      : "";
 
-    // Optional notice (اگر خواستی نگه داریم؛ فعلاً دست نمی‌زنیم)
-    const noticeHtml = (svc.notice && svc.notice.length)
+    const faqHtml = (svc.faq && svc.faq.length)
       ? `
-        <div class="sec" style="padding:12px 14px">
-          <div style="font-weight:900;margin-bottom:8px">نکات مهم</div>
-          ${ul(svc.notice)}
+        <div class="faq">
+          <div class="faq-title">سؤالات پرتکرار</div>
+          ${svc.faq.map(f => `
+            <details>
+              <summary>${esc(f.q || "")}</summary>
+              <div class="ans">${esc(f.a || "")}</div>
+            </details>
+          `).join("")}
         </div>
-      ` : "";
+      `
+      : "";
 
     const iconHtml = svc.icon
       ? `<div class="svc-badge"><img class="svc-icon" src="${esc(svc.icon)}" alt=""></div>`
@@ -357,7 +341,7 @@
           <div class="content">
             ${sectionsHtml}
             ${notDoneHtml}
-            ${noticeHtml}
+            ${faqHtml}
 
             <div class="footer">
               <a class="btn" href="index.html">بازگشت به صفحه اصلی</a>
@@ -370,7 +354,6 @@
     `;
   }
 
-  // ---------- Entry ----------
   const key = window.SERVICE_KEY;
   if (!key) {
     app.innerHTML = `${style}<div class="wrap"><div class="card"><div class="content">شناسه خدمت مشخص نیست.</div></div></div>`;
