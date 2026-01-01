@@ -1,340 +1,240 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>پلیس +۱۰ افسریه | راهنمای خدمات</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>پلیس +۱۰ افسریه | راهنمای خدمات</title>
 
-  <style>
-    :root{
-      --ms-blue:#041E42;
-      --white:#ffffff;
-      --radius:16px;
-    }
-    *{box-sizing:border-box}
+<style>
+:root{
+  --ms-blue:#041E42;
+  --white:#ffffff;
+}
 
-    body{
-      margin:0;
-      font-family:Tahoma, Arial, sans-serif;
-      background:var(--ms-blue);
-      color:var(--white);
-      line-height:1.9;
-    }
+*{box-sizing:border-box}
 
-    .wrap{
-      max-width:640px;
-      margin:0 auto;
-      padding:26px 16px 22px;
-    }
+body{
+  margin:0;
+  font-family:Tahoma, Arial, sans-serif;
+  background:var(--ms-blue);
+  color:var(--white);
+  line-height:1.9;
+}
 
-    .brand{
-      text-align:center;
-      font-weight:900;
-      margin-bottom:6px;
-    }
+.wrap{
+  max-width:640px;
+  margin:0 auto;
+  padding:26px 16px 22px;
+}
 
-    h1{
-      margin:10px 0 4px;
-      text-align:center;
-      font-size:20px;
-      font-weight:900;
-    }
+.brand{text-align:center;margin-bottom:6px;}
+h1{text-align:center;font-size:20px;font-weight:900;margin:10px 0 4px;}
 
-    .search-box{
-      position:relative;
-      margin-top:12px;
-      margin-bottom:18px;
-    }
+.search-box{margin-top:12px;margin-bottom:18px;}
+.mode-label{text-align:center;font-weight:900;margin-bottom:10px;}
 
-    .mode-label{
-      text-align:center;
-      font-weight:900;
-      margin-bottom:10px;
-      opacity:.95;
-    }
+.tri-toggle{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:0;
+  margin-bottom:12px;
+}
 
-    /* ====== TRI TOGGLE (NO SLASH) ====== */
-    .tri-toggle{
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      gap:0;                 /* نزدیک */
-      margin-bottom:12px;
-    }
+.tri-btn{
+  width:150px;
+  height:64px;
+  border:none;
+  cursor:pointer;
+  background:transparent;
+  color:#fff;
+  font-weight:900;
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  filter:drop-shadow(0 8px 18px rgba(0,0,0,.25));
+}
 
-    .tri-btn{
-      width:150px;
-      height:64px;
-      border:none;
-      cursor:pointer;
-      padding:0;
-      background:transparent;
-      color:#fff;
-      font-family:inherit;
-      font-weight:900;
-      position:relative;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      filter: drop-shadow(0 8px 18px rgba(0,0,0,.22));
-    }
+.tri-btn::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:rgba(255,255,255,.15);
+  border:2px solid rgba(255,255,255,.35);
+}
 
-    /* چسباندن دو مثلث به هم */
-    .tri-btn.tri-up{  margin-left:-14px; }
-    .tri-btn.tri-down{ margin-right:-14px; }
+/* مثلث بالا */
+.tri-up::before{
+  clip-path:polygon(50% 0, 0 100%, 100% 100%);
+}
+.tri-up{transform:translateX(28px);}
 
-    .tri-btn::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:rgba(255,255,255,.12);
-      border:2px solid rgba(255,255,255,.28);
-      border-radius:10px;
-    }
+/* مثلث پایین */
+.tri-down::before{
+  clip-path:polygon(50% 100%, 0 0, 100% 0);
+}
+.tri-down{transform:translateX(-28px);}
 
-    /* جهت‌ها ثابت */
-    .tri-btn.tri-up::before{
-      clip-path:polygon(50% 0, 0 100%, 100% 100%);
-    }
-    .tri-btn.tri-down::before{
-      clip-path:polygon(0 0, 100% 0, 50% 100%);
-    }
+.tri-btn.active{
+  color:#041E42;
+}
+.tri-btn.active::before{
+  background:#ffffff;
+  border-color:#fff;
+}
 
-    .tri-btn.active{
-      color:#041E42;
-    }
-    .tri-btn.active::before{
-      background:#ffffff;
-      border-color:rgba(255,255,255,.95);
-    }
-    /* ====== /TRI TOGGLE ====== */
+.search-input{
+  width:100%;
+  padding:16px 14px;
+  border-radius:18px;
+  border:none;
+  font-size:14px;
+  font-family:inherit;
+}
 
-    .search-input{
-      width:100%;
-      padding:16px 14px;
-      border-radius:18px;
-      border:none;
-      font-size:14px;
-      font-family:inherit;
-    }
+.block{
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.25);
+  border-radius:16px;
+  padding:14px;
+  margin-bottom:16px;
+}
 
-    .suggestions{
-      display:none;
-      position:absolute;
-      top:100%;
-      right:0;
-      left:0;
-      background:#ffffff;
-      color:#041E42;
-      border-radius:0 0 16px 16px;
-      overflow:hidden;
-      box-shadow:0 10px 30px rgba(0,0,0,.2);
-      z-index:10;
-    }
+.block-title{text-align:center;font-weight:900;margin-bottom:10px;}
 
-    .suggestions div{
-      padding:12px 14px;
-      border-bottom:1px solid #eee;
-      font-weight:900;
-      cursor:pointer;
-    }
-    .suggestions div:last-child{border-bottom:none}
-    .suggestions small{
-      display:block;
-      font-weight:normal;
-      font-size:12px;
-      opacity:.8;
-    }
+.popular{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
 
-    .block{
-      background:rgba(255,255,255,.12);
-      border:1px solid rgba(255,255,255,.25);
-      border-radius:16px;
-      padding:14px;
-      margin-bottom:16px;
-    }
+.tile{
+  background:rgba(255,255,255,.10);
+  border:1px solid rgba(255,255,255,.25);
+  border-radius:14px;
+  padding:10px 12px;
+  font-weight:900;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  color:#fff;
+  text-decoration:none;
+}
 
-    .block-title{
-      font-weight:900;
-      margin:0 0 10px;
-      text-align:center;
-      opacity:.95;
-      font-size:15px;
-    }
+.tile img{width:44px;height:44px;}
 
-    .popular{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:12px;
-    }
+.internet-thin{
+  display:block;
+  margin-top:12px;
+  text-decoration:none;
+  background:rgba(255,255,255,.18);
+  color:#fff;
+  border:1px solid rgba(255,255,255,.28);
+  border-radius:14px;
+  padding:6px 12px;
+  text-align:center;
+  font-weight:900;
+}
 
-    .tile{
-      text-decoration:none;
-      background:rgba(255,255,255,.10);
-      border:1px solid rgba(255,255,255,.25);
-      color:var(--white);
-      border-radius:14px;
-      padding:10px 12px;
-      font-weight:900;
-      display:flex;
-      align-items:center;
-      gap:12px;
-    }
+.note{
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.25);
+  border-radius:14px;
+  padding:12px;
+  font-size:13px;
+}
 
-    .tile .ico{
-      width:44px;
-      height:44px;
-      flex:0 0 44px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    }
+.footer{
+  margin-top:18px;
+  border-top:1px solid rgba(255,255,255,.25);
+  padding-top:12px;
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  font-size:12px;
+}
 
-    .tile .ico img{
-      width:44px;
-      height:44px;
-      display:block;
-    }
-
-    .internet-thin{
-      display:block;
-      margin-top:12px;
-      text-decoration:none;
-      background:rgba(255,255,255,.18);
-      color:var(--white);
-      border:1px solid rgba(255,255,255,.28);
-      border-radius:14px;
-      padding:6px 12px;
-      text-align:center;
-      font-weight:900;
-    }
-
-    .note{
-      background:rgba(255,255,255,.12);
-      border:1px solid rgba(255,255,255,.25);
-      border-radius:14px;
-      padding:12px;
-      font-size:13px;
-      margin-bottom:16px;
-    }
-
-    .footer{
-      margin-top:18px;
-      border-top:1px solid rgba(255,255,255,.25);
-      padding-top:12px;
-      display:flex;
-      justify-content:space-between;
-      gap:12px;
-      font-size:12px;
-    }
-
-    .footer a{
-      text-decoration:none;
-      color:var(--white);
-      border:1px solid rgba(255,255,255,.35);
-      border-radius:12px;
-      padding:8px 12px;
-      font-weight:900;
-      background:rgba(255,255,255,.10);
-    }
-  </style>
+.footer a{
+  text-decoration:none;
+  color:#fff;
+  border:1px solid rgba(255,255,255,.35);
+  border-radius:12px;
+  padding:8px 12px;
+  font-weight:900;
+  background:rgba(255,255,255,.10);
+}
+</style>
 </head>
 
 <body>
 <div class="wrap">
 
-  <!-- LOGO -->
-  <div class="brand">
-    <img src="assets/img/logo/logo_white.png" alt="پلیس +۱۰ افسریه" style="width:96px;height:auto;">
+<div class="brand">
+  <img src="assets/img/logo/logo_white.png" style="width:96px;">
+</div>
+
+<h1>برای چه کاری مراجعه کرده‌اید؟</h1>
+
+<div class="search-box">
+  <div class="mode-label">نوع جستجو را انتخاب کنید:</div>
+
+  <div class="tri-toggle">
+    <button id="modeQuestion" class="tri-btn tri-up">سوال</button>
+    <button id="modeService" class="tri-btn tri-down active">خدمت</button>
   </div>
 
-  <h1>برای چه کاری مراجعه کرده‌اید؟</h1>
+  <input id="search" class="search-input"
+   placeholder="مثلاً: گذرنامه، معافیت، ترخیص...">
+</div>
 
-  <div class="search-box">
-    <div class="mode-label">نوع جستجو را انتخاب کنید:</div>
+<div class="block">
+  <div class="block-title">خدمات پرتکرار</div>
 
-    <div class="tri-toggle">
-      <button id="modeQuestion" class="tri-btn tri-up" type="button">سوال</button>
-      <button id="modeService" class="tri-btn tri-down active" type="button">خدمت</button>
-    </div>
-
-    <input id="search" class="search-input" type="text"
-      placeholder="مثلاً: گذرنامه، معافیت، ترخیص...">
-
-    <div id="suggestions" class="suggestions"></div>
+  <div class="popular">
+    <a class="tile" href="#"><img src="assets/img/icons/passport.png">گذرنامه</a>
+    <a class="tile" href="#"><img src="assets/img/icons/tow.png">ترخیص خودرو / موتور</a>
+    <a class="tile" href="#"><img src="assets/img/icons/license.png">گواهینامه</a>
+    <a class="tile" href="#"><img src="assets/img/icons/other.png">سایر خدمات</a>
   </div>
 
-  <div class="block">
-    <div class="block-title">خدمات پرتکرار</div>
+  <a class="internet-thin" href="#">خدمات اینترنتی (غیرحضوری)</a>
+</div>
 
-    <div class="popular">
+<div class="note">
+• حضور متقاضی در برخی خدمات الزامی است.<br>
+• مدارک ناقص ممکن است پذیرش نشود.
+</div>
 
-      <a class="tile" href="#">
-        <span class="ico"><img src="assets/img/icons/passport.png" alt=""></span>
-        <span>گذرنامه</span>
-      </a>
-
-      <a class="tile" href="#">
-        <span class="ico"><img src="assets/img/icons/tow.png" alt=""></span>
-        <span>ترخیص خودرو / موتور</span>
-      </a>
-
-      <a class="tile" href="#">
-        <span class="ico"><img src="assets/img/icons/license.png" alt=""></span>
-        <span>گواهینامه</span>
-      </a>
-
-      <a class="tile" href="#">
-        <span class="ico"><img src="assets/img/icons/other.png" alt=""></span>
-        <span>سایر خدمات</span>
-      </a>
-
-    </div>
-
-    <a class="internet-thin" href="#">
-      خدمات اینترنتی (غیرحضوری)
-    </a>
+<div class="footer">
+  <div>
+    آدرس: .................<br>
+    ساعات کاری: .............
   </div>
-
-  <div class="note">
-    <div>• حضور متقاضی در برخی خدمات الزامی است.</div>
-    <div>• مدارک ناقص ممکن است پذیرش نشود.</div>
+  <div>
+    <a href="#">تماس</a>
+    <a href="hire.html">استخدام</a>
   </div>
-
-  <div class="footer">
-    <div>
-      <div>آدرس: .................</div>
-      <div>ساعات کاری: .................</div>
-    </div>
-    <div>
-      <a href="#">تماس</a>
-      <a href="hire.html">استخدام</a>
-    </div>
-  </div>
+</div>
 
 </div>
 
 <script>
-  const modeQuestion = document.getElementById('modeQuestion');
-  const modeService  = document.getElementById('modeService');
-  const searchInput  = document.getElementById('search');
+const q=document.getElementById("modeQuestion");
+const s=document.getElementById("modeService");
+const input=document.getElementById("search");
 
-  function setMode(mode){
-    if(mode === 'question'){
-      modeQuestion.classList.add('active');
-      modeService.classList.remove('active');
-      searchInput.placeholder = 'مثلاً: سوال درباره گذرنامه، معافیت، ترخیص...';
-    } else {
-      modeService.classList.add('active');
-      modeQuestion.classList.remove('active');
-      searchInput.placeholder = 'مثلاً: گذرنامه، معافیت، ترخیص...';
-    }
-  }
+q.onclick=()=>{
+  q.classList.add("active");
+  s.classList.remove("active");
+  input.placeholder="سؤال خود را بنویسید...";
+}
 
-  modeQuestion.addEventListener('click', () => setMode('question'));
-  modeService.addEventListener('click',  () => setMode('service'));
-
-  setMode(modeService.classList.contains('active') ? 'service' : 'question');
+s.onclick=()=>{
+  s.classList.add("active");
+  q.classList.remove("active");
+  input.placeholder="مثلاً: گذرنامه، معافیت، ترخیص...";
+}
 </script>
 
 </body>
