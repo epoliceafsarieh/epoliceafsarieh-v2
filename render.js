@@ -60,9 +60,9 @@
 
     /* نوار بالا — باریک‌تر و هم‌رنگ دور آیکون */
     .brandbar{
-      background:var(--brand-blue);
+      background:var(--ms-blue);
       color:#fff;
-      padding:4px 12px; /* باریک‌تر از قبل */
+      padding:3px 12px; /* باریک‌تر از قبل */
       display:flex;
       align-items:center;
       justify-content:space-between;
@@ -82,8 +82,8 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      border:2px solid currentColor; /* دقیقاً همان رنگ */
-      background:rgba(255,255,255,.10);
+      border:2px solid var(--ms-blue); /* دقیقاً همان رنگ */
+      background:transparent;
       flex:0 0 auto;
     }
 
