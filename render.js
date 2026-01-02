@@ -11,7 +11,6 @@
     return t ? t : "—";
   }
 
-  // لیست هوشمند: تیترهای داخلی با ":" و زیرلیست
   function liList(items) {
     if (!items || !items.length) return "";
 
@@ -23,8 +22,8 @@
 
     let html = "";
     let i = 0;
-
     let openMainUl = false;
+
     const openUl = () => { if (!openMainUl) { html += `<ul>`; openMainUl = true; } };
     const closeUl = () => { if (openMainUl) { html += `</ul>`; openMainUl = false; } };
 
@@ -199,21 +198,6 @@
     white-space:nowrap;
   }
 
-  details{margin:0}
-  summary{cursor:pointer;list-style:none}
-  summary::-webkit-details-marker{display:none}
-
-  .fee-box{
-    margin-top:10px;
-    border:1px solid var(--border);
-    border-radius:12px;
-    padding:12px;
-    background:#fff;
-  }
-  table{width:100%;border-collapse:collapse;font-size:13px}
-  th,td{border:1px solid var(--border);padding:10px;text-align:center}
-  th{background:#f2f5f9;font-weight:900}
-
   /* ===== HERO (Task-first) ===== */
   .hero{
     padding:14px 16px 14px;
@@ -236,6 +220,14 @@
     grid-template-columns:1fr;
     gap:10px;
     margin-top:10px;
+  }
+  .hero-actions.sticky-cta{
+    position:sticky;
+    top:60px;
+    z-index:900;
+    background:#fff;
+    padding-top:10px;
+    padding-bottom:10px;
   }
   .btn-primary{
     display:block;
@@ -331,31 +323,7 @@
     padding-top:8px;
     border-top:1px dashed #e9edf5;
   }
-  .back-btn-footer{
-    background:var(--brand-blue) !important;
-    border:1px solid var(--brand-blue) !important;
-    color:#fff !important;
-    text-decoration:none;
-    padding:10px 14px;
-    border-radius:12px;
-    font-weight:900;
-  }
   .hint{font-size:12px;color:#777}
-
-  /* ===== Bottom CTA ثابت (فقط وقتی سرویس بخواهد) ===== */
-  .bottom-cta{
-    position:fixed;
-    right:0;left:0;bottom:0;
-    background:rgba(245,247,251,.92);
-    backdrop-filter:saturate(140%) blur(6px);
-    border-top:1px solid var(--border);
-    padding:10px 14px calc(10px + env(safe-area-inset-bottom));
-    z-index:2000;
-  }
-  .bottom-cta .inner{
-    max-width:860px;
-    margin:0 auto;
-  }
 </style>`;
 
   function renderService(serviceKey) {
@@ -390,7 +358,6 @@
       `;
     }
 
-    // === HERO: فقط اگر سرویس واقعاً داده داده باشد ===
     const hasHero =
       !!(svc.heroTitle || svc.heroSubtitle || svc.heroPrimary || svc.heroSecondary);
 
@@ -404,7 +371,7 @@
         ${heroTitle ? `<div class="hero-title">${heroTitle}</div>` : ""}
         ${heroSubtitle ? `<p class="hero-sub">${heroSubtitle}</p>` : ""}
 
-        <div class="hero-actions">
+        <div class="hero-actions sticky-cta">
           ${heroPrimary?.label && heroPrimary?.href
             ? `<a class="btn-primary" href="${esc(heroPrimary.href)}">${esc(heroPrimary.label)}</a>`
             : ""
@@ -417,11 +384,9 @@
       </div>
     ` : "";
 
-    // اگر سرویس heroSecondary را روی #docs گذاشته، روی سکشن اول id بدهیم
     const wantsDocsAnchor =
       (typeof heroSecondary?.href === "string") && heroSecondary.href.trim() === "#docs";
 
-    // Accordion پیش‌فرض بسته + امکان باز بودن انتخابی با sec.open
     const sectionsHtml = (svc.sections || []).map((sec, idx) => {
       const body = liList(sec.items || []);
       const ctaHtml = (sec.cta && sec.cta.label && sec.cta.href)
@@ -472,18 +437,6 @@
       ? `<div class="svc-badge"><img class="svc-icon" src="${esc(svc.icon)}" alt=""></div>`
       : "";
 
-    // Bottom CTA: فقط اگر سرویس explicitly داده باشد
-    const hasBottomCta = !!(svc.bottomCta && svc.bottomCta.label && svc.bottomCta.href);
-    const bottomCta = hasBottomCta ? svc.bottomCta : null;
-
-    const bottomCtaHtml = bottomCta ? `
-      <div class="bottom-cta">
-        <div class="inner">
-          <a class="btn-primary" href="${esc(bottomCta.href)}">${esc(bottomCta.label)}</a>
-        </div>
-      </div>
-    ` : "";
-
     app.innerHTML = `
       ${style}
       <div class="wrap">
@@ -513,7 +466,6 @@
               ${faqHtml}
 
               <div class="footer">
-                <a class="back-btn-footer" href="index.html">بازگشت به صفحه اصلی</a>
                 <span class="hint">این راهنما به مرور کامل‌تر می‌شود</span>
               </div>
             </div>
@@ -521,8 +473,6 @@
 
         </div>
       </div>
-
-      ${bottomCtaHtml}
     `;
   }
 
