@@ -22,7 +22,7 @@
   if (!app) return;
 
   if (typeof window.SERVICES === "undefined") {
-    app.innerHTML = `<div style="padding:16px;font-family:tahoma">خطا: فایل services.js بارگذاری نشده است.</div>`;
+    app.innerHTML = `<div style="padding:16px;font-family:tahoma">خطا: فایل‌های سرویس بارگذاری نشده است.</div>`;
     return;
   }
 
@@ -58,13 +58,12 @@
       box-shadow:var(--shadow);
     }
 
-    /* ✅ اصلاح 1: ارتفاع نوار بالا بیشتر شد تا آیکون به سقف نچسبد و بیرون نزند */
     .brandbar{
       position:relative;
       background:var(--brand-blue) !important;
       color:#fff;
       padding:6px 12px;
-      height:60px; /* قبلاً 53px */
+      height:60px;
       display:flex;
       align-items:center;
       justify-content:space-between;
@@ -78,14 +77,13 @@
       align-items:center;
       gap:12px;
       min-width:0;
-      padding-right:90px; /* متناسب با کوچک شدن باکس آیکون */
+      padding-right:90px;
       margin-right:-16px;
     }
 
-    /* ✅ اصلاح 2: حدود 10٪ کوچک‌تر (نه فقط دورش) */
     .svc-badge{
-      width:72px;   /* قبلاً 80px */
-      height:72px;  /* قبلاً 80px */
+      width:72px;
+      height:72px;
       border-radius:14px;
       display:flex;
       align-items:center;
@@ -103,8 +101,8 @@
     }
 
     .svc-icon{
-      width:66px;   /* قبلاً 74px */
-      height:66px;  /* قبلاً 74px */
+      width:66px;
+      height:66px;
       object-fit:contain;
       display:block;
     }
@@ -240,21 +238,21 @@
       padding-top:8px;
       border-top:1px dashed #e9edf5;
     }
-   .back-btn-footer{
-  background:var(--brand-blue) !important;
-  border:1px solid var(--brand-blue) !important;
-  color:#fff !important;
-}
+    .back-btn-footer{
+      background:var(--brand-blue) !important;
+      border:1px solid var(--brand-blue) !important;
+      color:#fff !important;
+    }
 
-.btn{
-  background:rgba(4,30,66,.12);   /* دقیقاً مثل حس دکمه بالایی */
-  border:1px solid rgba(4,30,66,.35);
-  padding:10px 14px;
-  border-radius:12px;
-  font-weight:900;
-  color:#041E42;
-  text-decoration:none;
-}
+    .btn{
+      background:rgba(4,30,66,.12);
+      border:1px solid rgba(4,30,66,.35);
+      padding:10px 14px;
+      border-radius:12px;
+      font-weight:900;
+      color:#041E42;
+      text-decoration:none;
+    }
 
     .hint{font-size:12px;color:#777}
   </style>`;
@@ -298,7 +296,12 @@
       </details>
     `).join("");
 
-    const notDoneHtml = (svc.notDone && svc.notDone.length)
+    // ✅ فقط اینجا: اگر notDone نبود، از notice استفاده کن (بدون تغییر محتوا)
+    const noticeList = (svc.notDone && svc.notDone.length) ? svc.notDone
+                      : (svc.notice && svc.notice.length) ? svc.notice
+                      : null;
+
+    const notDoneHtml = (noticeList && noticeList.length)
       ? `
         <details class="sec" open>
           <summary>
@@ -306,7 +309,7 @@
             <small></small>
           </summary>
           <div class="sec-body">
-            ${olList(svc.notDone)}
+            ${olList(noticeList)}
           </div>
         </details>
       `
