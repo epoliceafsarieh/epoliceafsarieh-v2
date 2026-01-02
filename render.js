@@ -364,6 +364,33 @@
     max-width:860px;
     margin:0 auto;
   }
+
+  /* فقط برای آکاردئون مادر مدارک (#docs) */
+  details.sec#docs{
+    border:0;
+    background:transparent;
+  }
+
+  details.sec#docs > summary{
+    justify-content:center;
+    text-align:center;
+    background:#fff;
+    border:1px solid rgba(4,30,66,.35);
+    border-radius:14px;
+    padding:12px 14px;
+    color:var(--brand-blue);
+  }
+
+  details.sec#docs[open] > summary{
+    border-radius:14px 14px 0 0;
+  }
+
+  details.sec#docs > .sec-body{
+    border:1px solid var(--border);
+    border-top:0;
+    border-radius:0 0 14px 14px;
+    background:#fff;
+  }
 </style>`;
 
   function renderService(serviceKey) {
