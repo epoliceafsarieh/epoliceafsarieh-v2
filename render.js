@@ -374,7 +374,7 @@
 
       // ✅ اگر خواستید علامت‌های خاص را کنترل کنید:
       // sec.markIncludes: ["اقامت با گذرنامه ایرانی قابل قبول است"]
-      const listHtml = liList(sec.items || [], { markIncludes: sec.markIncludes || [] });
+const listHtml = liList(sec.items || [], { markIncludes: sec.markIncludes || sec.highlight || [] });
 
       return `
         <details class="sec" open>
