@@ -244,16 +244,16 @@
   border-color:var(--ms-blue);
   color:#fff;
 }
+.btn{
+  background:rgba(4,30,66,.12);   /* دقیقاً مثل حس دکمه بالایی */
+  border:1px solid rgba(4,30,66,.35);
+  padding:10px 14px;
+  border-radius:12px;
+  font-weight:900;
+  color:#041E42;
+  text-decoration:none;
+}
 
-    .btn{
-      background:#eaf2ff;
-      border:1px solid #cfe0ff;
-      padding:10px 12px;
-      border-radius:14px;
-      font-weight:900;
-      color:#0a58ca;
-      text-decoration:none;
-    }
     .hint{font-size:12px;color:#777}
   </style>`;
 
