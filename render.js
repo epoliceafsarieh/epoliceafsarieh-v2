@@ -5,62 +5,33 @@
       .replaceAll("<", "&lt;")
       .replaceAll(">", "&gt;");
   }
+
   function safeText(v) {
     const t = (v ?? "").toString().trim();
     return t ? t : "—";
   }
 
-  // ✅ لیست هوشمند: اگر آیتم با ":" تمام شود => تیتر داخلی (مثل "افراد بالای ۱۵ سال:")
-  // ✅ همچنین امکان «علامت رنگی» برای آیتم‌های مشخص (برای اصلاح بعدی)
-  function liList(items, opts = {}) {
+  // ✅ لیست هوشمند: تیترهای داخل لیست (…:) را بولد و بدون بولت می‌کند + هایلایت کنترل‌شده
+  function liList(items, highlightArr) {
     if (!items || !items.length) return "";
-    const markIncludes = Array.isArray(opts.markIncludes) ? opts.markIncludes : [];
-    const autoMarkText = "اقامت با گذرنامه ایرانی قابل قبول است"; // فقط یک علامت کوچک، متن دست نخورده
 
-    const lis = items.map((x) => {
-      const raw = String(x ?? "");
-      const t = raw.trim();
-      const isSubhead = t.endsWith(":") || t.endsWith("：");
-      const shouldMark =
-        markIncludes.some((m) => m && t.includes(m)) || t.includes(autoMarkText);
+    const highlights = new Set((highlightArr || []).map(x => (x ?? "").toString().trim()));
+    const isHead = (s) => (s ?? "").toString().trim().endsWith(":");
 
-      const cls = [
-        isSubhead ? "li-subhead" : "",
-        shouldMark ? "li-mark" : "",
-      ]
-        .filter(Boolean)
-        .join(" ");
+    return `<ul class="list">` + items.map((x) => {
+      const t = (x ?? "").toString().trim();
+      const safe = esc(t);
 
-      // فقط یک نقطه رنگی کوچک، بدون تغییر در متن
-      const markDot = shouldMark ? `<span class="inline-dot" aria-hidden="true"></span>` : "";
+      if (isHead(t)) return `<li class="li-head">${safe}</li>`;
 
-      return `<li class="${cls}">${markDot}${esc(t)}</li>`;
-    }).join("");
-
-    return `<ul class="smart-list">${lis}</ul>`;
+      const hlClass = highlights.has(t) ? "hl" : "";
+      return `<li class="li-sub ${hlClass}">${safe}</li>`;
+    }).join("") + `</ul>`;
   }
 
   function olList(items) {
     if (!items || !items.length) return "";
-    return `<ol>${items.map((x) => `<li>${esc(x)}</li>`).join("")}</ol>`;
-  }
-
-  // ✅ بعد از رندر: هر چیزی بعد از یک li-subhead تا قبل از تیتر بعدی، «زیر-آیتم» شود
-  function postProcessSmartLists(root) {
-    const lists = root.querySelectorAll("ul.smart-list");
-    lists.forEach((ul) => {
-      const li = Array.from(ul.children).filter((n) => n.tagName === "LI");
-      let inGroup = false;
-
-      li.forEach((node) => {
-        if (node.classList.contains("li-subhead")) {
-          inGroup = true;
-          node.classList.remove("li-subitem");
-          return;
-        }
-        if (inGroup) node.classList.add("li-subitem");
-      });
-    });
+    return `<ol>${items.map(x => `<li>${esc(x)}</li>`).join("")}</ol>`;
   }
 
   const app = document.getElementById("app");
@@ -248,36 +219,34 @@
     }
     .sec-body{padding:12px 14px}
 
-    ul,ol{margin:0;padding-right:20px;font-size:14px}
-    li{margin:8px 0;font-weight:normal}
-
-    /* ✅ بهبود خوانایی ساختاری بدون تغییر محتوا */
-    .smart-list{padding-right:20px}
-    .smart-list > li{margin:8px 0}
-    .smart-list > li.li-subhead{
+    /* ✅ خوانایی بهتر: تیترهای داخل متن + کاهش یکنواختی */
+    .list{margin:0;padding-right:20px;font-size:14px}
+    .list li{margin:8px 0}
+    .li-head{
       list-style:none;
       margin:14px 0 6px;
-      padding-right:0;
+      padding:0;
       font-weight:900;
       color:#0f172a;
     }
-    .smart-list > li.li-subitem{
-      margin-right:16px;
+    .li-sub{margin:6px 0}
+    .hl{
       position:relative;
+      padding-right:18px;
+      font-weight:700;
     }
-    .smart-list > li.li-subitem::marker{
-      color:#94a3b8;
+    .hl:before{
+      content:"";
+      position:absolute;
+      right:0;
+      top:10px;
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      background:#f59e0b;
     }
 
-    /* ✅ فقط یک نقطه رنگی کوچک برای «نیاز به بررسی» */
-    .inline-dot{
-      display:inline-block;
-      width:9px;height:9px;
-      border-radius:999px;
-      background:#f59e0b;
-      margin-left:8px;
-      vertical-align:middle;
-    }
+    .cta-wrap{margin-top:10px}
 
     .faq-title{margin:14px 0 8px;font-size:15px;font-weight:900}
     .faq details{
@@ -317,7 +286,9 @@
       color:#fff !important;
     }
 
+    /* CTA دکمه */
     .btn{
+      display:inline-block;
       background:rgba(4,30,66,.12);
       border:1px solid rgba(4,30,66,.35);
       padding:10px 14px;
@@ -325,11 +296,6 @@
       font-weight:900;
       color:#041E42;
       text-decoration:none;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:8px;
-      margin-top:10px;
     }
 
     .hint{font-size:12px;color:#777}
@@ -349,6 +315,7 @@
     const feeKey = svc?.meta?.feeKey;
     const feeObj = (typeof window.FEES !== "undefined" && feeKey && window.FEES[feeKey]) ? window.FEES[feeKey] : null;
 
+    // ✅ جدول هزینه‌ها (اگر fees.js و feeRows وجود داشته باشد)
     if (feeObj && Array.isArray(svc.feeRows) && svc.feeRows.length) {
       const rows = svc.feeRows.map(r => ({ title: r.label, value: feeObj[r.field] }));
       feeHtml = `
@@ -364,31 +331,24 @@
       `;
     }
 
-    // ✅ CTA داخل سکشن (اختیاری) بدون تغییر در کلیات:
-    // در services می‌توانید برای یک سکشن اضافه کنید:
-    // cta: { label:"تکمیل فرم درخواست گذرنامه", href:"#", note:"" }
-    const sectionsHtml = (svc.sections || []).map(sec => {
-      const ctaHtml = (sec.cta && sec.cta.label && sec.cta.href)
-        ? `<a class="btn" href="${esc(sec.cta.href)}">${esc(sec.cta.label)}</a>`
-        : "";
+    // ✅ بخش‌ها: لیست هوشمند + CTA واقعی + هایلایت کنترل‌شده
+    const sectionsHtml = (svc.sections || []).map(sec => `
+      <details class="sec" open>
+        <summary>
+          <span>${esc(sec.heading || "")}</span>
+          <small>${esc(sec.tag || "")}</small>
+        </summary>
 
-      // ✅ اگر خواستید علامت‌های خاص را کنترل کنید:
-      // sec.markIncludes: ["اقامت با گذرنامه ایرانی قابل قبول است"]
-const listHtml = liList(sec.items || [], { markIncludes: sec.markIncludes || sec.highlight || [] });
+        <div class="sec-body">
+          ${liList(sec.items || [], sec.highlight || [])}
 
-      return `
-        <details class="sec" open>
-          <summary>
-            <span>${esc(sec.heading || "")}</span>
-            <small>${esc(sec.tag || "")}</small>
-          </summary>
-          <div class="sec-body">
-            ${listHtml}
-            ${ctaHtml}
-          </div>
-        </details>
-      `;
-    }).join("");
+          ${sec.cta && sec.cta.label
+            ? `<div class="cta-wrap"><a class="btn" href="${esc(sec.cta.href || "#")}">${esc(sec.cta.label)}</a></div>`
+            : ""
+          }
+        </div>
+      </details>
+    `).join("");
 
     // ✅ فقط اینجا: اگر notDone نبود، از notice استفاده کن (بدون تغییر محتوا)
     const noticeList = (svc.notDone && svc.notDone.length) ? svc.notDone
@@ -461,9 +421,6 @@ const listHtml = liList(sec.items || [], { markIncludes: sec.markIncludes || sec
         </div>
       </div>
     `;
-
-    // ✅ فقط یک پاسِ تمیزکاری برای ساختار لیست‌ها
-    postProcessSmartLists(app);
   }
 
   const key = window.SERVICE_KEY;
