@@ -469,7 +469,7 @@
 
     const heroHtml = hasHero ? `
       <div class="hero">
-        ${heroTitle ? `<div class="hero-title">${heroTitle}</div>` : ""}
+    
         ${heroSubtitle ? `<p class="hero-sub">${heroSubtitle}</p>` : ""}
 
         ${firstSectionHtml}
