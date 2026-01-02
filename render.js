@@ -238,6 +238,12 @@
       padding-top:8px;
       border-top:1px dashed #e9edf5;
     }
+    .back-btn-footer{
+  background:var(--ms-blue);
+  border-color:var(--ms-blue);
+  color:#fff;
+}
+
     .btn{
       background:#eaf2ff;
       border:1px solid #cfe0ff;
@@ -347,7 +353,7 @@
             ${faqHtml}
 
             <div class="footer">
-              <a class="back-btn" href="index.html">بازگشت به صفحه اصلی</a>
+              <a class="back-btn back-btn-footer" href="index.html">بازگشت به صفحه اصلی</a>
               <span class="hint">این راهنما به مرور کامل‌تر می‌شود</span>
             </div>
           </div>
