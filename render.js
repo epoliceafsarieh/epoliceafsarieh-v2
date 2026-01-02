@@ -72,8 +72,6 @@
 
   const style = `
 <style>
-const style = `
-<style>
 @font-face{
   font-family:"Vazirmatn";
   src:url("assets/fonts/vazirmatn/Vazirmatn-Regular.woff2") format("woff2");
