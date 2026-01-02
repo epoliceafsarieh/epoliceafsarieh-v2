@@ -1,21 +1,20 @@
 // services/passport.js
 (function () {
+  // هر دو را نگه می‌داریم تا با هر رندری سازگار باشد
   window.SERVICE_DATA = window.SERVICE_DATA || {};
+  window.SERVICES = window.SERVICES || {};
 
-  window.SERVICE_DATA.passport = {
+  const passport = {
     barTitle: "گذرنامه بین‌المللی",
     shortTitle: "گذرنامه بین‌المللی",
     icon: "assets/img/icons/passport.png",
 
-  heroTitle: "گذرنامه بین‌المللی",
-  heroSubtitle: "درخواست و پیگیری صدور گذرنامه",
-  heroPrimary: { label: "شروع درخواست", href: "#" },
-  heroSecondary: { label: "مدارک لازم را ببین", href: "#docs" },
-  bottomCta: { label: "شروع درخواست گذرنامه", href: "#" },
-
-  meta: { ... }
-  ...
-}
+    // --- Wireframe fields (Hero/CTA) ---
+    heroTitle: "گذرنامه بین‌المللی",
+    heroSubtitle: "درخواست و پیگیری صدور گذرنامه",
+    heroPrimary: { label: "شروع درخواست", href: "#" },
+    heroSecondary: { label: "مدارک لازم را ببین", href: "#docs" },
+    bottomCta: { label: "شروع درخواست گذرنامه", href: "#" },
 
     meta: {
       time: "۷ تا ۱۴ روز کاری",
@@ -23,7 +22,7 @@
       feeSummary: "کلیک کنید"
     },
 
-    // ✅ برگشت داده شد تا بخش هزینه‌ها دوباره رندر شود
+    // ✅ برای رندر هزینه‌ها
     feeRows: [
       { label: "صدور گذرنامه بین‌المللی", field: "issue" },
       { label: "عکس/بیومتریک", field: "photo" },
@@ -83,7 +82,6 @@
           "در صورت داشتن همسر خارجی، نیازی به رضایت‌نامه محضری همسر ندارند.",
           "اقامت با گذرنامه ایرانی قابل قبول است"
         ],
-        // جهت بررسی نهایی در مرحله بعد
         highlight: ["اقامت با گذرنامه ایرانی قابل قبول است"]
       },
 
@@ -168,4 +166,8 @@
       }
     ]
   };
+
+  // ست در هر دو مسیر برای سازگاری کامل
+  window.SERVICE_DATA.passport = passport;
+  window.SERVICES.passport = passport;
 })();
