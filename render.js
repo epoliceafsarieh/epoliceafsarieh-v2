@@ -93,7 +93,8 @@
     color:var(--text);
     line-height:1.95;
   }
-  .wrap{max-width:860px;margin:18px auto 90px;padding:0 14px} /* پایین فضا برای CTA ثابت */
+
+  .wrap{max-width:860px;margin:18px auto 90px;padding:0 14px}
   .card{
     background:var(--card);
     border:1px solid var(--border);
@@ -341,14 +342,14 @@
   }
   .hint{font-size:12px;color:#777}
 
-  /* ===== Bottom CTA ثابت ===== */
+  /* ===== Bottom CTA ثابت (فقط وقتی سرویس بخواهد) ===== */
   .bottom-cta{
     position:fixed;
     right:0;left:0;bottom:0;
     background:rgba(245,247,251,.92);
     backdrop-filter:saturate(140%) blur(6px);
     border-top:1px solid var(--border);
-    padding:10px 14px;
+    padding:10px 14px calc(10px + env(safe-area-inset-bottom));
     z-index:2000;
   }
   .bottom-cta .inner{
@@ -389,21 +390,47 @@
       `;
     }
 
-    // HERO داده‌محور (اگر نداشتی، fallback ساده)
-    const heroTitle = esc(svc.heroTitle || (svc.barTitle || svc.shortTitle || ""));
-    const heroSubtitle = esc(svc.heroSubtitle || "درخواست و پیگیری صدور گذرنامه");
-    const heroPrimary = svc.heroPrimary || { label: "شروع درخواست", href: "#" };
-    const heroSecondary = svc.heroSecondary || { label: "مدارک لازم را ببین", href: "#docs" };
+    // === HERO: فقط اگر سرویس واقعاً داده داده باشد ===
+    const hasHero =
+      !!(svc.heroTitle || svc.heroSubtitle || svc.heroPrimary || svc.heroSecondary);
 
-    // Accordion پیش‌فرض بسته: open حذف شد
+    const heroTitle = esc(svc.heroTitle || "");
+    const heroSubtitle = esc(svc.heroSubtitle || "");
+    const heroPrimary = svc.heroPrimary || null;
+    const heroSecondary = svc.heroSecondary || null;
+
+    const heroHtml = hasHero ? `
+      <div class="hero">
+        ${heroTitle ? `<div class="hero-title">${heroTitle}</div>` : ""}
+        ${heroSubtitle ? `<p class="hero-sub">${heroSubtitle}</p>` : ""}
+
+        <div class="hero-actions">
+          ${heroPrimary?.label && heroPrimary?.href
+            ? `<a class="btn-primary" href="${esc(heroPrimary.href)}">${esc(heroPrimary.label)}</a>`
+            : ""
+          }
+          ${heroSecondary?.label && heroSecondary?.href
+            ? `<a class="btn-secondary" href="${esc(heroSecondary.href)}">${esc(heroSecondary.label)}</a>`
+            : ""
+          }
+        </div>
+      </div>
+    ` : "";
+
+    // اگر سرویس heroSecondary را روی #docs گذاشته، روی سکشن اول id بدهیم
+    const wantsDocsAnchor =
+      (typeof heroSecondary?.href === "string") && heroSecondary.href.trim() === "#docs";
+
+    // Accordion پیش‌فرض بسته + امکان باز بودن انتخابی با sec.open
     const sectionsHtml = (svc.sections || []).map((sec, idx) => {
       const body = liList(sec.items || []);
       const ctaHtml = (sec.cta && sec.cta.label && sec.cta.href)
         ? `<div class="cta"><a href="${esc(sec.cta.href)}">${esc(sec.cta.label)}</a></div>`
         : "";
-      const anchor = (idx === 0) ? `id="docs"` : "";
+      const anchorAttr = (wantsDocsAnchor && idx === 0) ? ` id="docs"` : "";
+      const openAttr = sec && sec.open ? " open" : "";
       return `
-        <details class="sec" ${anchor}>
+        <details class="sec"${anchorAttr}${openAttr}>
           <summary>
             <span>${esc(sec.heading || "")}</span>
             <small>${esc(sec.tag || "")}</small>
@@ -445,8 +472,17 @@
       ? `<div class="svc-badge"><img class="svc-icon" src="${esc(svc.icon)}" alt=""></div>`
       : "";
 
-    // Bottom CTA: از سرویس بخوان، اگر نبود همان شروع درخواست
-    const bottomCta = svc.bottomCta || heroPrimary;
+    // Bottom CTA: فقط اگر سرویس explicitly داده باشد
+    const hasBottomCta = !!(svc.bottomCta && svc.bottomCta.label && svc.bottomCta.href);
+    const bottomCta = hasBottomCta ? svc.bottomCta : null;
+
+    const bottomCtaHtml = bottomCta ? `
+      <div class="bottom-cta">
+        <div class="inner">
+          <a class="btn-primary" href="${esc(bottomCta.href)}">${esc(bottomCta.label)}</a>
+        </div>
+      </div>
+    ` : "";
 
     app.innerHTML = `
       ${style}
@@ -469,15 +505,7 @@
               </div>
             </div>
 
-            <div class="hero">
-              <div class="hero-title">${heroTitle}</div>
-              <p class="hero-sub">${heroSubtitle}</p>
-
-              <div class="hero-actions">
-                <a class="btn-primary" href="${esc(heroPrimary.href)}">${esc(heroPrimary.label)}</a>
-                <a class="btn-secondary" href="${esc(heroSecondary.href)}">${esc(heroSecondary.label)}</a>
-              </div>
-            </div>
+            ${heroHtml}
 
             <div class="content">
               ${sectionsHtml}
@@ -494,11 +522,7 @@
         </div>
       </div>
 
-      <div class="bottom-cta">
-        <div class="inner">
-          <a class="btn-primary" href="${esc(bottomCta.href || "#")}">${esc(bottomCta.label || "شروع درخواست گذرنامه")}</a>
-        </div>
-      </div>
+      ${bottomCtaHtml}
     `;
   }
 
