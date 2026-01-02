@@ -29,7 +29,7 @@
   const style = `
   <style>
     :root{
-      --brand-blue:#041E42; /* رنگ نوار (مرجع قطعی) */
+      --brand-blue:#041E42;
       --bg:#f5f7fb;
       --card:#fff;
       --text:#0f172a;
@@ -58,13 +58,13 @@
       box-shadow:var(--shadow);
     }
 
-    /* نوار بالا */
+    /* ✅ اصلاح 1: ارتفاع نوار بالا بیشتر شد تا آیکون به سقف نچسبد و بیرون نزند */
     .brandbar{
       position:relative;
       background:var(--brand-blue) !important;
       color:#fff;
       padding:6px 12px;
-      height:53px;
+      height:76px; /* قبلاً 53px */
       display:flex;
       align-items:center;
       justify-content:space-between;
@@ -77,21 +77,19 @@
       align-items:center;
       gap:12px;
       min-width:0;
-      padding-right:96px;
+      padding-right:90px; /* متناسب با کوچک شدن باکس آیکون */
     }
 
-    /* ✅ تنها اصلاح واقعی: بردر دور آیکون هم‌رنگ نوار */
+    /* ✅ اصلاح 2: حدود 10٪ کوچک‌تر (نه فقط دورش) */
     .svc-badge{
-      width:80px;
-      height:80px;
-      border-radius:16px;
+      width:72px;   /* قبلاً 80px */
+      height:72px;  /* قبلاً 80px */
+      border-radius:14px;
       display:flex;
       align-items:center;
       justify-content:center;
-
-      border:2px solid var(--brand-blue);  /* <<< مهم: دقیقاً مثل نوار */
-      background:transparent;              /* بدون دستکاری تصویر */
-
+      border:2px solid var(--brand-blue);
+      background:transparent;
       flex:0 0 auto;
 
       position:absolute;
@@ -102,8 +100,8 @@
     }
 
     .svc-icon{
-      width:74px;
-      height:74px;
+      width:66px;   /* قبلاً 74px */
+      height:66px;  /* قبلاً 74px */
       object-fit:contain;
       display:block;
     }
