@@ -9,10 +9,55 @@
     const t = (v ?? "").toString().trim();
     return t ? t : "—";
   }
+
+  // ✅ لیست هوشمند: تشخیص تیترهای داخلی (خط‌هایی که با ":" تمام می‌شوند) و ساخت زیرلیست
   function liList(items) {
     if (!items || !items.length) return "";
-    return `<ul>${items.map(x => `<li>${esc(x)}</li>`).join("")}</ul>`;
+
+    const clean = items
+      .map(x => String(x ?? "").trim())
+      .filter(Boolean);
+
+    const isHead = (s) => /[:：]$/.test(s); // فارسی/انگلیسی
+
+    let html = "";
+    let i = 0;
+
+    // اگر اصلاً تیتر داخلی نداریم، همان رفتار قبلی
+    const hasAnyHead = clean.some(isHead);
+    if (!hasAnyHead) {
+      return `<ul>${clean.map(x => `<li>${esc(x)}</li>`).join("")}</ul>`;
+    }
+
+    while (i < clean.length) {
+      const cur = clean[i];
+
+      if (isHead(cur)) {
+        // تیتر داخلی (بدون بولت)
+        html += `<div class="subhead">${esc(cur)}</div>`;
+
+        // جمع کردن آیتم‌های زیرتیتر تا تیتر بعدی
+        const sub = [];
+        i++;
+        while (i < clean.length && !isHead(clean[i])) {
+          sub.push(clean[i]);
+          i++;
+        }
+
+        if (sub.length) {
+          html += `<ul class="sublist">${sub.map(x => `<li>${esc(x)}</li>`).join("")}</ul>`;
+        }
+        continue;
+      }
+
+      // آیتم‌های عادی قبل از اولین تیتر داخلی یا بین تیترها
+      html += `<ul><li>${esc(cur)}</li></ul>`;
+      i++;
+    }
+
+    return html;
   }
+
   function olList(items) {
     if (!items || !items.length) return "";
     return `<ol>${items.map(x => `<li>${esc(x)}</li>`).join("")}</ol>`;
@@ -41,7 +86,7 @@
       --section-bg:#f8fbff;
     }
 
-    /* ✅ فقط فونت اضافه شد */
+    /* فونت */
     @font-face{
       font-family:"Vazirmatn";
       src:url("assets/fonts/Vazirmatn-Regular.woff2") format("woff2");
@@ -60,7 +105,7 @@
     *{box-sizing:border-box}
     body{
       margin:0;
-      font-family:"Vazirmatn", Tahoma, Arial, sans-serif; /* ✅ فقط این خط تغییر کرد */
+      font-family:"Vazirmatn", Tahoma, Arial, sans-serif;
       background:var(--bg);
       color:var(--text);
       line-height:1.95;
@@ -222,6 +267,32 @@
     ul,ol{margin:0;padding-right:20px;font-size:14px}
     li{margin:8px 0;font-weight:normal}
 
+    /* ✅ فقط برای خوانایی: تیترهای داخلی و زیرلیست‌ها */
+    .subhead{
+      margin:10px 0 6px;
+      font-weight:900;
+      color:#0f172a;
+    }
+    ul.sublist{
+      margin:0;
+      padding-right:22px;
+    }
+
+    /* ✅ CTA داخل هر بخش */
+    .cta{
+      margin-top:10px;
+    }
+    .cta a{
+      display:inline-block;
+      background:rgba(4,30,66,.12);
+      border:1px solid rgba(4,30,66,.35);
+      padding:10px 14px;
+      border-radius:12px;
+      font-weight:900;
+      color:#041E42;
+      text-decoration:none;
+    }
+
     .faq-title{margin:14px 0 8px;font-size:15px;font-weight:900}
     .faq details{
       border:1px solid var(--border);
@@ -302,15 +373,21 @@
       `;
     }
 
-    const sectionsHtml = (svc.sections || []).map(sec => `
-      <details class="sec" open>
-        <summary>
-          <span>${esc(sec.heading || "")}</span>
-          <small>${esc(sec.tag || "")}</small>
-        </summary>
-        <div class="sec-body">${liList(sec.items || [])}</div>
-      </details>
-    `).join("");
+    const sectionsHtml = (svc.sections || []).map(sec => {
+      const body = liList(sec.items || []);
+      const ctaHtml = (sec.cta && sec.cta.label && sec.cta.href)
+        ? `<div class="cta"><a href="${esc(sec.cta.href)}">${esc(sec.cta.label)}</a></div>`
+        : "";
+      return `
+        <details class="sec" open>
+          <summary>
+            <span>${esc(sec.heading || "")}</span>
+            <small>${esc(sec.tag || "")}</small>
+          </summary>
+          <div class="sec-body">${body}${ctaHtml}</div>
+        </details>
+      `;
+    }).join("");
 
     const noticeList = (svc.notDone && svc.notDone.length) ? svc.notDone
                       : (svc.notice && svc.notice.length) ? svc.notice
