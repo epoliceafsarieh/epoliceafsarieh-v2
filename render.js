@@ -79,7 +79,7 @@
       gap:12px;
       min-width:0;
       padding-right:90px; /* متناسب با کوچک شدن باکس آیکون */
-      margin-right:-10px;
+      margin-right:-16px;
     }
 
     /* ✅ اصلاح 2: حدود 10٪ کوچک‌تر (نه فقط دورش) */
