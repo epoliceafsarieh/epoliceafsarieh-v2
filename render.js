@@ -72,6 +72,37 @@
 
   const style = `
 <style>
+const style = `
+<style>
+@font-face{
+  font-family:"Vazirmatn";
+  src:url("assets/fonts/vazirmatn/Vazirmatn-Regular.woff2") format("woff2");
+  font-weight:400;
+  font-style:normal;
+  font-display:swap;
+}
+@font-face{
+  font-family:"Vazirmatn";
+  src:url("assets/fonts/vazirmatn/Vazirmatn-Medium.woff2") format("woff2");
+  font-weight:500;
+  font-style:normal;
+  font-display:swap;
+}
+@font-face{
+  font-family:"Vazirmatn";
+  src:url("assets/fonts/vazirmatn/Vazirmatn-Bold.woff2") format("woff2");
+  font-weight:700;
+  font-style:normal;
+  font-display:swap;
+}
+
+:root{
+  --brand-blue:#041E42;
+  ...
+
+
+
+
   :root{
     --brand-blue:#041E42;
     --bg:#f5f7fb;
