@@ -7,6 +7,16 @@
     shortTitle: "گذرنامه بین‌المللی",
     icon: "assets/img/icons/passport.png",
 
+  heroTitle: "گذرنامه بین‌المللی",
+  heroSubtitle: "درخواست و پیگیری صدور گذرنامه",
+  heroPrimary: { label: "شروع درخواست", href: "#" },
+  heroSecondary: { label: "مدارک لازم را ببین", href: "#docs" },
+  bottomCta: { label: "شروع درخواست گذرنامه", href: "#" },
+
+  meta: { ... }
+  ...
+}
+
     meta: {
       time: "۷ تا ۱۴ روز کاری",
       feeKey: "passport",
