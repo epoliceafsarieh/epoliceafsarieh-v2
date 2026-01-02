@@ -1,9 +1,15 @@
-
 // services/passport.js
 (function () {
   window.SERVICE_DATA = window.SERVICE_DATA || {};
 
   window.SERVICE_DATA.passport = {
+    // ✅ فقط برای نوار بالایی (تا عنوان خالی نشود)
+    barTitle: "گذرنامه بین‌المللی",
+    shortTitle: "گذرنامه بین‌المللی",
+
+    // ✅ آیکون نوار بالا (مسیر را اگر فایل‌تان جای دیگری است، مطابقش کنید)
+    icon: "assets/img/passport.png",
+
     title: "مدارک مورد نیاز گذرنامه بین‌المللی",
     subtitle: "این راهنما مربوط به گذرنامه بین‌المللی است (نه گذرنامه زیارتی).",
     meta: {
