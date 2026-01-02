@@ -318,6 +318,17 @@ const style = `
     gap:10px;
     background:var(--section-bg);
   }
+  /* فقط تیتر گام‌های انجام کار */
+.sec:first-of-type summary{
+  justify-content:center;
+  text-align:center;
+}
+
+.sec:first-of-type summary span{
+  font-size:17px;
+  font-weight:900;
+}
+
   .sec summary small{
     font-weight:600;
     color:#64748b;
