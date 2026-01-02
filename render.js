@@ -239,11 +239,12 @@
       padding-top:8px;
       border-top:1px dashed #e9edf5;
     }
-    .back-btn-footer{
-  background:var(--ms-blue);
-  border-color:var(--ms-blue);
-  color:#fff;
+   .back-btn-footer{
+  background:var(--brand-blue) !important;
+  border:1px solid var(--brand-blue) !important;
+  color:#fff !important;
 }
+
 .btn{
   background:rgba(4,30,66,.12);   /* دقیقاً مثل حس دکمه بالایی */
   border:1px solid rgba(4,30,66,.35);
