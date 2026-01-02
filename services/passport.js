@@ -7,8 +7,7 @@
 
   const passport = {
     barTitle: "گذرنامه بین‌المللی",
-    shortTitle: "گذرنامه بین‌المللی",
-    icon: "assets/img/icons/passport.png",
+       icon: "assets/img/icons/passport.png",
 
     heroTitle: "گذرنامه بین‌المللی",
     heroPrimary: { label: "دریافت فرم گذرنامه (PDF)", href: FORM_HREF },
