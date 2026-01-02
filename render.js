@@ -421,7 +421,7 @@
       const ctaHtml = (sec.cta && sec.cta.label && sec.cta.href)
         ? `<div class="cta"><a href="${esc(sec.cta.href)}">${esc(sec.cta.label)}</a></div>`
         : "";
-      const openAttr = sec && sec.open ? " open" : "";
+      const openAttr = (idx !== 0 && sec && sec.open) ? " open" : "";
 
       const html = `
         <details class="sec"${openAttr}>
