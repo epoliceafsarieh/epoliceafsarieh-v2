@@ -346,7 +346,7 @@
             ${faqHtml}
 
             <div class="footer">
-              <a class="btn" href="index.html">بازگشت به صفحه اصلی</a>
+              <a class="back-btn" href="index.html">بازگشت به صفحه اصلی</a>
               <span class="hint">این راهنما به مرور کامل‌تر می‌شود</span>
             </div>
           </div>
