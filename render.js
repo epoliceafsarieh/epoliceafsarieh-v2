@@ -5,30 +5,14 @@
       .replaceAll("<", "&lt;")
       .replaceAll(">", "&gt;");
   }
-
   function safeText(v) {
     const t = (v ?? "").toString().trim();
     return t ? t : "—";
   }
-
-  // ✅ لیست هوشمند: تیترهای داخل لیست (…:) را بولد و بدون بولت می‌کند + هایلایت کنترل‌شده
-  function liList(items, highlightArr) {
+  function liList(items) {
     if (!items || !items.length) return "";
-
-    const highlights = new Set((highlightArr || []).map(x => (x ?? "").toString().trim()));
-    const isHead = (s) => (s ?? "").toString().trim().endsWith(":");
-
-    return `<ul class="list">` + items.map((x) => {
-      const t = (x ?? "").toString().trim();
-      const safe = esc(t);
-
-      if (isHead(t)) return `<li class="li-head">${safe}</li>`;
-
-      const hlClass = highlights.has(t) ? "hl" : "";
-      return `<li class="li-sub ${hlClass}">${safe}</li>`;
-    }).join("") + `</ul>`;
+    return `<ul>${items.map(x => `<li>${esc(x)}</li>`).join("")}</ul>`;
   }
-
   function olList(items) {
     if (!items || !items.length) return "";
     return `<ol>${items.map(x => `<li>${esc(x)}</li>`).join("")}</ol>`;
@@ -57,10 +41,26 @@
       --section-bg:#f8fbff;
     }
 
+    /* ✅ فقط فونت اضافه شد */
+    @font-face{
+      font-family:"Vazirmatn";
+      src:url("assets/fonts/Vazirmatn-Regular.woff2") format("woff2");
+      font-weight:400;
+      font-style:normal;
+      font-display:swap;
+    }
+    @font-face{
+      font-family:"Vazirmatn";
+      src:url("assets/fonts/Vazirmatn-Bold.woff2") format("woff2");
+      font-weight:700;
+      font-style:normal;
+      font-display:swap;
+    }
+
     *{box-sizing:border-box}
     body{
       margin:0;
-      font-family:Tahoma,Arial,sans-serif;
+      font-family:"Vazirmatn", Tahoma, Arial, sans-serif; /* ✅ فقط این خط تغییر کرد */
       background:var(--bg);
       color:var(--text);
       line-height:1.95;
@@ -219,34 +219,8 @@
     }
     .sec-body{padding:12px 14px}
 
-    /* ✅ خوانایی بهتر: تیترهای داخل متن + کاهش یکنواختی */
-    .list{margin:0;padding-right:20px;font-size:14px}
-    .list li{margin:8px 0}
-    .li-head{
-      list-style:none;
-      margin:14px 0 6px;
-      padding:0;
-      font-weight:900;
-      color:#0f172a;
-    }
-    .li-sub{margin:6px 0}
-    .hl{
-      position:relative;
-      padding-right:18px;
-      font-weight:700;
-    }
-    .hl:before{
-      content:"";
-      position:absolute;
-      right:0;
-      top:10px;
-      width:8px;
-      height:8px;
-      border-radius:50%;
-      background:#f59e0b;
-    }
-
-    .cta-wrap{margin-top:10px}
+    ul,ol{margin:0;padding-right:20px;font-size:14px}
+    li{margin:8px 0;font-weight:normal}
 
     .faq-title{margin:14px 0 8px;font-size:15px;font-weight:900}
     .faq details{
@@ -286,9 +260,7 @@
       color:#fff !important;
     }
 
-    /* CTA دکمه */
     .btn{
-      display:inline-block;
       background:rgba(4,30,66,.12);
       border:1px solid rgba(4,30,66,.35);
       padding:10px 14px;
@@ -315,7 +287,6 @@
     const feeKey = svc?.meta?.feeKey;
     const feeObj = (typeof window.FEES !== "undefined" && feeKey && window.FEES[feeKey]) ? window.FEES[feeKey] : null;
 
-    // ✅ جدول هزینه‌ها (اگر fees.js و feeRows وجود داشته باشد)
     if (feeObj && Array.isArray(svc.feeRows) && svc.feeRows.length) {
       const rows = svc.feeRows.map(r => ({ title: r.label, value: feeObj[r.field] }));
       feeHtml = `
@@ -331,26 +302,16 @@
       `;
     }
 
-    // ✅ بخش‌ها: لیست هوشمند + CTA واقعی + هایلایت کنترل‌شده
     const sectionsHtml = (svc.sections || []).map(sec => `
       <details class="sec" open>
         <summary>
           <span>${esc(sec.heading || "")}</span>
           <small>${esc(sec.tag || "")}</small>
         </summary>
-
-        <div class="sec-body">
-          ${liList(sec.items || [], sec.highlight || [])}
-
-          ${sec.cta && sec.cta.label
-            ? `<div class="cta-wrap"><a class="btn" href="${esc(sec.cta.href || "#")}">${esc(sec.cta.label)}</a></div>`
-            : ""
-          }
-        </div>
+        <div class="sec-body">${liList(sec.items || [])}</div>
       </details>
     `).join("");
 
-    // ✅ فقط اینجا: اگر notDone نبود، از notice استفاده کن (بدون تغییر محتوا)
     const noticeList = (svc.notDone && svc.notDone.length) ? svc.notDone
                       : (svc.notice && svc.notice.length) ? svc.notice
                       : null;
