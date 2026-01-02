@@ -1,3 +1,4 @@
+// render.js
 (function () {
   function esc(s) {
     return String(s ?? "")
@@ -10,26 +11,19 @@
     return t ? t : "—";
   }
 
-  // لیست هوشمند: تشخیص تیترهای داخلی (خط‌هایی که با ":" تمام می‌شوند) و ساخت زیرلیست
+  // لیست هوشمند: تیترهای داخلی با ":" و زیرلیست
   function liList(items) {
     if (!items || !items.length) return "";
 
-    const clean = items
-      .map(x => String(x ?? "").trim())
-      .filter(Boolean);
-
+    const clean = items.map(x => String(x ?? "").trim()).filter(Boolean);
     const isHead = (s) => /[:：]$/.test(s);
-
-    // اگر تیتر داخلی نداریم، رفتار ساده
     const hasAnyHead = clean.some(isHead);
-    if (!hasAnyHead) {
-      return `<ul>${clean.map(x => `<li>${esc(x)}</li>`).join("")}</ul>`;
-    }
+
+    if (!hasAnyHead) return `<ul>${clean.map(x => `<li>${esc(x)}</li>`).join("")}</ul>`;
 
     let html = "";
     let i = 0;
 
-    // یک UL اصلی برای آیتم‌های قبل از اولین تیتر
     let openMainUl = false;
     const openUl = () => { if (!openMainUl) { html += `<ul>`; openMainUl = true; } };
     const closeUl = () => { if (openMainUl) { html += `</ul>`; openMainUl = false; } };
@@ -78,29 +72,6 @@
 
   const style = `
 <style>
-  /* === FONT: Vazirmatn (GitHub Pages safe) === */
-  @font-face{
-    font-family:"Vazirmatn";
-    src:url("assets/fonts/vazirmatn/Vazirmatn-Regular.woff2") format("woff2");
-    font-weight:400;
-    font-style:normal;
-    font-display:swap;
-  }
-  @font-face{
-    font-family:"Vazirmatn";
-    src:url("assets/fonts/vazirmatn/Vazirmatn-Medium.woff2") format("woff2");
-    font-weight:500;
-    font-style:normal;
-    font-display:swap;
-  }
-  @font-face{
-    font-family:"Vazirmatn";
-    src:url("assets/fonts/vazirmatn/Vazirmatn-Bold.woff2") format("woff2");
-    font-weight:700;
-    font-style:normal;
-    font-display:swap;
-  }
-
   :root{
     --brand-blue:#041E42;
     --bg:#f5f7fb;
@@ -108,7 +79,7 @@
     --text:#0f172a;
     --muted:#475569;
     --border:#e6e8ee;
-    --soft:#f1f5ff; /* ✅ درست شد */
+    --soft:#f1f5ff;
     --shadow:0 10px 30px rgba(2,8,23,.06);
     --radius:16px;
     --section-bg:#f8fbff;
@@ -122,9 +93,7 @@
     color:var(--text);
     line-height:1.95;
   }
-  .wrap{max-width:860px;margin:18px auto 28px;padding:0 14px}
-
-  /* برای Sticky: overflow:hidden از card برداشته شد */
+  .wrap{max-width:860px;margin:18px auto 90px;padding:0 14px} /* پایین فضا برای CTA ثابت */
   .card{
     background:var(--card);
     border:1px solid var(--border);
@@ -132,8 +101,6 @@
     overflow:visible;
     box-shadow:var(--shadow);
   }
-
-  /* کلیپ فقط برای بدنه */
   .card-clip{
     overflow:hidden;
     border-radius:0 0 var(--radius) var(--radius);
@@ -166,29 +133,15 @@
   }
 
   .svc-badge{
-    width:72px;
-    height:72px;
-    border-radius:14px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    width:72px;height:72px;border-radius:14px;
+    display:flex;align-items:center;justify-content:center;
     border:2px solid var(--brand-blue);
     background:transparent;
-    flex:0 0 auto;
-    margin-top:6px;
-    position:absolute;
-    right:12px;
-    top:50%;
+    position:absolute;right:12px;top:50%;
     transform:translateY(-50%);
     z-index:2;
   }
-
-  .svc-icon{
-    width:66px;
-    height:66px;
-    object-fit:contain;
-    display:block;
-  }
+  .svc-icon{width:66px;height:66px;object-fit:contain;display:block}
 
   .svc-title{
     font-weight:900;
@@ -260,6 +213,52 @@
   th,td{border:1px solid var(--border);padding:10px;text-align:center}
   th{background:#f2f5f9;font-weight:900}
 
+  /* ===== HERO (Task-first) ===== */
+  .hero{
+    padding:14px 16px 14px;
+    background:#fff;
+    border-bottom:1px solid var(--border);
+  }
+  .hero-title{
+    font-weight:900;
+    font-size:16px;
+    margin:0 0 6px;
+  }
+  .hero-sub{
+    margin:0 0 10px;
+    color:#334155;
+    font-size:13px;
+    font-weight:500;
+  }
+  .hero-actions{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:10px;
+    margin-top:10px;
+  }
+  .btn-primary{
+    display:block;
+    text-align:center;
+    background:var(--brand-blue);
+    color:#fff;
+    text-decoration:none;
+    border-radius:14px;
+    padding:12px 14px;
+    font-weight:900;
+    border:1px solid var(--brand-blue);
+  }
+  .btn-secondary{
+    display:block;
+    text-align:center;
+    background:#fff;
+    color:var(--brand-blue);
+    text-decoration:none;
+    border-radius:14px;
+    padding:12px 14px;
+    font-weight:900;
+    border:1px solid rgba(4,30,66,.35);
+  }
+
   .content{padding:16px 16px 18px}
 
   .sec{
@@ -289,15 +288,8 @@
   ul,ol{margin:0;padding-right:20px;font-size:14px}
   li{margin:8px 0;font-weight:normal}
 
-  .subhead{
-    margin:10px 0 6px;
-    font-weight:900;
-    color:#0f172a;
-  }
-  ul.sublist{
-    margin:0;
-    padding-right:22px;
-  }
+  .subhead{margin:10px 0 6px;font-weight:900;color:#0f172a}
+  ul.sublist{margin:0;padding-right:22px}
 
   .cta{margin-top:10px}
   .cta a{
@@ -326,12 +318,7 @@
     background:var(--section-bg);
     cursor:pointer;
   }
-  .faq .ans{
-    padding:10px 14px;
-    color:#334155;
-    font-size:13px;
-    font-weight:normal;
-  }
+  .faq .ans{padding:10px 14px;color:#334155;font-size:13px;font-weight:normal}
 
   .footer{
     margin-top:14px;
@@ -347,19 +334,27 @@
     background:var(--brand-blue) !important;
     border:1px solid var(--brand-blue) !important;
     color:#fff !important;
-  }
-
-  .btn{
-    background:rgba(4,30,66,.12);
-    border:1px solid rgba(4,30,66,.35);
+    text-decoration:none;
     padding:10px 14px;
     border-radius:12px;
     font-weight:900;
-    color:#041E42;
-    text-decoration:none;
   }
-
   .hint{font-size:12px;color:#777}
+
+  /* ===== Bottom CTA ثابت ===== */
+  .bottom-cta{
+    position:fixed;
+    right:0;left:0;bottom:0;
+    background:rgba(245,247,251,.92);
+    backdrop-filter:saturate(140%) blur(6px);
+    border-top:1px solid var(--border);
+    padding:10px 14px;
+    z-index:2000;
+  }
+  .bottom-cta .inner{
+    max-width:860px;
+    margin:0 auto;
+  }
 </style>`;
 
   function renderService(serviceKey) {
@@ -394,13 +389,21 @@
       `;
     }
 
-    const sectionsHtml = (svc.sections || []).map(sec => {
+    // HERO داده‌محور (اگر نداشتی، fallback ساده)
+    const heroTitle = esc(svc.heroTitle || (svc.barTitle || svc.shortTitle || ""));
+    const heroSubtitle = esc(svc.heroSubtitle || "درخواست و پیگیری صدور گذرنامه");
+    const heroPrimary = svc.heroPrimary || { label: "شروع درخواست", href: "#" };
+    const heroSecondary = svc.heroSecondary || { label: "مدارک لازم را ببین", href: "#docs" };
+
+    // Accordion پیش‌فرض بسته: open حذف شد
+    const sectionsHtml = (svc.sections || []).map((sec, idx) => {
       const body = liList(sec.items || []);
       const ctaHtml = (sec.cta && sec.cta.label && sec.cta.href)
         ? `<div class="cta"><a href="${esc(sec.cta.href)}">${esc(sec.cta.label)}</a></div>`
         : "";
+      const anchor = (idx === 0) ? `id="docs"` : "";
       return `
-        <details class="sec" open>
+        <details class="sec" ${anchor}>
           <summary>
             <span>${esc(sec.heading || "")}</span>
             <small>${esc(sec.tag || "")}</small>
@@ -417,7 +420,7 @@
 
     const notDoneHtml = (noticeList && noticeList.length)
       ? `
-        <details class="sec" open>
+        <details class="sec">
           <summary><span>نکات مهم</span><small></small></summary>
           <div class="sec-body">${olList(noticeList)}</div>
         </details>
@@ -442,6 +445,9 @@
       ? `<div class="svc-badge"><img class="svc-icon" src="${esc(svc.icon)}" alt=""></div>`
       : "";
 
+    // Bottom CTA: از سرویس بخوان، اگر نبود همان شروع درخواست
+    const bottomCta = svc.bottomCta || heroPrimary;
+
     app.innerHTML = `
       ${style}
       <div class="wrap">
@@ -463,18 +469,34 @@
               </div>
             </div>
 
+            <div class="hero">
+              <div class="hero-title">${heroTitle}</div>
+              <p class="hero-sub">${heroSubtitle}</p>
+
+              <div class="hero-actions">
+                <a class="btn-primary" href="${esc(heroPrimary.href)}">${esc(heroPrimary.label)}</a>
+                <a class="btn-secondary" href="${esc(heroSecondary.href)}">${esc(heroSecondary.label)}</a>
+              </div>
+            </div>
+
             <div class="content">
               ${sectionsHtml}
               ${notDoneHtml}
               ${faqHtml}
 
               <div class="footer">
-                <a class="back-btn back-btn-footer" href="index.html">بازگشت به صفحه اصلی</a>
+                <a class="back-btn-footer" href="index.html">بازگشت به صفحه اصلی</a>
                 <span class="hint">این راهنما به مرور کامل‌تر می‌شود</span>
               </div>
             </div>
           </div>
 
+        </div>
+      </div>
+
+      <div class="bottom-cta">
+        <div class="inner">
+          <a class="btn-primary" href="${esc(bottomCta.href || "#")}">${esc(bottomCta.label || "شروع درخواست گذرنامه")}</a>
         </div>
       </div>
     `;
