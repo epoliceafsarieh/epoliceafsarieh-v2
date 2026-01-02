@@ -12,7 +12,7 @@
     heroTitle: "گذرنامه بین‌المللی",
     heroPrimary: { label: "دریافت فرم گذرنامه (PDF)", href: FORM_HREF },
     //heroSecondary: { label: "مدارک لازم را ببین", href: "#docs" },
-    bottomCta: { label: "دریافت فرم گذرنامه (PDF)", href: FORM_HREF },
+    //bottomCta: { label: "دریافت فرم گذرنامه (PDF)", href: FORM_HREF },
 
     meta: {
       time: "۷ تا ۱۴ روز کاری",
