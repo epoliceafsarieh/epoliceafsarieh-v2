@@ -103,7 +103,7 @@
     box-shadow:var(--shadow);
   }
   .card-clip{
-    overflow:hidden;
+    overflow:visible;
     border-radius:0 0 var(--radius) var(--radius);
   }
 
@@ -421,11 +421,10 @@
       const ctaHtml = (sec.cta && sec.cta.label && sec.cta.href)
         ? `<div class="cta"><a href="${esc(sec.cta.href)}">${esc(sec.cta.label)}</a></div>`
         : "";
-      const anchorAttr = (wantsDocsAnchor && idx === 0) ? ` id="docs"` : "";
       const openAttr = sec && sec.open ? " open" : "";
 
       const html = `
-        <details class="sec"${anchorAttr}${openAttr}>
+        <details class="sec"${openAttr}>
           <summary>
             <span>${esc(sec.heading || "")}</span>
             <small>${esc(sec.tag || "")}</small>
@@ -529,7 +528,16 @@
             ${heroHtml}
 
             <div class="content">
-              ${restSectionsHtml}
+              <details class="sec" id="docs">
+                <summary>
+                  <span>مدارک لازم را ببین</span>
+                  <small></small>
+                </summary>
+                <div class="sec-body">
+                  ${restSectionsHtml}
+                </div>
+              </details>
+
               ${notDoneHtml}
               ${faqHtml}
 
@@ -545,15 +553,15 @@
       ${bottomCtaHtml}
     `;
 
-    // کار ۵: کلیک روی «مدارک لازم را ببین» => فقط آکاردئون docs باز شود و بقیه بسته شوند
+    // کار ۵: کلیک روی «مدارک لازم را ببین» => آکاردئون مادر باز شود و به آن اسکرول کند
     if (wantsDocsAnchor) {
       const btnDocs = app.querySelector('.btn-secondary[href="#docs"]');
-      const docsEl = app.querySelector('details.sec#docs');
-      if (btnDocs && docsEl) {
-        btnDocs.addEventListener("click", function () {
-          const all = app.querySelectorAll("details.sec");
-          all.forEach(d => { if (d !== docsEl) d.removeAttribute("open"); });
-          docsEl.setAttribute("open", "");
+      const docsWrap = app.querySelector('details.sec#docs');
+      if (btnDocs && docsWrap) {
+        btnDocs.addEventListener("click", function (e) {
+          e.preventDefault();
+          docsWrap.setAttribute("open", "");
+          docsWrap.scrollIntoView({ behavior: "smooth", block: "start" });
         });
       }
     }
