@@ -73,7 +73,32 @@
 
   const style = `
   <style>
-    :root{
+  const style = `
+<style>
+  /* === FONT: Vazirmatn (mobile-safe) === */
+  @font-face{
+    font-family:"Vazirmatn";
+    src:url("/assets/fonts/vazirmatn/Vazirmatn-Regular.woff2") format("woff2");
+    font-weight:400;
+    font-style:normal;
+    font-display:swap;
+  }
+  @font-face{
+    font-family:"Vazirmatn";
+    src:url("/assets/fonts/vazirmatn/Vazirmatn-Medium.woff2") format("woff2");
+    font-weight:500;
+    font-style:normal;
+    font-display:swap;
+  }
+  @font-face{
+    font-family:"Vazirmatn";
+    src:url("/assets/fonts/vazirmatn/Vazirmatn-Bold.woff2") format("woff2");
+    font-weight:700;
+    font-style:normal;
+    font-display:swap;
+  }
+
+      :root{
       --brand-blue:#041E42;
       --bg:#f5f7fb;
       --card:#fff;
@@ -101,6 +126,13 @@
       font-style:normal;
       font-display:swap;
     }
+   @font-face{
+    font-family:"Vazirmatn";
+    src:url("/assets/fonts/vazirmatn/Vazirmatn-Medium.woff2") format("woff2");
+    font-weight:500;
+    font-style:normal;
+    font-display:swap;
+  }
 
     *{box-sizing:border-box}
     body{
