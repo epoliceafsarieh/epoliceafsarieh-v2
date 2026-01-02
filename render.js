@@ -93,15 +93,7 @@
   font-style:normal;
   font-display:swap;
 }
-
-:root{
-  --brand-blue:#041E42;
-  ...
-
-
-
-
-  :root{
+ :root{
     --brand-blue:#041E42;
     --bg:#f5f7fb;
     --card:#fff;
