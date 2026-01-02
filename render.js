@@ -69,6 +69,7 @@
       align-items:center;
       justify-content:space-between;
       gap:10px;
+      overflow:hidden;
     }
 
     .brand-right{
