@@ -92,7 +92,7 @@
       border:2px solid var(--brand-blue);
       background:transparent;
       flex:0 0 auto;
-      margin-top:10px;
+      margin-top:8px;
 
       position:absolute;
       right:12px;
