@@ -1,20 +1,16 @@
 // services/passport.js
 (function () {
-  // هر دو را نگه می‌داریم تا با هر رندری سازگار باشد
   window.SERVICE_DATA = window.SERVICE_DATA || {};
   window.SERVICES = window.SERVICES || {};
 
-  const FORM_HREF = "assets/forms/passport.pdf"; // ← مسیر فرم آماده (PDF)
+  const FORM_HREF = "assets/forms/passport.pdf";
 
   const passport = {
     barTitle: "گذرنامه بین‌المللی",
     shortTitle: "گذرنامه بین‌المللی",
     icon: "assets/img/icons/passport.png",
 
-    // --- Wireframe fields (Hero/CTA) ---
     heroTitle: "گذرنامه بین‌المللی",
-    heroSubtitle:
-      "این خدمت ثبت آنلاین ندارد. ۱) فرم را دریافت و پر کنید. ۲) اگر متأهل هستید یا زیر ۱۸ سال دارید، امضای محضری روی همین فرم لازم است. ۳) سپس با مدارک به دفتر مراجعه کنید.",
     heroPrimary: { label: "دریافت فرم گذرنامه (PDF)", href: FORM_HREF },
     heroSecondary: { label: "مدارک لازم را ببین", href: "#docs" },
     bottomCta: { label: "دریافت فرم گذرنامه (PDF)", href: FORM_HREF },
@@ -25,7 +21,6 @@
       feeSummary: "کلیک کنید"
     },
 
-    // ✅ برای رندر هزینه‌ها
     feeRows: [
       { label: "صدور گذرنامه بین‌المللی", field: "issue" },
       { label: "عکس/بیومتریک", field: "photo" },
@@ -36,8 +31,6 @@
       {
         heading: "گام‌های انجام کار",
         tag: "برای همه",
-        // اگر render.js شما sec.open را پشتیبانی کند، این بخش را باز نگه می‌داریم؛
-        // اگر پشتیبانی نکند، صرفاً نادیده گرفته می‌شود و مشکلی ایجاد نمی‌کند.
         open: true,
         items: [
           "۱) فرم گذرنامه را دریافت کنید و کامل پر کنید.",
@@ -202,7 +195,6 @@
     ]
   };
 
-  // ست در هر دو مسیر برای سازگاری کامل
   window.SERVICE_DATA.passport = passport;
   window.SERVICES.passport = passport;
 })();
