@@ -29,7 +29,7 @@
   const style = `
   <style>
     :root{
-      --brand-blue:#041E42;
+      --brand-blue:#041E42; /* رنگ نوار (مرجع قطعی) */
       --bg:#f5f7fb;
       --card:#fff;
       --text:#0f172a;
@@ -58,13 +58,13 @@
       box-shadow:var(--shadow);
     }
 
-    /* ✅ نوار بالا: ۲۰٪ بلندتر */
+    /* نوار بالا */
     .brandbar{
       position:relative;
       background:var(--brand-blue) !important;
       color:#fff;
       padding:6px 12px;
-      height:53px; /* قبلاً 44px بود */
+      height:53px;
       display:flex;
       align-items:center;
       justify-content:space-between;
@@ -80,7 +80,7 @@
       padding-right:96px;
     }
 
-    /* ✅ دور باکس آیکون: قطعاً transparent */
+    /* ✅ تنها اصلاح واقعی: بردر دور آیکون هم‌رنگ نوار */
     .svc-badge{
       width:80px;
       height:80px;
@@ -88,8 +88,10 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      border:2px solid transparent !important;
-      background:rgba(255,255,255,.10);
+
+      border:2px solid var(--brand-blue);  /* <<< مهم: دقیقاً مثل نوار */
+      background:transparent;              /* بدون دستکاری تصویر */
+
       flex:0 0 auto;
 
       position:absolute;
@@ -288,7 +290,6 @@
       </details>
     `).join("");
 
-    /* ✅ نکات مهم: تیتر داخل آبی کم‌رنگ مثل بقیه */
     const notDoneHtml = (svc.notDone && svc.notDone.length)
       ? `
         <details class="sec" open>
