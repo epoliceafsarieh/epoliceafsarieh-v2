@@ -64,7 +64,7 @@
       background:var(--brand-blue) !important;
       color:#fff;
       padding:6px 12px;
-      height:76px; /* قبلاً 53px */
+      height:60px; /* قبلاً 53px */
       display:flex;
       align-items:center;
       justify-content:space-between;
