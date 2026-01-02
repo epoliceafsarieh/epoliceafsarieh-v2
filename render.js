@@ -237,6 +237,14 @@
     gap:10px;
     margin-top:10px;
   }
+  .hero-actions.sticky-cta{
+    position:sticky;
+    top:60px;
+    z-index:900;
+    background:#fff;
+    padding-top:10px;
+    padding-bottom:10px;
+  }
   .btn-primary{
     display:block;
     text-align:center;
@@ -440,7 +448,7 @@
 
         ${firstSectionHtml}
 
-        <div class="hero-actions">
+        <div class="hero-actions sticky-cta">
           ${heroPrimary?.label && heroPrimary?.href
             ? `<a class="btn-primary" href="${esc(heroPrimary.href)}">${esc(heroPrimary.label)}</a>`
             : ""
@@ -526,7 +534,6 @@
               ${faqHtml}
 
               <div class="footer">
-                <a class="back-btn-footer" href="index.html">بازگشت به صفحه اصلی</a>
                 <span class="hint">این راهنما به مرور کامل‌تر می‌شود</span>
               </div>
             </div>
@@ -537,6 +544,19 @@
 
       ${bottomCtaHtml}
     `;
+
+    // کار ۵: کلیک روی «مدارک لازم را ببین» => فقط آکاردئون docs باز شود و بقیه بسته شوند
+    if (wantsDocsAnchor) {
+      const btnDocs = app.querySelector('.btn-secondary[href="#docs"]');
+      const docsEl = app.querySelector('details.sec#docs');
+      if (btnDocs && docsEl) {
+        btnDocs.addEventListener("click", function () {
+          const all = app.querySelectorAll("details.sec");
+          all.forEach(d => { if (d !== docsEl) d.removeAttribute("open"); });
+          docsEl.setAttribute("open", "");
+        });
+      }
+    }
   }
 
   const key = window.SERVICE_KEY;
