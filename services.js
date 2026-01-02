@@ -252,3 +252,4 @@ const SERVICES = {
     faq: []
   }
 };
+window.SERVICES = SERVICES;
