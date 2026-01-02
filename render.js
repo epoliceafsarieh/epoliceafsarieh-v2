@@ -133,7 +133,9 @@
   }
 
   .brandbar{
-    position:relative;
+    position:sticky;
+    top:0;
+    z-index:1000;
     background:var(--brand-blue) !important;
     color:#fff;
     padding:6px 12px;
