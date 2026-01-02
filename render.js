@@ -11,6 +11,7 @@
     return t ? t : "—";
   }
 
+  // لیست هوشمند: تیترهای داخلی با ":" و زیرلیست
   function liList(items) {
     if (!items || !items.length) return "";
 
@@ -18,26 +19,14 @@
     const isHead = (s) => /[:：]$/.test(s);
     const hasAnyHead = clean.some(isHead);
 
-    if (!hasAnyHead) {
-      return `<ul>${clean.map(x => `<li>${esc(x)}</li>`).join("")}</ul>`;
-    }
+    if (!hasAnyHead) return `<ul>${clean.map(x => `<li>${esc(x)}</li>`).join("")}</ul>`;
 
     let html = "";
     let i = 0;
-    let openMainUl = false;
 
-    const openUl = () => {
-      if (!openMainUl) {
-        html += `<ul>`;
-        openMainUl = true;
-      }
-    };
-    const closeUl = () => {
-      if (openMainUl) {
-        html += `</ul>`;
-        openMainUl = false;
-      }
-    };
+    let openMainUl = false;
+    const openUl = () => { if (!openMainUl) { html += `<ul>`; openMainUl = true; } };
+    const closeUl = () => { if (openMainUl) { html += `</ul>`; openMainUl = false; } };
 
     while (i < clean.length) {
       const cur = clean[i];
@@ -106,7 +95,6 @@
   }
 
   .wrap{max-width:860px;margin:18px auto 90px;padding:0 14px}
-
   .card{
     background:var(--card);
     border:1px solid var(--border);
@@ -114,12 +102,16 @@
     overflow:visible;
     box-shadow:var(--shadow);
   }
+  .card-clip{
+    overflow:hidden;
+    border-radius:0 0 var(--radius) var(--radius);
+  }
 
   .brandbar{
     position:sticky;
     top:0;
     z-index:1000;
-    background:var(--brand-blue);
+    background:var(--brand-blue) !important;
     color:#fff;
     padding:6px 12px;
     height:60px;
@@ -127,6 +119,7 @@
     align-items:center;
     justify-content:space-between;
     gap:10px;
+    overflow:hidden;
     border-radius:var(--radius) var(--radius) 0 0;
   }
 
@@ -137,6 +130,7 @@
     gap:12px;
     min-width:0;
     padding-right:90px;
+    margin-right:-16px;
   }
 
   .svc-badge{
@@ -146,9 +140,9 @@
     background:transparent;
     position:absolute;right:12px;top:50%;
     transform:translateY(-50%);
+    z-index:2;
   }
-
-  .svc-icon{width:66px;height:66px;object-fit:contain}
+  .svc-icon{width:66px;height:66px;object-fit:contain;display:block}
 
   .svc-title{
     font-weight:900;
@@ -157,6 +151,7 @@
     overflow:hidden;
     text-overflow:ellipsis;
     max-width:60vw;
+    letter-spacing:-.2px;
   }
 
   .back-btn{
@@ -173,6 +168,7 @@
     font-weight:900;
     cursor:pointer;
     white-space:nowrap;
+    z-index:3;
   }
 
   .header{
@@ -203,43 +199,44 @@
     white-space:nowrap;
   }
 
-  /* ===== HERO ===== */
+  details{margin:0}
+  summary{cursor:pointer;list-style:none}
+  summary::-webkit-details-marker{display:none}
+
+  .fee-box{
+    margin-top:10px;
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:12px;
+    background:#fff;
+  }
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{border:1px solid var(--border);padding:10px;text-align:center}
+  th{background:#f2f5f9;font-weight:900}
+
+  /* ===== HERO (Task-first) ===== */
   .hero{
     padding:14px 16px 14px;
     background:#fff;
     border-bottom:1px solid var(--border);
   }
-
   .hero-title{
     font-weight:900;
     font-size:16px;
     margin:0 0 6px;
   }
-
   .hero-sub{
     margin:0 0 10px;
     color:#334155;
     font-size:13px;
     font-weight:500;
   }
-
   .hero-actions{
     display:grid;
     grid-template-columns:1fr;
     gap:10px;
     margin-top:10px;
   }
-
-  /* 🔒 فقط این اضافه شده */
-  .hero-actions.sticky-cta{
-    position:sticky;
-    top:60px;
-    z-index:900;
-    background:#fff;
-    padding-top:10px;
-    padding-bottom:10px;
-  }
-
   .btn-primary{
     display:block;
     text-align:center;
@@ -251,7 +248,6 @@
     font-weight:900;
     border:1px solid var(--brand-blue);
   }
-
   .btn-secondary{
     display:block;
     text-align:center;
@@ -273,7 +269,6 @@
     background:#fff;
     overflow:hidden;
   }
-
   .sec summary{
     padding:12px 14px;
     font-size:15px;
@@ -284,86 +279,205 @@
     gap:10px;
     background:var(--section-bg);
   }
-
+  .sec summary small{
+    font-weight:600;
+    color:#64748b;
+    font-size:12px;
+  }
   .sec-body{padding:12px 14px}
 
   ul,ol{margin:0;padding-right:20px;font-size:14px}
-  li{margin:8px 0}
+  li{margin:8px 0;font-weight:normal}
 
-  .subhead{margin:10px 0 6px;font-weight:900}
+  .subhead{margin:10px 0 6px;font-weight:900;color:#0f172a}
+  ul.sublist{margin:0;padding-right:22px}
+
+  .cta{margin-top:10px}
+  .cta a{
+    display:inline-block;
+    background:rgba(4,30,66,.12);
+    border:1px solid rgba(4,30,66,.35);
+    padding:10px 14px;
+    border-radius:12px;
+    font-weight:900;
+    color:#041E42;
+    text-decoration:none;
+  }
 
   .faq-title{margin:14px 0 8px;font-size:15px;font-weight:900}
   .faq details{
     border:1px solid var(--border);
     border-radius:12px;
-    margin-top:10px;
+    padding:0;
     background:#fff;
+    margin-top:10px;
     overflow:hidden;
   }
-
   .faq summary{
     padding:12px 14px;
     font-weight:900;
     background:var(--section-bg);
     cursor:pointer;
   }
-
-  .faq .ans{padding:10px 14px;color:#334155;font-size:13px}
+  .faq .ans{padding:10px 14px;color:#334155;font-size:13px;font-weight:normal}
 
   .footer{
     margin-top:14px;
     display:flex;
-    justify-content:flex-end;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
     padding-top:8px;
     border-top:1px dashed #e9edf5;
   }
-
+  .back-btn-footer{
+    background:var(--brand-blue) !important;
+    border:1px solid var(--brand-blue) !important;
+    color:#fff !important;
+    text-decoration:none;
+    padding:10px 14px;
+    border-radius:12px;
+    font-weight:900;
+  }
   .hint{font-size:12px;color:#777}
+
+  /* ===== Bottom CTA ثابت (فقط وقتی سرویس بخواهد) ===== */
+  .bottom-cta{
+    position:fixed;
+    right:0;left:0;bottom:0;
+    background:rgba(245,247,251,.92);
+    backdrop-filter:saturate(140%) blur(6px);
+    border-top:1px solid var(--border);
+    padding:10px 14px calc(10px + env(safe-area-inset-bottom));
+    z-index:2000;
+  }
+  .bottom-cta .inner{
+    max-width:860px;
+    margin:0 auto;
+  }
 </style>`;
 
   function renderService(serviceKey) {
     const svc = window.SERVICES[serviceKey];
     if (!svc) {
-      app.innerHTML = `${style}<div class="wrap"><div class="card"><div class="content">این خدمت پیدا نشد.</div></div></div>`;
+      app.innerHTML = `${style}<div class="wrap"><div class="card"><div class="card-clip"><div class="content">این خدمت پیدا نشد.</div></div></div></div>`;
       return;
     }
 
     const metaParts = [];
-    if (svc?.meta?.time) {
-      metaParts.push(`<div class="pill">زمان معمول: ${esc(svc.meta.time)}</div>`);
+    if (svc?.meta?.time) metaParts.push(`<div class="pill">زمان معمول: ${esc(svc.meta.time)}</div>`);
+
+    let feeHtml = "";
+    const feeKey = svc?.meta?.feeKey;
+    const feeObj =
+      (typeof window.FEES !== "undefined" && feeKey && window.FEES[feeKey])
+        ? window.FEES[feeKey]
+        : null;
+
+    if (feeObj && Array.isArray(svc.feeRows) && svc.feeRows.length) {
+      const rows = svc.feeRows.map(r => ({ title: r.label, value: feeObj[r.field] }));
+      feeHtml = `
+        <details class="pill">
+          <summary>هزینه: ${esc(svc?.meta?.feeSummary || "مطابق تعرفه رسمی")} (جزئیات)</summary>
+          <div class="fee-box">
+            <table>
+              <tr><th>عنوان</th><th>مبلغ/توضیح</th></tr>
+              ${rows.map(r => `<tr><td>${esc(r.title)}</td><td>${esc(safeText(r.value))}</td></tr>`).join("")}
+            </table>
+          </div>
+        </details>
+      `;
     }
 
+    // === HERO: فقط اگر سرویس واقعاً داده داده باشد ===
+    const hasHero =
+      !!(svc.heroTitle || svc.heroSubtitle || svc.heroPrimary || svc.heroSecondary);
+
+    const heroTitle = esc(svc.heroTitle || "");
+    const heroSubtitle = esc(svc.heroSubtitle || "");
     const heroPrimary = svc.heroPrimary || null;
     const heroSecondary = svc.heroSecondary || null;
 
-    const heroHtml = `
+    const heroHtml = hasHero ? `
       <div class="hero">
-        ${svc.heroTitle ? `<div class="hero-title">${esc(svc.heroTitle)}</div>` : ""}
-        ${svc.heroSubtitle ? `<p class="hero-sub">${esc(svc.heroSubtitle)}</p>` : ""}
-        ${(heroPrimary || heroSecondary) ? `
-          <div class="hero-actions sticky-cta">
-            ${heroPrimary ? `<a class="btn-primary" href="${esc(heroPrimary.href)}">${esc(heroPrimary.label)}</a>` : ""}
-            ${heroSecondary ? `<a class="btn-secondary" href="${esc(heroSecondary.href)}">${esc(heroSecondary.label)}</a>` : ""}
-          </div>` : ""}
+        ${heroTitle ? `<div class="hero-title">${heroTitle}</div>` : ""}
+        ${heroSubtitle ? `<p class="hero-sub">${heroSubtitle}</p>` : ""}
+
+        <div class="hero-actions">
+          ${heroPrimary?.label && heroPrimary?.href
+            ? `<a class="btn-primary" href="${esc(heroPrimary.href)}">${esc(heroPrimary.label)}</a>`
+            : ""
+          }
+          ${heroSecondary?.label && heroSecondary?.href
+            ? `<a class="btn-secondary" href="${esc(heroSecondary.href)}">${esc(heroSecondary.label)}</a>`
+            : ""
+          }
+        </div>
       </div>
-    `;
+    ` : "";
 
-    const sectionsHtml = (svc.sections || []).map((sec) => `
-      <details class="sec"${sec.open ? " open" : ""}>
-        <summary><span>${esc(sec.heading || "")}</span></summary>
-        <div class="sec-body">${liList(sec.items || [])}</div>
-      </details>
-    `).join("");
+    const wantsDocsAnchor =
+      (typeof heroSecondary?.href === "string") && heroSecondary.href.trim() === "#docs";
 
-    const faqHtml = (svc.faq && svc.faq.length) ? `
-      <div class="faq">
-        <div class="faq-title">سؤالات پرتکرار</div>
-        ${svc.faq.map(f => `
-          <details>
-            <summary>${esc(f.q || "")}</summary>
-            <div class="ans">${esc(f.a || "")}</div>
-          </details>
-        `).join("")}
+    const sectionsHtml = (svc.sections || []).map((sec, idx) => {
+      const body = liList(sec.items || []);
+      const ctaHtml = (sec.cta && sec.cta.label && sec.cta.href)
+        ? `<div class="cta"><a href="${esc(sec.cta.href)}">${esc(sec.cta.label)}</a></div>`
+        : "";
+      const anchorAttr = (wantsDocsAnchor && idx === 0) ? ` id="docs"` : "";
+      const openAttr = sec && sec.open ? " open" : "";
+      return `
+        <details class="sec"${anchorAttr}${openAttr}>
+          <summary>
+            <span>${esc(sec.heading || "")}</span>
+            <small>${esc(sec.tag || "")}</small>
+          </summary>
+          <div class="sec-body">${body}${ctaHtml}</div>
+        </details>
+      `;
+    }).join("");
+
+    const noticeList =
+      (svc.notDone && svc.notDone.length) ? svc.notDone
+      : (svc.notice && svc.notice.length) ? svc.notice
+      : null;
+
+    const notDoneHtml = (noticeList && noticeList.length)
+      ? `
+        <details class="sec">
+          <summary><span>نکات مهم</span><small></small></summary>
+          <div class="sec-body">${olList(noticeList)}</div>
+        </details>
+      `
+      : "";
+
+    const faqHtml = (svc.faq && svc.faq.length)
+      ? `
+        <div class="faq">
+          <div class="faq-title">سؤالات پرتکرار</div>
+          ${svc.faq.map(f => `
+            <details>
+              <summary>${esc(f.q || "")}</summary>
+              <div class="ans">${esc(f.a || "")}</div>
+            </details>
+          `).join("")}
+        </div>
+      `
+      : "";
+
+    const iconHtml = svc.icon
+      ? `<div class="svc-badge"><img class="svc-icon" src="${esc(svc.icon)}" alt=""></div>`
+      : "";
+
+    const hasBottomCta = !!(svc.bottomCta && svc.bottomCta.label && svc.bottomCta.href);
+    const bottomCta = hasBottomCta ? svc.bottomCta : null;
+
+    const bottomCtaHtml = bottomCta ? `
+      <div class="bottom-cta">
+        <div class="inner">
+          <a class="btn-primary" href="${esc(bottomCta.href)}">${esc(bottomCta.label)}</a>
+        </div>
       </div>
     ` : "";
 
@@ -374,35 +488,46 @@
 
           <div class="brandbar">
             <div class="brand-right">
-              ${svc.icon ? `<div class="svc-badge"><img class="svc-icon" src="${esc(svc.icon)}" alt=""></div>` : ""}
+              ${iconHtml}
               <div class="svc-title">${esc(svc.barTitle || svc.shortTitle || "")}</div>
             </div>
             <a class="back-btn" href="index.html">بازگشت</a>
           </div>
 
-          <div class="header">
-            <div class="meta">${metaParts.join("")}</div>
-          </div>
+          <div class="card-clip">
+            <div class="header">
+              <div class="meta">
+                ${metaParts.join("")}
+                ${feeHtml}
+              </div>
+            </div>
 
-          ${heroHtml}
+            ${heroHtml}
 
-          <div class="content">
-            ${sectionsHtml}
-            ${faqHtml}
-            <div class="footer">
-              <span class="hint">این راهنما به مرور کامل‌تر می‌شود</span>
+            <div class="content">
+              ${sectionsHtml}
+              ${notDoneHtml}
+              ${faqHtml}
+
+              <div class="footer">
+                <a class="back-btn-footer" href="index.html">بازگشت به صفحه اصلی</a>
+                <span class="hint">این راهنما به مرور کامل‌تر می‌شود</span>
+              </div>
             </div>
           </div>
 
         </div>
       </div>
+
+      ${bottomCtaHtml}
     `;
   }
 
-  if (!window.SERVICE_KEY) {
-    app.innerHTML = `${style}<div class="wrap"><div class="card"><div class="content">شناسه خدمت مشخص نیست.</div></div></div>`;
+  const key = window.SERVICE_KEY;
+  if (!key) {
+    app.innerHTML = `${style}<div class="wrap"><div class="card"><div class="card-clip"><div class="content">شناسه خدمت مشخص نیست.</div></div></div></div>`;
     return;
   }
 
-  renderService(window.SERVICE_KEY);
+  renderService(key);
 })();
