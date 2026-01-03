@@ -13,12 +13,6 @@
 
 *{box-sizing:border-box}
 
-/* ✅ FIX (1): جلوگیری از text auto-zoom در iOS */
-html{
-  -webkit-text-size-adjust:100%;
-  text-size-adjust:100%;
-}
-
 body{
   margin:0;
   font-family: system-ui, -apple-system, BlinkMacSystemFont,
@@ -100,13 +94,6 @@ body{
   gap:12px;
 }
 
-/* ✅ FIX (2): breakpoint مشخص تا در زوم‌های بالا “مرورگر” تصمیم نگیرد */
-@media (max-width: 520px){
-  .popular{
-    grid-template-columns:1fr;
-  }
-}
-
 .tile{
   background:rgba(255,255,255,.10);
   border:1px solid rgba(255,255,255,.25);
@@ -119,17 +106,37 @@ body{
   gap:12px;
   color:#fff;
   text-decoration:none;
-
-  min-width:0; /* ✅ FIX (3): برای Grid در Chrome حیاتی */
+  min-width:0; /* FIX: برای Grid در Chrome حیاتی */
 }
 
-/* ✅ آیکن‌ها – هم‌استاندارد با رندر داخلی */
+/* ✅ آیکن‌ها */
 .tile img{
   width:76px;
   height:76px;
   flex:0 0 76px;
   object-fit:contain;
   display:block;
+}
+
+/* === Keep 2 columns up to ~125% zoom (small widths) === */
+@media (max-width: 360px){
+  .tile{
+    padding:12px 12px;
+    gap:10px;
+    min-height:88px;
+  }
+  .tile img{
+    width:64px;
+    height:64px;
+    flex:0 0 64px;
+  }
+}
+
+/* فقط در عرض‌های خیلی خیلی کم تک‌ستونه شود */
+@media (max-width: 300px){
+  .popular{
+    grid-template-columns:1fr;
+  }
 }
 
 .internet-thin{
