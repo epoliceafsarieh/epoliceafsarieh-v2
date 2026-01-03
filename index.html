@@ -22,10 +22,18 @@ body{
   line-height:1.9;
 }
 
+/* ✅ FIX: وقتی زوم خیلی بالا رفت، به‌جای به‌هم‌ریختگی اجزا، کل صفحه افقی اسکرول بگیرد */
+html, body{ overflow-x:auto; }
+
 .wrap{
   max-width:640px;
   margin:0 auto;
   padding:26px 16px 22px;
+}
+
+/* ✅ FIX: روی دسکتاپ/عرض‌های کافی، تا زوم‌های بالاتر (مثل 125) ۲ستونه بماند؛ اگر جا نشد اسکرول افقی می‌آید */
+@media (min-width:520px){
+  .wrap{ min-width:640px; }
 }
 
 .brand{text-align:center;margin-bottom:14px;}
@@ -118,6 +126,14 @@ body{
   display:block;
 }
 
+/* ✅ FIX: متن همیشه از کادر بیرون نزند و بتواند درست بشکند */
+.tile-label{
+  min-width:0;
+  white-space:normal;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+}
+
 .internet-thin{
   display:block;
   margin-top:12px;
@@ -171,6 +187,7 @@ body{
   border-radius:14px;
   padding:12px;
 }
+
 /* وقتی عرض کم شد (زوم بالا / موبایل کوچک): آیکون بالا، متن زیر — هنوز ۲ستونه */
 @media (max-width: 420px){
   .tile{
@@ -213,16 +230,20 @@ body{
 
   <div class="popular">
     <a class="tile" href="passport.html">
-      <img src="assets/img/icons/passport.png">گذرنامه
+      <img src="assets/img/icons/passport.png">
+      <span class="tile-label">گذرنامه</span>
     </a>
     <a class="tile" href="tarkhis.html">
-      <img src="assets/img/icons/tow.png">ترخیص خودرو / موتور
+      <img src="assets/img/icons/tow.png">
+      <span class="tile-label">ترخیص خودرو / موتور</span>
     </a>
     <a class="tile" href="driving.html">
-      <img src="assets/img/icons/license.png">گواهینامه
+      <img src="assets/img/icons/license.png">
+      <span class="tile-label">گواهینامه</span>
     </a>
     <a class="tile" href="other.html">
-      <img src="assets/img/icons/other.png">سایر خدمات
+      <img src="assets/img/icons/other.png">
+      <span class="tile-label">سایر خدمات</span>
     </a>
   </div>
 
