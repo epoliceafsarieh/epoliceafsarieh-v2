@@ -533,19 +533,20 @@
       `
       : "";
 
-    const faqHtml = (svc.faq && svc.faq.length)
-      ? `
-        <div class="faq">
-          <div class="faq-title">سؤالات پرتکرار</div>
-          ${svc.faq.map(f => `
-            <details>
-              <summary>${esc(f.q || "")}</summary>
-              <div class="ans">${esc(f.a || "")}</div>
-            </details>
-          `).join("")}
-        </div>
-      `
-      : "";
+   const faqHtml = (svc.faqEnabled === true && svc.faq && svc.faq.length)
+  ? `
+    <div class="faq">
+      <div class="faq-title">سؤالات پرتکرار</div>
+      ${svc.faq.map(f => `
+        <details>
+          <summary>${esc(f.q || "")}</summary>
+          <div class="ans">${esc(f.a || "")}</div>
+        </details>
+      `).join("")}
+    </div>
+  `
+  : "";
+
 
     const iconHtml = svc.icon
       ? `<div class="svc-badge"><img class="svc-icon" src="${esc(svc.icon)}" alt=""></div>`
