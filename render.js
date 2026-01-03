@@ -22,8 +22,8 @@
 
     const ulCls = (opts && opts.noBullets) ? ` class="no-bullets"` : "";
 
-   if (!hasAnyHead) return `<ul class="no-bullets">${clean.map(x => `<li>${esc(x)}</li>`).join("")}</ul>`;
-
+    // ✅ FIX 1: اگر تیتر نداریم، فقط در صورت درخواست noBullets اعمال شود (نه همیشه)
+    if (!hasAnyHead) return `<ul${ulCls}>${clean.map(x => `<li>${esc(x)}</li>`).join("")}</ul>`;
 
     let html = "";
     let i = 0;
@@ -46,8 +46,9 @@
           i++;
         }
 
+        // ✅ FIX 2: sublist نباید no-bullets بگیرد تا بولت‌ها برای زیرلیست بماند
         if (sub.length) {
-          html += `<ul class="sublist${(opts && opts.noBullets) ? " no-bullets" : ""}">${sub.map(x => `<li>${esc(x)}</li>`).join("")}</ul>`;
+          html += `<ul class="sublist">${sub.map(x => `<li>${esc(x)}</li>`).join("")}</ul>`;
         }
         continue;
       }
