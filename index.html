@@ -171,6 +171,26 @@ body{
   border-radius:14px;
   padding:12px;
 }
+/* وقتی عرض کم شد (زوم بالا / موبایل کوچک): آیکون بالا، متن زیر — هنوز ۲ستونه */
+@media (max-width: 420px){
+  .tile{
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    gap:8px;
+  }
+
+  .tile img{
+    flex:0 0 auto;
+  }
+
+  .tile-label{
+    flex:0 0 auto;
+    min-width:0;
+    white-space:normal;
+    overflow-wrap:break-word;
+  }
+}
 
 /* ✅ دیرتر تک‌ستونه شود */
 @media (max-width: 330px){
