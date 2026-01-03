@@ -13,6 +13,12 @@
 
 *{box-sizing:border-box}
 
+/* ✅ FIX (1): جلوگیری از text auto-zoom در iOS */
+html{
+  -webkit-text-size-adjust:100%;
+  text-size-adjust:100%;
+}
+
 body{
   margin:0;
   font-family: system-ui, -apple-system, BlinkMacSystemFont,
@@ -94,6 +100,13 @@ body{
   gap:12px;
 }
 
+/* ✅ FIX (2): breakpoint مشخص تا در زوم‌های بالا “مرورگر” تصمیم نگیرد */
+@media (max-width: 520px){
+  .popular{
+    grid-template-columns:1fr;
+  }
+}
+
 .tile{
   background:rgba(255,255,255,.10);
   border:1px solid rgba(255,255,255,.25);
@@ -106,8 +119,8 @@ body{
   gap:12px;
   color:#fff;
   text-decoration:none;
-  min-width:0; /* FIX: برای Grid در Chrome حیاتی */
-  overflow:hidden; /* FIX: جلوگیری از بیرون‌زدن در زوم بالا */
+
+  min-width:0; /* ✅ FIX (3): برای Grid در Chrome حیاتی */
 }
 
 /* ✅ آیکن‌ها – هم‌استاندارد با رندر داخلی */
@@ -117,14 +130,6 @@ body{
   flex:0 0 76px;
   object-fit:contain;
   display:block;
-}
-
-/* FIX: کنترل متن داخل tile برای زوم‌های بالا */
-.tile span{
-  min-width:0;
-  display:block;
-  line-height:1.35;
-  word-break:break-word;
 }
 
 .internet-thin{
@@ -152,14 +157,11 @@ body{
   display:flex;
   justify-content:space-between;
   gap:10px;
-  flex-wrap:wrap; /* FIX: ریسپانسیو در زوم بالا */
-  align-items:center;
 }
 
 .footer-actions{
   display:flex;
   gap:10px;
-  flex-wrap:wrap; /* FIX: دکمه‌ها در زوم بالا می‌شکنند */
 }
 
 .footer-btn,
@@ -183,22 +185,6 @@ body{
   border-radius:14px;
   padding:12px;
 }
-
-/* ✅ Reflow در زوم‌های بالا / عرض‌های کم */
-@media (max-width: 420px){
-  .popular{ grid-template-columns:1fr; }   /* ۲ ستون → ۱ ستون */
-
-  .tile{
-    padding:12px 12px;
-    min-height:auto;
-  }
-
-  .tile img{
-    width:64px;
-    height:64px;
-    flex:0 0 64px;
-  }
-}
 </style>
 </head>
 
@@ -214,16 +200,16 @@ body{
 
   <div class="popular">
     <a class="tile" href="passport.html">
-      <img src="assets/img/icons/passport.png"><span>گذرنامه</span>
+      <img src="assets/img/icons/passport.png">گذرنامه
     </a>
     <a class="tile" href="tarkhis.html">
-      <img src="assets/img/icons/tow.png"><span>ترخیص خودرو / موتور</span>
+      <img src="assets/img/icons/tow.png">ترخیص خودرو / موتور
     </a>
     <a class="tile" href="driving.html">
-      <img src="assets/img/icons/license.png"><span>گواهینامه</span>
+      <img src="assets/img/icons/license.png">گواهینامه
     </a>
     <a class="tile" href="other.html">
-      <img src="assets/img/icons/other.png"><span>سایر خدمات</span>
+      <img src="assets/img/icons/other.png">سایر خدمات
     </a>
   </div>
 
