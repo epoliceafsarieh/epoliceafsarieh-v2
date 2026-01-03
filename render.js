@@ -348,6 +348,8 @@ ul.no-bullets > li{
 /* زیرلیست‌ها (مثل افراد زیر ۱۸ سال / بانوان متأهل) بولت داشته باشند */
 ul.no-bullets ul,
 ul.sublist{
+margin:4px 0;
+   margin-right:24px;
   list-style:disc;
   padding-right:22px;
 }
