@@ -423,6 +423,23 @@
     border-radius:0 0 14px 14px;
     background:#fff;
   }
+
+  @media (max-width: 480px){
+  .wrap{ margin:10px auto 60px; padding:0 10px; }
+  .header{ padding:10px 12px 8px; }
+
+  .hero{ padding:10px 12px 10px; }
+  .content{ padding:12px 12px 14px; }
+
+  .sec{ margin-top:8px; }
+  .sec summary{ padding:10px 12px; }
+  .sec-body{ padding:10px 12px; }
+
+  .footer{ margin-top:10px; padding-top:6px; }
+
+  .hero-actions{ gap:8px; margin-top:8px; }
+}
+
 </style>`;
 
   function renderService(serviceKey) {
