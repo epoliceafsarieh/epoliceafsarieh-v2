@@ -355,6 +355,11 @@ margin:4px 0;
 
   .subhead{margin:10px 0 6px;font-weight:900;color:#0f172a}
   ul.sublist{margin:0;padding-right:22px}
+  /* فقط زیرلیستِ داخل «گام‌های انجام کار» کمی جلوتر برود */
+.sec:first-of-type ul.sublist{
+  padding-right:34px; /* از 22 بیشتر شد => جلوتر می‌آید */
+}
+
 
   .cta{margin-top:10px}
   .cta a{
