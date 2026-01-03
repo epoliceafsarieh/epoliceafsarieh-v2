@@ -347,7 +347,7 @@ ul.no-bullets > li{
 ul.no-bullets ul,
 ul.sublist{
 margin:4px 0;
-   margin-right:24px;
+   margin-right:28px;
   list-style:disc;
   padding-right:22px;
 }
