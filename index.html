@@ -212,12 +212,22 @@ html, body{ overflow-x:hidden; }
 @media (max-width: 240px){
   .popular{ grid-template-columns:1fr; }
 }
-
-/* (مرحله 4) خیلی خیلی کوچک/زوم خیلی بالا: قفل صفحه + اسکرول افقی (دیرتر از قبل) */
-@media (max-width: 200px){
+  /* (مرحله 4) خیلی خیلی کوچک/زوم خیلی بالا: قفل صفحه + اسکرول افقی (دیرتر از قبل) */
+  @media (max-width: 200px){
   html, body{ overflow-x:auto; }
-  .wrap{ min-width:690px; }
+
+  /* Canvas ثابت ولی کوچک‌تر (کمتر هیوج می‌شود) */
+  .wrap{
+    width:560px;
+    min-width:560px;
+    max-width:560px;
+  }
+
+  /* اگر قبلاً تک‌ستونه شده، همینجا هم تک‌ستونه را enforce کن */
+  .popular{ grid-template-columns:1fr; }
 }
+
+
 </style>
 </head>
 
