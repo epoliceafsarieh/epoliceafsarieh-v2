@@ -334,8 +334,24 @@
   ul,ol{margin:0;padding-right:20px;font-size:14px}
   li{margin:8px 0;font-weight:normal}
 
-  /* ✅ تغییر ۱: حذف بولت‌ها (موضعی با کلاس) */
-  ul.no-bullets{list-style:none;padding-right:0}
+  
+  /* گام‌های انجام کار: فقط بولتِ لیست اصلی حذف شود (زیرلیست‌ها بولت داشته باشند) */
+ul.no-bullets{
+  list-style:none;
+  padding-right:0;
+}
+
+ul.no-bullets > li{
+  list-style:none;
+}
+
+/* زیرلیست‌ها (مثل افراد زیر ۱۸ سال / بانوان متأهل) بولت داشته باشند */
+ul.no-bullets ul,
+ul.sublist{
+  list-style:disc;
+  padding-right:22px;
+}
+
 
   .subhead{margin:10px 0 6px;font-weight:900;color:#0f172a}
   ul.sublist{margin:0;padding-right:22px}
