@@ -607,7 +607,7 @@
             <div class="content">
               <details class="sec" id="docs">
                 <summary>
-                  <span>مدارک لازم را ببین</span>
+                  <span>مدارک لازم (چک لیست)</span>
                   <small></small>
                 </summary>
                 <div class="sec-body">
