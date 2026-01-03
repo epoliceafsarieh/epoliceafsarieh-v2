@@ -13,6 +13,12 @@
 
 *{box-sizing:border-box}
 
+/* ✅ FIX (1): جلوگیری از text auto-zoom در iOS */
+html{
+  -webkit-text-size-adjust:100%;
+  text-size-adjust:100%;
+}
+
 body{
   margin:0;
   font-family: system-ui, -apple-system, BlinkMacSystemFont,
@@ -94,6 +100,13 @@ body{
   gap:12px;
 }
 
+/* ✅ FIX (2): breakpoint مشخص تا در زوم‌های بالا “مرورگر” تصمیم نگیرد */
+@media (max-width: 520px){
+  .popular{
+    grid-template-columns:1fr;
+  }
+}
+
 .tile{
   background:rgba(255,255,255,.10);
   border:1px solid rgba(255,255,255,.25);
@@ -106,17 +119,8 @@ body{
   gap:12px;
   color:#fff;
   text-decoration:none;
-  min-width:0; /* FIX: برای Grid در Chrome حیاتی */
-}
 
-/* ✅ متن داخل tile باید در زوم‌های بالا بیرون نزند */
-.tile .tile-label{
-  min-width:0;
-  flex:1 1 auto;
-  display:block;
-  overflow-wrap:anywhere;     /* اجازه شکستن کلمات بلند */
-  word-break:break-word;      /* بکاپ برای بعضی مرورگرها */
-  line-height:1.35;
+  min-width:0; /* ✅ FIX (3): برای Grid در Chrome حیاتی */
 }
 
 /* ✅ آیکن‌ها – هم‌استاندارد با رندر داخلی */
@@ -196,23 +200,16 @@ body{
 
   <div class="popular">
     <a class="tile" href="passport.html">
-      <img src="assets/img/icons/passport.png">
-      <span class="tile-label">گذرنامه</span>
+      <img src="assets/img/icons/passport.png">گذرنامه
     </a>
-
     <a class="tile" href="tarkhis.html">
-      <img src="assets/img/icons/tow.png">
-      <span class="tile-label">ترخیص خودرو /<wbr> موتور</span>
+      <img src="assets/img/icons/tow.png">ترخیص خودرو / موتور
     </a>
-
     <a class="tile" href="driving.html">
-      <img src="assets/img/icons/license.png">
-      <span class="tile-label">گواهینامه</span>
+      <img src="assets/img/icons/license.png">گواهینامه
     </a>
-
     <a class="tile" href="other.html">
-      <img src="assets/img/icons/other.png">
-      <span class="tile-label">سایر خدمات</span>
+      <img src="assets/img/icons/other.png">سایر خدمات
     </a>
   </div>
 
