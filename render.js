@@ -22,9 +22,8 @@
 
     const ulCls = (opts && opts.noBullets) ? ` class="no-bullets"` : "";
 
-    if (!hasAnyHead) {
-      return `<ul${ulCls}>${clean.map(x => `<li>${esc(x)}</li>`).join("")}</ul>`;
-    }
+   if (!hasAnyHead) return `<ul class="no-bullets">${clean.map(x => `<li>${esc(x)}</li>`).join("")}</ul>`;
+
 
     let html = "";
     let i = 0;
