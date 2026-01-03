@@ -325,9 +325,7 @@
 }
 
   .sec summary small{
-    font-weight:600;
-    color:#64748b;
-    font-size:12px;
+   display:none;
   }
   .sec-body{padding:12px 14px}
 
