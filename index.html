@@ -22,8 +22,8 @@ body{
   line-height:1.9;
 }
 
-/* ✅ FIX: وقتی زوم خیلی بالا رفت، به‌جای به‌هم‌ریختگی اجزا، کل صفحه افقی اسکرول بگیرد */
-html, body{ overflow-x:auto; }
+/* ✅ پیش‌فرض: صفحه سعی می‌کند ریسپانسیو بماند و اسکرول افقی ندهد */
+html, body{ overflow-x:hidden; }
 
 .wrap{
   max-width:640px;
@@ -31,7 +31,7 @@ html, body{ overflow-x:auto; }
   padding:26px 16px 22px;
 }
 
-/* ✅ FIX: روی دسکتاپ/عرض‌های کافی، تا زوم‌های بالاتر (مثل 125) ۲ستونه بماند؛ اگر جا نشد اسکرول افقی می‌آید */
+/* ✅ FIX: روی دسکتاپ/عرض‌های کافی، تا زوم‌های بالاتر (مثل 125) ۲ستونه بماند */
 @media (min-width:520px){
   .wrap{ min-width:690px; }
 }
@@ -130,8 +130,8 @@ html, body{ overflow-x:auto; }
 .tile-label{
   min-width:0;
   white-space:normal;
-  overflow-wrap:anywhere;
-  word-break:break-word;
+  overflow-wrap:break-word;
+  word-break:normal;
 }
 
 .internet-thin{
@@ -214,6 +214,12 @@ html, body{ overflow-x:auto; }
   .popular{
     grid-template-columns:1fr;
   }
+}
+
+/* ✅ FIX اصلی: از یک نقطه به بعد صفحه «قفل» می‌شود و اسکرول افقی می‌گیرد (به‌جای تلاش برای جا شدن) */
+@media (max-width: 360px){
+  html, body{ overflow-x:auto; }
+  .wrap{ min-width:690px; }
 }
 </style>
 </head>
