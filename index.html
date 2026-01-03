@@ -22,7 +22,7 @@ body{
   line-height:1.9;
 }
 
-/* ✅ پیش‌فرض: صفحه سعی می‌کند ریسپانسیو بماند و اسکرول افقی ندهد */
+/* پیش‌فرض: بدون اسکرول افقی */
 html, body{ overflow-x:hidden; }
 
 .wrap{
@@ -31,7 +31,7 @@ html, body{ overflow-x:hidden; }
   padding:26px 16px 22px;
 }
 
-/* ✅ FIX: روی دسکتاپ/عرض‌های کافی، تا زوم‌های بالاتر (مثل 125) ۲ستونه بماند */
+/* روی دسکتاپ/عرض‌های کافی، تا زوم‌های بالاتر ۲ستونه بماند */
 @media (min-width:520px){
   .wrap{ min-width:690px; }
 }
@@ -98,7 +98,7 @@ html, body{ overflow-x:hidden; }
 
 .popular{
   display:grid;
-  grid-template-columns:repeat(2, minmax(0, 1fr)); /* FIX: اجازه shrink */
+  grid-template-columns:repeat(2, minmax(0, 1fr));
   gap:12px;
 }
 
@@ -114,10 +114,10 @@ html, body{ overflow-x:hidden; }
   gap:12px;
   color:#fff;
   text-decoration:none;
-  min-width:0; /* FIX: برای Grid در Chrome حیاتی */
+  min-width:0;
 }
 
-/* ✅ آیکن‌ها – ریسپانسیو برای زوم */
+/* آیکن‌ها – ریسپانسیو */
 .tile img{
   width:clamp(56px, 10vw, 76px);
   height:clamp(56px, 10vw, 76px);
@@ -126,11 +126,11 @@ html, body{ overflow-x:hidden; }
   display:block;
 }
 
-/* ✅ FIX: متن همیشه از کادر بیرون نزند و بتواند درست بشکند */
+/* متن: فقط از اسپیس‌ها بشکند؛ بیرون‌زدگی ممنوع */
 .tile-label{
   min-width:0;
   white-space:normal;
-  overflow-wrap:break-word;
+  overflow-wrap:break-word;  /* اولویت با شکستن از روی فاصله */
   word-break:normal;
 }
 
@@ -188,36 +188,24 @@ html, body{ overflow-x:hidden; }
   padding:12px;
 }
 
-/* وقتی عرض کم شد (زوم بالا / موبایل کوچک): آیکون بالا، متن زیر — هنوز ۲ستونه */
-@media (max-width: 420px){
+/* (مرحله 2) زودتر از تک‌ستونه: هنوز ۲ستونه، ولی آیکن بالا و متن زیر */
+@media (max-width: 520px){
   .tile{
     flex-direction:column;
     align-items:center;
     text-align:center;
     gap:8px;
   }
-
-  .tile img{
-    flex:0 0 auto;
-  }
-
-  .tile-label{
-    flex:0 0 auto;
-    min-width:0;
-    white-space:normal;
-    overflow-wrap:break-word;
-  }
+  .tile img{ flex:0 0 auto; }
 }
 
-/* ✅ دیرتر تک‌ستونه شود */
-@media (max-width: 280px){
-  .popular{
-    grid-template-columns:1fr;
-  }
+/* (مرحله 3) اگر دیگر ۲ستونه خوانا نبود: تک‌ستونه شود */
+@media (max-width: 340px){
+  .popular{ grid-template-columns:1fr; }
 }
 
-/* ✅ FIX اصلی: از یک نقطه به بعد صفحه «قفل» می‌شود و اسکرول افقی می‌گیرد (به‌جای تلاش برای جا شدن) */
-@media (max-width: 360px){
+/* (مرحله 4) خیلی خیلی کوچک/زوم خیلی بالا: قفل صفحه + اسکرول افقی (دیرتر از قبل) */
+@media (max-width: 260px){
   html, body{ overflow-x:auto; }
   .wrap{ min-width:690px; }
 }
