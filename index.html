@@ -119,12 +119,17 @@ html, body{ overflow-x:hidden; }
 
 /* آیکن‌ها – ریسپانسیو */
 .tile img{
-  width:clamp(56px, 10vw, 76px);
-  height:clamp(56px, 10vw, 76px);
-  flex:0 0 clamp(56px, 10vw, 76px);
+  width:clamp(60px, 9vw, 84px);
+  height:clamp(60px, 9vw, 84px);
+  flex:0 0 clamp(60px, 9vw, 84px);
   object-fit:contain;
   display:block;
 }
+  .tile-label{
+  font-size:clamp(14px, 3.2vw, 15px);
+  line-height:1.35;
+}
+
 
 /* متن: فقط از اسپیس‌ها بشکند؛ بیرون‌زدگی ممنوع */
 .tile-label{
