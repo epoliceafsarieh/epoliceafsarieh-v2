@@ -20,10 +20,6 @@ body{
   background:var(--ms-blue);
   color:var(--white);
   line-height:1.9;
-
-  /* ✅ FIX: گارد زوم‌های خیلی بالا (رفتار یکپارچه + اسکرول افقی) */
-  min-width:360px;
-  overflow-x:auto;
 }
 
 .wrap{
@@ -111,19 +107,13 @@ body{
   color:#fff;
   text-decoration:none;
   min-width:0; /* FIX: برای Grid در Chrome حیاتی */
-
-  /* ✅ FIX: متن همیشه داخل کادر بماند و فقط از فاصله‌ها بشکند */
-  white-space:normal;
-  overflow-wrap:break-word;
-  word-break:normal;
-  line-height:1.4;
 }
 
-/* ✅ آیکن‌ها – هم‌استاندارد با رندر داخلی */
+/* ✅ آیکن‌ها – ریسپانسیو برای زوم */
 .tile img{
-  width:76px;
-  height:76px;
-  flex:0 0 76px;
+  width:clamp(56px, 10vw, 76px);
+  height:clamp(56px, 10vw, 76px);
+  flex:0 0 clamp(56px, 10vw, 76px);
   object-fit:contain;
   display:block;
 }
@@ -182,8 +172,8 @@ body{
   padding:12px;
 }
 
-/* ✅ FIX: تا حدود زوم ۱۲۵ هنوز دو ستونه؛ بعدش یک‌ستونه */
-@media (max-width: 560px){
+/* ✅ دیرتر تک‌ستونه شود */
+@media (max-width: 460px){
   .popular{
     grid-template-columns:1fr;
   }
