@@ -119,15 +119,19 @@ html, body{ overflow-x:hidden; }
 
 /* آیکن‌ها – ریسپانسیو */
 .tile img{
-  width:clamp(94px, 9vw, 94px);
-  height:clamp(94px, 9vw, 94px);
-  flex:0 0 clamp(94px, 9vw, 94px);
+  width:clamp(88px, 10vw, 104px);
+  height:clamp(88px, 10vw, 104px);
+  flex:0 0 clamp(88px, 10vw, 104px);
   object-fit:contain;
   display:block;
 }
   .tile-label{
-  font-size:clamp(13px, 3.2vw, 13px);
-  line-height:1.35;
+  font-size: clamp(13px, 1.8vw, 14px);
+  line-height: 1.35;
+  min-width: 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 
