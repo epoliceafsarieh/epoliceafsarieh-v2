@@ -12,20 +12,25 @@
   }
 
   // لیست هوشمند: تیترهای داخلی با ":" و زیرلیست
-  function liList(items) {
+  // ✅ تغییر ۱: امکان حذف بولت‌ها به‌صورت موضعی (فقط برای گام‌ها)
+  function liList(items, opts) {
     if (!items || !items.length) return "";
 
     const clean = items.map(x => String(x ?? "").trim()).filter(Boolean);
     const isHead = (s) => /[:：]$/.test(s);
     const hasAnyHead = clean.some(isHead);
 
-    if (!hasAnyHead) return `<ul>${clean.map(x => `<li>${esc(x)}</li>`).join("")}</ul>`;
+    const ulCls = (opts && opts.noBullets) ? ` class="no-bullets"` : "";
+
+    if (!hasAnyHead) {
+      return `<ul${ulCls}>${clean.map(x => `<li>${esc(x)}</li>`).join("")}</ul>`;
+    }
 
     let html = "";
     let i = 0;
 
     let openMainUl = false;
-    const openUl = () => { if (!openMainUl) { html += `<ul>`; openMainUl = true; } };
+    const openUl = () => { if (!openMainUl) { html += `<ul${ulCls}>`; openMainUl = true; } };
     const closeUl = () => { if (openMainUl) { html += `</ul>`; openMainUl = false; } };
 
     while (i < clean.length) {
@@ -43,7 +48,7 @@
         }
 
         if (sub.length) {
-          html += `<ul class="sublist">${sub.map(x => `<li>${esc(x)}</li>`).join("")}</ul>`;
+          html += `<ul class="sublist${(opts && opts.noBullets) ? " no-bullets" : ""}">${sub.map(x => `<li>${esc(x)}</li>`).join("")}</ul>`;
         }
         continue;
       }
@@ -329,6 +334,9 @@
   ul,ol{margin:0;padding-right:20px;font-size:14px}
   li{margin:8px 0;font-weight:normal}
 
+  /* ✅ تغییر ۱: حذف بولت‌ها (موضعی با کلاس) */
+  ul.no-bullets{list-style:none;padding-right:0}
+
   .subhead{margin:10px 0 6px;font-weight:900;color:#0f172a}
   ul.sublist{margin:0;padding-right:22px}
 
@@ -493,7 +501,11 @@
     // =========================
     let firstSectionHtml = "";
     const restSectionsHtml = (svc.sections || []).map((sec, idx) => {
-      const body = liList(sec.items || []);
+      // ✅ تغییر ۱: فقط برای سکشن اول (گام‌ها) بولت‌ها حذف شود
+      const body = (idx === 0)
+        ? liList(sec.items || [], { noBullets: true })
+        : liList(sec.items || []);
+
       const ctaHtml = (sec.cta && sec.cta.label && sec.cta.href)
         ? `<div class="cta"><a href="${esc(sec.cta.href)}">${esc(sec.cta.label)}</a></div>`
         : "";
