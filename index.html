@@ -339,10 +339,22 @@ document.addEventListener("click",e=>{
 
 document.querySelectorAll(".footer-btn").forEach(b=>{
   b.onclick=()=>{
+    const panel = document.getElementById(b.dataset.panel);
+    const isOpen = panel.style.display === "block";
+
+    // اول همه را ببند
     document.querySelectorAll(".footer-panel").forEach(p=>p.style.display="none");
-    document.getElementById(b.dataset.panel).style.display="block";
+
+    // اگر قبلاً باز نبود، بازش کن
+    if(!isOpen) panel.style.display="block";
   };
 });
+document.addEventListener("click", (e)=>{
+  if(!e.target.closest(".footer")) {
+    document.querySelectorAll(".footer-panel").forEach(p=>p.style.display="none");
+  }
+});
+
 </script>
 
 </body>
