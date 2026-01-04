@@ -691,7 +691,18 @@ if (feeObj && Array.isArray(svc.feeRows) && svc.feeRows.length) {
       }
     }
   }
+// ✅ کلیک روی pill هزینه => سکشن هزینه باز شود و اسکرول کند
+const btnFees = app.querySelector('.pill[href="#fees"]');
+const feesWrap = app.querySelector('details.sec#fees');
+if (btnFees && feesWrap) {
+  btnFees.addEventListener("click", function (e) {
+    e.preventDefault();
+    feesWrap.setAttribute("open", "");
+    feesWrap.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+}
 
+  
   const key = window.SERVICE_KEY;
   if (!key) {
     app.innerHTML = `${style}<div class="wrap"><div class="card"><div class="card-clip"><div class="content">شناسه خدمت مشخص نیست.</div></div></div></div>`;
