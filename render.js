@@ -229,67 +229,16 @@
   summary{cursor:pointer;list-style:none}
   summary::-webkit-details-marker{display:none}
 
-  /* ===== Fee dropdown: card-like (نه پنجره عجیب) ===== */
-  .meta details.pill{
-    flex: 1 1 100%;
-    width: 100%;
-    max-width: 100%;
-    white-space: normal; /* summary هم اگر لازم شد بشکند */
-  }
-
-  .meta details.pill > summary{
-    width: 100%;
-  }
-
   .fee-box{
     margin-top:10px;
-    padding:12px;
-    background:#fff;
-    border:1px solid var(--border);
-    border-radius:14px;
-    box-shadow: 0 10px 24px rgba(2,8,23,.08);
-  }
-
-  /* جدول: کارت‌مانند و خوانا */
-  .fee-box table{
-    width:100%;
-    border-collapse:separate;
-    border-spacing:0;
-    font-size:13px;
-    overflow:hidden;
     border:1px solid var(--border);
     border-radius:12px;
+    padding:12px;
+    background:#fff;
   }
-
-  .fee-box th,
-  .fee-box td{
-    border:0;
-    padding:10px 12px;
-    text-align:right;
-    vertical-align:top;
-  }
-
-  .fee-box th{
-    background:#f2f5f9;
-    font-weight:900;
-    color:#0f172a;
-  }
-
-  .fee-box tr + tr td{
-    border-top:1px solid var(--border);
-  }
-
-  /* ستون‌ها کمی متعادل‌تر شوند */
-  .fee-box td:first-child{
-    width:44%;
-    font-weight:800;
-    color:#0f172a;
-  }
-
-  .fee-box td:last-child{
-    width:56%;
-    color:#334155;
-  }
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{border:1px solid var(--border);padding:10px;text-align:center}
+  th{background:#f2f5f9;font-weight:900}
 
   /* ===== HERO (Task-first) ===== */
   .hero{
@@ -518,31 +467,6 @@ margin:4px 0;
   .footer{ margin-top:10px; padding-top:6px; }
 
   .hero-actions{ gap:8px; margin-top:8px; }
-
-  /* ===== Mobile: جدول به هم نریزد ===== */
-  .meta details.pill{
-    flex-basis: 100%;
-  }
-
-  .fee-box{
-    padding:10px;
-  }
-
-  .fee-box table{
-    font-size:12.5px;
-  }
-
-  .fee-box th,
-  .fee-box td{
-    padding:9px 10px;
-  }
-
-  /* اگر متن طولانی شد، طبیعی بشکند */
-  .fee-box td{
-    white-space:normal;
-    overflow-wrap:anywhere;
-    word-break:break-word;
-  }
 }
 
 </style>`;
