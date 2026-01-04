@@ -480,28 +480,42 @@ margin:4px 0;
 
     const metaParts = [];
     if (svc?.meta?.time) metaParts.push(`<div class="pill">زمان معمول: ${esc(svc.meta.time)}</div>`);
+let feeHtml = "";
+let feeSectionHtml = ""; // ✅ جدید: سکشن اینلاین هزینه
 
-    let feeHtml = "";
-    const feeKey = svc?.meta?.feeKey;
-    const feeObj =
-      (typeof window.FEES !== "undefined" && feeKey && window.FEES[feeKey])
-        ? window.FEES[feeKey]
-        : null;
+const feeKey = svc?.meta?.feeKey;
+const feeObj =
+  (typeof window.FEES !== "undefined" && feeKey && window.FEES[feeKey])
+    ? window.FEES[feeKey]
+    : null;
 
-    if (feeObj && Array.isArray(svc.feeRows) && svc.feeRows.length) {
-      const rows = svc.feeRows.map(r => ({ title: r.label, value: feeObj[r.field] }));
-      feeHtml = `
-        <details class="pill">
-          <summary>هزینه: ${esc(svc?.meta?.feeSummary || "مطابق تعرفه رسمی")} (جزئیات)</summary>
-          <div class="fee-box">
-            <table>
-              <tr><th>عنوان</th><th>مبلغ/توضیح</th></tr>
-              ${rows.map(r => `<tr><td>${esc(r.title)}</td><td>${esc(safeText(r.value))}</td></tr>`).join("")}
-            </table>
-          </div>
-        </details>
-      `;
-    }
+if (feeObj && Array.isArray(svc.feeRows) && svc.feeRows.length) {
+  const rows = svc.feeRows.map(r => ({ title: r.label, value: feeObj[r.field] }));
+
+  // ✅ pill فقط لینک باشد (نه details)
+  feeHtml = `
+    <a class="pill" href="#fees" style="text-decoration:none;color:inherit">
+      هزینه: ${esc(svc?.meta?.feeSummary || "مطابق تعرفه رسمی")} (جزئیات)
+    </a>
+  `;
+
+  // ✅ جدول هزینه اینلاین در سکشن جدا
+  feeSectionHtml = `
+    <details class="sec" id="fees">
+      <summary><span>هزینه‌ها (جزئیات)</span><small></small></summary>
+      <div class="sec-body">
+        <div class="fee-box">
+          <table>
+            <tr><th>عنوان</th><th>مبلغ/توضیح</th></tr>
+            ${rows.map(r => `<tr><td>${esc(r.title)}</td><td>${esc(safeText(r.value))}</td></tr>`).join("")}
+          </table>
+        </div>
+      </div>
+    </details>
+  `;
+}
+
+   
 
     // === HERO: فقط اگر سرویس واقعاً داده داده باشد ===
     const hasHero =
