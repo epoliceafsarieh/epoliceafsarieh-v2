@@ -385,10 +385,12 @@ document.addEventListener("click", (e)=>{
     closeFooterPanels();
   }
 });
-// همیشه بعد از لود صفحه، اسکرول برگردد بالا (لوگو دیده شود)
+// همیشه بعد از لود صفحه، فقط عمودی برگردد بالا (لوگو دیده شود)
+if ("scrollRestoration" in history) history.scrollRestoration = "manual";
 window.addEventListener("load", () => {
-  window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  window.scrollTo({ top: 0, behavior: "auto" });
 });
+
 
   
 </script>
