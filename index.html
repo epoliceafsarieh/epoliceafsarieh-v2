@@ -296,18 +296,26 @@ html, body{ overflow-x:hidden; }
 <div class="footer">
   <div class="footer-row">
     <div class="footer-actions">
-      <button class="footer-btn" data-panel="hours">ساعات کاری</button>
-      <button class="footer-btn" data-panel="contact">تماس</button>
-      <button class="footer-btn" data-panel="address">آدرس</button>
+      <button class="footer-btn" data-panel="contactbox">ارتباط با دفتر</button>
     </div>
-    <a class="footer-link" href="hire.html">استخدام</a>
   </div>
 
-  <div id="hours" class="footer-panel">ساعات کاری: .............</div>
-  <div id="contact" class="footer-panel">تلفن: .............<br>واتساپ: .............</div>
-  <div id="address" class="footer-panel">
-    <a href="#" target="_blank">مشاهده روی Google Maps</a><br>
-    آدرس: .............
+  <div id="contactbox" class="footer-panel">
+    <div>ساعات کاری: .............</div>
+
+    <div style="margin-top:8px">
+      تلفن: .............<br>
+      واتساپ: .............
+    </div>
+
+    <div style="margin-top:8px">
+      <a href="#" target="_blank">مشاهده روی Google Maps</a><br>
+      آدرس: .............
+    </div>
+
+    <div style="margin-top:10px">
+      <a class="footer-link" href="hire.html">استخدام</a>
+    </div>
   </div>
 </div>
 
@@ -361,24 +369,22 @@ function closeFooterPanels(){
 
 footerBtns.forEach(btn=>{
   btn.addEventListener("click", (e)=>{
-    e.stopPropagation(); // ✅ مهم: نگذارد کلیک به document برسد
+    e.stopPropagation();
 
     const panel = document.getElementById(btn.dataset.panel);
     const isOpen = panel.style.display === "block";
 
     closeFooterPanels();
-    if(!isOpen) panel.style.display = "block"; // ✅ کلیک مجدد => بسته می‌ماند
+    if(!isOpen) panel.style.display = "block";
   });
 });
 
-// ✅ کلیک هر جای دیگر (حتی داخل footer ولی خارج از دکمه/پنل) => بستن
+// کلیک هر جای دیگر => بستن
 document.addEventListener("click", (e)=>{
   if(!e.target.closest(".footer-btn") && !e.target.closest(".footer-panel")){
     closeFooterPanels();
   }
 });
-
-
 </script>
 
 </body>
