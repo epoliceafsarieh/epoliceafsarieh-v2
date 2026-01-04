@@ -4,15 +4,26 @@ const FEES = {
     photo: "—",
     office: "—"
   },
+
   tarkhis: {
     parking: "—",
     office: "—",
     optional: "—"
   },
+
   khalafi: {
     inquiry: "—",
     payment: "—",
     print: "—"
+  },
+
+  // ✅ اضافه شود
+  driving: {
+    issue: "—",
+    photo: "—",
+    office: "—",
+    medical: "—",
+    drugTest: "—"
   }
 };
 
