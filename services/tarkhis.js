@@ -22,7 +22,11 @@
       { label: "هزینه‌های احتمالی", field: "optional" }
     ],
 
-    heroPrimary: { label: "مدارک لازم (چک لیست)", href: "#docs" },
+    heroPrimary: {
+  label: "چک‌لیست مدارک ترخیص خودرو",
+  href: "assets/forms/tarkhis-checklist.pdf"
+}
+
 
     sections: [
       {
