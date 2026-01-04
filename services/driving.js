@@ -8,7 +8,7 @@
     icon: "assets/img/icons/license.png",
 
     heroTitle: "تعویض و المثنی گواهینامه",
-    heroSubtitle: "راهنمای مدارک و مراحل انجام کار",
+   // heroSubtitle: "راهنمای مدارک و مراحل انجام کار",
 
     // فقط یک CTA کافی است (تا شلوغ نشود)
     heroPrimary: { label: "مدارک لازم (چک لیست)", href: "#docs" },
