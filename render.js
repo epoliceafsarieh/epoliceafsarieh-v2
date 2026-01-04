@@ -229,16 +229,67 @@
   summary{cursor:pointer;list-style:none}
   summary::-webkit-details-marker{display:none}
 
+  /* ===== Fee dropdown: card-like (نه پنجره عجیب) ===== */
+  .meta details.pill{
+    flex: 1 1 100%;
+    width: 100%;
+    max-width: 100%;
+    white-space: normal; /* summary هم اگر لازم شد بشکند */
+  }
+
+  .meta details.pill > summary{
+    width: 100%;
+  }
+
   .fee-box{
     margin-top:10px;
-    border:1px solid var(--border);
-    border-radius:12px;
     padding:12px;
     background:#fff;
+    border:1px solid var(--border);
+    border-radius:14px;
+    box-shadow: 0 10px 24px rgba(2,8,23,.08);
   }
-  table{width:100%;border-collapse:collapse;font-size:13px}
-  th,td{border:1px solid var(--border);padding:10px;text-align:center}
-  th{background:#f2f5f9;font-weight:900}
+
+  /* جدول: کارت‌مانند و خوانا */
+  .fee-box table{
+    width:100%;
+    border-collapse:separate;
+    border-spacing:0;
+    font-size:13px;
+    overflow:hidden;
+    border:1px solid var(--border);
+    border-radius:12px;
+  }
+
+  .fee-box th,
+  .fee-box td{
+    border:0;
+    padding:10px 12px;
+    text-align:right;
+    vertical-align:top;
+  }
+
+  .fee-box th{
+    background:#f2f5f9;
+    font-weight:900;
+    color:#0f172a;
+  }
+
+  .fee-box tr + tr td{
+    border-top:1px solid var(--border);
+  }
+
+  /* ستون‌ها کمی متعادل‌تر شوند */
+  .fee-box td:first-child{
+    width:44%;
+    font-weight:800;
+    color:#0f172a;
+  }
+
+  .fee-box td:last-child{
+    width:56%;
+    color:#334155;
+  }
 
   /* ===== HERO (Task-first) ===== */
   .hero{
@@ -467,6 +518,31 @@ margin:4px 0;
   .footer{ margin-top:10px; padding-top:6px; }
 
   .hero-actions{ gap:8px; margin-top:8px; }
+
+  /* ===== Mobile: جدول به هم نریزد ===== */
+  .meta details.pill{
+    flex-basis: 100%;
+  }
+
+  .fee-box{
+    padding:10px;
+  }
+
+  .fee-box table{
+    font-size:12.5px;
+  }
+
+  .fee-box th,
+  .fee-box td{
+    padding:9px 10px;
+  }
+
+  /* اگر متن طولانی شد، طبیعی بشکند */
+  .fee-box td{
+    white-space:normal;
+    overflow-wrap:anywhere;
+    word-break:break-word;
+  }
 }
 
 </style>`;
@@ -480,42 +556,28 @@ margin:4px 0;
 
     const metaParts = [];
     if (svc?.meta?.time) metaParts.push(`<div class="pill">زمان معمول: ${esc(svc.meta.time)}</div>`);
-let feeHtml = "";
-let feeSectionHtml = ""; // ✅ جدید: سکشن اینلاین هزینه
 
-const feeKey = svc?.meta?.feeKey;
-const feeObj =
-  (typeof window.FEES !== "undefined" && feeKey && window.FEES[feeKey])
-    ? window.FEES[feeKey]
-    : null;
+    let feeHtml = "";
+    const feeKey = svc?.meta?.feeKey;
+    const feeObj =
+      (typeof window.FEES !== "undefined" && feeKey && window.FEES[feeKey])
+        ? window.FEES[feeKey]
+        : null;
 
-if (feeObj && Array.isArray(svc.feeRows) && svc.feeRows.length) {
-  const rows = svc.feeRows.map(r => ({ title: r.label, value: feeObj[r.field] }));
-
-  // ✅ pill فقط لینک باشد (نه details)
-  feeHtml = `
-    <a class="pill" href="#fees" style="text-decoration:none;color:inherit">
-      هزینه: ${esc(svc?.meta?.feeSummary || "مطابق تعرفه رسمی")} (جزئیات)
-    </a>
-  `;
-
-  // ✅ جدول هزینه اینلاین در سکشن جدا
-  feeSectionHtml = `
-    <details class="sec" id="fees">
-      <summary><span>هزینه‌ها (جزئیات)</span><small></small></summary>
-      <div class="sec-body">
-        <div class="fee-box">
-          <table>
-            <tr><th>عنوان</th><th>مبلغ/توضیح</th></tr>
-            ${rows.map(r => `<tr><td>${esc(r.title)}</td><td>${esc(safeText(r.value))}</td></tr>`).join("")}
-          </table>
-        </div>
-      </div>
-    </details>
-  `;
-}
-
-   
+    if (feeObj && Array.isArray(svc.feeRows) && svc.feeRows.length) {
+      const rows = svc.feeRows.map(r => ({ title: r.label, value: feeObj[r.field] }));
+      feeHtml = `
+        <details class="pill">
+          <summary>هزینه: ${esc(svc?.meta?.feeSummary || "مطابق تعرفه رسمی")} (جزئیات)</summary>
+          <div class="fee-box">
+            <table>
+              <tr><th>عنوان</th><th>مبلغ/توضیح</th></tr>
+              ${rows.map(r => `<tr><td>${esc(r.title)}</td><td>${esc(safeText(r.value))}</td></tr>`).join("")}
+            </table>
+          </div>
+        </details>
+      `;
+    }
 
     // === HERO: فقط اگر سرویس واقعاً داده داده باشد ===
     const hasHero =
@@ -661,7 +723,6 @@ if (feeObj && Array.isArray(svc.feeRows) && svc.feeRows.length) {
                   ${restSectionsHtml}
                 </div>
               </details>
-              ${feeSectionHtml}
 
               ${notDoneHtml}
               ${faqHtml}
@@ -691,18 +752,7 @@ if (feeObj && Array.isArray(svc.feeRows) && svc.feeRows.length) {
       }
     }
   }
-// ✅ کلیک روی pill هزینه => سکشن هزینه باز شود و اسکرول کند
-const btnFees = app.querySelector('.pill[href="#fees"]');
-const feesWrap = app.querySelector('details.sec#fees');
-if (btnFees && feesWrap) {
-  btnFees.addEventListener("click", function (e) {
-    e.preventDefault();
-    feesWrap.setAttribute("open", "");
-    feesWrap.scrollIntoView({ behavior: "smooth", block: "start" });
-  });
-}
 
-  
   const key = window.SERVICE_KEY;
   if (!key) {
     app.innerHTML = `${style}<div class="wrap"><div class="card"><div class="card-clip"><div class="content">شناسه خدمت مشخص نیست.</div></div></div></div>`;
