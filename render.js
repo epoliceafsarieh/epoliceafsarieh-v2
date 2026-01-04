@@ -661,6 +661,7 @@ if (feeObj && Array.isArray(svc.feeRows) && svc.feeRows.length) {
                   ${restSectionsHtml}
                 </div>
               </details>
+              ${feeSectionHtml}
 
               ${notDoneHtml}
               ${faqHtml}
