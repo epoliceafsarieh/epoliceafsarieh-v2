@@ -357,23 +357,32 @@ document.addEventListener("click",e=>{
   if(!e.target.closest(".search-area")) hideSuggest();
 });
 
-document.querySelectorAll(".footer-btn").forEach(b=>{
-  b.onclick=()=>{
-    const panel = document.getElementById(b.dataset.panel);
+const footerBtns = document.querySelectorAll(".footer-btn");
+const footerPanels = document.querySelectorAll(".footer-panel");
+
+function closeFooterPanels(){
+  footerPanels.forEach(p => p.style.display = "none");
+}
+
+footerBtns.forEach(btn=>{
+  btn.addEventListener("click", (e)=>{
+    e.stopPropagation(); // ✅ مهم: نگذارد کلیک به document برسد
+
+    const panel = document.getElementById(btn.dataset.panel);
     const isOpen = panel.style.display === "block";
 
-    // اول همه را ببند
-    document.querySelectorAll(".footer-panel").forEach(p=>p.style.display="none");
-
-    // اگر قبلاً باز نبود، بازش کن
-    if(!isOpen) panel.style.display="block";
-  };
+    closeFooterPanels();
+    if(!isOpen) panel.style.display = "block"; // ✅ کلیک مجدد => بسته می‌ماند
+  });
 });
+
+// ✅ کلیک هر جای دیگر (حتی داخل footer ولی خارج از دکمه/پنل) => بستن
 document.addEventListener("click", (e)=>{
-  if(!e.target.closest(".footer")) {
-    document.querySelectorAll(".footer-panel").forEach(p=>p.style.display="none");
+  if(!e.target.closest(".footer-btn") && !e.target.closest(".footer-panel")){
+    closeFooterPanels();
   }
 });
+
 
 </script>
 
