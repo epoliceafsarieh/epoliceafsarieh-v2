@@ -10,6 +10,21 @@
     heroTitle: "تعویض و المثنی گواهینامه",
     heroSubtitle: "راهنمای مدارک و مراحل — عکس بیومتریک در دفتر انجام می‌شود.",
 
+meta: {
+  time: "—",
+  feeKey: "driving",
+  feeSummary: "کلیک کنید"
+},
+
+feeRows: [
+  { label: "تعویض/المثنی گواهینامه", field: "issue" },
+  { label: "عکس/بیومتریک", field: "photo" },
+  { label: "خدمات دفتر", field: "office" },
+  { label: "معاینه پزشکی (پزشک معتمد)", field: "medical" },
+  { label: "آزمایش عدم اعتیاد (پایه یک/ویژه)", field: "drugTest" }
+],
+
+    
     heroPrimary: { label: "مدارک لازم", href: "#docs" },
     heroSecondary: { label: "مراحل انجام کار", href: "#steps" },
 
