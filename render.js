@@ -1,5 +1,8 @@
 // render.js
 (function () {
+    // جلوگیری از scroll restore مرورگر بعد از رفرش/بازگشت
+  if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+
   function esc(s) {
     return String(s ?? "")
       .replaceAll("&", "&amp;")
@@ -664,7 +667,11 @@ margin:4px 0;
     `;
 
     // کار ۵: کلیک روی «مدارک لازم را ببین» => آکاردئون مادر باز شود و به آن اسکرول کند
-    if (wantsDocsAnchor) {
+    if (wantsDocsAnchor) {    // همیشه بعد از رندر، صفحه از بالا شروع شود (موبایل/دسکتاپ)
+    requestAnimationFrame(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    });
+
       const btnDocs = app.querySelector('.btn-secondary[href="#docs"]');
       const docsWrap = app.querySelector('details.sec#docs');
       if (btnDocs && docsWrap) {
