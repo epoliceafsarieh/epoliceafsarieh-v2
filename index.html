@@ -385,6 +385,12 @@ document.addEventListener("click", (e)=>{
     closeFooterPanels();
   }
 });
+// همیشه بعد از لود صفحه، اسکرول برگردد بالا (لوگو دیده شود)
+window.addEventListener("load", () => {
+  window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+});
+
+  
 </script>
 
 </body>
