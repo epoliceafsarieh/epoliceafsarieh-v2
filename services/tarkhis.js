@@ -25,7 +25,7 @@
     heroPrimary: {
   label: "چک‌لیست مدارک ترخیص خودرو",
   href: "assets/forms/tarkhis-checklist.pdf"
-}
+},
 
 
     sections: [
