@@ -259,6 +259,28 @@ html, body{ overflow-x:hidden; }
   /* اگر قبلاً تک‌ستونه شده، همینجا هم تک‌ستونه را enforce کن */
   .popular{ grid-template-columns:1fr; }
 }
+.contact-actions{
+  margin-top:14px;
+  display:flex;
+  justify-content:flex-start; /* ستون چپ */
+}
+
+.footer-hire{
+  display:block;
+  width:100%;
+  max-width:240px;
+  padding:14px 16px;
+  text-align:center;
+  font-weight:900;
+  font-size:14px;
+
+  color:#fff;
+  background:rgba(255,255,255,.18);
+  border:1px solid rgba(255,255,255,.45);
+  border-radius:14px;
+
+  text-decoration:none;
+}
 
 
 </style>
@@ -328,9 +350,10 @@ html, body{ overflow-x:hidden; }
       آدرس: .............
     </div>
 
-    <div style="margin-top:10px">
-      <a class="footer-link" href="hire.html">استخدام</a>
-    </div>
+    <div class="contact-actions">
+  <a class="footer-hire" href="hire.html">استخدام</a>
+</div>
+
   </div>
 </div>
 
