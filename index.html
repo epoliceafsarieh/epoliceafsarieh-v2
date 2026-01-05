@@ -166,14 +166,26 @@ html, body{ overflow-x:hidden; }
   display:block;
   margin-top:12px;
   text-decoration:none;
-  background:rgba(255,255,255,.18);
-  color:#fff;
-  border:1px solid rgba(255,255,255,.28);
+
+  /* هم‌رنگ زمینه (بی‌رنگ اما زیرکانه) */
+  background:transparent;
+  border:1px solid rgba(255,255,255,.18);
+
+  /* سفیدِ ملایم، نه سفید خالص */
+  color:rgba(255,255,255,.78);
+
   border-radius:14px;
-  padding:6px 12px;
+  padding:8px 12px;
   text-align:center;
+
+  /* کمی کوچک‌تر از کارت‌ها */
+  font-size:13px;
   font-weight:800;
+
+  /* بدون جلوه‌ی تبلیغی */
+  box-shadow:none;
 }
+
 
 /* Footer */
 .footer{
@@ -279,7 +291,8 @@ html, body{ overflow-x:hidden; }
     </a>
   </div>
 
-  <a class="internet-thin" href="internet.html">خدمات تکمیلی: پیگیری،استعلام و امور خاص</a>
+  <a class="internet-thin" href="internet.html">خدمات ویژه</a>
+
 </div>
 
 <div class="search-box">
