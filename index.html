@@ -281,6 +281,47 @@ html, body{ overflow-x:hidden; }
 
   text-decoration:none;
 }
+.contact-grid{
+  display:flex;
+  gap:12px;
+  align-items:stretch;
+}
+
+.contact-right{
+  flex:1 1 auto;
+  min-width:0;
+}
+
+.contact-left{
+  flex:0 0 160px;         /* ستون چپ ثابت و جمع‌وجور */
+  display:flex;
+  align-items:stretch;
+}
+
+.footer-hire{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+
+  padding:14px 12px;
+  font-weight:900;
+  font-size:14px;
+
+  color:#fff;
+  background:rgba(255,255,255,.18);
+  border:1px solid rgba(255,255,255,.45);
+  border-radius:14px;
+
+  text-decoration:none;
+}
+
+/* روی موبایل خیلی باریک: زیر هم بیاید تا له نشود */
+@media (max-width: 420px){
+  .contact-grid{ flex-direction:column; }
+  .contact-left{ flex:0 0 auto; }
+}
 
 
 </style>
@@ -337,25 +378,30 @@ html, body{ overflow-x:hidden; }
     </div>
   </div>
 
-  <div id="contactbox" class="footer-panel">
-    <div>ساعات کاری: .............</div>
+ <div id="contactbox" class="footer-panel">
+  <div class="contact-grid">
+    
+    <div class="contact-right">
+      <div>ساعات کاری: .............</div>
 
-    <div style="margin-top:8px">
-      تلفن: .............<br>
-      واتساپ: .............
+      <div style="margin-top:8px">
+        تلفن: .............<br>
+        واتساپ: .............
+      </div>
+
+      <div style="margin-top:8px">
+        <a href="#" target="_blank">مشاهده روی Google Maps</a><br>
+        آدرس: .............
+      </div>
     </div>
 
-    <div style="margin-top:8px">
-      <a href="#" target="_blank">مشاهده روی Google Maps</a><br>
-      آدرس: .............
+    <div class="contact-left">
+      <a class="footer-hire" href="hire.html">استخدام</a>
     </div>
-
-    <div class="contact-actions">
-  <a class="footer-hire" href="hire.html">استخدام</a>
-</div>
 
   </div>
 </div>
+
 
 </div>
 
