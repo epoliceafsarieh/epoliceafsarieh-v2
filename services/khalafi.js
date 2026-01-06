@@ -5,7 +5,7 @@
 
   const khalafi = {
     barTitle: "خلافی خودرو و موتورسیکلت",
-    icon: "assets/img/icons/khalafi.png",
+    icon: "assets/img/icons/khalafi1.png",
 
     heroTitle: "استعلام و پرداخت خلافی",
 
