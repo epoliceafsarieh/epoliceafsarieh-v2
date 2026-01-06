@@ -9,7 +9,7 @@ const SERVICES = [
   // آیکن اختصاصی هنوز ندارند → placeholder خنثی (نه other.png ایندکس)
   { title: "پلیس پیشگیری",        icon: "placeholder", href: null },
   { title: "تشخیص هویت",          icon: "placeholder", href: null },
-  { title: "کارت سوخت",           icon: "placeholder", href: null },
+  { title: "کارت سوخت",           icon: "fuelcard", href: "fuelcard.html"  },
 
   { title: "نظام وظیفه",          icon: "placeholder", href: "military-hub.html" },
 ];
