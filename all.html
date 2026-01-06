@@ -40,19 +40,27 @@
       justify-content:flex-end;  /* ✅ می‌رود چپ */
       align-items:center;
       margin: 4px 0 6px;
-    }
     .back{
-      border:1px solid var(--stroke);
-      border-radius:12px;
-      padding:8px 10px;          /* ✅ کم‌عرض‌تر */
-      background:rgba(255,255,255,.10);
-      color:#fff;
-      font-weight:800;
-      font-family:inherit;
-      cursor:pointer;
-      font-size:13px;
-      line-height:1;
-    }
+  background: transparent;                 /* بدون بک‌گراند */
+  border:1px solid rgba(255,255,255,.18);  /* خیلی ظریف */
+  border-radius:12px;
+
+  padding:8px 10px;
+  font-size:13px;
+  line-height:1;
+
+  color: rgba(255,255,255,.75);            /* خاکستری روشن */
+  font-weight:700;
+
+  font-family:inherit;
+  cursor:pointer;
+}
+
+/* hover خیلی ملایم */
+.back:hover{
+  background: rgba(255,255,255,.06);
+  color: rgba(255,255,255,.9);
+}
 
     /* (۲) لوگو بالاتر و تمیزتر مثل ایندکس */
     .brand{text-align:center;margin: 2px 0 14px;}
