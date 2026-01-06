@@ -455,6 +455,23 @@ window.addEventListener("load", () => {
 
   
 </script>
+<script>
+document.addEventListener("click", function (e) {
+  const link = e.target.closest("a[href$='.html']");
+  if (!link) return;
 
+  if (
+    link.href.includes("passport") ||
+    link.href.includes("driving") ||
+    link.href.includes("khalafi") ||
+    link.href.includes("tarkhis")
+  ) {
+    sessionStorage.setItem("serviceFrom", location.pathname);
+  }
+});
+</script>
+
+
+  
 </body>
 </html>
