@@ -3,70 +3,35 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>همه خدمات پلیس +۱۰</title>
+  <title>پلیس +۱۰ | همه خدمات</title>
 
   <style>
     :root{
-      /* نزدیک‌تر به ایندکس */
       --ms-blue:#041E42;
-
       --card:rgba(255,255,255,.10);
       --stroke:rgba(255,255,255,.22);
-
-      --text:#fff;
-      --muted:rgba(255,255,255,.78);
       --muted2:rgba(255,255,255,.66);
-
       --radius:16px;
     }
-
     *{box-sizing:border-box}
     html,body{overflow-x:hidden}
     body{
       margin:0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont,
-                   "Segoe UI", Roboto, Arial, sans-serif;
-      background: var(--ms-blue); /* به ایندکس نزدیک‌تر */
-      color:var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont,"Segoe UI", Roboto, Arial, sans-serif;
+      background: var(--ms-blue);
+      color:#fff;
       line-height:1.9;
       min-height:100vh;
     }
+    .wrap{max-width:640px;margin:0 auto;padding:18px 16px 22px;}
 
-    .wrap{
-      max-width:640px;
-      margin:0 auto;
-      padding:18px 16px 22px;
-    }
-
-    /* Header */
-    .header{
+    /* بازگشت بالا-چپ */
+    .topbar{
       display:flex;
+      justify-content:flex-start;
       align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      padding:6px 2px 10px;
+      margin-bottom:6px;
     }
-
-    /* جای لوگو و بازگشت عوض شد */
-    .logo{
-      width:34px;
-      height:34px;
-      object-fit:contain;
-      opacity:.78;
-      flex:0 0 auto;
-    }
-
-    .title{
-      flex:1 1 auto;
-      text-align:center;
-      font-weight:900;
-      font-size:16px;
-      opacity:.98;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-    }
-
     .back{
       border:1px solid var(--stroke);
       border-radius:14px;
@@ -76,100 +41,54 @@
       font-weight:800;
       font-family:inherit;
       cursor:pointer;
-      flex:0 0 auto;
     }
 
-    .subtitle{
-      margin:6px 2px 14px;
-      color:var(--muted);
-      font-size:13px;
-      text-align:center;
-    }
+    /* لوگو وسط مثل ایندکس */
+    .brand{text-align:center;margin: 6px 0 16px;}
+    .brand img{width:96px;height:auto;object-fit:contain;display:inline-block;}
 
-    .list{
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-    }
+    .list{display:flex;flex-direction:column;gap:10px;}
 
     .item{
-      display:flex;
-      align-items:center;
-      gap:12px;
+      display:flex;align-items:center;gap:12px;
       padding:12px 12px;
       border-radius:var(--radius);
       border:1px solid var(--stroke);
       background:var(--card);
-      color:#fff;
-      text-decoration:none;
+      color:#fff;text-decoration:none;
     }
+    .item[aria-disabled="true"]{opacity:.55;cursor:default;}
 
-    .item[aria-disabled="true"]{
-      opacity:.55;
-      cursor:default;
-    }
-
-    /* آیکن‌های خودت (PNG) – متوسط، کوچک‌تر از ایندکس */
     .icon-img{
-      width:36px;
-      height:36px;
-      flex:0 0 36px;
-      object-fit:contain;
-      display:block;
-      opacity:.92;
+      width:36px;height:36px;flex:0 0 36px;
+      object-fit:contain;display:block;opacity:.92;
     }
-
     .label{
       flex:1 1 auto;
-      font-weight:850;
-      font-size:15px;
-      line-height:1.35;
-      min-width:0;
-      white-space:normal;
-      overflow-wrap:anywhere;
-      word-break:break-word;
+      font-weight:850;font-size:15px;line-height:1.35;
+      min-width:0;white-space:normal;overflow-wrap:anywhere;word-break:break-word;
     }
+    .chev{opacity:.55;font-size:18px;line-height:1;transform:translateY(-1px);flex:0 0 auto;}
 
-    .chev{
-      opacity:.55;
-      font-size:18px;
-      line-height:1;
-      transform: translateY(-1px);
-      flex:0 0 auto;
-    }
-
-    /* حضور ضعیف خدمات ویژه (ساختار ثابت؛ متن فعلاً دست‌نخورده) */
     .weak{
-      margin-top:20px;
-      padding:10px 6px 0;
+      margin-top:20px;padding:10px 6px 0;
       color:var(--muted2);
-      font-size:12.5px;
-      line-height:1.7;
-      text-align:center;
+      font-size:12.5px;line-height:1.7;text-align:center;
     }
-    .weak a{
-      color:inherit;
-      text-decoration:none;
-      border-bottom:1px dotted rgba(255,255,255,.28);
-      padding-bottom:1px;
-    }
+    .weak a{color:inherit;text-decoration:none;border-bottom:1px dotted rgba(255,255,255,.28);padding-bottom:1px;}
   </style>
 </head>
 
 <body>
   <div class="wrap">
 
-    <div class="header">
-      <!-- لوگو آمد سمت چپ هدر -->
-      <img class="logo" src="assets/img/logo/logo_white.png" alt="" aria-hidden="true">
-
-      <div class="title">همه خدمات پلیس +۱۰</div>
-
-      <!-- بازگشت رفت سمت راست هدر -->
+    <div class="topbar">
       <button class="back" type="button" onclick="location.href='index.html'">بازگشت</button>
     </div>
 
-    <div class="subtitle">خدمت موردنظر را انتخاب کنید.</div>
+    <div class="brand">
+      <img src="assets/img/logo/logo_white.png" alt="" aria-hidden="true">
+    </div>
 
     <div id="allList" class="list" aria-label="فهرست خدمات"></div>
 
