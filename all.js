@@ -6,21 +6,21 @@ const SERVICES = [
   { title: "خلافی خودرو / موتور", icon: "khalafi",  href: "khalafi.html"  },
   { title: "ترخیص خودرو / موتور", icon: "tow",      href: "tarkhis.html"  },
 
-  // این‌ها فعلاً صفحه ندارند → غیرفعال
-  { title: "پلیس پیشگیری",        icon: "other",    href: null },
-  { title: "تشخیص هویت",          icon: "other",    href: null },
-  { title: "کارت سوخت",           icon: "other",    href: null },
+  // آیکن اختصاصی هنوز ندارند → placeholder خنثی (نه other.png ایندکس)
+  { title: "پلیس پیشگیری",        icon: "placeholder", href: null },
+  { title: "تشخیص هویت",          icon: "placeholder", href: null },
+  { title: "کارت سوخت",           icon: "placeholder", href: null },
 
-  // تنها هاب (مرحله بعد ساخته می‌شود)
-  { title: "نظام وظیفه",          icon: "other",    href: "military-hub.html" },
+  { title: "نظام وظیفه",          icon: "placeholder", href: "military-hub.html" },
 ];
 
 const ICON_SRC = {
   passport: "assets/img/icons/passport.png",
   license:  "assets/img/icons/license.png",
   tow:      "assets/img/icons/tow.png",
-  khalafi:  "assets/img/icons/other.png", // اگر آیکن اختصاصی خلافی داری، این را عوض می‌کنیم
-  other:    "assets/img/icons/other.png",
+
+  // اگر آیکن اختصاصی خلافی داری، همین را عوض کن
+  khalafi:  "assets/img/icons/other.png",
 };
 
 function escapeHtml(str){
@@ -32,9 +32,24 @@ function escapeHtml(str){
     .replaceAll("'","&#039;");
 }
 
-function iconImg(iconKey){
-  const src = ICON_SRC[iconKey] || ICON_SRC.other;
-  return `<img class="icon-img" src="${src}" alt="" aria-hidden="true">`;
+function placeholderSvg(){
+  // خنثی، سفید، بدون وابستگی به آیکن‌های ایندکس
+  return `
+    <svg class="icon-img" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M7 8h10M7 12h10M7 16h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      <rect x="4.5" y="5.5" width="15" height="13" rx="2.5" stroke="currentColor" stroke-width="1.2" opacity=".7"/>
+    </svg>
+  `;
+}
+
+function iconNode(iconKey){
+  if(iconKey === "placeholder") return placeholderSvg();
+
+  const src = ICON_SRC[iconKey];
+  if(!src) return placeholderSvg();
+
+  // data-icon برای بزرگ‌تر کردن پاسپورت در CSS
+  return `<img class="icon-img" data-icon="${iconKey}" src="${src}" alt="" aria-hidden="true">`;
 }
 
 function render(){
@@ -47,7 +62,7 @@ function render(){
     if(!s.href){
       return `
         <div class="item" aria-disabled="true">
-          ${iconImg(s.icon)}
+          ${iconNode(s.icon)}
           <span class="label">${label}</span>
           <span class="chev" aria-hidden="true">›</span>
         </div>
@@ -56,7 +71,7 @@ function render(){
 
     return `
       <a class="item" href="${s.href}">
-        ${iconImg(s.icon)}
+        ${iconNode(s.icon)}
         <span class="label">${label}</span>
         <span class="chev" aria-hidden="true">›</span>
       </a>
