@@ -23,6 +23,12 @@ const FEES = {
     payment: "—",
     print: "—"
   }
+  fuelcard: {
+  service: "—",
+  office: "—",
+  case: "—"
+}
+
 };
 
 window.FEES = FEES;
