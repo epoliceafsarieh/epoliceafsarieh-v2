@@ -322,6 +322,40 @@ html, body{ overflow-x:hidden; }
   .contact-grid{ flex-direction:column; }
   .contact-left{ flex:0 0 auto; }
 }
+/* =========================
+   فقط پنل «ارتباط با دفتر»
+   ========================= */
+#contactbox .contact-grid{
+  display:flex;
+  gap:12px;
+  align-items:stretch;
+  flex-wrap:nowrap;   /* دو ستونه همیشه */
+}
+
+#contactbox .contact-right{
+  flex:1 1 auto;
+  min-width:0;
+}
+
+#contactbox .contact-left{
+  flex:0 0 160px;     /* ستون استخدام */
+  display:flex;
+  align-items:flex-start;
+  justify-content:flex-start;
+}
+
+#contactbox .hire-big{
+  display:block;
+  width:100%;
+  text-align:center;
+  padding:12px 10px;
+  border-radius:12px;
+  font-weight:900;
+  text-decoration:none;
+  border:1px solid rgba(255,255,255,.35);
+  background:rgba(255,255,255,.10);
+  color:#fff;
+}
 
 
 </style>
