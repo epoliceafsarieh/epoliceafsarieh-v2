@@ -1,15 +1,30 @@
 // services/khalafi.js
+// services/khalafi.js
 (function () {
   window.SERVICE_DATA = window.SERVICE_DATA || {};
+  window.SERVICES = window.SERVICES || {};
 
-  window.SERVICE_DATA.khalafi = {
-    title: "خلافی خودرو",
-    subtitle: "استعلام، پرداخت و چاپ رسید خلافی در دفتر",
+  const khalafi = {
+    barTitle: "خلافی خودرو و موتورسیکلت",
+    icon: "assets/img/icons/khalafi.png",
+
+    heroTitle: "استعلام و پرداخت خلافی",
+    
     meta: {
-      time: "همان‌روز / در لحظه",
+      time: "—",
       feeKey: "khalafi",
-      feeSummary: "مطابق تعرفه رسمی (مشاهده جزئیات)"
+      feeSummary: "کلیک کنید"
     },
+
+    sections: [],
+    notDone: [],
+    faqEnabled: false
+  };
+
+  window.SERVICE_DATA.khalafi = khalafi;
+  window.SERVICES.khalafi = khalafi;
+})();
+
     feeRows: [
       { label: "استعلام خلافی", field: "inquiry" },
       { label: "پرداخت", field: "payment" },
