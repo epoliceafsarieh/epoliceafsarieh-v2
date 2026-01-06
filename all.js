@@ -20,7 +20,7 @@ const ICON_SRC = {
   tow:      "assets/img/icons/tow.png",
 
   // اگر آیکن اختصاصی خلافی داری، همین را عوض کن
-  khalafi:  "assets/img/icons/other.png",
+  khalafi:  "assets/img/icons/khalafi.png",
 };
 
 function escapeHtml(str){
