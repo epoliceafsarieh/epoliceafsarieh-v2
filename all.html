@@ -112,6 +112,21 @@
         max-width:400px;
       }
     }
+/* فقط صفحه all: فاصله از لبه راست و چیدمان */
+.all-page .item{
+  padding:9px 16px 9px 12px;   /* راست بیشتر = آیکن از مرز جدا می‌شود */
+  gap:10px;
+}
+
+/* فقط صفحه all: اندازه آیکن (اگر جایی override شده باشد) */
+.all-page .icon-img{
+  width:28px;
+  height:28px;
+  flex:0 0 28px;
+}
+
+
+    
   </style>
 </head>
 
@@ -119,7 +134,7 @@
 
 
   
-<body>
+<body class="all-page">
   <div class="wrap">
 
     <div class="topbar">
