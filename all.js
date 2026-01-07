@@ -1,18 +1,11 @@
 /* all.js — All services list (independent) */
 
-const SERVICES = [
-  { title: "گذرنامه",             icon: "passport", href: "passport.html" },
-  { title: "گواهینامه",           icon: "license",  href: "driving.html"  },
-  { title: "خلافی خودرو / موتور", icon: "khalafi",  href: "khalafi.html"  },
-  { title: "ترخیص خودرو / موتور", icon: "tow",      href: "tarkhis.html"  },
+const SERVICES = (window.CATALOG?.SERVICES || []).map(s => ({
+  title: s.title,
+  icon: s.icon,
+  href: s.href
+}));
 
-  // آیکن اختصاصی هنوز ندارند → placeholder خنثی
-  { title: "پلیس پیشگیری",        icon: "placeholder", href: null },
-  { title: "تشخیص هویت",          icon: "placeholder", href: null },
-
-  { title: "کارت سوخت",           icon: "fuelcard", href: "fuelcard.html"  },
-  { title: "نظام وظیفه",          icon: "placeholder", href: "military-hub.html" },
-];
 
 const ICON_SRC = {
   passport: "assets/img/icons/passport.png",
