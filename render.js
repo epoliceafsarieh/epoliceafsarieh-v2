@@ -684,6 +684,21 @@ margin:4px 0;
     }
   }
 
+  // Back behavior: return to origin (all / index)
+  const backBtn = document.getElementById("backBtn");
+  if (backBtn) {
+    backBtn.addEventListener("click", function () {
+      const from = new URLSearchParams(location.search).get("from");
+      if (from === "all") location.href = "all.html";
+      else location.href = "index.html";
+    });
+  }
+
+ 
+
+
+
+    
   const key = window.SERVICE_KEY;
   if (!key) {
     app.innerHTML = `${style}<div class="wrap"><div class="card"><div class="card-clip"><div class="content">شناسه خدمت مشخص نیست.</div></div></div></div>`;
