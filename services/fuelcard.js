@@ -9,7 +9,7 @@
 
   const fuelcard = {
     barTitle: "کارت سوخت",
-    icon: "assets/img/icons/fuel.png", // اگر آیکن ندارید، همین خط را حذف کنید یا مسیر درست بدهید
+    icon: "assets/img/icons/fuelcard.png", // اگر آیکن ندارید، همین خط را حذف کنید یا مسیر درست بدهید
 
     heroTitle: "کارت سوخت",
     heroSubtitle: "", // عمداً خالی (شلوغ نشود)
