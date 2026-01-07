@@ -382,16 +382,16 @@ html, body{ overflow-x:hidden; }
 
 
 </div>
+<script src="services/catalog.js"></script>
 
 <script>
-const SERVICES = [
-  { title:"گذرنامه", href:"passport.html"},
-  { title:"گواهینامه", href:"driving.html"},
-  { title:"ترخیص خودرو / موتور", href:"tarkhis.html"},
-  { title:"نظام وظیفه", href:"other.html"},
-  { title:"کارت سوخت", href:"fuelcard.html"},
-  { title:"خلافی خودرو", href:"khalafi.html"}
-];
+const SERVICES = (window.CATALOG?.SERVICES || [])
+  .filter(s => s.href) // فقط مواردی که صفحه دارند
+  .map(s => ({
+    title: s.title,
+    href: s.href.includes("?") ? `${s.href}&from=index` : `${s.href}?from=index`
+  }));
+
 
 const input = document.getElementById("search");
 const suggest = document.getElementById("suggest");
