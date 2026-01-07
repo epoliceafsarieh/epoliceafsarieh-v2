@@ -627,7 +627,7 @@ margin:4px 0;
               ${iconHtml}
               <div class="svc-title">${esc(svc.barTitle || svc.shortTitle || "")}</div>
             </div>
-            <a class="back-btn" href="index.html">بازگشت</a>
+            <a class="back-btn" id="backBtn" href="#">بازگشت</a>
           </div>
 
           <div class="card-clip">
@@ -666,6 +666,30 @@ margin:4px 0;
       ${bottomCtaHtml}
     `;
 
+    // ✅ فقط همین تغییرات: هندلر بازگشت بعد از رندر
+    const backBtn = app.querySelector("#backBtn");
+    if (backBtn) {
+      backBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+
+        const params = new URLSearchParams(location.search);
+        const from = params.get("from");
+
+        if (from === "all") {
+          location.href = "all.html";
+          return;
+        }
+
+        const origin = sessionStorage.getItem("serviceFrom");
+        if (origin) {
+          location.href = origin;
+          return;
+        }
+
+        location.href = "index.html";
+      });
+    }
+
     // کار ۵: کلیک روی «مدارک لازم را ببین» => آکاردئون مادر باز شود و به آن اسکرول کند
     if (wantsDocsAnchor) {    // همیشه بعد از رندر، صفحه از بالا شروع شود (موبایل/دسکتاپ)
     requestAnimationFrame(() => {
@@ -684,21 +708,6 @@ margin:4px 0;
     }
   }
 
-  // Back behavior: return to origin (all / index)
-  const backBtn = document.getElementById("backBtn");
-  if (backBtn) {
-    backBtn.addEventListener("click", function () {
-      const from = new URLSearchParams(location.search).get("from");
-      if (from === "all") location.href = "all.html";
-      else location.href = "index.html";
-    });
-  }
-
- 
-
-
-
-    
   const key = window.SERVICE_KEY;
   if (!key) {
     app.innerHTML = `${style}<div class="wrap"><div class="card"><div class="card-clip"><div class="content">شناسه خدمت مشخص نیست.</div></div></div></div>`;
