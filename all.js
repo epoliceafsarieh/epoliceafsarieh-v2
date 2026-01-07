@@ -6,19 +6,19 @@ const SERVICES = (window.CATALOG?.SERVICES || []).map(s => ({
   href: s.href
 }));
 
+function placeholderSvg(){
+    return `
+      <svg class="icon-img" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M7 8h10M7 12h10M7 16h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        <rect x="4.5" y="5.5" width="15" height="13" rx="2.5" stroke="currentColor" stroke-width="1.2" opacity=".7"/>
+      </svg>
+    `;
+  }
 
-const ICON_SRC = {
-  passport: "assets/img/icons/passport.png",
-  license:  "assets/img/icons/license.png",
-  tow:      "assets/img/icons/tow.png",
-  khalafi:  "assets/img/icons/khalafi.png",
-
-  // اگر آیکن کارت سوخت داری، این را فعال کن:
-  fuelcard: "assets/img/icons/fuelcard.png",
-    pishgiri: "assets/img/icons/pishgiri.png",
-
-  
-};
+  function iconNode(iconSrc){
+    if (!iconSrc) return placeholderSvg();
+    return `<img class="icon-img" src="${iconSrc}" alt="" aria-hidden="true">`;
+  }
 
 function escapeHtml(str){
   return String(str)
