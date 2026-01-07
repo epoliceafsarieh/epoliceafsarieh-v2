@@ -156,7 +156,7 @@
     position:relative;
     display:flex;
     align-items:center;
-    gap:12px;
+    gap:8px;
     min-width:0;
     padding-right:90px;
     margin-right:-16px;
