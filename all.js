@@ -14,7 +14,10 @@ const ICON_SRC = {
   khalafi:  "assets/img/icons/khalafi.png",
 
   // اگر آیکن کارت سوخت داری، این را فعال کن:
-  // fuelcard: "assets/img/icons/fuelcard.png",
+  fuelcard: "assets/img/icons/fuelcard.png",
+    pishgiri: "assets/img/icons/pishgiri.png",
+
+  
 };
 
 function escapeHtml(str){
