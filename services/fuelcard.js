@@ -2,13 +2,13 @@
 (function () {
   window.SERVICE_DATA = window.SERVICE_DATA || {};
   window.SERVICES = window.SERVICES || {};
-
+const FORM_HREF = "assets/forms/fuelcard-duplicate.pdf";
   const fuelcard = {
     barTitle: "کارت سوخت",
     icon: "assets/img/icons/fuelcard.png",
 
     heroTitle: "ثبت درخواست کارت سوخت",
-const FORM_HREF = "assets/forms/fuelcard-duplicate.pdf";
+
 
     meta: {
       time: "—",
