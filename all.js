@@ -70,7 +70,8 @@ function render(){
     }
 
     return `
-      <a class="item" href="${s.href}">
+return `
+  <a class="item" href="${s.href}?from=all">
         ${iconNode(s.icon)}
         <span class="label">${label}</span>
         <span class="chev" aria-hidden="true">›</span>
