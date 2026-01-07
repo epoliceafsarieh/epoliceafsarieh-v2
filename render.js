@@ -163,7 +163,7 @@
   }
 
   .svc-badge{
-    width:64px;height:64px;border-radius:14px;
+    width:60px;height:60px;border-radius:12px;
     display:flex;align-items:center;justify-content:center;
     border:2px solid var(--brand-blue);
     background:transparent;
