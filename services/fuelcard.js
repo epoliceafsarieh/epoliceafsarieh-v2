@@ -8,12 +8,18 @@
     icon: "assets/img/icons/fuelcard.png",
 
     heroTitle: "ثبت درخواست کارت سوخت",
+const FORM_HREF = "assets/forms/fuelcard-duplicate.pdf";
 
     meta: {
       time: "—",
       feeKey: "fuelcard",
       feeSummary: "کلیک کنید"
     },
+  heroPrimary: {
+  label: "دانلود فرم المثنی کارت سوخت",
+  href: FORM_HREF
+},
+
 
     feeRows: [
       { label: "هزینه خدمت", field: "service" },
