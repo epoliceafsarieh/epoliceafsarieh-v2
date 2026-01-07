@@ -187,14 +187,14 @@
     display:inline-flex;
     align-items:center;
     gap:6px;
-    padding:6px 10px;
+    padding:5px 8px;
     border-radius:12px;
     background:rgba(255,255,255,.12);
     border:1px solid rgba(255,255,255,.22);
     color:#fff;
     text-decoration:none;
-    font-size:13px;
-    font-weight:900;
+    font-size:11px;
+    font-weight:800;
     cursor:pointer;
     white-space:nowrap;
     z-index:3;
