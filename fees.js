@@ -22,7 +22,7 @@ const FEES = {
     inquiry: "—",
     payment: "—",
     print: "—"
-  }
+  },
   fuelcard: {
   service: "—",
   office: "—",
