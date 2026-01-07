@@ -163,7 +163,7 @@
   }
 
   .svc-badge{
-    width:72px;height:72px;border-radius:14px;
+    width:64px;height:64px;border-radius:14px;
     display:flex;align-items:center;justify-content:center;
     border:2px solid var(--brand-blue);
     background:transparent;
@@ -171,7 +171,7 @@
     transform:translateY(-50%);
     z-index:2;
   }
-  .svc-icon{width:66px;height:66px;object-fit:contain;display:block}
+  .svc-icon{width:52px;height:52px;object-fit:contain;display:block}
 
   .svc-title{
     font-weight:900;
