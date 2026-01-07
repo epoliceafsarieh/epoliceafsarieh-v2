@@ -175,7 +175,7 @@
 
   .svc-title{
     font-weight:900;
-    font-size:15px;
+    font-size:17px;
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
