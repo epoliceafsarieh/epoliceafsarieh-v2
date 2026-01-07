@@ -6,11 +6,11 @@ const SERVICES = [
   { title: "خلافی خودرو / موتور", icon: "khalafi",  href: "khalafi.html"  },
   { title: "ترخیص خودرو / موتور", icon: "tow",      href: "tarkhis.html"  },
 
-  // آیکن اختصاصی هنوز ندارند → placeholder خنثی (نه other.png ایندکس)
+  // آیکن اختصاصی هنوز ندارند → placeholder خنثی
   { title: "پلیس پیشگیری",        icon: "placeholder", href: null },
   { title: "تشخیص هویت",          icon: "placeholder", href: null },
-  { title: "کارت سوخت",           icon: "fuelcard", href: "fuelcard.html"  },
 
+  { title: "کارت سوخت",           icon: "fuelcard", href: "fuelcard.html"  },
   { title: "نظام وظیفه",          icon: "placeholder", href: "military-hub.html" },
 ];
 
@@ -18,9 +18,10 @@ const ICON_SRC = {
   passport: "assets/img/icons/passport.png",
   license:  "assets/img/icons/license.png",
   tow:      "assets/img/icons/tow.png",
-
-  // اگر آیکن اختصاصی خلافی داری، همین را عوض کن
   khalafi:  "assets/img/icons/khalafi.png",
+
+  // اگر آیکن کارت سوخت داری، این را فعال کن:
+  // fuelcard: "assets/img/icons/fuelcard.png",
 };
 
 function escapeHtml(str){
@@ -33,7 +34,6 @@ function escapeHtml(str){
 }
 
 function placeholderSvg(){
-  // خنثی، سفید، بدون وابستگی به آیکن‌های ایندکس
   return `
     <svg class="icon-img" viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <path d="M7 8h10M7 12h10M7 16h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
@@ -48,8 +48,12 @@ function iconNode(iconKey){
   const src = ICON_SRC[iconKey];
   if(!src) return placeholderSvg();
 
-  // data-icon برای بزرگ‌تر کردن پاسپورت در CSS
   return `<img class="icon-img" data-icon="${iconKey}" src="${src}" alt="" aria-hidden="true">`;
+}
+
+function withFromAll(href){
+  // اگر قبلاً query داشت، با & اضافه کن
+  return href.includes("?") ? `${href}&from=all` : `${href}?from=all`;
 }
 
 function render(){
@@ -69,9 +73,10 @@ function render(){
       `;
     }
 
+    const href = withFromAll(s.href);
+
     return `
-return `
-  <a class="item" href="${s.href}?from=all">
+      <a class="item" href="${href}">
         ${iconNode(s.icon)}
         <span class="label">${label}</span>
         <span class="chev" aria-hidden="true">›</span>
