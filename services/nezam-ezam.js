@@ -26,10 +26,12 @@
     // اگر برای این سرویس feeRows نمی‌خواهی، کلاً حذفش کن. (اینجا حذف شده)
 
     // CTA بالا لازم نداری (طبق متن). اگر بعداً فایل PDF داشتی، می‌تونی اضافه کنی.
-    heroPrimary: { label: "دانلود چک‌لیست مدارک", href: "assets/forms/nezam-ezam-checklist.pdf" },
-    heroSecondary: {
-  label: "آدرس مراکز معاینه و واکسن (تهران)",
-  href: "assets/forms/nezam-ezam-centers.pdf"
+    heroPrimary: {   label: "آدرس مراکز معاینه و واکسن (تهران)",
+  href: "assets/forms/nezam-ezam-centers.pdf"   
+      
+      },
+   // heroSecondary: { label: "دانلود چک‌لیست مدارک", href: "assets/forms/nezam-ezam-checklist.pdf"
+
 },
 
     sections: [
