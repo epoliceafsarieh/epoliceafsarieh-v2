@@ -12,6 +12,12 @@ const FEES = {
     medical: "—",
     drugTest: "—"
   },
+  
+  "nezam-ezam": {
+    office: "—",
+    medical: "—",
+    vaccine: "—"
+  }
 
   tarkhis: {
     parking: "—",
