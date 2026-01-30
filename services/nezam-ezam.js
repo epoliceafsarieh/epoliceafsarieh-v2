@@ -14,13 +14,19 @@
     meta: {
       time: "وابسته به تاریخ‌های اعلامی",
       feeKey: "nezam-ezam",
-      feeSummary: "—"
+      feeSummary: "کلیک کنید"
     },
+    feeRows: [
+  { label: "هزینه خدمات دفتر", field: "office" },
+  { label: "معاینه پزشکی", field: "medical" },
+  { label: "واکسیناسیون", field: "vaccine" }
+],
+    
 
     // اگر برای این سرویس feeRows نمی‌خواهی، کلاً حذفش کن. (اینجا حذف شده)
 
     // CTA بالا لازم نداری (طبق متن). اگر بعداً فایل PDF داشتی، می‌تونی اضافه کنی.
-    // heroPrimary: { label: "دانلود چک‌لیست مدارک", href: "assets/forms/nezam-ezam-checklist.pdf" },
+    heroPrimary: { label: "دانلود چک‌لیست مدارک", href: "assets/forms/nezam-ezam-checklist.pdf" },
 
     sections: [
       {
