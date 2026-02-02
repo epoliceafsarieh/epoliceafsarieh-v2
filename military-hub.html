@@ -7,31 +7,28 @@
 
   <style>
     :root{
-      --navy:#0b2a4a;
+      --navy:#041E42;      /* هم‌رنگ تم سایت خودت */
       --navy-2:#0a2642;
       --gold:#c7a24a;
-      --bg:#f4f6fb;
-      --card:#ffffff;
+      --bg:#ffffff;
       --text:#0b2a4a;
       --muted:#6b7280;
-      --border:#e5e7eb;
-      --radius:18px;
     }
 
     html,body{height:100%}
     body{
       margin:0;
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans Arabic", "Vazirmatn", Tahoma, Arial, sans-serif;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Vazirmatn", Tahoma, Arial, sans-serif;
       background: var(--bg);
       color: var(--text);
     }
 
-    /* Top bar */
+    /* ===== Topbar (مثل پاسپورت خودت: آیکن راست، عنوان، بازگشت چپ) ===== */
     .topbar{
       background: var(--navy);
       border-bottom-left-radius: 18px;
       border-bottom-right-radius: 18px;
-      padding: 12px 14px 14px;
+      padding: 10px 12px 12px;
       position: sticky;
       top:0;
       z-index:10;
@@ -54,20 +51,18 @@
       border: 1px solid rgba(255,255,255,.14);
       flex: 0 0 auto;
     }
-    .topIcon svg{
-      width:22px;height:22px;
-      opacity:.95;
-      fill:#fff;
-    }
+    .topIcon svg{width:22px;height:22px;fill:#fff;opacity:.95;}
+
     .topTitle{
-      font-weight: 800;
-      font-size: 18px;
-      color:#fff;
-      letter-spacing: .2px;
       flex: 1 1 auto;
       text-align: right;
-      padding-inline-end: 6px;
+      font-weight: 800;
+      font-size: 18px;   /* کوچکتر */
+      color:#fff;
+      letter-spacing:.2px;
+      padding-inline-end: 4px;
     }
+
     .backBtn{
       flex: 0 0 auto;
       background: rgba(255,255,255,.10);
@@ -77,90 +72,87 @@
       padding: 6px 9px;
       font-weight: 800;
       font-size: 12px;
-      text-decoration: none;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      min-width: 58px;
       line-height: 1;
-      cursor: pointer;
+      min-width: 58px;
+      cursor:pointer;
     }
-    .backBtn:active{transform: scale(.98)}
+    .backBtn:active{transform:scale(.98)}
 
+    /* ===== Page layout (مثل نمونه: لیست ساده روی صفحه) ===== */
     .wrap{
-      max-width: 520px;
+      max-width: 560px;
       margin: 0 auto;
-      padding: 14px 14px 32px;
+      padding: 14px 16px 36px;
     }
 
-    .panel{
-      background: var(--card);
-      border-radius: var(--radius);
-      box-shadow: 0 12px 28px rgba(15, 23, 42, .08);
-      border: 1px solid rgba(17,24,39,.06);
-      overflow:hidden;
-    }
-
+    /* ===== Accordion rows ===== */
     .accItem{ background:#fff; }
 
+    /* نکته مهم: برای اینکه چِورون «سمت چپ» بیفتد، خود دکمه را LTR می‌کنیم */
     .accBtn{
       width:100%;
       border:0;
       background: transparent;
-      padding: 16px 16px;
+      padding: 18px 2px;
       cursor:pointer;
       display:flex;
       align-items:center;
       gap: 12px;
-      font-size: 21px;
-      font-weight: 900;
-      color: var(--text);
+
+      direction:ltr;           /* کلید حلِ جای چِورون */
+    }
+
+    .accLabel{
+      flex: 1 1 auto;
+      direction: rtl;          /* متن فارسی درست */
+      text-align: left;        /* چون direction=ltr شده، left یعنی سمت «چپ بصری» */
+      font-size: 20px;         /* کوچکتر از قبل */
+      font-weight: 800;
+      color: var(--navy);
+      line-height: 1.2;
+      padding-right: 2px;
     }
 
     .accChevron{
-      width: 34px;
-      height: 34px;
+      width: 30px;
+      height: 30px;
       display:inline-flex;
       align-items:center;
       justify-content:center;
       flex: 0 0 auto;
       transition: transform .18s ease;
     }
-    .accChevron svg{width:22px;height:22px;fill: var(--navy)}
-    .accLabel{
-      flex: 1 1 auto;
-      text-align: right;
-      color: var(--navy);
-    }
+    .accChevron svg{width:22px;height:22px;fill: var(--navy);}
 
-    /* ✅ طلایی باریک‌تر */
+    /* خط طلایی: نازک‌تر + تقریبا تمام‌عرض با حاشیه سفید دوطرف */
     .divider{
-      height: 1.5px;
+      height: 1px; /* باریک‌تر */
       background: linear-gradient(
         to left,
         transparent 0%,
-        transparent 4%,
-        var(--gold) 4%,
-        var(--gold) 96%,
-        transparent 96%,
+        transparent 3%,
+        var(--gold) 3%,
+        var(--gold) 97%,
+        transparent 97%,
         transparent 100%
       );
-      margin: 0 10px;
+      margin: 10px 0 0;
     }
 
     .accPanel{
       display:none;
-      padding: 10px 14px 16px;
-      background: #fff;
+      padding: 10px 0 16px;
+      background:#fff;
     }
     .accItem[data-open="1"] .accPanel{display:block;}
     .accItem[data-open="1"] .accChevron{transform: rotate(180deg);}
 
+    /* ===== Inner navy cards (تمام‌عرض در موبایل) ===== */
     .grid{
       display:flex;
       flex-direction: column;
       gap: 12px;
-      margin-top: 8px;
+      margin-top: 14px;
     }
     .navyCard{
       background: var(--navy-2);
@@ -172,45 +164,29 @@
       align-items:center;
       justify-content:space-between;
       gap: 12px;
-      box-shadow: 0 10px 18px rgba(2, 6, 23, .18);
       border: 1px solid rgba(255,255,255,.08);
       width: 100%;
       box-sizing: border-box;
     }
     .navyCard .t{
-      font-size: 18px;
-      font-weight: 900;
+      font-size: 16px;   /* کوچکتر (مثل احساس all) */
+      font-weight: 800;
       line-height: 1.25;
     }
-    .navyCard .arrow{
-      flex: 0 0 auto;
-      width: 22px;
-      height: 22px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    }
-    .navyCard .arrow svg{width:20px;height:20px;fill: var(--gold)}
+    .navyCard .arrow{width:22px;height:22px;display:flex;align-items:center;justify-content:center;flex:0 0 auto;}
+    .navyCard .arrow svg{width:20px;height:20px;fill: var(--gold);}
     .navyCard:active{transform: scale(.99)}
 
-    .navyCard.disabled{
-      opacity:.55;
-      cursor: default;
-      position: relative;
-    }
+    .navyCard.disabled{opacity:.55;cursor:default;}
     .badgeSoon{
-      font-size: 12px;
-      font-weight: 900;
+      font-size: 11px;
+      font-weight: 800;
       background: rgba(255,255,255,.14);
       border: 1px solid rgba(255,255,255,.18);
-      padding: 4px 10px;
+      padding: 3px 8px;
       border-radius: 999px;
-      margin-inline-start: 10px;
+      margin-inline-start: 8px;
       white-space: nowrap;
-    }
-
-    @media (max-width: 520px){
-      .wrap{ padding-left: 12px; padding-right: 12px; }
     }
   </style>
 </head>
@@ -231,152 +207,151 @@
   </header>
 
   <main class="wrap">
-    <section class="panel">
 
-      <!-- اعزام -->
-      <div class="accItem" data-open="0">
-        <button class="accBtn" type="button" data-acc="toggle">
-          <span class="accChevron" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M7.4 8.6 12 13.2l4.6-4.6 1.4 1.4-6 6-6-6z"/></svg>
-          </span>
-          <span class="accLabel">اعزام</span>
-        </button>
-        <div class="divider"></div>
-        <div class="accPanel">
-          <div class="grid">
-            <a class="navyCard" href="nezam-ezam.html">
-              <span class="t">اعزام به خدمت</span>
-              <span class="arrow" aria-hidden="true">
-                <svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg>
-              </span>
-            </a>
+    <!-- اعزام -->
+    <div class="accItem" data-open="0">
+      <button class="accBtn" type="button" data-acc="toggle">
+        <div class="accLabel">اعزام</div>
+        <span class="accChevron" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M7.4 8.6 12 13.2l4.6-4.6 1.4 1.4-6 6-6-6z"/></svg>
+        </span>
+      </button>
+      <div class="divider"></div>
+      <div class="accPanel">
+        <div class="grid">
+          <a class="navyCard" href="nezam-ezam.html">
+            <span class="t">اعزام به خدمت</span>
+            <span class="arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg>
+            </span>
+          </a>
 
-            <a class="navyCard disabled" href="#" data-disabled="1">
-              <span class="t">تمدید و تعجیل <span class="badgeSoon">به‌زودی</span></span>
-              <span class="arrow" aria-hidden="true">
-                <svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg>
-              </span>
-            </a>
+          <a class="navyCard disabled" href="#" data-disabled="1">
+            <span class="t">تمدید و تعجیل <span class="badgeSoon">به‌زودی</span></span>
+            <span class="arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg>
+            </span>
+          </a>
 
-            <a class="navyCard disabled" href="#" data-disabled="1">
-              <span class="t">غیبت و توجیه غیبت <span class="badgeSoon">به‌زودی</span></span>
-              <span class="arrow" aria-hidden="true">
-                <svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg>
-              </span>
-            </a>
-          </div>
+          <a class="navyCard disabled" href="#" data-disabled="1">
+            <span class="t">غیبت و توجیه غیبت <span class="badgeSoon">به‌زودی</span></span>
+            <span class="arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg>
+            </span>
+          </a>
         </div>
       </div>
+    </div>
 
-      <!-- معافیت -->
-      <div class="accItem" data-open="0">
-        <button class="accBtn" type="button" data-acc="toggle">
-          <span class="accChevron" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M7.4 8.6 12 13.2l4.6-4.6 1.4 1.4-6 6-6-6z"/></svg>
-          </span>
-          <span class="accLabel">معافیت</span>
-        </button>
-        <div class="divider"></div>
-        <div class="accPanel">
-          <div class="grid">
-            <a class="navyCard disabled" href="#" data-disabled="1">
-              <span class="t">معافیت پزشکی <span class="badgeSoon">به‌زودی</span></span>
-              <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
-            </a>
-            <a class="navyCard disabled" href="#" data-disabled="1">
-              <span class="t">معافیت کفالت <span class="badgeSoon">به‌زودی</span></span>
-              <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
-            </a>
-            <a class="navyCard disabled" href="#" data-disabled="1">
-              <span class="t">معافیت بهزیستی <span class="badgeSoon">به‌زودی</span></span>
-              <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
-            </a>
-            <a class="navyCard disabled" href="#" data-disabled="1">
-              <span class="t">معافیت ایثارگری <span class="badgeSoon">به‌زودی</span></span>
-              <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
-            </a>
-          </div>
+    <!-- معافیت -->
+    <div class="accItem" data-open="0">
+      <button class="accBtn" type="button" data-acc="toggle">
+        <div class="accLabel">معافیت</div>
+        <span class="accChevron" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M7.4 8.6 12 13.2l4.6-4.6 1.4 1.4-6 6-6-6z"/></svg>
+        </span>
+      </button>
+      <div class="divider"></div>
+      <div class="accPanel">
+        <div class="grid">
+          <a class="navyCard disabled" href="#" data-disabled="1">
+            <span class="t">معافیت پزشکی <span class="badgeSoon">به‌زودی</span></span>
+            <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
+          </a>
+          <a class="navyCard disabled" href="#" data-disabled="1">
+            <span class="t">معافیت کفالت <span class="badgeSoon">به‌زودی</span></span>
+            <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
+          </a>
+          <a class="navyCard disabled" href="#" data-disabled="1">
+            <span class="t">معافیت بهزیستی <span class="badgeSoon">به‌زودی</span></span>
+            <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
+          </a>
+          <a class="navyCard disabled" href="#" data-disabled="1">
+            <span class="t">معافیت ایثارگری <span class="badgeSoon">به‌زودی</span></span>
+            <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
+          </a>
         </div>
       </div>
+    </div>
 
-      <!-- تحصیلی -->
-      <div class="accItem" data-open="0">
-        <button class="accBtn" type="button" data-acc="toggle">
-          <span class="accChevron" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M7.4 8.6 12 13.2l4.6-4.6 1.4 1.4-6 6-6-6z"/></svg>
-          </span>
-          <span class="accLabel">تحصیلی</span>
-        </button>
-        <div class="divider"></div>
-        <div class="accPanel">
-          <div class="grid">
-            <a class="navyCard disabled" href="#" data-disabled="1">
-              <span class="t">معافیت تحصیلی دانش‌آموزی <span class="badgeSoon">به‌زودی</span></span>
-              <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
-            </a>
-            <a class="navyCard disabled" href="#" data-disabled="1">
-              <span class="t">معافیت تحصیلی دانشجویی <span class="badgeSoon">به‌زودی</span></span>
-              <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
-            </a>
-            <a class="navyCard disabled" href="#" data-disabled="1">
-              <span class="t">سنوات تحصیلی <span class="badgeSoon">به‌زودی</span></span>
-              <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
-            </a>
-          </div>
+    <!-- تحصیلی -->
+    <div class="accItem" data-open="0">
+      <button class="accBtn" type="button" data-acc="toggle">
+        <div class="accLabel">تحصیلی</div>
+        <span class="accChevron" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M7.4 8.6 12 13.2l4.6-4.6 1.4 1.4-6 6-6-6z"/></svg>
+        </span>
+      </button>
+      <div class="divider"></div>
+      <div class="accPanel">
+        <div class="grid">
+          <a class="navyCard disabled" href="#" data-disabled="1">
+            <span class="t">معافیت تحصیلی دانش‌آموزی <span class="badgeSoon">به‌زودی</span></span>
+            <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
+          </a>
+          <a class="navyCard disabled" href="#" data-disabled="1">
+            <span class="t">معافیت تحصیلی دانشجویی <span class="badgeSoon">به‌زودی</span></span>
+            <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
+          </a>
+          <a class="navyCard disabled" href="#" data-disabled="1">
+            <span class="t">سنوات تحصیلی <span class="badgeSoon">به‌زودی</span></span>
+            <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
+          </a>
         </div>
       </div>
+    </div>
 
-      <!-- کارت‌ها -->
-      <div class="accItem" data-open="0">
-        <button class="accBtn" type="button" data-acc="toggle">
-          <span class="accChevron" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M7.4 8.6 12 13.2l4.6-4.6 1.4 1.4-6 6-6-6z"/></svg>
-          </span>
-          <span class="accLabel">کارت‌ها</span>
-        </button>
-        <div class="divider"></div>
-        <div class="accPanel">
-          <div class="grid">
-            <a class="navyCard disabled" href="#" data-disabled="1">
-              <span class="t">المثنی کارت پایان خدمت <span class="badgeSoon">به‌زودی</span></span>
-              <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
-            </a>
-            <a class="navyCard disabled" href="#" data-disabled="1">
-              <span class="t">المثنی کارت معافیت <span class="badgeSoon">به‌زودی</span></span>
-              <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
-            </a>
-            <a class="navyCard disabled" href="#" data-disabled="1">
-              <span class="t">استعلام و اصالت کارت <span class="badgeSoon">به‌زودی</span></span>
-              <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
-            </a>
-          </div>
+    <!-- کارت‌ها -->
+    <div class="accItem" data-open="0">
+      <button class="accBtn" type="button" data-acc="toggle">
+        <div class="accLabel">کارت‌ها</div>
+        <span class="accChevron" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M7.4 8.6 12 13.2l4.6-4.6 1.4 1.4-6 6-6-6z"/></svg>
+        </span>
+      </button>
+      <div class="divider"></div>
+      <div class="accPanel">
+        <div class="grid">
+          <a class="navyCard disabled" href="#" data-disabled="1">
+            <span class="t">المثنی کارت پایان خدمت <span class="badgeSoon">به‌زودی</span></span>
+            <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
+          </a>
+          <a class="navyCard disabled" href="#" data-disabled="1">
+            <span class="t">المثنی کارت معافیت <span class="badgeSoon">به‌زودی</span></span>
+            <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
+          </a>
+          <a class="navyCard disabled" href="#" data-disabled="1">
+            <span class="t">استعلام و اصالت کارت <span class="badgeSoon">به‌زودی</span></span>
+            <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
+          </a>
         </div>
       </div>
+    </div>
 
-      <!-- مجوزها -->
-      <div class="accItem" data-open="0">
-        <button class="accBtn" type="button" data-acc="toggle">
-          <span class="accChevron" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M7.4 8.6 12 13.2l4.6-4.6 1.4 1.4-6 6-6-6z"/></svg>
-          </span>
-          <span class="accLabel">مجوزها</span>
-        </button>
-        <div class="divider"></div>
-        <div class="accPanel">
-          <div class="grid">
-            <a class="navyCard disabled" href="#" data-disabled="1">
-              <span class="t">مجوز خروج از کشور <span class="badgeSoon">به‌زودی</span></span>
-              <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
-            </a>
-            <a class="navyCard disabled" href="#" data-disabled="1">
-              <span class="t">مجوز ورزشی <span class="badgeSoon">به‌زودی</span></span>
-              <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
-            </a>
-          </div>
+    <!-- مجوزها -->
+    <div class="accItem" data-open="0">
+      <button class="accBtn" type="button" data-acc="toggle">
+        <div class="accLabel">مجوزها</div>
+        <span class="accChevron" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M7.4 8.6 12 13.2l4.6-4.6 1.4 1.4-6 6-6-6z"/></svg>
+        </span>
+      </button>
+      <div class="divider"></div>
+
+      <div class="accPanel">
+        <div class="grid">
+          <a class="navyCard disabled" href="#" data-disabled="1">
+            <span class="t">مجوز خروج از کشور <span class="badgeSoon">به‌زودی</span></span>
+            <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
+          </a>
+          <a class="navyCard disabled" href="#" data-disabled="1">
+            <span class="t">مجوز ورزشی <span class="badgeSoon">به‌زودی</span></span>
+            <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
+          </a>
         </div>
       </div>
+    </div>
 
-    </section>
   </main>
 
   <script>
@@ -400,20 +375,22 @@
       alert('این صفحه هنوز ساخته نشده (به‌زودی).');
     });
 
-    // ✅ Smart back (button)
-    (function () {
+    // Smart back: history -> serviceFrom -> index
+    (function(){
       const btn = document.getElementById("backBtn");
       if (!btn) return;
 
       btn.addEventListener("click", () => {
-        // بهترین حالت: برگشت واقعی
         if (window.history.length > 1) {
           window.history.back();
           return;
         }
-        // fallback: از sessionStorage
-        const from = sessionStorage.getItem("serviceFrom") || "all.html";
-        location.href = (from.split("/").pop() || "all.html");
+        const from = sessionStorage.getItem("serviceFrom");
+        if (from && typeof from === "string" && from.trim()) {
+          location.href = from.split("/").pop();
+        } else {
+          location.href = "index.html";
+        }
       });
     })();
   </script>
