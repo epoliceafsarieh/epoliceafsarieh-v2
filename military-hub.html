@@ -7,15 +7,27 @@
 
   <style>
     :root{
-      --navy:#0b2a4a;
+      /* هم‌رنگ نوار گذرنامه */
+      --navy:#041E42;
       --navy-2:#0a2642;
+
       --gold:#c7a24a;
       --bg:#f4f6fb;
       --card:#ffffff;
       --text:#0b2a4a;
       --muted:#6b7280;
       --border:#e5e7eb;
+
+      /* رادیوس شبیه گذرنامه */
       --radius:18px;
+      --top-radius:20px;
+
+      /* مقیاس تایپوگرافی (برای کنترل نسبت‌ها) */
+      --top-title:20px;
+      --top-btn:12px;
+
+      --acc-title:18px;   /* اعزام/معافیت/... */
+      --inner-card:16px;  /* کارت‌های داخل هر بخش */
     }
 
     html,body{height:100%}
@@ -26,74 +38,65 @@
       color: var(--text);
     }
 
-    /* Top bar (RTL: icon right, title middle/right, back left) */
+    /* Top bar: مثل گذرنامه (ارتفاع/پدینگ/گردی/سایه/فونت) */
     .topbar{
       background: var(--navy);
-      border-bottom-left-radius: 18px;
-      border-bottom-right-radius: 18px;
-
-      /* ✅ فقط فرم: نوار کمتر ضخیم */
-      padding: 10px 14px 12px;
-
-      position: sticky;
-      top:0;
-      z-index:10;
-      box-shadow: 0 6px 16px rgba(0,0,0,.10);
+      border-bottom-left-radius: var(--top-radius);
+      border-bottom-right-radius: var(--top-radius);
+      padding: 12px 14px 14px;  /* جمع‌وجورتر */
+      box-shadow: 0 10px 24px rgba(0,0,0,.12);
     }
+
     .topbarRow{
       display:flex;
       align-items:center;
-      gap:10px;
+      gap:12px;
       direction: rtl;
     }
-    .topIcon{
-      /* ✅ فقط فرم: کمی کوچک‌تر مثل گذرنامه */
-      width:36px;
-      height:36px;
 
-      border-radius:12px;
+    .topIcon{
+      width:44px;
+      height:44px;
+      border-radius:14px;
       background: rgba(255,255,255,.10);
       display:flex;
       align-items:center;
       justify-content:center;
-      border: 1px solid rgba(255,255,255,.14);
+      border: 1px solid rgba(255,255,255,.16);
       flex: 0 0 auto;
     }
     .topIcon svg{
-      /* ✅ فقط فرم */
-      width:20px;height:20px;
+      width:24px;height:24px;
       opacity:.95;
       fill:#fff;
     }
+
     .topTitle{
-      /* ✅ فقط فرم: فونت عنوان نوار مثل گذرنامه (کمتر) */
-      font-weight: 800;
-      font-size: 16px;
+      font-weight: 900;
+      font-size: var(--top-title);
       color:#fff;
       letter-spacing: .2px;
       flex: 1 1 auto;
       text-align: right;
       padding-inline-end: 6px;
+      line-height: 1.2;
     }
+
     .backBtn{
       flex: 0 0 auto;
       background: rgba(255,255,255,.10);
       border: 1px solid rgba(255,255,255,.16);
       color:#fff;
-
-      /* ✅ فقط فرم */
-      border-radius: 12px;
-      padding: 5px 8px;
+      border-radius: 14px;
+      padding: 7px 10px;
       font-weight: 800;
-      font-size: 11.5px;
-      min-width: 54px;
-      line-height: 1;
-
+      font-size: var(--top-btn);
       text-decoration: none;
       display:inline-flex;
       align-items:center;
       justify-content:center;
-      cursor: pointer;
+      min-width: 64px;
+      line-height: 1;
     }
     .backBtn:active{transform: scale(.98)}
 
@@ -119,26 +122,20 @@
       width:100%;
       border:0;
       background: transparent;
-
-      /* ✅ فقط فرم: کمی جمع‌وجورتر */
-      padding: 14px 16px;
-
+      padding: 16px 16px;
       cursor:pointer;
       display:flex;
       align-items:center;
       gap: 12px;
-
-      /* ✅ فقط فرم: فونت تیتر آکاردئون = 15px */
-      font-size: 15px;
-      font-weight: 700;
-
+      font-size: var(--acc-title); /* ✅ کوچک‌تر شد */
+      font-weight: 900;
       color: var(--text);
     }
 
     /* Chevron left, label right */
     .accChevron{
-      width: 34px;
-      height: 34px;
+      width: 32px;
+      height: 32px;
       display:inline-flex;
       align-items:center;
       justify-content:center;
@@ -146,16 +143,17 @@
       color: var(--navy);
       transition: transform .18s ease;
     }
-    .accChevron svg{width:22px;height:22px;fill: var(--navy)}
+    .accChevron svg{width:20px;height:20px;fill: var(--navy)}
     .accLabel{
       flex: 1 1 auto;
       text-align: right;
       color: var(--navy);
+      line-height: 1.25;
     }
 
     /* ✅ Gold divider thinner */
     .divider{
-      height: 1px; /* فقط فرم */
+      height: 1px; /* ✅ نازک */
       background: linear-gradient(
         to left,
         transparent 0%,
@@ -183,12 +181,12 @@
       gap: 12px;
       margin-top: 8px;
     }
+
     .navyCard{
       background: var(--navy-2);
       color:#fff;
       border-radius: 12px;
-      padding: 14px 14px; /* ✅ فقط فرم: کمی کمتر */
-
+      padding: 14px 16px; /* کمی جمع‌وجورتر */
       text-decoration:none;
       display:flex;
       align-items:center;
@@ -199,24 +197,22 @@
       width: 100%;
       box-sizing: border-box;
     }
+
     .navyCard .t{
-      /* ✅ فقط فرم: فونت کارت‌های داخلی کوچکتر از آکاردئون */
-      font-size: 14px;
-      font-weight: 700;
-      line-height: 1.35;
+      font-size: var(--inner-card); /* ✅ کوچکتر از تیترهای آکاردئون */
+      font-weight: 900;
+      line-height: 1.25;
     }
+
     .navyCard .arrow{
       flex: 0 0 auto;
-
-      /* ✅ فقط فرم: فلش کارت داخلی کمی کوچک‌تر */
-      width: 20px;
-      height: 20px;
-
+      width: 22px;
+      height: 22px;
       display:flex;
       align-items:center;
       justify-content:center;
     }
-    .navyCard .arrow svg{width:18px;height:18px;fill: var(--gold)}
+    .navyCard .arrow svg{width:20px;height:20px;fill: var(--gold)}
     .navyCard:active{transform: scale(.99)}
 
     /* Disabled cards */
@@ -226,10 +222,8 @@
       position: relative;
     }
     .badgeSoon{
-      /* ✅ فقط فرم: badge کوچکتر */
       font-size: 11px;
-      font-weight: 700;
-
+      font-weight: 900;
       background: rgba(255,255,255,.14);
       border: 1px solid rgba(255,255,255,.18);
       padding: 4px 10px;
@@ -390,6 +384,7 @@
           </span>
           <span class="accLabel">مجوزها</span>
         </button>
+        <div class="divider"></div>
         <div class="accPanel">
           <div class="grid">
             <a class="navyCard disabled" href="#" data-disabled="1">
@@ -428,7 +423,7 @@
       alert('این صفحه هنوز ساخته نشده (به‌زودی).');
     });
 
-    // Back (unchanged logic intent)
+    // Back button: history first, else fallback
     (function () {
       const btn = document.getElementById("backBtn");
       if (!btn) return;
