@@ -26,7 +26,7 @@
       color: var(--text);
     }
 
-    /* Top bar (RTL: icon right, title middle/right, back left) */
+    /* Top bar */
     .topbar{
       background: var(--navy);
       border-bottom-left-radius: 18px;
@@ -61,7 +61,7 @@
     }
     .topTitle{
       font-weight: 800;
-      font-size: 18px;         /* ✅ کوچکتر شد */
+      font-size: 18px;
       color:#fff;
       letter-spacing: .2px;
       flex: 1 1 auto;
@@ -74,19 +74,19 @@
       border: 1px solid rgba(255,255,255,.16);
       color:#fff;
       border-radius: 12px;
-      padding: 6px 9px;        /* ✅ کوچکتر شد */
+      padding: 6px 9px;
       font-weight: 800;
-      font-size: 12px;         /* ✅ کوچکتر شد */
+      font-size: 12px;
       text-decoration: none;
       display:inline-flex;
       align-items:center;
       justify-content:center;
-      min-width: 58px;         /* ✅ کوچکتر شد */
+      min-width: 58px;
       line-height: 1;
+      cursor: pointer;
     }
     .backBtn:active{transform: scale(.98)}
 
-    /* Layout */
     .wrap{
       max-width: 520px;
       margin: 0 auto;
@@ -101,7 +101,6 @@
       overflow:hidden;
     }
 
-    /* Accordion list */
     .accItem{ background:#fff; }
 
     .accBtn{
@@ -118,7 +117,6 @@
       color: var(--text);
     }
 
-    /* Chevron left, label right */
     .accChevron{
       width: 34px;
       height: 34px;
@@ -126,7 +124,6 @@
       align-items:center;
       justify-content:center;
       flex: 0 0 auto;
-      color: var(--navy);
       transition: transform .18s ease;
     }
     .accChevron svg{width:22px;height:22px;fill: var(--navy)}
@@ -136,9 +133,9 @@
       color: var(--navy);
     }
 
-    /* ✅ Gold divider thinner (barik-tar) */
+    /* ✅ طلایی باریک‌تر */
     .divider{
-      height: 2px; /* ✅ از 2px به 1px */
+      height: 1px;
       background: linear-gradient(
         to left,
         transparent 0%,
@@ -159,7 +156,6 @@
     .accItem[data-open="1"] .accPanel{display:block;}
     .accItem[data-open="1"] .accChevron{transform: rotate(180deg);}
 
-    /* Inner navy cards */
     .grid{
       display:flex;
       flex-direction: column;
@@ -197,7 +193,6 @@
     .navyCard .arrow svg{width:20px;height:20px;fill: var(--gold)}
     .navyCard:active{transform: scale(.99)}
 
-    /* Disabled cards */
     .navyCard.disabled{
       opacity:.55;
       cursor: default;
@@ -214,7 +209,6 @@
       white-space: nowrap;
     }
 
-    /* Mobile: full width feel */
     @media (max-width: 520px){
       .wrap{ padding-left: 12px; padding-right: 12px; }
     }
@@ -232,9 +226,7 @@
 
       <div class="topTitle">نظام وظیفه</div>
 
-      <!-- ✅ back becomes JS-controlled -->
       <button class="backBtn" type="button" id="backBtn">بازگشت</button>
-
     </div>
   </header>
 
@@ -369,7 +361,7 @@
           </span>
           <span class="accLabel">مجوزها</span>
         </button>
-        
+        <div class="divider"></div>
         <div class="accPanel">
           <div class="grid">
             <a class="navyCard disabled" href="#" data-disabled="1">
@@ -408,38 +400,22 @@
       alert('این صفحه هنوز ساخته نشده (به‌زودی).');
     });
 
-    // ✅ Smart back: return to the page user came from (all/search), else index
-    (function(){
-      const backBtn = document.getElementById('backBtn');
-      const from = sessionStorage.getItem('serviceFrom');
+    // ✅ Smart back (button)
+    (function () {
+      const btn = document.getElementById("backBtn");
+      if (!btn) return;
 
-      // اگر از all.html / internet.html / ... آمده بود، همانجا برگردد
-      if (from && typeof from === 'string' && from.length > 1) {
-        // فقط اسم فایل را نگه می‌داریم (GitHub Pages safe)
-        const file = from.split('/').pop();
-        backBtn.setAttribute('href', file || 'index.html');
-      } else {
-        backBtn.setAttribute('href', 'index.html');
-      }
+      btn.addEventListener("click", () => {
+        // بهترین حالت: برگشت واقعی
+        if (window.history.length > 1) {
+          window.history.back();
+          return;
+        }
+        // fallback: از sessionStorage
+        const from = sessionStorage.getItem("serviceFrom") || "all.html";
+        location.href = (from.split("/").pop() || "all.html");
+      });
     })();
-    <script>
-(function () {
-  const btn = document.getElementById("backBtn");
-  if (!btn) return;
-
-  btn.addEventListener("click", () => {
-    // اگر history واقعی داریم، بهترین برگشت همین است
-    if (window.history.length > 1) {
-      window.history.back();
-      return;
-    }
-
-    // اگر history نداشتیم (مثلاً باز شده مستقیم)، از serviceFrom استفاده کن
-    const from = sessionStorage.getItem("serviceFrom") || "all.html";
-    location.href = from;
-  });
-})();
-
   </script>
 </body>
 </html>
