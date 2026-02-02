@@ -2,225 +2,232 @@
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>نظام وظیفه</title>
 
-  <!-- اگر سایتت فونت/استایل اصلی دارد، همین‌ها را نگه دار -->
-  <link rel="stylesheet" href="assets/css/style.css" />
+  <!-- اگر سایتت فونت/استایل سراسری دارد، می‌تونی این را نگه داری/حذف کنی -->
+  <!-- <link rel="stylesheet" href="assets/css/styles.css"> -->
 
   <style>
     :root{
       --navy:#0b2a4a;
-      --navy-2:#0a2340;
       --gold:#c8a24a;
-      --bg:#f3f6fb;
-      --card:#ffffff;
-      --text:#0c2440;
-      --muted:#6b7a90;
-      --radius:16px;
+      --bg:#f5f7fb;
+      --text:#0f172a;
+      --muted:#6b7280;
+      --card:#0b2a4a;
+      --radius:18px;
+      --max: 760px; /* عرض کانتینر را بیشتر کردیم */
     }
 
+    *{ box-sizing:border-box; }
     body{
       margin:0;
-      background:var(--bg);
-      color:var(--text);
-      font-family: inherit;
+      font-family: system-ui, -apple-system, "Segoe UI", Tahoma, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
     }
 
-    /* ===== Top Bar (RTL Correct) ===== */
+    /* ===== Top Bar (مثل گذرنامه، RTL درست) ===== */
     .topbar{
-      background:var(--navy);
+      background: var(--navy);
       color:#fff;
-      padding:14px 14px;
-      border-bottom-left-radius: 12px;
-      border-bottom-right-radius: 12px;
-      box-shadow: 0 2px 10px rgba(0,0,0,.08);
+      padding: 14px 14px;
+      border-bottom-left-radius: 18px;
+      border-bottom-right-radius: 18px;
     }
     .topbar-inner{
+      max-width: var(--max);
+      margin: 0 auto;
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap:12px;
+      gap: 10px;
+      direction: rtl;
     }
 
-    /* Right group: icon + title (right aligned) */
-    .topbar-right{
+    .brand{
       display:flex;
       align-items:center;
-      gap:12px;
-      min-width:0;
+      gap: 10px;
+      min-width: 0;
     }
-
-    .topbar-icon{
-      width:44px;
-      height:44px;
+    .brand .iconBox{
+      width:44px;height:44px;
       border-radius:12px;
+      background: rgba(255,255,255,.08);
       display:flex;
       align-items:center;
       justify-content:center;
-      background:rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.16);
-      flex:0 0 auto;
+      border: 1px solid rgba(255,255,255,.15);
+      flex: 0 0 auto;
     }
-    .topbar-icon img{
-      width:26px;
-      height:26px;
+    .brand .iconBox img{
+      width:26px;height:26px;
+      display:block;
       object-fit:contain;
-      filter: brightness(0) invert(1);
-      opacity:.95;
+      filter: brightness(1.1);
     }
-
-    .topbar-title{
-      font-size:20px;
-      font-weight:800;
+    .brand .title{
+      font-size: 22px;
+      font-weight: 800;
+      line-height:1;
       white-space:nowrap;
       overflow:hidden;
       text-overflow:ellipsis;
     }
 
-    /* Left button: Back */
-    .back-btn{
-      background:rgba(255,255,255,.12);
-      border:1px solid rgba(255,255,255,.18);
+    .backBtn{
       color:#fff;
-      padding:10px 14px;
-      border-radius:14px;
-      font-weight:700;
       text-decoration:none;
-      flex:0 0 auto;
+      background: rgba(255,255,255,.10);
+      border: 1px solid rgba(255,255,255,.18);
+      padding: 10px 14px;
+      border-radius: 14px;
+      font-weight:700;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
     }
-    .back-btn:active{ transform: translateY(1px); }
 
     /* ===== Page container ===== */
-    .page{
-      max-width: 560px;
-      margin: 0 auto;
-      padding: 12px; /* 👈 کمتر = عرض بیشتر مثل مرجع */
+    .wrap{
+      max-width: var(--max);
+      margin: 12px auto 30px;
+      padding: 0 14px;
     }
 
-    .card{
-      background:var(--card);
+    .cardShell{
+      background:#fff;
       border-radius: var(--radius);
-      box-shadow: 0 10px 28px rgba(9,26,50,.06);
-      border:1px solid rgba(20,40,70,.08);
+      box-shadow: 0 6px 18px rgba(15,23,42,.06);
       overflow:hidden;
     }
 
     .subtitle{
+      padding: 14px 16px;
+      font-weight:700;
+      color: var(--muted);
       text-align:center;
-      color:var(--muted);
-      font-weight:600;
-      padding:14px 14px 10px;
-      border-bottom:1px solid rgba(20,40,70,.08);
+      border-bottom: 1px solid rgba(15,23,42,.08);
     }
 
-    /* ===== Hub accordion sections ===== */
-    .hub{
-      padding: 8px 0;
-    }
+    /* ===== Accordion List ===== */
+    .acc{ width:100%; }
 
-    .hub-section{
+    .acc-item{
       position:relative;
-      padding: 18px 16px;   /* 👈 آیتم‌ها پهن‌تر/مثل مرجع */
-      cursor:pointer;
-      user-select:none;
+      background:#fff;
+    }
+
+    /* خط جداکننده: دو سر سفید، وسط طلایی */
+    .acc-item::after{
+      content:"";
+      position:absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 3px;
+      background:
+        linear-gradient(to left,
+          transparent 0%,
+          transparent 6%,
+          var(--gold) 6%,
+          var(--gold) 94%,
+          transparent 94%,
+          transparent 100%);
+      opacity: .95;
+    }
+    .acc-item:last-child::after{ display:none; }
+
+    .acc-btn{
+      width:100%;
+      border:0;
+      background:transparent;
+      padding: 18px 16px;
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap:12px;
+      gap: 12px;
+      cursor:pointer;
+      text-align:right;
     }
 
-    /* gold inset divider w/ side gaps (NOT full width) */
-    .hub-section::after{
-      content:"";
-      position:absolute;
-      bottom:0;
-      left:16px;
-      right:16px;
-      height:2px;
-      background: var(--gold);
-      opacity:.9;
+    .acc-title{
+      font-size: 24px;
+      font-weight: 900;
+      letter-spacing: -0.2px;
     }
 
-    .hub-title{
-      font-size:20px;
-      font-weight:900;
-      color:var(--text);
-    }
-
-    /* Chevron (changes direction) */
+    /* Chevron */
     .chev{
-      width:22px;
-      height:22px;
-      flex:0 0 auto;
+      width:28px;height:28px;
       display:inline-flex;
       align-items:center;
       justify-content:center;
-      transition: transform .18s ease-in-out;
+      flex: 0 0 auto;
+      color: var(--navy);
+      transition: transform .18s ease;
     }
-    .chev svg{
-      width:22px;
-      height:22px;
-      fill:#0c2440;
-      opacity:.9;
-    }
-    .hub-section[aria-expanded="true"] .chev{
+    .acc-item[data-open="true"] .chev{
       transform: rotate(180deg);
     }
 
-    .hub-panel{
+    .acc-panel{
       display:none;
-      padding: 10px 12px 16px;
-      background: linear-gradient(180deg, rgba(11,42,74,.02), rgba(11,42,74,0));
+      padding: 6px 16px 18px;
     }
-    .hub-panel.open{
+    .acc-item[data-open="true"] .acc-panel{
       display:block;
     }
 
-    /* Inner link cards (full width navy w/ gold arrow) */
-    .hub-link{
+    /* ===== Inner cards (مثل باکس‌های سرمه‌ای استرالیا؛ تمام‌عرض موبایل) ===== */
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-top: 6px;
+    }
+
+    .navCard{
+      background: var(--card);
+      color:#fff;
+      text-decoration:none;
+      border-radius: 10px;
+      padding: 18px 16px;
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap:14px;
-      background: var(--navy);
-      color:#fff;
-      text-decoration:none;
-      padding:18px 18px;
-      border-radius:14px;
-      margin: 10px 0;
-      box-shadow: 0 10px 22px rgba(8,20,40,.12);
-      border: 1px solid rgba(255,255,255,.10);
+      gap: 12px;
+      box-shadow: 0 10px 20px rgba(11,42,74,.12);
+      border: 1px solid rgba(255,255,255,.08);
+      min-height: 64px;
     }
-    .hub-link .txt{
-      font-size:18px;
-      font-weight:800;
-      line-height:1.3;
+    .navCard .label{
+      font-size: 20px;
+      font-weight: 800;
+      line-height: 1.25;
     }
-    .hub-link .arrow{
-      width:22px;
-      height:22px;
-      flex:0 0 auto;
-    }
-    .hub-link .arrow svg{
-      width:22px;
-      height:22px;
-      fill: var(--gold); /* 👈 فلش طلایی */
-      opacity: .95;
+    .navCard .arrow{
+      color: var(--gold);
+      font-size: 22px;
+      font-weight: 900;
+      line-height: 1;
+      flex: 0 0 auto;
     }
 
-    .footnote{
+    .footerNote{
+      padding: 14px 16px 18px;
       text-align:center;
-      color:#8a97aa;
-      font-size:13px;
-      padding: 14px 10px 18px;
+      color: var(--muted);
+      font-weight: 600;
     }
 
-    /* Make inner navy cards full-width in mobile feel */
-    @media (max-width: 420px){
-      .page{ padding: 10px; }
-      .hub-panel{ padding-left: 10px; padding-right:10px; }
-      .hub-link{ border-radius: 12px; }
+    /* Desktop: اگر خواستی داخل هر بخش دو ستونه شود */
+    @media (min-width: 820px){
+      .grid{
+        grid-template-columns: 1fr 1fr;
+      }
     }
   </style>
 </head>
@@ -229,189 +236,194 @@
   <!-- Top Bar -->
   <header class="topbar">
     <div class="topbar-inner">
-      <!-- Right: icon then title (RTL correct) -->
-      <div class="topbar-right">
-        <div class="topbar-icon" aria-hidden="true">
-          <!-- آیکن را خودت عوض کن؛ فعلاً همان ? مثل نمونه -->
-          <img src="assets/img/icons/help.png" alt="" />
+      <!-- راست: آیکن + عنوان -->
+      <div class="brand">
+        <div class="iconBox" aria-hidden="true">
+          <!-- اگر آیکن واقعی داری، مسیرش را درست کن -->
+          <img src="assets/img/icons/nezam.png" alt="" onerror="this.style.display='none'">
         </div>
-        <div class="topbar-title">نظام وظیفه</div>
+        <div class="title">نظام وظیفه</div>
       </div>
 
-      <!-- Left: back -->
-      <a class="back-btn" href="index.html">بازگشت</a>
+      <!-- چپ: بازگشت -->
+      <a class="backBtn" href="index.html">بازگشت</a>
     </div>
   </header>
 
-  <main class="page">
-    <section class="card">
+  <main class="wrap">
+    <section class="cardShell">
       <div class="subtitle">راهنمای دسته‌بندی خدمات نظام‌وظیفه (هاب)</div>
 
-      <div class="hub" id="hub">
+      <div class="acc" id="nezamHub">
         <!-- 1) اعزام -->
-        <div class="hub-section" role="button" tabindex="0"
-             aria-expanded="false" aria-controls="p-ezam" data-target="p-ezam">
-          <div class="hub-title">اعزام</div>
-          <div class="chev" aria-hidden="true">
-            <!-- chevron down -->
-            <svg viewBox="0 0 24 24"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg>
+        <div class="acc-item" data-open="false">
+          <button class="acc-btn" type="button" aria-expanded="false">
+            <span class="acc-title">اعزام</span>
+            <span class="chev" aria-hidden="true">
+              <!-- chevron down -->
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </button>
+          <div class="acc-panel" role="region">
+            <div class="grid">
+              <a class="navCard" href="nezam-ezam.html">
+                <span class="label">اعزام به خدمت</span>
+                <span class="arrow">›</span>
+              </a>
+              <a class="navCard" href="nezam-tamdid-tajil.html">
+                <span class="label">تمدید و تعجیل</span>
+                <span class="arrow">›</span>
+              </a>
+              <a class="navCard" href="nezam-ghibat.html">
+                <span class="label">غیبت و توجیه غیبت</span>
+                <span class="arrow">›</span>
+              </a>
+            </div>
           </div>
-        </div>
-        <div class="hub-panel" id="p-ezam">
-          <a class="hub-link" href="nezam-ezam.html">
-            <div class="txt">اعزام به خدمت</div>
-            <div class="arrow" aria-hidden="true">
-              <svg viewBox="0 0 24 24"><path d="M10 17l5-5-5-5v10z"/></svg>
-            </div>
-          </a>
-          <a class="hub-link" href="nezam-tamdid.html">
-            <div class="txt">تمدید و تعجیل</div>
-            <div class="arrow" aria-hidden="true">
-              <svg viewBox="0 0 24 24"><path d="M10 17l5-5-5-5v10z"/></svg>
-            </div>
-          </a>
-          <a class="hub-link" href="nezam-ghibat.html">
-            <div class="txt">غیبت و توجیه غیبت</div>
-            <div class="arrow" aria-hidden="true">
-              <svg viewBox="0 0 24 24"><path d="M10 17l5-5-5-5v10z"/></svg>
-            </div>
-          </a>
         </div>
 
         <!-- 2) معافیت -->
-        <div class="hub-section" role="button" tabindex="0"
-             aria-expanded="false" aria-controls="p-moaf" data-target="p-moaf">
-          <div class="hub-title">معافیت</div>
-          <div class="chev" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg>
+        <div class="acc-item" data-open="false">
+          <button class="acc-btn" type="button" aria-expanded="false">
+            <span class="acc-title">معافیت</span>
+            <span class="chev" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </button>
+          <div class="acc-panel" role="region">
+            <div class="grid">
+              <a class="navCard" href="nezam-medical.html">
+                <span class="label">معافیت پزشکی</span>
+                <span class="arrow">›</span>
+              </a>
+              <a class="navCard" href="nezam-kefalat.html">
+                <span class="label">معافیت کفالت</span>
+                <span class="arrow">›</span>
+              </a>
+              <a class="navCard" href="nezam-behzisti.html">
+                <span class="label">معافیت بهزیستی</span>
+                <span class="arrow">›</span>
+              </a>
+              <a class="navCard" href="nezam-isargari.html">
+                <span class="label">معافیت ایثارگری</span>
+                <span class="arrow">›</span>
+              </a>
+            </div>
           </div>
-        </div>
-        <div class="hub-panel" id="p-moaf">
-          <a class="hub-link" href="nezam-medical.html">
-            <div class="txt">معافیت پزشکی</div>
-            <div class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 17l5-5-5-5v10z"/></svg></div>
-          </a>
-          <a class="hub-link" href="nezam-kefalat.html">
-            <div class="txt">معافیت کفالت</div>
-            <div class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 17l5-5-5-5v10z"/></svg></div>
-          </a>
-          <a class="hub-link" href="nezam-behzisti.html">
-            <div class="txt">معافیت بهزیستی</div>
-            <div class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 17l5-5-5-5v10z"/></svg></div>
-          </a>
-          <a class="hub-link" href="nezam-isargari.html">
-            <div class="txt">معافیت ایثارگری</div>
-            <div class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 17l5-5-5-5v10z"/></svg></div>
-          </a>
         </div>
 
         <!-- 3) تحصیلی -->
-        <div class="hub-section" role="button" tabindex="0"
-             aria-expanded="false" aria-controls="p-tahsili" data-target="p-tahsili">
-          <div class="hub-title">تحصیلی</div>
-          <div class="chev" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg>
+        <div class="acc-item" data-open="false">
+          <button class="acc-btn" type="button" aria-expanded="false">
+            <span class="acc-title">تحصیلی</span>
+            <span class="chev" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </button>
+          <div class="acc-panel" role="region">
+            <div class="grid">
+              <a class="navCard" href="nezam-student-school.html">
+                <span class="label">معافیت تحصیلی دانش‌آموزی</span>
+                <span class="arrow">›</span>
+              </a>
+              <a class="navCard" href="nezam-student-uni.html">
+                <span class="label">معافیت تحصیلی دانشجویی</span>
+                <span class="arrow">›</span>
+              </a>
+              <a class="navCard" href="nezam-sanavat.html">
+                <span class="label">سنوات تحصیلی</span>
+                <span class="arrow">›</span>
+              </a>
+            </div>
           </div>
-        </div>
-        <div class="hub-panel" id="p-tahsili">
-          <a class="hub-link" href="nezam-student-school.html">
-            <div class="txt">معافیت تحصیلی دانش‌آموزی</div>
-            <div class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 17l5-5-5-5v10z"/></svg></div>
-          </a>
-          <a class="hub-link" href="nezam-student-uni.html">
-            <div class="txt">معافیت تحصیلی دانشجویی</div>
-            <div class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 17l5-5-5-5v10z"/></svg></div>
-          </a>
-          <a class="hub-link" href="nezam-sanavat.html">
-            <div class="txt">سنوات تحصیلی</div>
-            <div class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 17l5-5-5-5v10z"/></svg></div>
-          </a>
         </div>
 
         <!-- 4) کارت‌ها -->
-        <div class="hub-section" role="button" tabindex="0"
-             aria-expanded="false" aria-controls="p-cards" data-target="p-cards">
-          <div class="hub-title">کارت‌ها</div>
-          <div class="chev" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg>
+        <div class="acc-item" data-open="false">
+          <button class="acc-btn" type="button" aria-expanded="false">
+            <span class="acc-title">کارت‌ها</span>
+            <span class="chev" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </button>
+          <div class="acc-panel" role="region">
+            <div class="grid">
+              <a class="navCard" href="nezam-card-payankhedmat.html">
+                <span class="label">المثنی کارت پایان خدمت</span>
+                <span class="arrow">›</span>
+              </a>
+              <a class="navCard" href="nezam-card-moafiat.html">
+                <span class="label">المثنی کارت معافیت</span>
+                <span class="arrow">›</span>
+              </a>
+              <a class="navCard" href="nezam-card-estelam.html">
+                <span class="label">استعلام و اصالت کارت</span>
+                <span class="arrow">›</span>
+              </a>
+            </div>
           </div>
-        </div>
-        <div class="hub-panel" id="p-cards">
-          <a class="hub-link" href="nezam-card-end.html">
-            <div class="txt">المثنی کارت پایان خدمت</div>
-            <div class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 17l5-5-5-5v10z"/></svg></div>
-          </a>
-          <a class="hub-link" href="nezam-card-exempt.html">
-            <div class="txt">المثنی کارت معافیت</div>
-            <div class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 17l5-5-5-5v10z"/></svg></div>
-          </a>
-          <a class="hub-link" href="nezam-card-verify.html">
-            <div class="txt">استعلام و اصالت کارت</div>
-            <div class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 17l5-5-5-5v10z"/></svg></div>
-          </a>
         </div>
 
         <!-- 5) مجوزها -->
-        <div class="hub-section" role="button" tabindex="0"
-             aria-expanded="false" aria-controls="p-permits" data-target="p-permits">
-          <div class="hub-title">مجوزها</div>
-          <div class="chev" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg>
+        <div class="acc-item" data-open="false">
+          <button class="acc-btn" type="button" aria-expanded="false">
+            <span class="acc-title">مجوزها</span>
+            <span class="chev" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </button>
+          <div class="acc-panel" role="region">
+            <div class="grid">
+              <a class="navCard" href="nezam-exit-permit.html">
+                <span class="label">مجوز خروج از کشور</span>
+                <span class="arrow">›</span>
+              </a>
+              <a class="navCard" href="nezam-sport-permit.html">
+                <span class="label">مجوز ورزشی</span>
+                <span class="arrow">›</span>
+              </a>
+            </div>
           </div>
         </div>
-        <div class="hub-panel" id="p-permits">
-          <a class="hub-link" href="nezam-exit.html">
-            <div class="txt">مجوز خروج از کشور</div>
-            <div class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 17l5-5-5-5v10z"/></svg></div>
-          </a>
-          <a class="hub-link" href="nezam-sport.html">
-            <div class="txt">مجوز ورزشی</div>
-            <div class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 17l5-5-5-5v10z"/></svg></div>
-          </a>
-        </div>
+
       </div>
 
-      <div class="footnote">این صفحه یک هاب ناوبری است و به مرور تکمیل می‌شود.</div>
+      <div class="footerNote">این صفحه یک هاب ناوبری است و به مرور تکمیل می‌شود.</div>
     </section>
   </main>
 
   <script>
     (function(){
-      const sections = Array.from(document.querySelectorAll('.hub-section'));
+      const root = document.getElementById('nezamHub');
+      if(!root) return;
 
-      function toggleSection(btn){
-        const id = btn.getAttribute('data-target');
-        const panel = document.getElementById(id);
-        const isOpen = btn.getAttribute('aria-expanded') === 'true';
+      // فقط یک بخش همزمان باز باشد (مثل Help centre)
+      root.querySelectorAll('.acc-item .acc-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const item = btn.closest('.acc-item');
+          const isOpen = item.getAttribute('data-open') === 'true';
 
-        // اگر می‌خواهی فقط یکی باز باشد، این را فعال کن:
-        // sections.forEach(b=>{
-        //   if (b !== btn) closeSection(b);
-        // });
+          // بستن بقیه
+          root.querySelectorAll('.acc-item').forEach(i => {
+            i.setAttribute('data-open','false');
+            const b = i.querySelector('.acc-btn');
+            if(b) b.setAttribute('aria-expanded','false');
+          });
 
-        if (isOpen) closeSection(btn);
-        else openSection(btn);
-
-        function openSection(b){
-          const pid = b.getAttribute('data-target');
-          const p = document.getElementById(pid);
-          b.setAttribute('aria-expanded','true');
-          p.classList.add('open');
-        }
-        function closeSection(b){
-          const pid = b.getAttribute('data-target');
-          const p = document.getElementById(pid);
-          b.setAttribute('aria-expanded','false');
-          p.classList.remove('open');
-        }
-      }
-
-      sections.forEach(btn=>{
-        btn.addEventListener('click', ()=>toggleSection(btn));
-        btn.addEventListener('keydown', (e)=>{
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            toggleSection(btn);
+          // اگر قبلاً بسته بود، بازش کن
+          if(!isOpen){
+            item.setAttribute('data-open','true');
+            btn.setAttribute('aria-expanded','true');
           }
         });
       });
