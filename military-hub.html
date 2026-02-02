@@ -233,7 +233,8 @@
       <div class="topTitle">نظام وظیفه</div>
 
       <!-- ✅ back becomes JS-controlled -->
-      <a class="backBtn" href="index.html" id="backBtn">بازگشت</a>
+      <button class="backBtn" type="button" id="backBtn">بازگشت</button>
+
     </div>
   </header>
 
@@ -421,6 +422,24 @@
         backBtn.setAttribute('href', 'index.html');
       }
     })();
+    <script>
+(function () {
+  const btn = document.getElementById("backBtn");
+  if (!btn) return;
+
+  btn.addEventListener("click", () => {
+    // اگر history واقعی داریم، بهترین برگشت همین است
+    if (window.history.length > 1) {
+      window.history.back();
+      return;
+    }
+
+    // اگر history نداشتیم (مثلاً باز شده مستقیم)، از serviceFrom استفاده کن
+    const from = sessionStorage.getItem("serviceFrom") || "all.html";
+    location.href = from;
+  });
+})();
+
   </script>
 </body>
 </html>
