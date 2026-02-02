@@ -176,13 +176,15 @@ document.addEventListener("click", function (e) {
   if (!link) return;
 
   if (
-    link.href.includes("passport") ||
-    link.href.includes("driving") ||
-    link.href.includes("khalafi") ||
-   link.href.includes("military-hub") ||
-    link.href.includes("tarkhis")
-  ) {
-    sessionStorage.setItem("serviceFrom", location.pathname);
+  link.href.includes("passport") ||
+  link.href.includes("driving") ||
+  link.href.includes("khalafi") ||
+  link.href.includes("military-hub") ||
+  link.href.includes("tarkhis")
+) {
+  sessionStorage.setItem("serviceFrom", location.pathname);
+}
+
   }
 });
 </script>
