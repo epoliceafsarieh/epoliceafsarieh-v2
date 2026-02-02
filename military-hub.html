@@ -18,7 +18,6 @@
       --radius:18px;
     }
 
-    /* Base */
     html,body{height:100%}
     body{
       margin:0;
@@ -27,12 +26,12 @@
       color: var(--text);
     }
 
-    /* Top bar (RTL: icon right, title, back left) */
+    /* Top bar (RTL: icon right, title middle/right, back left) */
     .topbar{
       background: var(--navy);
       border-bottom-left-radius: 18px;
       border-bottom-right-radius: 18px;
-      padding: 14px 14px 16px;
+      padding: 12px 14px 14px;
       position: sticky;
       top:0;
       z-index:10;
@@ -41,13 +40,13 @@
     .topbarRow{
       display:flex;
       align-items:center;
-      gap:12px;
+      gap:10px;
       direction: rtl;
     }
     .topIcon{
-      width:46px;
-      height:46px;
-      border-radius:14px;
+      width:40px;
+      height:40px;
+      border-radius:12px;
       background: rgba(255,255,255,.10);
       display:flex;
       align-items:center;
@@ -56,13 +55,13 @@
       flex: 0 0 auto;
     }
     .topIcon svg{
-      width:26px;height:26px;
+      width:22px;height:22px;
       opacity:.95;
       fill:#fff;
     }
     .topTitle{
       font-weight: 800;
-      font-size: 22px;
+      font-size: 18px;         /* ✅ کوچکتر شد */
       color:#fff;
       letter-spacing: .2px;
       flex: 1 1 auto;
@@ -71,24 +70,25 @@
     }
     .backBtn{
       flex: 0 0 auto;
-      background: rgba(255,255,255,.12);
-      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.10);
+      border: 1px solid rgba(255,255,255,.16);
       color:#fff;
-      border-radius: 14px;
-      padding: 7px 10px;
-      font-weight: 700;
-      font-size: 13px;
+      border-radius: 12px;
+      padding: 6px 9px;        /* ✅ کوچکتر شد */
+      font-weight: 800;
+      font-size: 12px;         /* ✅ کوچکتر شد */
       text-decoration: none;
       display:inline-flex;
       align-items:center;
       justify-content:center;
-      min-width: 70px;
+      min-width: 58px;         /* ✅ کوچکتر شد */
+      line-height: 1;
     }
     .backBtn:active{transform: scale(.98)}
 
     /* Layout */
     .wrap{
-      max-width: 520px;   /* کمی عریض‌تر از قبلی */
+      max-width: 520px;
       margin: 0 auto;
       padding: 14px 14px 32px;
     }
@@ -101,34 +101,24 @@
       overflow:hidden;
     }
 
-    .panelHead{
-      padding: 14px 16px;
-      border-bottom: 1px solid var(--border);
-      text-align:center;
-      font-weight: 700;
-      color: var(--muted);
-      background: #fff;
-    }
-
     /* Accordion list */
-    .accItem{
-      background:#fff;
-    }
+    .accItem{ background:#fff; }
 
     .accBtn{
       width:100%;
       border:0;
       background: transparent;
-      padding: 18px 16px;
+      padding: 16px 16px;
       cursor:pointer;
       display:flex;
       align-items:center;
       gap: 12px;
-      font-size: 22px;
-      font-weight: 800;
+      font-size: 21px;
+      font-weight: 900;
       color: var(--text);
     }
-    /* In your screenshots: chevron on LEFT, label on RIGHT */
+
+    /* Chevron left, label right */
     .accChevron{
       width: 34px;
       height: 34px;
@@ -146,9 +136,9 @@
       color: var(--navy);
     }
 
-    /* Gold divider: gold in the middle, white on both ends */
+    /* ✅ Gold divider thinner (barik-tar) */
     .divider{
-      height: 2px;
+      height: 1px; /* ✅ از 2px به 1px */
       background: linear-gradient(
         to left,
         transparent 0%,
@@ -158,7 +148,7 @@
         transparent 96%,
         transparent 100%
       );
-      margin: 0 10px; /* ایجاد حاشیه سفید دو طرف مثل نمونه */
+      margin: 0 10px;
     }
 
     .accPanel{
@@ -169,7 +159,7 @@
     .accItem[data-open="1"] .accPanel{display:block;}
     .accItem[data-open="1"] .accChevron{transform: rotate(180deg);}
 
-    /* Inner navy cards (full width, gold arrow on right) */
+    /* Inner navy cards */
     .grid{
       display:flex;
       flex-direction: column;
@@ -193,7 +183,7 @@
     }
     .navyCard .t{
       font-size: 18px;
-      font-weight: 800;
+      font-weight: 900;
       line-height: 1.25;
     }
     .navyCard .arrow{
@@ -207,7 +197,7 @@
     .navyCard .arrow svg{width:20px;height:20px;fill: var(--gold)}
     .navyCard:active{transform: scale(.99)}
 
-    /* Disabled cards (for pages not built yet) */
+    /* Disabled cards */
     .navyCard.disabled{
       opacity:.55;
       cursor: default;
@@ -215,7 +205,7 @@
     }
     .badgeSoon{
       font-size: 12px;
-      font-weight: 800;
+      font-weight: 900;
       background: rgba(255,255,255,.14);
       border: 1px solid rgba(255,255,255,.18);
       padding: 4px 10px;
@@ -224,38 +214,31 @@
       white-space: nowrap;
     }
 
-    .foot{
-      text-align:center;
-      color: var(--muted);
-      padding: 16px 12px 18px;
-      font-weight: 600;
+    /* Mobile: full width feel */
+    @media (max-width: 520px){
+      .wrap{ padding-left: 12px; padding-right: 12px; }
     }
   </style>
 </head>
 
 <body>
-  <!-- Top bar -->
   <header class="topbar">
     <div class="topbarRow">
-      <!-- Right icon -->
       <div class="topIcon" aria-hidden="true" title="نظام وظیفه">
-        <!-- simple placeholder icon -->
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <path d="M4 4h16v16H4zM7 7h10v2H7zm0 4h10v2H7zm0 4h6v2H7z"/>
         </svg>
       </div>
 
-      <!-- Title (right aligned) -->
       <div class="topTitle">نظام وظیفه</div>
 
-      <!-- Left back -->
-      <a class="backBtn" href="index.html">بازگشت</a>
+      <!-- ✅ back becomes JS-controlled -->
+      <a class="backBtn" href="index.html" id="backBtn">بازگشت</a>
     </div>
   </header>
 
   <main class="wrap">
     <section class="panel">
-   
 
       <!-- اعزام -->
       <div class="accItem" data-open="0">
@@ -400,11 +383,11 @@
         </div>
       </div>
 
-         </section>
+    </section>
   </main>
 
   <script>
-    // Accordion toggle (single-open behavior)
+    // Accordion toggle (single-open)
     document.addEventListener('click', (e) => {
       const btn = e.target.closest('[data-acc="toggle"]');
       if (!btn) return;
@@ -412,10 +395,7 @@
       const item = btn.closest('.accItem');
       const isOpen = item.getAttribute('data-open') === '1';
 
-      // close all
       document.querySelectorAll('.accItem').forEach(x => x.setAttribute('data-open', '0'));
-
-      // open current if was closed
       item.setAttribute('data-open', isOpen ? '0' : '1');
     });
 
@@ -426,6 +406,21 @@
       e.preventDefault();
       alert('این صفحه هنوز ساخته نشده (به‌زودی).');
     });
+
+    // ✅ Smart back: return to the page user came from (all/search), else index
+    (function(){
+      const backBtn = document.getElementById('backBtn');
+      const from = sessionStorage.getItem('serviceFrom');
+
+      // اگر از all.html / internet.html / ... آمده بود، همانجا برگردد
+      if (from && typeof from === 'string' && from.length > 1) {
+        // فقط اسم فایل را نگه می‌داریم (GitHub Pages safe)
+        const file = from.split('/').pop();
+        backBtn.setAttribute('href', file || 'index.html');
+      } else {
+        backBtn.setAttribute('href', 'index.html');
+      }
+    })();
   </script>
 </body>
 </html>
