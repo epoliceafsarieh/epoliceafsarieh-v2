@@ -6,6 +6,29 @@
   <title>نظام وظیفه</title>
 
   <style>
+    /* ===== Vazirmatn (مثل render.js) ===== */
+    @font-face{
+      font-family:"Vazirmatn";
+      src:url("assets/fonts/vazirmatn/Vazirmatn-Regular.woff2") format("woff2");
+      font-weight:400;
+      font-style:normal;
+      font-display:swap;
+    }
+    @font-face{
+      font-family:"Vazirmatn";
+      src:url("assets/fonts/vazirmatn/Vazirmatn-Medium.woff2") format("woff2");
+      font-weight:500;
+      font-style:normal;
+      font-display:swap;
+    }
+    @font-face{
+      font-family:"Vazirmatn";
+      src:url("assets/fonts/vazirmatn/Vazirmatn-Bold.woff2") format("woff2");
+      font-weight:700;
+      font-style:normal;
+      font-display:swap;
+    }
+
     :root{
       /* هم‌رنگ نوار گذرنامه */
       --navy:#041E42;
@@ -22,85 +45,128 @@
       --radius:18px;
       --top-radius:20px;
 
-      /* مقیاس تایپوگرافی (برای کنترل نسبت‌ها) */
-      --top-title:20px;
-      --top-btn:12px;
+      /* ===== مقیاس تایپوگرافی: هم‌مقیاس گذرنامه ===== */
+      --top-title:17px;   /* مثل .svc-title در render.js */
+      --top-btn:11px;     /* مثل .back-btn */
 
-      --acc-title:18px;   /* اعزام/معافیت/... */
-      --inner-card:16px;  /* کارت‌های داخل هر بخش */
+      --acc-title:15px;   /* تیترهای آکاردئون */
+      --inner-card:14px;  /* کارت‌های داخل هر بخش */
     }
 
     html,body{height:100%}
     body{
       margin:0;
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans Arabic", "Vazirmatn", Tahoma, Arial, sans-serif;
+      font-family: "Vazirmatn", Tahoma, Arial, sans-serif; /* ✅ مثل گذرنامه */
       background: var(--bg);
       color: var(--text);
     }
 
-    /* Top bar: مثل گذرنامه (ارتفاع/پدینگ/گردی/سایه/فونت) */
+    /* ===== Top bar: عین گذرنامه (brandbar) ===== */
     .topbar{
-      background: var(--navy);
-      border-bottom-left-radius: var(--top-radius);
-      border-bottom-right-radius: var(--top-radius);
-      padding: 12px 14px 14px;  /* جمع‌وجورتر */
-      box-shadow: 0 10px 24px rgba(0,0,0,.12);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+
+      background: var(--navy) !important;
+      color:#fff;
+
+      padding:6px 12px;
+      height:60px;
+
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+
+      overflow:hidden;
+      border-radius:var(--radius) var(--radius) 0 0;
+
+      /* سایه نزدیک گذرنامه */
+      box-shadow: 0 10px 30px rgba(2,8,23,.06);
     }
 
     .topbarRow{
+      width:100%;
       display:flex;
       align-items:center;
-      gap:12px;
+      justify-content:space-between;
+      gap:10px;
+      position:relative;
+
+      /* جا برای Badge مثل گذرنامه */
+      padding-right:90px;
+      margin-right:-16px;
       direction: rtl;
     }
 
     .topIcon{
-      width:44px;
-      height:44px;
-      border-radius:14px;
-      background: rgba(255,255,255,.10);
+      width:60px;
+      height:60px;
+      border-radius:12px;
       display:flex;
       align-items:center;
       justify-content:center;
-      border: 1px solid rgba(255,255,255,.16);
+
+      border:2px solid var(--navy);
+      background:transparent;
+
+      position:absolute;
+      right:12px;
+      top:50%;
+      transform:translateY(-50%);
+      z-index:2;
       flex: 0 0 auto;
     }
+
     .topIcon svg{
-      width:24px;height:24px;
+      width:52px;height:52px;
       opacity:.95;
       fill:#fff;
     }
 
     .topTitle{
-      font-weight: 900;
-      font-size: var(--top-title);
-      color:#fff;
-      letter-spacing: .2px;
+      font-weight:900;
+      font-size:var(--top-title);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      max-width:60vw;
+      letter-spacing:-.2px;
       flex: 1 1 auto;
       text-align: right;
       padding-inline-end: 6px;
       line-height: 1.2;
+      color:#fff;
     }
 
     .backBtn{
-      flex: 0 0 auto;
-      background: rgba(255,255,255,.10);
-      border: 1px solid rgba(255,255,255,.16);
-      color:#fff;
-      border-radius: 14px;
-      padding: 7px 10px;
-      font-weight: 800;
-      font-size: var(--top-btn);
-      text-decoration: none;
       display:inline-flex;
       align-items:center;
       justify-content:center;
-      min-width: 64px;
-      line-height: 1;
+      gap:6px;
+
+      padding:5px 8px;
+      border-radius:12px;
+
+      background:rgba(255,255,255,.12);
+      border:1px solid rgba(255,255,255,.22);
+      color:#fff;
+
+      font-size:var(--top-btn);
+      font-weight:800;
+      text-decoration:none;
+
+      cursor:pointer;
+      white-space:nowrap;
+      z-index:3;
+
+      min-width:auto;
+      line-height:1;
+      flex: 0 0 auto;
     }
     .backBtn:active{transform: scale(.98)}
 
-    /* Layout */
+    /* Layout (بدون تغییر ساختار/محتوا) */
     .wrap{
       max-width: 520px;
       margin: 0 auto;
@@ -127,7 +193,7 @@
       display:flex;
       align-items:center;
       gap: 12px;
-      font-size: var(--acc-title); /* ✅ کوچک‌تر شد */
+      font-size: var(--acc-title); /* ✅ هم‌مقیاس گذرنامه */
       font-weight: 900;
       color: var(--text);
     }
@@ -151,9 +217,9 @@
       line-height: 1.25;
     }
 
-    /* ✅ Gold divider thinner */
+    /* Gold divider thinner */
     .divider{
-      height: 1px; /* ✅ نازک */
+      height: 1px;
       background: linear-gradient(
         to left,
         transparent 0%,
@@ -186,7 +252,7 @@
       background: var(--navy-2);
       color:#fff;
       border-radius: 12px;
-      padding: 14px 16px; /* کمی جمع‌وجورتر */
+      padding: 14px 16px;
       text-decoration:none;
       display:flex;
       align-items:center;
@@ -199,7 +265,7 @@
     }
 
     .navyCard .t{
-      font-size: var(--inner-card); /* ✅ کوچکتر از تیترهای آکاردئون */
+      font-size: var(--inner-card); /* ✅ هم‌مقیاس گذرنامه */
       font-weight: 900;
       line-height: 1.25;
     }
@@ -440,4 +506,3 @@
   </script>
 </body>
 </html>
-
