@@ -6,7 +6,7 @@
   <title>نظام وظیفه</title>
 
   <style>
-    /* ✅ اضافه شد: Vazirmatn مثل گذرنامه (render.js) */
+    /* ===== Vazirmatn (مثل گذرنامه / render.js) ===== */
     @font-face{
       font-family:"Vazirmatn";
       src:url("assets/fonts/vazirmatn/Vazirmatn-Regular.woff2") format("woff2");
@@ -45,7 +45,7 @@
       --radius:18px;
       --top-radius:20px;
 
-      /* ✅ تغییر شد: مقیاس تایپوگرافی */
+      /* مقیاس تایپوگرافی (هم‌مقیاس گذرنامه) */
       --top-title:17px;
       --top-btn:11px;
 
@@ -54,27 +54,43 @@
     }
 
     html,body{height:100%}
+    *{box-sizing:border-box}
+
     body{
       margin:0;
-      /* ✅ تغییر شد: فونت مثل گذرنامه */
-      font-family: "Vazirmatn", Tahoma, Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
+      font-family:"Vazirmatn", Tahoma, Arial, sans-serif;
+      background:var(--bg);
+      color:var(--text);
     }
 
-    /* ✅ Top bar: فقط عرض/هم‌راستاسازی با گذرنامه اصلاح شد (بدون calc) */
+    /* ===== ساختار مثل گذرنامه: wrap + card ===== */
+    .wrap{
+      max-width:860px;
+      margin:18px auto 90px;
+      padding:0 14px;
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid rgba(17,24,39,.06);
+      border-radius:var(--radius);
+      box-shadow:0 12px 28px rgba(15,23,42,.08);
+      overflow:visible;
+    }
+
+    .card-clip{
+      overflow:hidden;
+      border-radius:0 0 var(--radius) var(--radius);
+      background:#fff;
+    }
+
+    /* ===== Top bar: داخل card، چسبیده به باکس (بالا گرد، پایین صاف) ===== */
     .topbar{
       background: var(--navy);
-      border-bottom-left-radius: var(--top-radius);
-      border-bottom-right-radius: var(--top-radius);
-      padding: 12px 14px 14px;  /* جمع‌وجورتر */
+      border-radius: var(--radius) var(--radius) 0 0;
+      padding: 12px 14px 14px;
       box-shadow: 0 10px 24px rgba(0,0,0,.12);
-
-      /* ✅ کلیدی: مثل گذرنامه محدود به کانتینر */
-      width: 100%;
-      max-width: 860px;
-      margin: 18px auto 0;
-      box-sizing: border-box;
+      display:block;
     }
 
     .topbarRow{
@@ -127,21 +143,14 @@
       justify-content:center;
       min-width: 64px;
       line-height: 1;
+      cursor:pointer;
     }
     .backBtn:active{transform: scale(.98)}
 
-    /* Layout */
-    .wrap{
-      max-width: 860px;          /* ✅ تغییر شد: 860 */
-      margin: 0 auto;
-      padding: 14px 14px 32px;
-    }
-
+    /* ===== Panel: همان محتوا، فقط داخل card-clip ===== */
     .panel{
       background: var(--card);
-      border-radius: var(--radius);
-      box-shadow: 0 12px 28px rgba(15, 23, 42, .08);
-      border: 1px solid rgba(17,24,39,.06);
+      border-radius: 0 0 var(--radius) var(--radius);
       overflow:hidden;
     }
 
@@ -157,7 +166,7 @@
       display:flex;
       align-items:center;
       gap: 12px;
-      font-size: var(--acc-title); /* ✅ کوچک‌تر شد */
+      font-size: var(--acc-title);
       font-weight: 900;
       color: var(--text);
     }
@@ -181,9 +190,9 @@
       line-height: 1.25;
     }
 
-    /* ✅ Gold divider thinner */
+    /* Gold divider thinner */
     .divider{
-      height: 1px; /* ✅ نازک */
+      height: 1px;
       background: linear-gradient(
         to left,
         transparent 0%,
@@ -216,7 +225,7 @@
       background: var(--navy-2);
       color:#fff;
       border-radius: 12px;
-      padding: 14px 16px; /* کمی جمع‌وجورتر */
+      padding: 14px 16px;
       text-decoration:none;
       display:flex;
       align-items:center;
@@ -229,7 +238,7 @@
     }
 
     .navyCard .t{
-      font-size: var(--inner-card); /* ✅ کوچکتر از تیترهای آکاردئون */
+      font-size: var(--inner-card);
       font-weight: 900;
       line-height: 1.25;
     }
@@ -263,173 +272,183 @@
     }
 
     @media (max-width: 520px){
-      .wrap{ padding-left: 12px; padding-right: 12px; }
+      .wrap{ padding-left: 12px; padding-right: 12px; margin-top:10px; }
     }
   </style>
 </head>
 
 <body>
-  <header class="topbar">
-    <div class="topbarRow">
-      <div class="topIcon" aria-hidden="true" title="نظام وظیفه">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M4 4h16v16H4zM7 7h10v2H7zm0 4h10v2H7zm0 4h6v2H7z"/>
-        </svg>
-      </div>
 
-      <div class="topTitle">نظام وظیفه</div>
-
-      <button class="backBtn" type="button" id="backBtn">بازگشت</button>
-    </div>
-  </header>
-
+  <!-- ✅ ساختار مثل گذرنامه: همه‌چیز داخل wrap/card -->
   <main class="wrap">
-    <section class="panel">
+    <div class="card">
 
-      <!-- اعزام -->
-      <div class="accItem" data-open="0">
-        <button class="accBtn" type="button" data-acc="toggle">
-          <span class="accChevron" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M7.4 8.6 12 13.2l4.6-4.6 1.4 1.4-6 6-6-6z"/></svg>
-          </span>
-          <span class="accLabel">اعزام </span>
-        </button>
-        <div class="divider"></div>
-        <div class="accPanel">
-          <div class="grid">
-            <a class="navyCard" href="nezam-ezam.html">
-              <span class="t">اعزام به خدمت</span>
-              <span class="arrow" aria-hidden="true">
-                <svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg>
+      <!-- ✅ نوار بالا داخل card (مثل گذرنامه) -->
+      <header class="topbar">
+        <div class="topbarRow">
+          <div class="topIcon" aria-hidden="true" title="نظام وظیفه">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 4h16v16H4zM7 7h10v2H7zm0 4h10v2H7zm0 4h6v2H7z"/>
+            </svg>
+          </div>
+
+          <div class="topTitle">نظام وظیفه</div>
+
+          <button class="backBtn" type="button" id="backBtn">بازگشت</button>
+        </div>
+      </header>
+
+      <div class="card-clip">
+        <!-- ⛔️ از اینجا به بعد: محتوا و ساختار داخلی هاب دست نخورده -->
+        <section class="panel">
+
+          <!-- اعزام -->
+          <div class="accItem" data-open="0">
+            <button class="accBtn" type="button" data-acc="toggle">
+              <span class="accChevron" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M7.4 8.6 12 13.2l4.6-4.6 1.4 1.4-6 6-6-6z"/></svg>
               </span>
-            </a>
+              <span class="accLabel">اعزام </span>
+            </button>
+            <div class="divider"></div>
+            <div class="accPanel">
+              <div class="grid">
+                <a class="navyCard" href="nezam-ezam.html">
+                  <span class="t">اعزام به خدمت</span>
+                  <span class="arrow" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg>
+                  </span>
+                </a>
 
-            <a class="navyCard disabled" href="#" data-disabled="1">
-              <span class="t">تمدید و تعجیل <span class="badgeSoon">به‌زودی</span></span>
-              <span class="arrow" aria-hidden="true">
-                <svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg>
+                <a class="navyCard disabled" href="#" data-disabled="1">
+                  <span class="t">تمدید و تعجیل <span class="badgeSoon">به‌زودی</span></span>
+                  <span class="arrow" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg>
+                  </span>
+                </a>
+
+                <a class="navyCard disabled" href="#" data-disabled="1">
+                  <span class="t">غیبت و توجیه غیبت <span class="badgeSoon">به‌زودی</span></span>
+                  <span class="arrow" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg>
+                  </span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- معافیت -->
+          <div class="accItem" data-open="0">
+            <button class="accBtn" type="button" data-acc="toggle">
+              <span class="accChevron" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M7.4 8.6 12 13.2l4.6-4.6 1.4 1.4-6 6-6-6z"/></svg>
               </span>
-            </a>
+              <span class="accLabel">معافیت</span>
+            </button>
+            <div class="divider"></div>
+            <div class="accPanel">
+              <div class="grid">
+                <a class="navyCard disabled" href="#" data-disabled="1">
+                  <span class="t">معافیت پزشکی <span class="badgeSoon">به‌زودی</span></span>
+                  <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
+                </a>
+                <a class="navyCard disabled" href="#" data-disabled="1">
+                  <span class="t">معافیت کفالت <span class="badgeSoon">به‌زودی</span></span>
+                  <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
+                </a>
+                <a class="navyCard disabled" href="#" data-disabled="1">
+                  <span class="t">معافیت بهزیستی <span class="badgeSoon">به‌زودی</span></span>
+                  <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
+                </a>
+                <a class="navyCard disabled" href="#" data-disabled="1">
+                  <span class="t">معافیت ایثارگری <span class="badgeSoon">به‌زودی</span></span>
+                  <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
+                </a>
+              </div>
+            </div>
+          </div>
 
-            <a class="navyCard disabled" href="#" data-disabled="1">
-              <span class="t">غیبت و توجیه غیبت <span class="badgeSoon">به‌زودی</span></span>
-              <span class="arrow" aria-hidden="true">
-                <svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg>
+          <!-- تحصیلی -->
+          <div class="accItem" data-open="0">
+            <button class="accBtn" type="button" data-acc="toggle">
+              <span class="accChevron" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M7.4 8.6 12 13.2l4.6-4.6 1.4 1.4-6 6-6-6z"/></svg>
               </span>
-            </a>
+              <span class="accLabel">تحصیلی</span>
+            </button>
+            <div class="divider"></div>
+            <div class="accPanel">
+              <div class="grid">
+                <a class="navyCard disabled" href="#" data-disabled="1">
+                  <span class="t">معافیت تحصیلی دانش‌آموزی <span class="badgeSoon">به‌زودی</span></span>
+                  <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
+                </a>
+                <a class="navyCard disabled" href="#" data-disabled="1">
+                  <span class="t">معافیت تحصیلی دانشجویی <span class="badgeSoon">به‌زودی</span></span>
+                  <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
+                </a>
+                <a class="navyCard disabled" href="#" data-disabled="1">
+                  <span class="t">سنوات تحصیلی <span class="badgeSoon">به‌زودی</span></span>
+                  <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
+                </a>
+              </div>
+            </div>
           </div>
-        </div>
+
+          <!-- کارت‌ها -->
+          <div class="accItem" data-open="0">
+            <button class="accBtn" type="button" data-acc="toggle">
+              <span class="accChevron" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M7.4 8.6 12 13.2l4.6-4.6 1.4 1.4-6 6-6-6z"/></svg>
+              </span>
+              <span class="accLabel">کارت‌ها</span>
+            </button>
+            <div class="divider"></div>
+            <div class="accPanel">
+              <div class="grid">
+                <a class="navyCard disabled" href="#" data-disabled="1">
+                  <span class="t">المثنی کارت پایان خدمت <span class="badgeSoon">به‌زودی</span></span>
+                  <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
+                </a>
+                <a class="navyCard disabled" href="#" data-disabled="1">
+                  <span class="t">المثنی کارت معافیت <span class="badgeSoon">به‌زودی</span></span>
+                  <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
+                </a>
+                <a class="navyCard disabled" href="#" data-disabled="1">
+                  <span class="t">استعلام و اصالت کارت <span class="badgeSoon">به‌زودی</span></span>
+                  <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- مجوزها -->
+          <div class="accItem" data-open="0">
+            <button class="accBtn" type="button" data-acc="toggle">
+              <span class="accChevron" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M7.4 8.6 12 13.2l4.6-4.6 1.4 1.4-6 6-6-6z"/></svg>
+              </span>
+              <span class="accLabel">مجوزها</span>
+            </button>
+            <div class="divider"></div>
+            <div class="accPanel">
+              <div class="grid">
+                <a class="navyCard disabled" href="#" data-disabled="1">
+                  <span class="t">مجوز خروج از کشور <span class="badgeSoon">به‌زودی</span></span>
+                  <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
+                </a>
+                <a class="navyCard disabled" href="#" data-disabled="1">
+                  <span class="t">مجوز ورزشی <span class="badgeSoon">به‌زودی</span></span>
+                  <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+        </section>
       </div>
 
-      <!-- معافیت -->
-      <div class="accItem" data-open="0">
-        <button class="accBtn" type="button" data-acc="toggle">
-          <span class="accChevron" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M7.4 8.6 12 13.2l4.6-4.6 1.4 1.4-6 6-6-6z"/></svg>
-          </span>
-          <span class="accLabel">معافیت</span>
-        </button>
-        <div class="divider"></div>
-        <div class="accPanel">
-          <div class="grid">
-            <a class="navyCard disabled" href="#" data-disabled="1">
-              <span class="t">معافیت پزشکی <span class="badgeSoon">به‌زودی</span></span>
-              <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
-            </a>
-            <a class="navyCard disabled" href="#" data-disabled="1">
-              <span class="t">معافیت کفالت <span class="badgeSoon">به‌زودی</span></span>
-              <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
-            </a>
-            <a class="navyCard disabled" href="#" data-disabled="1">
-              <span class="t">معافیت بهزیستی <span class="badgeSoon">به‌زودی</span></span>
-              <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
-            </a>
-            <a class="navyCard disabled" href="#" data-disabled="1">
-              <span class="t">معافیت ایثارگری <span class="badgeSoon">به‌زودی</span></span>
-              <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <!-- تحصیلی -->
-      <div class="accItem" data-open="0">
-        <button class="accBtn" type="button" data-acc="toggle">
-          <span class="accChevron" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M7.4 8.6 12 13.2l4.6-4.6 1.4 1.4-6 6-6-6z"/></svg>
-          </span>
-          <span class="accLabel">تحصیلی</span>
-        </button>
-        <div class="divider"></div>
-        <div class="accPanel">
-          <div class="grid">
-            <a class="navyCard disabled" href="#" data-disabled="1">
-              <span class="t">معافیت تحصیلی دانش‌آموزی <span class="badgeSoon">به‌زودی</span></span>
-              <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
-            </a>
-            <a class="navyCard disabled" href="#" data-disabled="1">
-              <span class="t">معافیت تحصیلی دانشجویی <span class="badgeSoon">به‌زودی</span></span>
-              <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
-            </a>
-            <a class="navyCard disabled" href="#" data-disabled="1">
-              <span class="t">سنوات تحصیلی <span class="badgeSoon">به‌زودی</span></span>
-              <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <!-- کارت‌ها -->
-      <div class="accItem" data-open="0">
-        <button class="accBtn" type="button" data-acc="toggle">
-          <span class="accChevron" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M7.4 8.6 12 13.2l4.6-4.6 1.4 1.4-6 6-6-6z"/></svg>
-          </span>
-          <span class="accLabel">کارت‌ها</span>
-        </button>
-        <div class="divider"></div>
-        <div class="accPanel">
-          <div class="grid">
-            <a class="navyCard disabled" href="#" data-disabled="1">
-              <span class="t">المثنی کارت پایان خدمت <span class="badgeSoon">به‌زودی</span></span>
-              <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
-            </a>
-            <a class="navyCard disabled" href="#" data-disabled="1">
-              <span class="t">المثنی کارت معافیت <span class="badgeSoon">به‌زودی</span></span>
-              <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
-            </a>
-            <a class="navyCard disabled" href="#" data-disabled="1">
-              <span class="t">استعلام و اصالت کارت <span class="badgeSoon">به‌زودی</span></span>
-              <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <!-- مجوزها -->
-      <div class="accItem" data-open="0">
-        <button class="accBtn" type="button" data-acc="toggle">
-          <span class="accChevron" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M7.4 8.6 12 13.2l4.6-4.6 1.4 1.4-6 6-6-6z"/></svg>
-          </span>
-          <span class="accLabel">مجوزها</span>
-        </button>
-        <div class="divider"></div>
-        <div class="accPanel">
-          <div class="grid">
-            <a class="navyCard disabled" href="#" data-disabled="1">
-              <span class="t">مجوز خروج از کشور <span class="badgeSoon">به‌زودی</span></span>
-              <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
-            </a>
-            <a class="navyCard disabled" href="#" data-disabled="1">
-              <span class="t">مجوز ورزشی <span class="badgeSoon">به‌زودی</span></span>
-              <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
-            </a>
-          </div>
-        </div>
-      </div>
-
-    </section>
+    </div>
   </main>
 
   <script>
