@@ -14,6 +14,11 @@
       feeKey: "moafiat-pezeshki",   // اضافه کردن feeKey برای ارتباط با هزینه‌ها
       feeSummary: "کلیک کنید"  // مثلا "کلیک کنید" برای خلاصه هزینه
     },
+feeRows: [
+  { label: "ثبت درخواست معافیت پزشکی", field: "register" },
+  { label: "عکس بیومتریک", field: "photo" },
+  { label: "خدمات دفتر", field: "office" }
+],
 
     // سکشن اول = گام‌ها (در Hero می‌آید، بولت‌ها حذف می‌شود)
     sections: [
