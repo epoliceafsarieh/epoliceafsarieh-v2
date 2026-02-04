@@ -5,7 +5,7 @@ const FEES = {
     office: "—"
   },
 
-  driving: {              // ✅ این را اضافه کن
+  driving: {              
     issue: "—",
     photo: "—",
     office: "—",
@@ -17,23 +17,26 @@ const FEES = {
     office: "—",
     medical: "—",
     vaccine: "—"
-  }
+  },
 
   tarkhis: {
     parking: "—",
     office: "—",
     optional: "—"
   },
+
   khalafi: {
     inquiry: "—",
     payment: "—",
     print: "—"
   },
-  fuelcard: {
-  service: "—",
-  office: "—",
-  case: "—"
-}
+
+  // اضافه کردن هزینه معافیت پزشکی
+  moafiatMedical: {
+    register: "—",   // مثال برای هزینه ثبت درخواست
+    photo: "—",      // مثال برای هزینه عکس بیومتریک
+    office: "—"      // مثال برای هزینه خدمات دفتر
+  }
 
 };
 
