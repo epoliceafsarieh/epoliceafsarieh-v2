@@ -1,9 +1,11 @@
 // all.js — All services list (from services/catalog.js)
 (function () {
-  const SERVICES = (window.CATALOG?.SERVICES || []).map(s => ({
+ const SERVICES = (window.CATALOG?.SERVICES || [])
+  .filter(s => !s.hiddenFromAll)   // ✅ این خط کلید حل مشکل است
+  .map(s => ({
     title: s.title,
-    icon: s.icon,   // مسیر کامل فایل آیکن (یا null)
-    href: s.href    // آدرس صفحه (یا null)
+    icon: s.icon,
+    href: s.href
   }));
 
   function escapeHtml(str){
