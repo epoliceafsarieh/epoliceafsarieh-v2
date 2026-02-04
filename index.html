@@ -461,7 +461,11 @@ document.addEventListener("click", function (e) {
   const link = e.target.closest("a[href$='.html']");
   if (!link) return;
 
-  sessionStorage.setItem("serviceFrom", "index.html");
+  // اگر کلیک از داخل سرچ/لندینگ است
+  if (link.closest(".search-area") || link.closest("#suggest")) {
+    sessionStorage.setItem("serviceFrom", "index.html");
+    return;
+  }
 });
 
 </script>
