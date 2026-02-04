@@ -458,14 +458,14 @@ window.addEventListener("load", () => {
 </script>
 <script>
 document.addEventListener("click", function (e) {
-  const link = e.target.closest("a[href$='.html']");
+  const link = e.target.closest("a[href*='.html']");
   if (!link) return;
 
-  // ✅ اگر کلیک از کاشی‌های اصلی لندینگ است
   if (link.closest(".popular")) {
     sessionStorage.removeItem("serviceFrom");
   }
 });
+
 </script>
 
 
