@@ -8,11 +8,11 @@
     shortTitle: "معافیت پزشکی",
     icon: "assets/img/icons/military-medical.png",
 
-    heroTitle: "معافیت پزشکی",
-   // heroSubtitle: "معافیت پزشکی (خدمت وظیفه عمومی)",
-
+  heroTitle: "معافیت پزشکی",
     meta: {
-      time: "متغیر — بسته به نوع بیماری، کامل بودن مدارک و نظر شورای پزشکی"
+      time: "متغیر",
+      feeKey: "moafiatMedical",   // اضافه کردن feeKey برای ارتباط با هزینه‌ها
+      feeSummary: "کلیک کنید"  // مثلا "کلیک کنید" برای خلاصه هزینه
     },
 
     // سکشن اول = گام‌ها (در Hero می‌آید، بولت‌ها حذف می‌شود)
