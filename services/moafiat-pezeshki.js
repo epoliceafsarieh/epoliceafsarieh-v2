@@ -2,11 +2,13 @@
 (function () {
   window.SERVICE_DATA = window.SERVICE_DATA || {};
   window.SERVICES = window.SERVICES || {};
+  const PDF_HREF = "assets/forms/moafiat-pezeshki-diseases.pdf";
 
   const moafiat = {
     barTitle: "معافیت پزشکی",
     shortTitle: "معافیت پزشکی",
-    icon: null,
+    //icon: "assets/img/icons/military-medical.png",
+    heroPrimary: { label: "دانلود راهنمای دسته‌بندی بیماری‌ها (PDF)", href: PDF_HREF },
 
   heroTitle: "معافیت پزشکی",
     meta: {
@@ -69,7 +71,7 @@ feeRows: [
     "معافیت دائم:",
     "دارای ناتوانی یا بیماری مؤثر که انجام خدمت را غیرممکن می‌کند؛ صدور کارت معافیت"
   ]
-}
+},
 
 
       {
