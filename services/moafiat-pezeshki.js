@@ -6,7 +6,7 @@
   const moafiat = {
     barTitle: "معافیت پزشکی",
     shortTitle: "معافیت پزشکی",
-    icon: "assets/img/icons/military-medical.png",
+    icon: null,
 
   heroTitle: "معافیت پزشکی",
     meta: {
