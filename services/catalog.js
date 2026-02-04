@@ -6,7 +6,7 @@
   window.CATALOG.SERVICES = [
     { key:"passport",  title:"گذرنامه",             href:"passport.html",     icon:"assets/img/icons/passport.png" },
     { key:"driving",   title:"گواهینامه",           href:"driving.html",      icon:"assets/img/icons/license.png" },
-    { key:"moafiat_pezeshki", title:"معافیت پزشکی", href:"moafiat-pezeshki.html", icon:"assets/img/icons/military-medical.png" },
+    { key:"moafiat_pezeshki", title:"معافیت پزشکی", href:"moafiat-pezeshki.html", icon:null },
 
     { key:"military",  title:"نظام وظیفه",          href:"military-hub.html", icon:null },
      { key:"fuelcard",  title:"کارت سوخت",           href:"fuelcard.html",     icon:"assets/img/icons/fuelcard.png" },
