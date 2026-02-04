@@ -457,18 +457,15 @@ window.addEventListener("load", () => {
   
 </script>
 <script>
+document.addEventListener("click", function (e) {
+  const link = e.target.closest("a[href$='.html']");
+  if (!link) return;
 
-
-  document.addEventListener("click", function (e) {
-  const btn = e.target.closest("#suggest button");
-  if (!btn) return;
-
-  // فقط کلیک روی نتایج سرچ
-  sessionStorage.setItem("serviceFrom", "index.html");
+  // ✅ اگر کلیک از کاشی‌های اصلی لندینگ است
+  if (link.closest(".popular")) {
+    sessionStorage.removeItem("serviceFrom");
+  }
 });
-
-
-
 </script>
 
 
