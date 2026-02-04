@@ -9,7 +9,7 @@
     icon: "assets/img/icons/military-medical.png",
 
     heroTitle: "معافیت پزشکی",
-    heroSubtitle: "معافیت پزشکی (خدمت وظیفه عمومی)",
+   // heroSubtitle: "معافیت پزشکی (خدمت وظیفه عمومی)",
 
     meta: {
       time: "متغیر — بسته به نوع بیماری، کامل بودن مدارک و نظر شورای پزشکی"
