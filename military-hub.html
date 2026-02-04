@@ -492,5 +492,18 @@
       });
     })();
   </script>
+  <script>
+  // ذخیره مبدا برای دکمه بازگشت در صفحات سرویس (render.js)
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest("a.navyCard");
+    if (!a) return;
+
+    // فقط کارت‌های فعال (نه disabled)
+    if (a.matches("[data-disabled='1'], .disabled")) return;
+
+    sessionStorage.setItem("serviceFrom", location.pathname + location.search);
+  });
+</script>
+
 </body>
 </html>
