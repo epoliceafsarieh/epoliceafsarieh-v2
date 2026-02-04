@@ -477,20 +477,37 @@
       alert('این صفحه هنوز ساخته نشده (به‌زودی).');
     });
 
-    // Back button: history first, else fallback
-    (function () {
-      const btn = document.getElementById("backBtn");
-      if (!btn) return;
+  // Back button (Hub): no history.back to prevent loop
+(function () {
+  const btn = document.getElementById("backBtn");
+  if (!btn) return;
 
-      btn.addEventListener("click", () => {
-        if (window.history.length > 1) {
-          window.history.back();
-          return;
-        }
-        const from = sessionStorage.getItem("serviceFrom") || "all.html";
-        location.href = from;
-      });
-    })();
+  btn.addEventListener("click", () => {
+    const params = new URLSearchParams(location.search);
+    const from = (params.get("from") || "").toLowerCase();
+
+    // مسیرهای مشخص و قطعی
+    if (from === "all") {
+      location.href = "all.html";
+      return;
+    }
+    if (from === "index" || from === "landing" || from === "search") {
+      location.href = "index.html";
+      return;
+    }
+
+    // اگر قبلاً مبدا هاب ذخیره شده باشد
+    const hubFrom = sessionStorage.getItem("hubFrom");
+    if (hubFrom) {
+      location.href = hubFrom;
+      return;
+    }
+
+    // fallback نهایی
+    location.href = "index.html";
+  });
+})();
+
   </script>
   <script>
   // ذخیره مبدا برای دکمه بازگشت در صفحات سرویس (render.js)
