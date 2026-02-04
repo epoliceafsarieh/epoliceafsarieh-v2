@@ -643,7 +643,7 @@ margin:4px 0;
             <div class="content">
               <details class="sec" id="docs">
                 <summary>
-                  <span>> آنچه باید بدانید <</span>
+                  <span> آنچه باید بدانید </span>
                   <small></small>
                 </summary>
                 <div class="sec-body">
