@@ -11,7 +11,7 @@
   heroTitle: "معافیت پزشکی",
     meta: {
       time: "متغیر",
-      feeKey: "moafiatMedical",   // اضافه کردن feeKey برای ارتباط با هزینه‌ها
+      feeKey: "moafiat-pezeshki",   // اضافه کردن feeKey برای ارتباط با هزینه‌ها
       feeSummary: "کلیک کنید"  // مثلا "کلیک کنید" برای خلاصه هزینه
     },
 
