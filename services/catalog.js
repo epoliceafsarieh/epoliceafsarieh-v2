@@ -9,7 +9,7 @@
     { key:"moafiat_pezeshki", title:"معافیت پزشکی", href:"moafiat-pezeshki.html", icon:null, hiddenFromAll:true },
     { key:"kefalat", title:"معافیت کفالت", href:"kefalat.html", icon:null, hiddenFromAll:true },
     { key:"isargari", title:"معافیت ایثارگری", href:"isargari.html", icon:null, hiddenFromAll:true },
-    { key:"behzisti", title:"معافیت بهزیستی", href:"behzisti.html", icon:null, hiddenFromAll:true },
+    { key:"behzisti", title:"معافیت مددجویان بهزیستی", href:"behzisti.html", icon:null, hiddenFromAll:true },
 
     { key:"military",  title:"نظام وظیفه",          href:"military-hub.html", icon:null },
      { key:"fuelcard",  title:"کارت سوخت",           href:"fuelcard.html",     icon:"assets/img/icons/fuelcard.png" },
