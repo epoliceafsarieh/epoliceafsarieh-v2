@@ -4,10 +4,10 @@
   window.SERVICES = window.SERVICES || {};
 
   const behzisti = {
-    barTitle: "معافیت بهزیستی",
+    barTitle: "معافیت مددجویان بهزیستی",
     shortTitle: "بهزیستی",
 
-    heroTitle: "معافیت بهزیستی",
+    heroTitle: "معافیت مددجویان بهزیستی",
     heroSubtitle: "راهنمای مدارک و مراحل ثبت درخواست در پلیس+۱۰ (مددجویان بهزیستی)",
 
     meta: {
