@@ -48,6 +48,8 @@ const FEES = {
   photo: "—",
   office: "—"
 },
+  behzisti: { register:"—", photo:"—", office:"—" },
+
 
 
 
