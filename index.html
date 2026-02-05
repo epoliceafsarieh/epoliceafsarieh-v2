@@ -395,7 +395,16 @@ const SERVICES = (window.CATALOG?.SERVICES || [])
 
 const input = document.getElementById("search");
 const suggest = document.getElementById("suggest");
+function normalizeFa(s){
+  return String(s || "")
+    .replace(/\u200c/g, "")        // حذف نیم‌فاصله
+    .replace(/[ي]/g, "ی")          // یکسان‌سازی ي عربی
+    .replace(/[ك]/g, "ک")          // یکسان‌سازی ك عربی
+    .replace(/\s+/g, " ")          // فشرده‌سازی فاصله‌ها
+    .trim();
+}
 
+  
 function hideSuggest(){
   suggest.style.display="none";
   suggest.innerHTML="";
@@ -413,9 +422,12 @@ function render(list){
 }
 
 input.addEventListener("input",()=>{
-  const q=input.value.trim();
+  const q = normalizeFa(input.value);
   if(!q){hideSuggest();return;}
-  render(SERVICES.filter(s=>s.title.includes(q)));
+
+  render(
+    SERVICES.filter(s => normalizeFa(s.title).includes(q))
+  );
 });
 
 document.addEventListener("click",e=>{
