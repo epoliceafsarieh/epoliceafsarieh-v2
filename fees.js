@@ -43,6 +43,12 @@ const FEES = {
   photo: "—",
   office: "—"
 },
+  isargari: {
+  register: "—",
+  photo: "—",
+  office: "—"
+},
+
 
 
 };
