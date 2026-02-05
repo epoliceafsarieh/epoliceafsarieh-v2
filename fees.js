@@ -37,6 +37,13 @@ const FEES = {
     photo: "—",      // مثال برای هزینه عکس بیومتریک
     office: "—"      // مثال برای هزینه خدمات دفتر
   },
+  
+  kefalat: {
+  register: "—",
+  photo: "—",
+  office: "—"
+},
+
 
 };
 
