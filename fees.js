@@ -5,7 +5,7 @@
   "nezam-ezam": {office: "—",medical: "—",vaccine: "—"},
   tarkhis: {parking: "—", office: "—", optional: "—"},
   khalafi: {inquiry: "—",payment: "—", print: "—" },
-  "moafiat-pezeshki": {register: "—", photo: "—", office: "—"      // مثال برای هزینه خدمات دفتر},
+  "moafiat-pezeshki": {register: "—", photo: "—", office: "—"},      
   kefalat: {register: "—",photo: "—", office: "—"},
   isargari:{register: "—", photo: "—", office: "—"},
   behzisti: { register:"—", photo:"—", office:"—" },
