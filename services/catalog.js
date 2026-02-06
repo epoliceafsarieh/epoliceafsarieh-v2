@@ -13,7 +13,7 @@
     { key:"behzisti", title:"معافیت مددجویان بهزیستی", href:"behzisti.html", icon:null, hiddenFromAll:true },
 
     { key: "moafiat_tahsili_dakheli",title: "معافیت تحصیلی داخل کشور", href: "moafiat-tahsili-dakheli.html", icon: null, hiddenFromAll: true},
-    {key: "moafiat-tahsili-kharej", title:"معافیت تحصیلی داخل کشور",  href: "moafiat-tahsili-kharej.html",  icon: null,  hiddenFromAll: true},
+    { key: "moafiat_tahsili_kharej", title: "معافیت تحصیلی خارج از کشور", href: "moafiat-tahsili-kharej.html", icon: null, hiddenFromAll: true },
 
     { key:"military",  title:"نظام وظیفه",          href:"military-hub.html", icon:null },
      { key:"fuelcard",  title:"کارت سوخت",           href:"fuelcard.html",     icon:"assets/img/icons/fuelcard.png" },
