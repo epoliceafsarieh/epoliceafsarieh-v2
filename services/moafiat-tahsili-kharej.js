@@ -4,7 +4,7 @@
   window.SERVICES = window.SERVICES || {};
 
   const tahsiliKharej = {
-    barTitle: "نظام وظیفه",
+    barTitle: "معافیت تحصیلی خارج از کشور",
     shortTitle: "معافیت تحصیلی (خارج از کشور)",
 
     heroTitle: "معافیت تحصیلی خارج از کشور",
