@@ -14,10 +14,15 @@
 
     meta: {
       time: "بسته به وضعیت پرونده و تأیید سامانه",
-      feeSummary: "طبق تعرفه دفتر"
-      // feeKey فعلاً عمداً گذاشته نشده تا جدول هزینه نمایش داده نشود
-    },
-
+      feeKey: "moafiat-tahsili-dakheli",
+  feeSummary: "کلیک کنید"
+},
+feeRows: [
+  { label: "ثبت درخواست معافیت تحصیلی", field: "register" },
+  { label: "عکس بیومتریک", field: "photo" },
+  { label: "خدمات دفتر", field: "office" }
+],
+  
     // سکشن اول = گام‌ها (در Hero می‌آید، بولت‌ها حذف می‌شود)
     sections: [
       {
