@@ -2,14 +2,16 @@
 (function () {
   window.SERVICE_DATA = window.SERVICE_DATA || {};
   window.SERVICES = window.SERVICES || {};
+  
 
+  const FORM_HREF = "assets/forms/tahsiliKharej.pdf";
   const tahsiliKharej = {
     barTitle: "معافیت تحصیلی خارج از کشور",
     shortTitle: "معافیت تحصیلی (خارج از کشور)",
 
     heroTitle: "معافیت تحصیلی خارج از کشور",
     //heroSubtitle: "اگر خارج از کشور هستید، دفتر می‌تواند با معرفی/وکالت شما، مراحل ثبت و پیگیری معافیت تحصیلی را انجام دهد.",
-    heroPrimary: { label: "رفتن به راهنما و مدارک", href: "#docs" },
+    heroPrimary: { label: "چک لیست معافیت تحصیلی خارج از کشور (PDF)", href: FORM_HREF },
 
     meta: {
       time: "متغیر",
