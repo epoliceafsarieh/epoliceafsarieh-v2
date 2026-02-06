@@ -49,6 +49,12 @@ const FEES = {
   office: "—"
 },
   behzisti: { register:"—", photo:"—", office:"—" },
+  "moafiat-tahsili-dakheli": {
+  register: "—",
+  photo: "—",
+  office: "—"
+},
+
 
 
 
