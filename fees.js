@@ -11,7 +11,7 @@
   behzisti: { register:"—", photo:"—", office:"—" },
   "moafiat-tahsili-dakheli": {register: "—",photo: "—",office: "—"},
   "moafiat-tahsili-kharej": { register:"—", photo:"—", office:"—" },
-
+ "exit-country": { register:"—", photo:"—", office:"—" },
  
    } ;
 
