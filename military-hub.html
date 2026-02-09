@@ -35,7 +35,7 @@
       --navy-2:#0a2642;
 
       --gold:#c7a24a;
-      --bg:#f4f6fb;
+      --bg: var(--hub-bg);
       --card:#ffffff;
       --text:#0b2a4a;
       --muted:#6b7280;
@@ -51,6 +51,18 @@
 
       --acc-title:15px;
       --inner-card:14px;
+
+      /* Hub palette (neutral, no gold) */
+      --hub-bg:#f5f7fb;
+      --hub-card:#ffffff;
+      --hub-stroke:#dbe3f0;
+      --hub-fill:#f8fafc;
+
+      --hub-title:#0b2a4a;
+      --hub-icon:#64748b;      /* slate */
+      --hub-divider:#e6ebf3;
+
+      --hub-accent:#1f3b64;    /* controlled navy (not dominant) */
     }
 
     html,body{height:100%}
@@ -86,10 +98,11 @@
 
     /* ===== Top bar: داخل card، چسبیده به باکس (بالا گرد، پایین صاف) ===== */
     .topbar{
-      background: var(--navy);
+      background: linear-gradient(180deg, var(--navy) 0%, #072a57 100%);
       border-radius: var(--radius) var(--radius) 0 0;
-      padding: 12px 14px 14px;
-      box-shadow: 0 10px 24px rgba(0,0,0,.12);
+      padding: 10px 14px 10px;
+      box-shadow: none;
+      border-bottom: 1px solid rgba(255,255,255,.08);
       display:block;
     }
 
@@ -101,18 +114,18 @@
     }
 
     .topIcon{
-      width:44px;
-      height:44px;
-      border-radius:14px;
-      background: rgba(255,255,255,.10);
+      width:38px;
+      height:38px;
+      border-radius:12px;
+      background: rgba(255,255,255,.08);
       display:flex;
       align-items:center;
       justify-content:center;
-      border: 1px solid rgba(255,255,255,.16);
+      border: 1px solid rgba(255,255,255,.12);
       flex: 0 0 auto;
     }
     .topIcon svg{
-      width:24px;height:24px;
+      width:22px;height:22px;
       opacity:.95;
       fill:#fff;
     }
@@ -130,10 +143,10 @@
 
     .backBtn{
       flex: 0 0 auto;
-      background: rgba(255,255,255,.10);
-      border: 1px solid rgba(255,255,255,.16);
+      background: transparent;
+      border: 1px solid rgba(255,255,255,.22);
       color:#fff;
-      border-radius: 14px;
+      border-radius: 12px;
       padding: 7px 10px;
       font-weight: 800;
       font-size: var(--top-btn);
@@ -279,6 +292,83 @@
   transform: translateX(2px);
 }
 
+    /* ===== Hub overrides ===== */
+    .panel.hub{ background: var(--hub-card); }
+
+    /* Accordion header becomes neutral navigation row */
+    .panel.hub .accBtn{
+      padding: 14px 16px;
+      font-weight: 900;
+      color: var(--hub-title);
+    }
+
+    .panel.hub .accLabel{
+      color: var(--hub-title);
+    }
+
+    /* Chevron becomes neutral (not navy) */
+    .panel.hub .accChevron svg{
+      fill: var(--hub-icon);
+    }
+
+    /* Divider: remove gold identity here */
+    .panel.hub .divider{
+      height: 1px;
+      background: var(--hub-divider);
+      margin: 0 16px;
+    }
+
+    /* Panel background slightly tinted to separate layer */
+    .panel.hub .accPanel{
+      background: var(--hub-fill);
+      padding: 10px 14px 14px;
+    }
+
+    /* Turn navyCard into HUB item (only inside hub) */
+    .panel.hub a.navyCard{
+      background: #fff;
+      color: var(--hub-title);
+      box-shadow: none;
+      border: 1px solid var(--hub-stroke);
+      border-radius: 14px;
+      padding: 12px 14px;
+    }
+
+    /* Text style */
+    .panel.hub a.navyCard .t{
+      font-size: 14px;
+      font-weight: 900;
+      color: var(--hub-title);
+    }
+
+    /* Arrow: remove gold, keep subtle chevron */
+    .panel.hub a.navyCard .arrow svg{
+      fill: var(--hub-icon);
+      transform: rotate(180deg);
+    }
+
+    /* Active feedback: subtle */
+    .panel.hub a.navyCard:active{
+      transform: none;
+      background: #f8fafc;
+    }
+
+    /* Remove the gold arrow wiggle in hub */
+    .panel.hub .navyCard:active .arrow svg{
+      transform: rotate(180deg);
+    }
+
+    .panel.hub a.navyCard.disabled{
+      opacity: .55;
+      background: #fbfcfe;
+      border-style: dashed;
+    }
+
+    .panel.hub .badgeSoon{
+      background: #eef2f7;
+      border: 1px solid #e2e8f0;
+      color: #475569;
+    }
   </style>
 </head>
 
@@ -305,7 +395,7 @@
 
       <div class="card-clip">
         <!-- ⛔️ از اینجا به بعد: محتوا و ساختار داخلی هاب دست نخورده -->
-        <section class="panel">
+        <section class="panel hub">
 
           <!-- اعزام -->
           <div class="accItem" data-open="0">
