@@ -8,6 +8,20 @@
     shortTitle: "خروج از کشور",
     heroTitle: "مجوز خروج از کشور مشمولان وظیفه عمومی",
 
+heroTitle: "مجوز خروج از کشور",
+    meta: {
+      time: "متغیر",
+      feeKey: "exit-country",   // اضافه کردن feeKey برای ارتباط با هزینه‌ها
+      feeSummary: "کلیک کنید"  // مثلا "کلیک کنید" برای خلاصه هزینه
+    },
+feeRows: [
+  { label: "ثبت درخواست ", field: "register" },
+  { label: "عکس بیومتریک", field: "photo" },
+  { label: "خدمات دفتر", field: "office" }
+
+],
+
+   
     sections: [
       {
         // سکشن اول = گام‌ها (Hero)
