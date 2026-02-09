@@ -35,6 +35,16 @@
       --navy-2:#0a2642;
 
       --gold:#c7a24a;
+
+      /* Hub palette (neutral tint, not white/service-like) */
+      --hub-bg:#eef2f7;
+      --hub-card:#f6f8fc;
+      --hub-stroke:#d5deeb;
+      --hub-fill:#f2f5fa;
+      --hub-title:#0b2a4a;
+      --hub-icon:#64748b;
+      --hub-divider:#dfe7f3;
+
       --bg: var(--hub-bg);
       --card:#ffffff;
       --text:#0b2a4a;
@@ -51,18 +61,6 @@
 
       --acc-title:15px;
       --inner-card:14px;
-
-      /* Hub palette (neutral, no gold) */
-      --hub-bg:#f5f7fb;
-      --hub-card:#ffffff;
-      --hub-stroke:#dbe3f0;
-      --hub-fill:#f8fafc;
-
-      --hub-title:#0b2a4a;
-      --hub-icon:#64748b;      /* slate */
-      --hub-divider:#e6ebf3;
-
-      --hub-accent:#1f3b64;    /* controlled navy (not dominant) */
     }
 
     html,body{height:100%}
@@ -80,30 +78,46 @@
       max-width:860px;
       margin:18px auto 90px;
       padding:0 14px;
+
+      /* ✅ make hub feel full-height */
+      min-height: calc(100vh - 36px);
+      display:flex;
     }
 
     .card{
-      background:var(--card);
+      background: var(--hub-card);
       border:1px solid rgba(17,24,39,.06);
       border-radius:var(--radius);
-      box-shadow:0 12px 28px rgba(15,23,42,.08);
-
+      box-shadow: 0 10px 24px rgba(15,23,42,.06);
       overflow:visible;
+
+      width:100%;
+      display:flex;
+      flex-direction:column;
     }
 
     .card-clip{
       overflow:hidden;
       border-radius:0 0 var(--radius) var(--radius);
-      background:#fff;
+      background: transparent;
+
+      /* ✅ take remaining height */
+      flex: 1 1 auto;
+      display:flex;
+      min-height: 0;
     }
-.topbar{
-  background: #ffffff;                 /* ✅ hub header: light */
-  border-radius: var(--radius) var(--radius) 0 0;
-  padding: 10px 14px 10px;
-  box-shadow: none;
-  border-bottom: 1px solid var(--hub-stroke);
-   
-     
+
+    /* ===== Top bar: HUB (light, contextual) ===== */
+    .topbar{
+      background: var(--hub-card);
+      border-radius: var(--radius) var(--radius) 0 0;
+      padding: 10px 14px 10px;
+      box-shadow: none;
+      border-bottom: 1px solid var(--hub-stroke);
+      display:block;
+
+      /* ✅ stable height for layout math */
+      height: 64px;
     }
 
     .topbarRow{
@@ -111,28 +125,30 @@
       align-items:center;
       gap:12px;
       direction: rtl;
+      height: 100%;
     }
 
-   .topTitle{
-  color: var(--hub-title);
-}
-
-.topIcon{
-  background: var(--hub-fill);
-  border: 1px solid var(--hub-stroke);
-}
-.topIcon svg{ fill: var(--hub-title); }
-
-.backBtn{
-  background: transparent;
-  border: 1px solid var(--hub-stroke);
-  color: var(--hub-title);
-}
+    .topIcon{
+      width:38px;
+      height:38px;
+      border-radius:12px;
+      background: var(--hub-fill);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border: 1px solid var(--hub-stroke);
+      flex: 0 0 auto;
+    }
+    .topIcon svg{
+      width:22px;height:22px;
+      opacity:.95;
+      fill: var(--hub-title);
+    }
 
     .topTitle{
       font-weight: 900;
       font-size: var(--top-title);
-      color:#fff;
+      color: var(--hub-title);
       letter-spacing: .2px;
       flex: 1 1 auto;
       text-align: right;
@@ -143,8 +159,8 @@
     .backBtn{
       flex: 0 0 auto;
       background: transparent;
-      border: 1px solid rgba(255,255,255,.22);
-      color:#fff;
+      border: 1px solid var(--hub-stroke);
+      color: var(--hub-title);
       border-radius: 12px;
       padding: 7px 10px;
       font-weight: 800;
@@ -159,7 +175,7 @@
     }
     .backBtn:active{transform: scale(.98)}
 
-    /* ===== Panel: همان محتوا، فقط داخل card-clip ===== */
+    /* ===== Panel ===== */
     .panel{
       background: var(--card);
       border-radius: 0 0 var(--radius) var(--radius);
@@ -286,17 +302,33 @@
     @media (max-width: 520px){
       .wrap{ padding-left: 12px; padding-right: 12px; margin-top:10px; }
     }
+
     /* حرکت ظریف فلش طلایی هنگام لمس کارت */
-.navyCard:active .arrow svg{
-  transform: translateX(2px);
-}
+    .navyCard:active .arrow svg{
+      transform: translateX(2px);
+    }
 
     /* ===== Hub overrides ===== */
-    .panel.hub{ background: var(--hub-card); }
+    .panel.hub{
+      background: var(--hub-card);
+      flex: 1 1 auto;
+      display:flex;
+      flex-direction:column;
+      min-height: 0;
+    }
 
-    /* Accordion header becomes neutral navigation row */
+    /* Make the accordion list take full height impression */
+    .panel.hub .accItem{
+      background: transparent;
+    }
+
+    /* Bigger hub rows (taller items) */
     .panel.hub .accBtn{
-      padding: 14px 16px;
+      padding: 0 16px;
+      min-height: 12vh;        /* ✅ taller rows */
+      display:flex;
+      align-items:center;
+      font-size: 16px;
       font-weight: 900;
       color: var(--hub-title);
     }
@@ -320,15 +352,15 @@
     /* Panel background slightly tinted to separate layer */
     .panel.hub .accPanel{
       background: var(--hub-fill);
-      padding: 10px 14px 14px;
+      padding: 12px 14px 16px;
     }
 
     /* Turn navyCard into HUB item (only inside hub) */
     .panel.hub a.navyCard{
-      background: #fff;
+      background: rgba(255,255,255,.72);  /* ✅ not pure white */
       color: var(--hub-title);
       box-shadow: none;
-      border: 1px solid var(--hub-stroke);
+      border: 1px solid rgba(16,24,40,.10);
       border-radius: 14px;
       padding: 12px 14px;
     }
@@ -340,7 +372,7 @@
       color: var(--hub-title);
     }
 
-    /* Arrow: remove gold, keep subtle chevron */
+    /* Arrow: subtle chevron */
     .panel.hub a.navyCard .arrow svg{
       fill: var(--hub-icon);
       transform: rotate(180deg);
@@ -349,7 +381,7 @@
     /* Active feedback: subtle */
     .panel.hub a.navyCard:active{
       transform: none;
-      background: #f8fafc;
+      background: rgba(255,255,255,.88);
     }
 
     /* Remove the gold arrow wiggle in hub */
@@ -359,7 +391,7 @@
 
     .panel.hub a.navyCard.disabled{
       opacity: .55;
-      background: #fbfcfe;
+      background: rgba(255,255,255,.62);
       border-style: dashed;
     }
 
@@ -413,8 +445,6 @@
                     <svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg>
                   </span>
                 </a>
-
-             
               </div>
             </div>
           </div>
@@ -465,7 +495,7 @@
                  <span class="t">معافیت تحصیلی داخل کشور</span>
                 <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
                 </a>
-                
+
                  <a class="navyCard" href="moafiat-tahsili-kharej.html">
                   <span class="t">معافیت تحصیلی خارج کشور</span>
                   <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
@@ -555,50 +585,50 @@
       alert('این صفحه هنوز ساخته نشده (به‌زودی).');
     });
 
-  // Back button (Hub): no history.back to prevent loop
-(function () {
-  const btn = document.getElementById("backBtn");
-  if (!btn) return;
+    // Back button (Hub): no history.back to prevent loop
+    (function () {
+      const btn = document.getElementById("backBtn");
+      if (!btn) return;
 
-  btn.addEventListener("click", () => {
-    const params = new URLSearchParams(location.search);
-    const from = (params.get("from") || "").toLowerCase();
+      btn.addEventListener("click", () => {
+        const params = new URLSearchParams(location.search);
+        const from = (params.get("from") || "").toLowerCase();
 
-    // مسیرهای مشخص و قطعی
-    if (from === "all") {
-      location.href = "all.html";
-      return;
-    }
-    if (from === "index" || from === "landing" || from === "search") {
-      location.href = "index.html";
-      return;
-    }
+        // مسیرهای مشخص و قطعی
+        if (from === "all") {
+          location.href = "all.html";
+          return;
+        }
+        if (from === "index" || from === "landing" || from === "search") {
+          location.href = "index.html";
+          return;
+        }
 
-    // اگر قبلاً مبدا هاب ذخیره شده باشد
-    const hubFrom = sessionStorage.getItem("hubFrom");
-    if (hubFrom) {
-      location.href = hubFrom;
-      return;
-    }
+        // اگر قبلاً مبدا هاب ذخیره شده باشد
+        const hubFrom = sessionStorage.getItem("hubFrom");
+        if (hubFrom) {
+          location.href = hubFrom;
+          return;
+        }
 
-    // fallback نهایی
-    location.href = "index.html";
-  });
-})();
-
+        // fallback نهایی
+        location.href = "index.html";
+      });
+    })();
   </script>
+
   <script>
-  // ذخیره مبدا برای دکمه بازگشت در صفحات سرویس (render.js)
-  document.addEventListener("click", (e) => {
-    const a = e.target.closest("a.navyCard");
-    if (!a) return;
+    // ذخیره مبدا برای دکمه بازگشت در صفحات سرویس (render.js)
+    document.addEventListener("click", (e) => {
+      const a = e.target.closest("a.navyCard");
+      if (!a) return;
 
-    // فقط کارت‌های فعال (نه disabled)
-    if (a.matches("[data-disabled='1'], .disabled")) return;
+      // فقط کارت‌های فعال (نه disabled)
+      if (a.matches("[data-disabled='1'], .disabled")) return;
 
-    sessionStorage.setItem("serviceFrom", location.pathname + location.search);
-  });
-</script>
+      sessionStorage.setItem("serviceFrom", location.pathname + location.search);
+    });
+  </script>
 
 </body>
 </html>
