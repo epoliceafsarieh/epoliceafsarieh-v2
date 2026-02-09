@@ -220,6 +220,23 @@
       white-space:nowrap;
       color:#fff;
     }
+
+    /* =======================================================
+       ✅ تنها تغییر: فقط کارتِ "اعزام به خدمت" (زیرِ اعزام)
+       ======================================================= */
+    .hub > .accItem:first-of-type .accPanel .navyCard{
+      padding:10px 14px;                 /* باریک‌تر */
+      background:rgba(255,255,255,.92);  /* نزدیک سفید، نه سفید کامل */
+      border:1px solid rgba(229,231,235,.95);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.55);
+    }
+    .hub > .accItem:first-of-type .accPanel .navyCard,
+    .hub > .accItem:first-of-type .accPanel .navyCard .t{
+      color:#041E42;                     /* متن سورمه‌ای */
+    }
+    .hub > .accItem:first-of-type .accPanel .navyCard .arrow svg{
+      fill:#041E42;                      /* فلش سورمه‌ای */
+    }
   </style>
 </head>
 
