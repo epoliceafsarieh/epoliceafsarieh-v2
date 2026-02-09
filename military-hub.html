@@ -95,14 +95,13 @@
       border-radius:0 0 var(--radius) var(--radius);
       background:#fff;
     }
-
-    /* ===== Top bar: داخل card، چسبیده به باکس (بالا گرد، پایین صاف) ===== */
-    .topbar{
-      background: linear-gradient(180deg, var(--navy) 0%, #072a57 100%);
-      border-radius: var(--radius) var(--radius) 0 0;
-      padding: 10px 14px 10px;
-      box-shadow: none;
-      border-bottom: 1px solid rgba(255,255,255,.08);
+.topbar{
+  background: #ffffff;                 /* ✅ hub header: light */
+  border-radius: var(--radius) var(--radius) 0 0;
+  padding: 10px 14px 10px;
+  box-shadow: none;
+  border-bottom: 1px solid var(--hub-stroke);
+   
       display:block;
     }
 
@@ -113,22 +112,21 @@
       direction: rtl;
     }
 
-    .topIcon{
-      width:38px;
-      height:38px;
-      border-radius:12px;
-      background: rgba(255,255,255,.08);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      border: 1px solid rgba(255,255,255,.12);
-      flex: 0 0 auto;
-    }
-    .topIcon svg{
-      width:22px;height:22px;
-      opacity:.95;
-      fill:#fff;
-    }
+   .topTitle{
+  color: var(--hub-title);
+}
+
+.topIcon{
+  background: var(--hub-fill);
+  border: 1px solid var(--hub-stroke);
+}
+.topIcon svg{ fill: var(--hub-title); }
+
+.backBtn{
+  background: transparent;
+  border: 1px solid var(--hub-stroke);
+  color: var(--hub-title);
+}
 
     .topTitle{
       font-weight: 900;
