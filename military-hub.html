@@ -62,18 +62,22 @@
       padding:0 14px;
     }
 
-    /* ===== آیتم‌ها (تیزتر، مثل نسخه قبلی) ===== */
+    /* ===== آیتم‌ها (تیزتر و قابل‌دید روی موبایل) ===== */
     .accItem{
       background:linear-gradient(
         180deg,
-        rgba(255,255,255,.10),
-        rgba(255,255,255,.06)
+        rgba(255,255,255,.18),
+        rgba(255,255,255,.10)
       );
-      border:1px solid rgba(255,255,255,.18);
+      border:1px solid rgba(255,255,255,.28);
       border-radius:var(--radius);
       margin-bottom:14px;
-      box-shadow:0 6px 18px rgba(0,0,0,.18);
       overflow:hidden;
+
+      /* برجسته‌تر (بدون سفید شدن) */
+      box-shadow:
+        0 10px 26px rgba(0,0,0,.22),
+        inset 0 1px 0 rgba(255,255,255,.10);
     }
 
     .accBtn{
@@ -97,6 +101,7 @@
       align-items:center;
       justify-content:center;
       transition:transform .2s;
+      opacity:.95;
     }
     .accChevron svg{width:24px;height:24px;fill:#fff}
 
@@ -108,19 +113,30 @@
     .accPanel{
       display:none;
       padding:12px 16px 16px;
-      border-top:1px solid rgba(255,255,255,.14);
+      border-top:1px solid rgba(255,255,255,.16);
     }
 
     .accItem[data-open="1"] .accPanel{display:block;}
     .accItem[data-open="1"] .accChevron{transform:rotate(180deg);}
 
+    /* حالت باز: کمی تیزتر */
+    .accItem[data-open="1"]{
+      background:linear-gradient(
+        180deg,
+        rgba(255,255,255,.22),
+        rgba(255,255,255,.12)
+      );
+      border-color:rgba(255,255,255,.34);
+    }
+
+    /* (روی موبایل hover عملاً اثر ندارد، ولی نگه می‌داریم) */
     .accItem:hover{
       background:linear-gradient(
         180deg,
-        rgba(255,255,255,.14),
-        rgba(255,255,255,.08)
+        rgba(255,255,255,.22),
+        rgba(255,255,255,.12)
       );
-      border-color:rgba(255,255,255,.25);
+      border-color:rgba(255,255,255,.34);
     }
 
     .grid{
@@ -130,8 +146,8 @@
     }
 
     .navyCard{
-      background:rgba(255,255,255,.07);
-      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.09);
+      border:1px solid rgba(255,255,255,.16);
       border-radius:14px;
       padding:14px;
       color:#fff;
@@ -146,6 +162,7 @@
       width:22px;height:22px;
       fill:#fff;
       transform:rotate(180deg);
+      opacity:.9;
     }
 
     .navyCard.disabled{opacity:.55}
