@@ -30,37 +30,40 @@
     }
 
     :root{
-      /* هم‌رنگ نوار گذرنامه */
+      /* برند */
       --navy:#041E42;
       --navy-2:#0a2642;
-
       --gold:#c7a24a;
 
-      /* Hub palette (neutral tint, not white/service-like) */
-      --hub-bg:#eef2f7;
-      --hub-card:#f6f8fc;
-      --hub-stroke:#d5deeb;
-      --hub-fill:#f2f5fa;
+      /* Hub scheme (distinct from service: dark background + light container) */
+      --hub-bg:#031a34;          /* صفحه: تیره */
+      --hub-bg-2:#052145;        /* گرادیان */
+      --hub-surface:#0b2546;     /* سایه/حاشیه‌های تیره */
+      --hub-card:#ffffff;        /* کارت اصلی روشن */
+      --hub-fill:#f6f8fc;        /* زمینه داخلی کارت */
+      --hub-stroke:#e4e9f2;      /* خطوط نرم */
+      --hub-divider:#e9edf5;
+
       --hub-title:#0b2a4a;
-      --hub-icon:#64748b;
-      --hub-divider:#dfe7f3;
+      --hub-muted:#6b7280;
+      --hub-icon:#5b6b82;
 
-      --bg: var(--hub-bg);
-      --card:#ffffff;
-      --text:#0b2a4a;
-      --muted:#6b7280;
-      --border:#e5e7eb;
-
-      /* رادیوس شبیه گذرنامه */
+      /* رادیوس */
       --radius:18px;
       --top-radius:20px;
 
-      /* مقیاس تایپوگرافی (هم‌مقیاس گذرنامه) */
+      /* تایپو */
       --top-title:17px;
       --top-btn:11px;
-
       --acc-title:15px;
       --inner-card:14px;
+
+      /* پایه‌ها */
+      --bg: var(--hub-bg);
+      --card: var(--hub-card);
+      --text: var(--hub-title);
+      --muted: var(--hub-muted);
+      --border: var(--hub-stroke);
     }
 
     html,body{height:100%}
@@ -69,55 +72,40 @@
     body{
       margin:0;
       font-family:"Vazirmatn", Tahoma, Arial, sans-serif;
-      background:var(--bg);
+      background: linear-gradient(180deg, var(--hub-bg) 0%, var(--hub-bg-2) 100%);
       color:var(--text);
     }
 
-    /* ===== ساختار مثل گذرنامه: wrap + card ===== */
+    /* ===== wrap + card ===== */
     .wrap{
       max-width:860px;
       margin:18px auto 90px;
       padding:0 14px;
-
-      /* ✅ make hub feel full-height */
-      min-height: calc(100vh - 36px);
-      display:flex;
     }
 
     .card{
-      background: var(--hub-card);
+      background: var(--card);
       border:1px solid rgba(17,24,39,.06);
       border-radius:var(--radius);
-      box-shadow: 0 10px 24px rgba(15,23,42,.06);
+      box-shadow:0 14px 34px rgba(2,6,23,.30);
       overflow:visible;
-
-      width:100%;
-      display:flex;
-      flex-direction:column;
     }
 
     .card-clip{
       overflow:hidden;
       border-radius:0 0 var(--radius) var(--radius);
-      background: transparent;
-
-      /* ✅ take remaining height */
-      flex: 1 1 auto;
-      display:flex;
-      min-height: 0;
+      background: var(--hub-fill);
     }
 
-    /* ===== Top bar: HUB (light, contextual) ===== */
+    /* ===== Top bar: “Hub header” (not service header) ===== */
     .topbar{
-      background: var(--hub-card);
+      background: rgba(255,255,255,.10);
       border-radius: var(--radius) var(--radius) 0 0;
-      padding: 10px 14px 10px;
+      padding: 12px 14px 12px;
       box-shadow: none;
-      border-bottom: 1px solid var(--hub-stroke);
+      border-bottom: 1px solid rgba(255,255,255,.10);
       display:block;
-
-      /* ✅ stable height for layout math */
-      height: 64px;
+      backdrop-filter: blur(8px);
     }
 
     .topbarRow{
@@ -125,30 +113,29 @@
       align-items:center;
       gap:12px;
       direction: rtl;
-      height: 100%;
     }
 
     .topIcon{
-      width:38px;
-      height:38px;
-      border-radius:12px;
-      background: var(--hub-fill);
+      width:42px;
+      height:42px;
+      border-radius:14px;
+      background: rgba(255,255,255,.12);
       display:flex;
       align-items:center;
       justify-content:center;
-      border: 1px solid var(--hub-stroke);
+      border: 1px solid rgba(255,255,255,.14);
       flex: 0 0 auto;
     }
     .topIcon svg{
       width:22px;height:22px;
       opacity:.95;
-      fill: var(--hub-title);
+      fill:#fff;
     }
 
     .topTitle{
       font-weight: 900;
       font-size: var(--top-title);
-      color: var(--hub-title);
+      color:#fff;
       letter-spacing: .2px;
       flex: 1 1 auto;
       text-align: right;
@@ -158,10 +145,10 @@
 
     .backBtn{
       flex: 0 0 auto;
-      background: transparent;
-      border: 1px solid var(--hub-stroke);
-      color: var(--hub-title);
-      border-radius: 12px;
+      background: rgba(255,255,255,.10);
+      border: 1px solid rgba(255,255,255,.16);
+      color:#fff;
+      border-radius: 14px;
       padding: 7px 10px;
       font-weight: 800;
       font-size: var(--top-btn);
@@ -177,13 +164,13 @@
 
     /* ===== Panel ===== */
     .panel{
-      background: var(--card);
+      background: var(--hub-fill);
       border-radius: 0 0 var(--radius) var(--radius);
       overflow:hidden;
     }
 
     /* Accordion list */
-    .accItem{ background:#fff; }
+    .accItem{ background:transparent; }
 
     .accBtn{
       width:100%;
@@ -193,13 +180,12 @@
       cursor:pointer;
       display:flex;
       align-items:center;
-      gap: 6px;
+      gap: 10px;
       font-size: var(--acc-title);
       font-weight: 900;
       color: var(--text);
     }
 
-    /* Chevron left, label right */
     .accChevron{
       width: 26px;
       height: 26px;
@@ -207,48 +193,41 @@
       align-items:center;
       justify-content:center;
       flex: 0 0 auto;
-      color: var(--navy);
       transition: transform .18s ease;
     }
-    .accChevron svg{width:24px;height:24px;fill: var(--navy)}
+    .accChevron svg{width:24px;height:24px;fill: var(--hub-icon)}
+
     .accLabel{
       flex: 1 1 auto;
       text-align: right;
-      color: var(--navy);
+      color: var(--hub-title);
       line-height: 1.25;
     }
 
-    /* Gold divider thinner */
+    /* Divider (will be neutral in hub) */
     .divider{
       height: 1px;
-      background: linear-gradient(
-        to left,
-        transparent 0%,
-        transparent 4%,
-        var(--gold) 4%,
-        var(--gold) 96%,
-        transparent 96%,
-        transparent 100%
-      );
-      margin: 0 10px;
+      background: var(--hub-divider);
+      margin: 0 18px;
     }
 
     .accPanel{
       display:none;
       padding: 10px 14px 16px;
-      background: #fff;
+      background: transparent;
     }
     .accItem[data-open="1"] .accPanel{display:block;}
     .accItem[data-open="1"] .accChevron{transform: rotate(180deg);}
 
-    /* Inner navy cards */
+    /* Inner link list */
     .grid{
       display:flex;
       flex-direction: column;
-      gap: 12px;
-      margin-top: 8px;
+      gap: 10px;
+      margin-top: 10px;
     }
 
+    /* Original navyCard base (kept) */
     .navyCard{
       background: var(--navy-2);
       color:#fff;
@@ -264,13 +243,11 @@
       width: 100%;
       box-sizing: border-box;
     }
-
     .navyCard .t{
       font-size: var(--inner-card);
       font-weight: 900;
       line-height: 1.25;
     }
-
     .navyCard .arrow{
       flex: 0 0 auto;
       width: 30px;
@@ -302,114 +279,93 @@
     @media (max-width: 520px){
       .wrap{ padding-left: 12px; padding-right: 12px; margin-top:10px; }
     }
-
     /* حرکت ظریف فلش طلایی هنگام لمس کارت */
     .navyCard:active .arrow svg{
       transform: translateX(2px);
     }
 
-    /* ===== Hub overrides ===== */
+    /* ===== HUB: category cards (fix: no empty vh, no service-like whiteness) ===== */
     .panel.hub{
-      background: var(--hub-card);
-      flex: 1 1 auto;
-      display:flex;
-      flex-direction:column;
-      min-height: 0;
+      background: var(--hub-fill);
+      padding: 14px;
     }
 
-    /* Make the accordion list take full height impression */
+    /* Each category becomes a “card block” */
     .panel.hub .accItem{
-      background: transparent;
+      background: #fff;
+      border: 1px solid var(--hub-stroke);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 18px rgba(2,6,23,.06);
+      margin-bottom: 12px;
     }
+    .panel.hub .accItem:last-child{ margin-bottom: 0; }
 
-    /* Bigger hub rows (taller items) */
+    /* Category header row: higher height but not vh */
     .panel.hub .accBtn{
-      padding: 0 16px;
-      min-height: 12vh;        /* ✅ taller rows */
-      display:flex;
-      align-items:center;
+      padding: 18px 16px;
       font-size: 16px;
       font-weight: 900;
-      color: var(--hub-title);
+      background: linear-gradient(180deg, #ffffff 0%, #fbfcff 100%);
     }
 
-    .panel.hub .accLabel{
-      color: var(--hub-title);
-    }
-
-    /* Chevron becomes neutral (not navy) */
-    .panel.hub .accChevron svg{
-      fill: var(--hub-icon);
-    }
-
-    /* Divider: remove gold identity here */
+    /* Neutral divider inside category card */
     .panel.hub .divider{
-      height: 1px;
+      margin: 0;
       background: var(--hub-divider);
-      margin: 0 16px;
     }
 
-    /* Panel background slightly tinted to separate layer */
+    /* Panel area inside category */
     .panel.hub .accPanel{
-      background: var(--hub-fill);
-      padding: 12px 14px 16px;
+      background: #fff;
+      padding: 12px 14px 14px;
     }
 
-    /* Turn navyCard into HUB item (only inside hub) */
+    /* Hub links: neutral, not navy CTA */
     .panel.hub a.navyCard{
-      background: rgba(255,255,255,.72);  /* ✅ not pure white */
+      background: #f7f9fd;
       color: var(--hub-title);
       box-shadow: none;
       border: 1px solid rgba(16,24,40,.10);
       border-radius: 14px;
       padding: 12px 14px;
     }
-
-    /* Text style */
     .panel.hub a.navyCard .t{
+      color: var(--hub-title);
       font-size: 14px;
       font-weight: 900;
-      color: var(--hub-title);
     }
-
-    /* Arrow: subtle chevron */
     .panel.hub a.navyCard .arrow svg{
       fill: var(--hub-icon);
       transform: rotate(180deg);
     }
-
-    /* Active feedback: subtle */
     .panel.hub a.navyCard:active{
       transform: none;
-      background: rgba(255,255,255,.88);
+      background: #eef3fb;
     }
-
-    /* Remove the gold arrow wiggle in hub */
     .panel.hub .navyCard:active .arrow svg{
       transform: rotate(180deg);
     }
 
+    /* Hub disabled */
     .panel.hub a.navyCard.disabled{
-      opacity: .55;
-      background: rgba(255,255,255,.62);
-      border-style: dashed;
+      opacity:.55;
+      background:#f3f6fb;
+      border-style:dashed;
     }
-
     .panel.hub .badgeSoon{
-      background: #eef2f7;
-      border: 1px solid #e2e8f0;
-      color: #475569;
+      background:#e9effa;
+      border:1px solid #dbe6f6;
+      color:#40566f;
     }
   </style>
 </head>
 
 <body>
 
-  <!-- ✅ ساختار مثل گذرنامه: همه‌چیز داخل wrap/card -->
   <main class="wrap">
     <div class="card">
 
-      <!-- ✅ نوار بالا داخل card (مثل گذرنامه) -->
       <header class="topbar">
         <div class="topbarRow">
           <div class="topIcon" aria-hidden="true" title="نظام وظیفه">
@@ -425,7 +381,6 @@
       </header>
 
       <div class="card-clip">
-        <!-- ⛔️ از اینجا به بعد: محتوا و ساختار داخلی هاب دست نخورده -->
         <section class="panel hub">
 
           <!-- اعزام -->
@@ -461,19 +416,19 @@
             <div class="accPanel">
               <div class="grid">
                 <a class="navyCard" href="moafiat-pezeshki.html">
-                 <span class="t">معافیت پزشکی </span>
+                  <span class="t">معافیت پزشکی </span>
                   <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
                 </a>
-               <a class="navyCard" href="kefalat.html">
-                 <span class="t">معافیت کفالت</span>
+                <a class="navyCard" href="kefalat.html">
+                  <span class="t">معافیت کفالت</span>
                   <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
                 </a>
-              <a class="navyCard" href="behzisti.html">
-              <span class="t">معافیت مددجویان بهزیستی</span>
+                <a class="navyCard" href="behzisti.html">
+                  <span class="t">معافیت مددجویان بهزیستی</span>
                   <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
                 </a>
-              <a class="navyCard" href="isargari.html">
-              <span class="t">معافیت ایثارگری</span>
+                <a class="navyCard" href="isargari.html">
+                  <span class="t">معافیت ایثارگری</span>
                   <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
                 </a>
               </div>
@@ -486,20 +441,21 @@
               <span class="accChevron" aria-hidden="true">
                 <svg viewBox="0 0 24 24"><path d="M7.4 8.6 12 13.2l4.6-4.6 1.4 1.4-6 6-6-6z"/></svg>
               </span>
-              <span class="accLabel">  معافیت تحصیلی و سنوات</span>
+              <span class="accLabel">معافیت تحصیلی و سنوات</span>
             </button>
             <div class="divider"></div>
             <div class="accPanel">
               <div class="grid">
-               <a class="navyCard" href="moafiat-tahsili-dakheli.html">
-                 <span class="t">معافیت تحصیلی داخل کشور</span>
-                <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
+                <a class="navyCard" href="moafiat-tahsili-dakheli.html">
+                  <span class="t">معافیت تحصیلی داخل کشور</span>
+                  <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
                 </a>
 
-                 <a class="navyCard" href="moafiat-tahsili-kharej.html">
+                <a class="navyCard" href="moafiat-tahsili-kharej.html">
                   <span class="t">معافیت تحصیلی خارج کشور</span>
                   <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
                 </a>
+
                 <a class="navyCard disabled" href="#" data-disabled="1">
                   <span class="t">سنوات تحصیلی <span class="badgeSoon">به‌زودی</span></span>
                   <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
@@ -549,7 +505,7 @@
                 <a class="navyCard" href="exit-country.html">
                   <span class="t">مجوز خروج از کشور </span>
                   <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
-                 </a>
+                </a>
                 <a class="navyCard disabled" href="#" data-disabled="1">
                   <span class="t">مجوز ورزشی <span class="badgeSoon">به‌زودی</span></span>
                   <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6-1.4-1.4L13.2 12 8.6 7.4z"/></svg></span>
