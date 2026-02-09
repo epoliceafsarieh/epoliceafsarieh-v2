@@ -11,6 +11,7 @@
     { key:"kefalat", title:"معافیت کفالت", href:"kefalat.html", icon:null, hiddenFromAll:true },
     { key:"isargari", title:"معافیت ایثارگری", href:"isargari.html", icon:null, hiddenFromAll:true },
     { key:"behzisti", title:"معافیت مددجویان بهزیستی", href:"behzisti.html", icon:null, hiddenFromAll:true },
+    { key: "exit_country", title: "مجوز خروج از کشور", href: "exit-country.html", icon: null, hiddenFromAll: true},
 
     { key: "moafiat_tahsili_dakheli",title: "معافیت تحصیلی داخل کشور", href: "moafiat-tahsili-dakheli.html", icon: null, hiddenFromAll: true},
     { key: "moafiat_tahsili_kharej", title: "معافیت تحصیلی خارج از کشور", href: "moafiat-tahsili-kharej.html", icon: null, hiddenFromAll: true },
