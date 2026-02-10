@@ -579,7 +579,11 @@ margin:4px 0;
     
         ${heroSubtitle ? `<p class="hero-sub">${heroSubtitle}</p>` : ""}
 
-        ${firstSectionHtml}
+               <div class="stepsWrap">
+          <img class="wmLogo" src="assets/img/logo/logo_white.png" alt="" aria-hidden="true">
+          ${firstSectionHtml}
+        </div>
+
 
         <div class="hero-actions sticky-cta">
           ${heroPrimary?.label && heroPrimary?.href
