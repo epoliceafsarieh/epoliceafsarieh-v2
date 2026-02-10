@@ -306,6 +306,28 @@
     background:#fff;
     overflow:hidden;
   }
+    /* ===== Watermark (only behind first section / steps) ===== */
+  .stepsWrap{ position:relative; }
+
+  .stepsWrap .wmLogo{
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    width:220px;
+    height:auto;
+
+    opacity:.045;
+    pointer-events:none;
+    z-index:0;
+
+    /* چون logo_white.png سفید است، روی زمینه سفید دیده نمی‌شود */
+    filter: invert(1) brightness(.22) saturate(0);
+  }
+
+  /* محتوای گام‌ها روی واترمارک */
+  .stepsWrap .sec{ position:relative; z-index:1; }
+
   .sec summary{
     padding:12px 14px;
     font-size:15px;
