@@ -710,6 +710,12 @@ const restSectionsHtml = otherSecs.map((sec) => {
             ${heroHtml}
 
             <div class="content">
+
+${stepsHtml}
+
+
+
+            
               <details class="sec" id="docs">
                 <summary>
                   <span> آنچه باید بدانید </span>
