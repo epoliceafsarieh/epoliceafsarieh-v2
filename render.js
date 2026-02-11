@@ -309,10 +309,13 @@
 /* ===== Watermark behind first section (Steps) ===== */
 .steps-card{
   position:relative;
-  overflow:hidden;  /* جلوگیری از بیرون‌زدگی در Chrome */
+  overflow:hidden; /* جلوگیری از بیرون‌زدگی در Chrome */
 }
 
-
+.steps-card .sec-body{
+  position:relative;
+  overflow:hidden; /* مهم: خودِ body هم کلیپ کند */
+}
 
 /* لایه واترمارک */
 .steps-card .sec-body::before{
@@ -322,25 +325,27 @@
   pointer-events:none;
   z-index:0;
 
-  /* شدت/رنگ واترمارک */
-  background-color: rgba(4,30,66,.08); /* ضعیف و حرفه‌ای‌تر */
+  /* شدت/رنگ واترمارک (ملایم) */
+  background-color: rgba(4,30,66,.035);
 
-  /* استفاده از لوگوی سفید به‌عنوان ماسک تا واترمارک سورمه‌ای شود */
   -webkit-mask-image: url("assets/img/logo/logo_white.png");
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-position: center;
-  -webkit-mask-size: clamp(140px, 40vw, 200px); /* واکنش‌گرایانه */
-  
+  -webkit-mask-size: cover;   /* ✅ کل سطح کارت را پر کند */
+
   mask-image: url("assets/img/logo/logo_white.png");
   mask-repeat: no-repeat;
   mask-position: center;
-  mask-size: clamp(140px, 40vw, 200px); /* واکنش‌گرایانه */
+  mask-size: cover;           /* ✅ */
+
+  filter: blur(.4px);         /* اختیاری: نرم‌تر شدن */
 }
 
 .steps-card .wmContent{
   position:relative;
   z-index:1;
 }
+
 
 
   .sec summary{
