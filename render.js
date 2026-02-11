@@ -200,11 +200,12 @@
     z-index:3;
   }
 
-  .header{
-    padding:14px 16px 12px;
-    background:#fff;
-    border-bottom:1px solid var(--border);
-  }
+ .header{
+  padding:8px 16px 6px;   /* قبلاً 14px 16px 12px بود */
+  background:#fff;
+  border-bottom:none;
+}
+
 
   .meta{
     display:flex;
