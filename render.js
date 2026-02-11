@@ -634,7 +634,15 @@ details.sec#docs .doc-sec .sec-body{
     const heroSubtitle = esc(svc.heroSubtitle || "");
     const heroPrimary = svc.heroPrimary || null;
     const heroSecondary = svc.heroSecondary || null;
+    const metaCtaHtml =
+     (heroPrimary?.label && heroPrimary?.href)
+      ? `<a class="meta-cta" href="${esc(heroPrimary.href)}">${esc(heroPrimary.label)}</a>`
+      : "";
 
+
+
+
+      
     // اگر سرویس heroSecondary را روی #docs گذاشته، روی سکشن اول id بدهیم
     const wantsDocsAnchor =
       (typeof heroSecondary?.href === "string") && heroSecondary.href.trim() === "#docs";
