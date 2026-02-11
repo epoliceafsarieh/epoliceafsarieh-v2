@@ -611,24 +611,26 @@ details.sec#docs .doc-sec .sec-body{
 .header .meta details.pill > summary{
   display:flex;
   align-items:center;
-  justify-content:space-between;  /* کلید حل RTL */
+  justify-content:flex-start;
   gap:10px;
 }
 
-/* فلش سمت چپ (آخر ردیف) */
+/* فلش سمت چپ */
 .header .meta details.pill > summary::after{
   content:"";
-  width:6px;
-  height:6px;
+  width:7px;
+  height:7px;
   border-right:3px solid #334155;
   border-bottom:3px solid #334155;
   transform:translateY(-2px) rotate(45deg);
   transition:transform .2s ease;
+  margin-right:auto;     /* این باعث می‌شود برود سمت چپ */
 }
 
 .header .meta details.pill[open] > summary::after{
   transform:translateY(-2px) rotate(-135deg);
 }
+
 /* فلش برای "آنچه باید بدانید" */
 details.sec#docs > summary::after{
   content:"";
