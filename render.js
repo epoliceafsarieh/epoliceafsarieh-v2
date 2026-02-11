@@ -511,96 +511,67 @@ margin:4px 0;
     margin:0 auto;
   }
 
-  /* فقط برای آکاردئون مادر مدارک (#docs) */
-  details.sec#docs{
-    border:0;
-    background:transparent;
-  }
-
-details.sec#docs > summary {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #d1d5db; /* خاکستری روشن */
-  border: 1px solid var(--border);
-
-  border-radius: 14px;
-  padding: 16px 14px;
-  color: #334155; /* رنگ خاکستری تیره */
-  font-size: 16px; /* اندازه قلم */
-  font-weight: 600; /* وزن قلم */
+ /* ===== Docs wrapper (مدارک و شرایط) مطابق تصویر ===== */
+details.sec#docs{
+  border:0;
+  background:#EEF2F6;     /* ✅ رنگ زمینه مادر */
+  border-radius:16px;     /* ✅ radius مادر */
+  padding:16px;           /* ✅ padding مادر */
+  margin-top:16px;        /* ✅ فاصله از بالا */
+  overflow:visible;
 }
 
-/* حذف علامت فلش */
-details.sec#docs > summary::after {
-  content: "";
-}
-
-/* تغییر متن به "مدارک و شرایط" */
-details.sec#docs > summary span {
-  color: #334155; /* رنگ خاکستری */
-  font-weight: 600; /* وزن قلم */
-  font-size: 16px;
-}
-
-
-
-details.sec#docs[open] > summary::after{
-  transform:translateY(-2px) rotate(-135deg);
-}
-
-
-
-  details.sec#docs[open] > summary{
-    border-radius:14px 14px 0 0;
-  }
-
-  details.sec#docs > .sec-body{
-    border:1px solid var(--border);
-    border-top:0;
-    border-radius:0 0 14px 14px;
-    background:#fff;
-  }
- /* ===== FIX: کشوهای داخل "آنچه باید بدانید" عنوان‌شان دیده شود ===== */
-
-/* جلوگیری از اینکه قوانین کلی .sec summary، کشوهای داخل docs را خراب کند */
-details.sec#docs .doc-sec > summary{
+/* تیتر مادر: روی زمینه خاکستری باشد، نه یک دکمه/کارت جدا */
+details.sec#docs > summary{
   display:flex;
-  justify-content:space-between;
   align-items:center;
-  text-align:right;
+  justify-content:center;
+  background:transparent; /* ✅ شفاف تا زمینه خاکستری دیده شود */
+  border:0;               /* ✅ بدون خط دور */
+  border-radius:0;
+  padding:0 0 12px;       /* ✅ فاصله زیر تیتر */
+  color:#0f172a;
+  font-size:16px;
+  font-weight:900;
 }
 
-/* تضمین نمایش تیتر (مخصوصاً iOS Safari که گاهی span را می‌بلعد/کوچک می‌کند) */
-details.sec#docs .doc-sec > summary .sec-title{
-  display:block;
-  flex:1;
-  white-space:normal;
-}
- 
+/* فلش پیش‌فرض را کامل حذف کن */
+details.sec#docs > summary::after{ content:none !important; }
+details.sec#docs > summary::-webkit-details-marker{ display:none; }
 
-/* سکشن‌های داخل #docs (فرزندها) */
+/* بدنه‌ی مادر: شفاف تا خاکستریِ مادر دیده شود */
+details.sec#docs > .sec-body{
+  border:0;
+  background:transparent;
+  padding:0;
+}
+
+/* ===== کارت‌های داخلی (آکاردئون‌های فرزند) مطابق تصویر ===== */
 details.sec#docs .doc-sec{
-  margin-top:10px;
-  border:1px solid var(--border);
-  border-radius:12px;
-  background:#fff;
+  margin-top:12px;
+  background:#ffffff;              /* ✅ سفید */
+  border:1px solid #e6e8ee;        /* ✅ خط دور */
+  border-radius:16px;              /* ✅ radius کارت داخلی */
   overflow:hidden;
 }
 
-details.sec#docs .doc-sec summary{
-  padding:12px 14px;
+/* summary هر کارت داخلی */
+details.sec#docs .doc-sec > summary{
+  background:#ffffff;              /* ✅ سفید */
+  padding:16px;
   font-size:15px;
   font-weight:900;
   color:#0f172a;
   display:flex;
   justify-content:space-between;
-  gap:10px;
-  background:var(--section-bg);
+  align-items:center;
 }
 
-details.sec#docs .doc-sec .sec-body{
-  padding:12px 14px;
+/* بدنه کارت داخلی */
+details.sec#docs .doc-sec > .sec-body{
+  padding:16px;
+  border-top:1px solid #e6e8ee;    /* ✅ جداکننده داخل کارت */
+  background:#ffffff;
 }
 
 
