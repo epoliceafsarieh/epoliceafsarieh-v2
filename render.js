@@ -330,12 +330,12 @@
   -webkit-mask-image: url("assets/img/logo/logo_white.png");
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-position: center;
-  -webkit-mask-size: 260px;
+  -webkit-mask-size: clamp(140px, 38vw, 190px);
 
   mask-image: url("assets/img/logo/logo_white.png");
   mask-repeat: no-repeat;
   mask-position: center;
-  mask-size: 260px;
+ mask-size: clamp(140px, 38vw, 190px);
 
   opacity: 1;
 }
