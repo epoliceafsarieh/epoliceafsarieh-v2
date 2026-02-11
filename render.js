@@ -306,16 +306,17 @@
     background:#fff;
     overflow:hidden;
   }
- /* ===== Watermark behind first section (Steps) ===== */
+/* ===== Watermark behind first section (Steps) ===== */
 .steps-card{
   position:relative;
-  overflow:hidden;                /* جلوگیری از بیرون‌زدگی در Chrome */
+  overflow:hidden;  /* جلوگیری از بیرون‌زدگی در Chrome */
 }
 
-/* حداقل ارتفاع کم تا در گام‌های کوتاه هم واترمارک «وجود» داشته باشد */
+/* اطمینان از اینکه وقتی گام‌ها کوتاه باشند، واترمارک دیده شود */
 .steps-card .sec-body{
   position:relative;
-  min-height:120px;               /* اگر هنوز کم بود: 140px */
+  min-height:140px;  /* حداقل ارتفاع برای اینکه واترمارک همیشه دیده شود */
+  padding-top:20px;  /* افزایش فضای بالا برای تعادل */
 }
 
 /* لایه واترمارک */
@@ -326,26 +327,26 @@
   pointer-events:none;
   z-index:0;
 
-  /* شدت کمتر و حرفه‌ای‌تر */
-  background-color: rgba(4,30,66,.06);
+  /* شدت/رنگ واترمارک */
+  background-color: rgba(4,30,66,.08); /* ضعیف و حرفه‌ای‌تر */
 
-  /* لوگو به‌صورت ماسک (به رنگ سورمه‌ای) */
+  /* استفاده از لوگوی سفید به‌عنوان ماسک تا واترمارک سورمه‌ای شود */
   -webkit-mask-image: url("assets/img/logo/logo_white.png");
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-position: center;
-  -webkit-mask-size: clamp(140px, 42vw, 210px);
-
+  -webkit-mask-size: clamp(140px, 40vw, 200px); /* واکنش‌گرایانه */
+  
   mask-image: url("assets/img/logo/logo_white.png");
   mask-repeat: no-repeat;
   mask-position: center;
-  mask-size: clamp(140px, 42vw, 210px);
+  mask-size: clamp(140px, 40vw, 200px); /* واکنش‌گرایانه */
 }
 
-/* محتوا روی واترمارک */
 .steps-card .wmContent{
   position:relative;
   z-index:1;
 }
+
 
   .sec summary{
     padding:12px 14px;
