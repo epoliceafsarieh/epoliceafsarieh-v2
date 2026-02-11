@@ -602,19 +602,28 @@ const html = `
       return html;
     }).join("");
 
-   const heroHtml = hasHero ? `
-  <div class="hero">
+    const heroHtml = hasHero ? `
+      <div class="hero">
+    
+        ${heroSubtitle ? `<p class="hero-sub">${heroSubtitle}</p>` : ""}
 
-    ${svc.heroTitle ? `<h2 class="hero-title">${esc(svc.heroTitle)}</h2>` : ""}
+               
+        
+       
 
-    ${heroSubtitle ? `<p class="hero-sub">${heroSubtitle}</p>` : ""}
 
-    <div class="hero-actions sticky-cta">
-      ...
-    </div>
-  </div>
-` : "";
-
+        <div class="hero-actions sticky-cta">
+          ${heroPrimary?.label && heroPrimary?.href
+            ? `<a class="btn-primary" href="${esc(heroPrimary.href)}">${esc(heroPrimary.label)}</a>`
+            : ""
+          }
+          ${heroSecondary?.label && heroSecondary?.href
+            ? `<a class="btn-secondary" href="${esc(heroSecondary.href)}">${esc(heroSecondary.label)}</a>`
+            : ""
+          }
+        </div>
+      </div>
+    ` : "";
 
     const noticeList =
       (svc.notDone && svc.notDone.length) ? svc.notDone
