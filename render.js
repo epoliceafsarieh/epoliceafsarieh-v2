@@ -596,7 +596,8 @@ details.sec#docs .doc-sec .sec-body{
 
 @media (max-width: 480px){
   .wrap{ margin:8px auto 60px; padding:0 10px; }
-  .header{ padding:3px 12px 1px; }
+ .header{ padding:22px 12px 12px; }
+
   .hero{ padding:6px 12px 4px; }
   .content{ padding:6px 12px 12px; }
 
