@@ -608,7 +608,7 @@ const html = `
         ${heroSubtitle ? `<p class="hero-sub">${heroSubtitle}</p>` : ""}
 
                
-          ${firstSectionHtml}
+        
        
 
 
