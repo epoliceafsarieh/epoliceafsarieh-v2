@@ -313,7 +313,8 @@
     border:1px solid rgba(4,30,66,.35);
   }
 
-  .content{padding:16px 16px 18px}
+ .content{padding:6px 16px 14px}
+
 
   .sec{
     margin-top:12px;
