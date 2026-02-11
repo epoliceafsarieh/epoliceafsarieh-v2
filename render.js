@@ -505,6 +505,25 @@ margin:4px 0;
     background:#fff;
   }
 
+/* فقط سکشن‌های داخل #docs: ساده و قابل‌دیدن */
+details.sec#docs .sec{
+  border:0;
+  background:transparent;
+  box-shadow:none;
+  margin-top:0;
+}
+
+details.sec#docs .sec summary{
+  border-top:1px solid var(--border);
+}
+details.sec#docs .sec:first-child summary{
+  border-top:0;
+}
+
+
+
+  
+
   @media (max-width: 480px){
   .wrap{ margin:10px auto 60px; padding:0 10px; }
   .header{ padding:10px 12px 8px; }
