@@ -607,25 +607,27 @@ details.sec#docs .doc-sec .sec-body{
 }
 
 
-/* فلش فقط برای pill های هدر (زمان/هزینه) */
 .header .meta details.pill > summary{
   display:flex;
   align-items:center;
-  justify-content:space-between;
-  cursor:pointer;
+  justify-content:flex-start;
+  gap:10px;
 }
 
-/* فلش */
 .header .meta details.pill > summary::after{
   content:"";
-  width:6px;                 
+  width:6px;
   height:6px;
-  border-right:2.8px solid #334155;  
-  border-bottom:2.8px solid #334155;
+  border-right:3px solid #334155;
+  border-bottom:3px solid #334155;
   transform:translateY(-3px) rotate(45deg);
-  transition:transform .2s ease;
-  margin-right:8px;
+  margin-right:auto;   /* فلش بره سمت چپ */
 }
+
+.header .meta details.pill[open] > summary::after{
+  transform:translateY(-3px) rotate(-135deg);
+}
+
 
 /* حالت باز */
 .header .meta details.pill[open] > summary::after{
