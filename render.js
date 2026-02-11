@@ -732,10 +732,7 @@ const restSectionsHtml = otherSecs.map((sec, i) => {
     ${heroSubtitle ? `<p class="hero-sub">${heroSubtitle}</p>` : ""}
 
     <div class="hero-actions sticky-cta">
-      ${heroPrimary?.label && heroPrimary?.href
-        ? `<a class="btn-primary" href="${esc(heroPrimary.href)}">${esc(heroPrimary.label)}</a>`
-        : ""
-      }
+    
       ${heroSecondary?.label && heroSecondary?.href
         ? `<a class="btn-secondary" href="${esc(heroSecondary.href)}">${esc(heroSecondary.label)}</a>`
         : ""
