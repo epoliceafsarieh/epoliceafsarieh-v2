@@ -598,8 +598,9 @@ details.sec#docs .doc-sec .sec-body{
   border:1px solid var(--brand-blue);
 }
 
-/* فلش تمیز برای زمان و هزینه */
-.pill summary{
+
+/* فلش فقط برای pill های هدر (زمان/هزینه) */
+.header .meta details.pill > summary{
   display:flex;
   align-items:center;
   justify-content:space-between;
@@ -607,18 +608,20 @@ details.sec#docs .doc-sec .sec-body{
 }
 
 /* فلش */
-.pill summary::after{
+.header .meta details.pill > summary::after{
   content:"";
-  width:5px;                 /* کوچک‌تر */
-  height:5px;                /* کوچک‌تر */
-  border-right:3px solid #334155;  /* کلفت‌تر (بولدتر) */
-  border-bottom:3px solid #334155; /* کلفت‌تر */
-  transform:translateY(-2px) rotate(45deg); /* کمی بالاتر */
+  width:6px;                 
+  height:6px;
+  border-right:2.8px solid #334155;  
+  border-bottom:2.8px solid #334155;
+  transform:translateY(-3px) rotate(45deg);
   transition:transform .2s ease;
-  margin-right:6px;
+  margin-right:8px;
 }
-.pill[open] summary::after{
-  transform:translateY(-2px) rotate(-135deg); /* در حالت باز هم بالا بماند */
+
+/* حالت باز */
+.header .meta details.pill[open] > summary::after{
+  transform:translateY(-3px) rotate(-135deg);
 }
 
 
