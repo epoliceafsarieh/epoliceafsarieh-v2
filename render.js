@@ -602,14 +602,7 @@ const html = `
       return html;
     }).join("");
 
-   const heroHtml = hasHero ? `
-  <div class="hero">
-
-    ${svc.heroTitle ? `<h2 class="hero-title">${esc(svc.heroTitle)}</h2>` : ""}
-
-    ${heroSubtitle ? `<p class="hero-sub">${heroSubtitle}</p>` : ""}
-
-    <div class="hero-actions sticky-cta">
+ 
      const heroHtml = hasHero ? `
   <div class="hero">
 
