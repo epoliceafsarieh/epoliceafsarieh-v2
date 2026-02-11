@@ -914,7 +914,8 @@ ${stepsHtml}
 
 
             
-              <details class="sec" id="docs">
+            <details class="sec" id="docs" open>
+
                 <summary>
                   <span> آنچه باید بدانید </span>
                   <small></small>
