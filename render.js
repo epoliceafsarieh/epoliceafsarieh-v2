@@ -226,9 +226,9 @@
   flex-wrap:wrap;
   justify-content:center;
   align-items:center;
-  margin-top:14px;     /* پایین‌تر بیاید */
-  margin-bottom:6px;   /* کمی فاصله با پایین */
+  margin:0;              /* مهم */
 }
+
 
   
 
