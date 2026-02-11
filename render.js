@@ -326,18 +326,18 @@
   pointer-events:none;
 
   /* رنگ واترمارک (خیلی ملایم) */
-  background-color: rgba(4,30,66,.045);
+  background-color: rgba(4,30,66,.04);
 
   /* ✅ لوگو به عنوان ماسک، اندازه = اندازه‌ی کارت */
   -webkit-mask-image: url("assets/img/logo/logo_white.png");
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-position: center;
-  -webkit-mask-size: auto 100%;
+  -webkit-mask-size: auto 90%;
 
   mask-image: url("assets/img/logo/logo_white.png");
   mask-repeat: no-repeat;
   mask-position: center;
-  mask-size: auto 100%;
+  mask-size: auto 90%;
 
   /* اختیاری ولی خوب برای نرم شدن لبه‌ها */
   filter: blur(.3px);
