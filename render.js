@@ -603,10 +603,9 @@ const html = `
     
         ${heroSubtitle ? `<p class="hero-sub">${heroSubtitle}</p>` : ""}
 
-               <div class="stepsWrap">
-          <img class="wmLogo" src="assets/img/logo/logo_white.png" alt="" aria-hidden="true">
+               
           ${firstSectionHtml}
-        </div>
+       
 
 
         <div class="hero-actions sticky-cta">
