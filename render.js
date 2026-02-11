@@ -536,6 +536,7 @@ details.sec#docs > summary::after{
   border-bottom:4px solid rgba(4,30,66,.98); /* بولدتر */
   transform:translateY(-1px) rotate(45deg);
   transition:transform .2s ease;
+   margin-right: 0; /* فلش در وسط */
 }
 
 
