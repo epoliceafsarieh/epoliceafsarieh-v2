@@ -598,7 +598,7 @@ details.sec#docs .doc-sec .sec-body{
 .header .meta details.pill > summary{
   display:flex;
   align-items:center;
-  justify-content:flex-start;
+  justify-content:center;
   gap:10px;
 }
 
@@ -609,8 +609,9 @@ details.sec#docs .doc-sec .sec-body{
   border-right:3px solid #334155;
   border-bottom:3px solid #334155;
   transform:translateY(-3px) rotate(45deg);
-  margin-right:auto;   /* فلش بره سمت چپ */
+  transition:transform .2s ease;
 }
+
 
 .header .meta details.pill[open] > summary::after{
   transform:translateY(-3px) rotate(-135deg);
