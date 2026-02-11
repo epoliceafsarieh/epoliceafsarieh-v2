@@ -223,13 +223,15 @@
 
 
   .meta{
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-    justify-content:center;
-    align-items:center;
-    margin-top:6px;
-  }
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  justify-content:center;
+  align-items:center;
+  margin-top:14px;     /* پایین‌تر بیاید */
+  margin-bottom:6px;   /* کمی فاصله با پایین */
+}
+
   
 
   .pill{
