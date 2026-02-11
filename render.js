@@ -517,39 +517,31 @@ margin:4px 0;
     background:transparent;
   }
 
-details.sec#docs > summary{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  background:#C9D1DB;          /* خاکستری مثل عکس */
-  border:1px solid #B7C0CB;     /* خاکستری تیره‌تر */
-  border-radius:14px;
-
-  padding:16px 14px;
-  color:var(--brand-blue);
-
-  font-size:0;                  /* متن مخفی بماند (مثل الان) */
+details.sec#docs > summary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #d1d5db; /* خاکستری روشن */
+  border: 1px solid #e5b12c;
+  border-radius: 14px;
+  padding: 16px 14px;
+  color: #334155; /* رنگ خاکستری تیره */
+  font-size: 16px; /* اندازه قلم */
+  font-weight: 600; /* وزن قلم */
 }
 
-
-/* متن داخل summary مخفی */
-details.sec#docs > summary span,
-details.sec#docs > summary small{
-  display:none !important;
+/* حذف علامت فلش */
+details.sec#docs > summary::after {
+  content: "";
 }
 
-/* فلش بزرگ وسط */
-details.sec#docs > summary::after{
-  content:"";
-  width:14px;    /* بزرگ‌تر */
-  height:14px;   /* بزرگ‌تر */
-  border-right:4px solid rgba(4,30,66,.98);  /* بولدتر */
-  border-bottom:4px solid rgba(4,30,66,.98); /* بولدتر */
-  transform:translateY(-1px) rotate(45deg);
-  transition:transform .2s ease;
-   margin-right: 0; /* فلش در وسط */
+/* تغییر متن به "مدارک و شرایط" */
+details.sec#docs > summary span {
+  color: #334155; /* رنگ خاکستری */
+  font-weight: 600; /* وزن قلم */
+  font-size: 16px;
 }
+
 
 
 details.sec#docs[open] > summary::after{
