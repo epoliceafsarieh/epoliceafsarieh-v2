@@ -184,32 +184,19 @@
     letter-spacing:-.2px;
   }
 
-  .back-btn{
-  width:20px;
-  height:20px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  text-decoration:none;
-  color:#fff;
-  background:transparent;     /* بدون کادر */
-  border:0;                   /* بدون کادر */
-  padding:0;
-  border-radius:0;
-  font-size:0;                /* متن "بازگشت" مخفی */
-  cursor:pointer;
-  z-index:3;
+ .back-btn{
+  width:16px !important;
+  height:16px !important;
+  padding:0 !important;
 }
 
-/* فلش */
 .back-btn::before{
-  content:"";
-  width:10px;
-  height:10px;
-  border-left:3px solid rgba(255,255,255,.95);
-  border-bottom:3px solid rgba(255,255,255,.95);
-  transform:rotate(45deg);
+  width:8px !important;
+  height:8px !important;
+  border-left:2.4px solid rgba(255,255,255,.95) !important;
+  border-bottom:2.4px solid rgba(255,255,255,.95) !important;
 }
+
 
 /* ناحیه کلیک کمی بزرگ‌تر ولی نامرئی */
 .back-btn{ margin-left:4px; }
