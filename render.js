@@ -582,27 +582,31 @@ details.sec#docs .doc-sec .sec-body{
   font-size:13px;
   border:1px solid var(--brand-blue);
 }
-.meta-chev {
-  font-weight: 900;
-  margin-right: 6px;
-  opacity: 0.8;
+
+/* فلش تمیز برای زمان و هزینه */
+.pill summary{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  cursor:pointer;
 }
 
-details[open] .meta-chev {
-  transform: rotate(180deg);
-  display: inline-block;
+/* فلش */
+.pill summary::after{
+  content:"";
+  width:8px;
+  height:8px;
+  border-right:2px solid #334155;
+  border-bottom:2px solid #334155;
+  transform:rotate(45deg);
+  transition:transform .2s ease;
+  margin-right:6px;
 }
 
-
-
-
-
-
-
-
-
-
-
+/* وقتی باز شد بچرخد */
+.pill[open] summary::after{
+  transform:rotate(-135deg);
+}
 
 
 </style>`;
