@@ -646,15 +646,6 @@ const hasTime = !!svc?.meta?.time;
 const hasFeeTable = !!(feeObj && Array.isArray(svc.feeRows) && svc.feeRows.length);
 
 if (hasTime || hasFeeTable) {
-  const rows = hasFeeTable
-    ? svc.feeRows.map(r => ({ title: r.label, value: feeObj[r.field] }))
-    : [];
-
-  metaParts.push(`
-    <details class="pill">
-      <summary>زمان و هزینه</summary>
-      <div class="fee-box">
-       if (hasTime || hasFeeTable) {
   const feeRows = hasFeeTable
     ? svc.feeRows.map(r => ({ title: r.label, value: feeObj[r.field] }))
     : [];
@@ -671,11 +662,13 @@ if (hasTime || hasFeeTable) {
           ${feeRows.length ? feeRows.map(r => `
             <tr><td>هزینه</td><td>${esc(r.title)}: ${esc(safeText(r.value))}</td></tr>
           `).join("") : ""}
+
         </table>
       </div>
     </details>
   `);
 }
+
 
 
         ${hasFeeTable ? `
