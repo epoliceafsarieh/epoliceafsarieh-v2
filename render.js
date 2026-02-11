@@ -579,7 +579,8 @@ margin:4px 0;
       const isFirst = idx === 0;
 
 const html = `
-  <details class="sec card${isFirst ? ' steps-card' : ''}" ${isOpen ? 'open' : ''}>
+    <details class="sec card${isFirst ? ' steps-card' : ''}"${openAttr}>
+
     <summary>
       <span class="sec-title">${esc(sec.title || "")}</span>
       <span class="chev" aria-hidden="true"></span>
