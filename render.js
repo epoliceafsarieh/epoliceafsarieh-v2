@@ -668,19 +668,17 @@ if (hasTime || hasFeeTable) {
         <table>
           <tr><th>بخش</th><th>مقدار/توضیح</th></tr>
 
-          ${hasTime ? `
-            <tr><td>زمان</td><td>${esc(svc.meta.time)}</td></tr>
-          ` : ""}
+          ${hasTime ? `<tr><td>زمان</td><td>${esc(svc.meta.time)}</td></tr>` : ""}
 
           ${feeRows.length ? feeRows.map(r => `
             <tr><td>هزینه</td><td>${esc(r.title)}: ${esc(safeText(r.value))}</td></tr>
           `).join("") : ""}
-
         </table>
       </div>
     </details>
   `);
 }
+
 
         ${hasFeeTable ? `
           <table>
