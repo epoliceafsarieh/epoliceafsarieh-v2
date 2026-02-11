@@ -217,7 +217,7 @@
   transform:rotate(45deg);
 }
 .header{
-  padding:14px 16px 10px;   /* فضای سفید کنترل‌شده */
+  padding:26px 16px 14px;   /* فضای سفید کنترل‌شده */
   background:#fff;
   border-bottom:none;
 }
