@@ -529,10 +529,10 @@ details.sec#docs > summary small{
 /* فلش بزرگ وسط */
 details.sec#docs > summary::after{
   content:"";
-  width:18px;    /* بزرگ‌تر */
-  height:18px;   /* بزرگ‌تر */
-  border-right:5px solid rgba(4,30,66,.98);  /* بولدتر */
-  border-bottom:5px solid rgba(4,30,66,.98); /* بولدتر */
+  width:14px;    /* بزرگ‌تر */
+  height:14px;   /* بزرگ‌تر */
+  border-right:4px solid rgba(4,30,66,.98);  /* بولدتر */
+  border-bottom:4px solid rgba(4,30,66,.98); /* بولدتر */
   transform:translateY(-1px) rotate(45deg);
   transition:transform .2s ease;
 }
