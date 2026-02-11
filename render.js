@@ -598,10 +598,7 @@ const html = `
 `;
 
 
-      if (idx === 0) {
-        firstSectionHtml = html;
-        return ""; // سکشن اول از لیست پایین حذف می‌شود
-      }
+    
       return html;
     }).join("");
 
