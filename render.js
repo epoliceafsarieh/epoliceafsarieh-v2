@@ -247,9 +247,9 @@
 
   /* ===== HERO (Task-first) ===== */
   .hero{
-    padding:14px 16px 14px;
+    padding:10px 16px 6px;
     background:#fff;
-    border-bottom:1px solid var(--border);
+    border-bottom:none;
   }
   .hero-title{
     font-weight:900;
