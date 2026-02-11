@@ -308,43 +308,36 @@
   }
 /* ===== Watermark behind first section (Steps) ===== */
 .steps-card{
-  position:relative;
-  overflow:hidden; /* جلوگیری از بیرون‌زدگی در Chrome */
+  position: relative;
+  overflow: hidden;
 }
 
 .steps-card .sec-body{
-  position:relative;
-  overflow:hidden; /* مهم: خودِ body هم کلیپ کند */
+  position: relative;
+  overflow: hidden;
 }
 
-/* لایه واترمارک */
+/* واترمارک واقعی تمام‌سطح: اندازه‌اش دقیقاً اندازه‌ی کارت گام‌هاست */
 .steps-card .sec-body::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  z-index:0;
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
 
-  /* شدت/رنگ واترمارک (ملایم) */
-  background-color: rgba(4,30,66,.035);
-
-  -webkit-mask-image: url("assets/img/logo/logo_white.png");
-  -webkit-mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  -webkit-mask-size: cover;   /* ✅ کل سطح کارت را پر کند */
-
-  mask-image: url("assets/img/logo/logo_white.png");
-  mask-repeat: no-repeat;
-  mask-position: center;
-  mask-size: cover;           /* ✅ */
-
-  filter: blur(.4px);         /* اختیاری: نرم‌تر شدن */
+  background-image: url("assets/img/logo/logo_white.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;  /* ✅ دقیقاً هم‌قد و هم‌عرض کارت */
+  opacity: .05;                /* شدت ملایم */
 }
 
+/* محتوای گام‌ها روی واترمارک */
 .steps-card .wmContent{
-  position:relative;
-  z-index:1;
+  position: relative;
+  z-index: 1;
 }
+
 
 
 
