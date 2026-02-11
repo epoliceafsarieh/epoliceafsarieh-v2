@@ -632,7 +632,7 @@ if (hasTime || hasFeeTable) {
 
   metaParts.push(`
     <details class="pill">
-      <summary>زمان و هزینه <span class="meta-chev">⌄</span></summary>
+      <summary>زمان و هزینه</summary>
       <div class="fee-box">
         ${hasTime ? `<div style="font-weight:900;margin-bottom:8px">زمان معمول: ${esc(svc.meta.time)}</div>` : ""}
         ${hasFeeTable ? `
