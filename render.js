@@ -813,13 +813,14 @@ const restSectionsHtml = otherSecs.map((sec, i) => {
       : null;
 
     const notDoneHtml = (noticeList && noticeList.length)
-      ? `
-        <details class="sec">
-          <summary><span>نکات مهم</span><small></small></summary>
-          <div class="sec-body">${olList(noticeList)}</div>
-        </details>
-      `
-      : "";
+  ? `
+    <details class="sec doc-sec">
+      <summary><span class="sec-title">نکات مهم</span><span class="chev" aria-hidden="true"></span></summary>
+      <div class="sec-body">${olList(noticeList)}</div>
+    </details>
+  `
+  : "";
+
 
    const faqHtml = (svc.faqEnabled === true && svc.faq && svc.faq.length)
   ? `
