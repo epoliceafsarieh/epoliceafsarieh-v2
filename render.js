@@ -471,7 +471,9 @@ margin:4px 0;
   color: #0f172a;
     cursor:pointer;
   }
-  .faq .ans{padding:10px 14px;color:#334155;font-size:13px;font-weight:normal}
+  .faq .ans{
+  padding:10px 14px;
+  color:#334155;font-size:13px;font-weight:normal}
 
   .footer{
     margin-top:14px;
