@@ -214,15 +214,11 @@
   border-bottom:2.4px solid rgba(255,255,255,.95);
   transform:rotate(45deg);
 }
-
-
-
- .header{
-  padding:3px 16px 1px;   /* قبلاً 14px 16px 12px بود */
+.header{
+  padding:12px 16px 10px;   /* فضای سفید کنترل‌شده */
   background:#fff;
   border-bottom:none;
 }
-
 
   .meta{
   display:flex;
