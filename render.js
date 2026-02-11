@@ -116,12 +116,14 @@
 
   *{box-sizing:border-box}
   body{
-    margin:0;
-    font-family:"Vazirmatn", Tahoma, Arial, sans-serif;
-    background:var(--bg);
-    color:var(--text);
-    line-height:1.95;
-  }
+  margin:0;
+  font-family:"Vazirmatn", Tahoma, Arial, sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.95;
+  direction:rtl;          /* کلیدی */
+}
+
 
  .wrap{max-width:860px;margin:8px auto 70px;padding:0 14px}
 
