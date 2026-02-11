@@ -314,7 +314,7 @@
     border:1px solid rgba(4,30,66,.35);
   }
 
- .content{padding:6px 16px 14px}
+ .content{padding:0px 16px 14px}
 
 
   .sec{
