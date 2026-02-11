@@ -634,7 +634,8 @@ if (stepsSec) {
   stepsHtml = `
     <details class="sec card steps-card" open>
       <summary>
-       <span class="sec-title">${esc(stepsSec.title || "گام‌های انجام کار")}</span>
+       
+       <span class="sec-title">${esc(stepsSec.heading || stepsSec.title || "گام‌های انجام کار")}</span>
 
         <span class="chev" aria-hidden="true"></span>
       </summary>
@@ -655,7 +656,9 @@ const restSectionsHtml = otherSecs.map((sec, i) => {
   return `
     <details class="sec doc-sec">
       <summary>
-        <span class="sec-title">${esc(sec.title || ("بخش " + (i+1)))}</span>
+       
+       <span class="sec-title">${esc(sec.heading || sec.title || "")}</span>
+
         <span class="chev" aria-hidden="true"></span>
       </summary>
       <div class="sec-body">${body}${ctaHtml}</div>
