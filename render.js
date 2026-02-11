@@ -215,7 +215,7 @@
 
 
  .header{
-  padding:8px 16px 6px;   /* قبلاً 14px 16px 12px بود */
+  padding:3px 16px 1px;   /* قبلاً 14px 16px 12px بود */
   background:#fff;
   border-bottom:none;
 }
@@ -261,7 +261,7 @@
 
   /* ===== HERO (Task-first) ===== */
   .hero{
-    padding:10px 16px 6px;
+    padding:6px 16px 4px;
     background:#fff;
     border-bottom:none;
   }
