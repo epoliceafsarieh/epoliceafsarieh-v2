@@ -557,7 +557,7 @@ details.sec#docs .doc-sec .sec-body{
 
   
 
- @media (max-width: 480px){
+@media (max-width: 480px){
   .wrap{ margin:8px auto 60px; padding:0 10px; }
   .header{ padding:3px 12px 1px; }
   .hero{ padding:6px 12px 4px; }
@@ -567,18 +567,15 @@ details.sec#docs .doc-sec .sec-body{
   .sec{ margin-top:8px; }
   .sec summary{ padding:10px 12px; }
   .sec-body{ padding:10px 12px; }
-}
-
-.sec{ margin-top:8px; }
-
-  
-  .sec summary{ padding:10px 12px; }
-  .sec-body{ padding:10px 12px; }
 
   .footer{ margin-top:10px; padding-top:6px; }
-
   .hero-actions{ gap:8px; margin-top:8px; }
 }
+
+/* نسخه دسکتاپ/عمومی */
+.sec{ margin-top:8px; }
+.sec summary{ padding:10px 12px; }
+.sec-body{ padding:10px 12px; }
 
 /* CTA کوچک کنار زمان/هزینه */
 .meta-cta{
