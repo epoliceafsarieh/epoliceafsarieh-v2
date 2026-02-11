@@ -640,31 +640,33 @@ details.sec#docs .doc-sec .sec-body{
 .header .meta a{ text-decoration:none; }
 
 
+/* ===== زمان و هزینه: فلش همیشه سمت چپ (Safari-safe) ===== */
 .header .meta details.pill > summary{
-  display:flex;
-  align-items:center;
-  justify-content:flex-start;
-  gap:10px;
+  position:relative;
+  display:block;              /* از flex خارج می‌شویم */
+  text-align:center;
+  padding:8px 34px 8px 14px;  /* چپ جا برای فلش */
   direction:rtl;
 }
 
+/* فلش سمت چپ (absolute) */
 .header .meta details.pill > summary::after{
   content:"";
-  width:7px;
-  height:7px;
+  position:absolute;
+  left:14px;                  /* همیشه چسبیده به چپ */
+  top:50%;
+  width:8px;
+  height:8px;
   border-right:3px solid #334155;
   border-bottom:3px solid #334155;
-  transform:translateY(-2px) rotate(45deg);
+  transform:translateY(-55%) rotate(45deg);
   transition:transform .2s ease;
-
-  /* ✅ برای RTL و Safari */
-  margin-left:auto;   /* فلش برود سمت چپ */
-  margin-right:0;
 }
 
 .header .meta details.pill[open] > summary::after{
-  transform:translateY(-2px) rotate(-135deg);
+  transform:translateY(-45%) rotate(-135deg);
 }
+
 
 
 
