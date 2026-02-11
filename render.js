@@ -261,6 +261,7 @@
     border-radius:12px;
     padding:12px;
     background:#fff;
+     direction: rtl; /* اضافه کردن این خط برای درست شدن rtl */
   }
   table{width:100%;border-collapse:collapse;font-size:13px}
   th,td{border:1px solid var(--border);padding:10px;text-align:center}
