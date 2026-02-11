@@ -629,20 +629,16 @@ if (stepsSec) {
 }
 
 // ✅ بقیه بخش‌ها: زیر “آنچه باید بدانید” (بسته، ولی عنوان معلوم)
-const restSectionsHtml = otherSecs.map((sec) => {
+const restSectionsHtml = otherSecs.map((sec, i) => {
   const body = liList(sec.items || []);
   const ctaHtml = (sec.cta && sec.cta.label && sec.cta.href)
     ? `<div class="cta"><a href="${esc(sec.cta.href)}">${esc(sec.cta.label)}</a></div>`
     : "";
- const openAttr = "";
-
 
   return `
-    <details class="sec doc-sec"${openAttr}>
-
-
+    <details class="sec doc-sec">
       <summary>
-        <span class="sec-title">${esc(sec.title || "")}</span>
+        <span class="sec-title">${esc(sec.title || ("بخش " + (i+1)))}</span>
         <span class="chev" aria-hidden="true"></span>
       </summary>
       <div class="sec-body">${body}${ctaHtml}</div>
