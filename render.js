@@ -522,7 +522,8 @@ details.sec#docs > summary {
   align-items: center;
   justify-content: center;
   background: #d1d5db; /* خاکستری روشن */
-  border: 1px solid #e5b12c;
+  border: 1px solid var(--border);
+
   border-radius: 14px;
   padding: 16px 14px;
   color: #334155; /* رنگ خاکستری تیره */
