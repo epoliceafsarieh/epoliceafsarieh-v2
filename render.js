@@ -594,19 +594,18 @@ details.sec#docs .doc-sec .sec-body{
 /* فلش */
 .pill summary::after{
   content:"";
-  width:8px;
-  height:8px;
-  border-right:2px solid #334155;
-  border-bottom:2px solid #334155;
-  transform:rotate(45deg);
+  width:7px;                 /* کوچک‌تر */
+  height:7px;                /* کوچک‌تر */
+  border-right:3px solid #334155;  /* کلفت‌تر (بولدتر) */
+  border-bottom:3px solid #334155; /* کلفت‌تر */
+  transform:translateY(-2px) rotate(45deg); /* کمی بالاتر */
   transition:transform .2s ease;
   margin-right:6px;
 }
-
-/* وقتی باز شد بچرخد */
 .pill[open] summary::after{
-  transform:rotate(-135deg);
+  transform:translateY(-2px) rotate(-135deg); /* در حالت باز هم بالا بماند */
 }
+
 
 
 </style>`;
