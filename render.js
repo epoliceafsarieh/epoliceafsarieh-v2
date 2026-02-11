@@ -967,18 +967,7 @@ ${stepsHtml}
       });
 
       const btnDocs = app.querySelector('.btn-secondary[href="#docs"]');
-      const docsWrapBtn = app.querySelector('details.sec#docs');
-      if (btnDocs && docsWrapBtn) {
-        btnDocs.addEventListener("click", function (e) {
-          e.preventDefault();
-          docsWrapBtn.open = true;
-          docsWrapBtn.scrollIntoView({ behavior: "smooth", block: "start" });
-        });
-      }
-    }
-
-    // ✅ آکاردئون مادر: همیشه باز + متن خاکستری
-    const docsWrap = app.querySelector('details.sec#docs');
+         const docsWrap = app.querySelector('details.sec#docs');
     if (docsWrap) {
       docsWrap.open = true;
       docsWrap.addEventListener("toggle", () => {
@@ -987,7 +976,9 @@ ${stepsHtml}
 
       const span = docsWrap.querySelector("summary span");
       if (span) span.textContent = "مدارک و شرایط";
-      } // پایان renderService
+    }
+
+  } // پایان renderService
 
   const key = window.SERVICE_KEY;
   if (!key) {
@@ -997,5 +988,3 @@ ${stepsHtml}
 
   renderService(key);
 })();
-
-      
