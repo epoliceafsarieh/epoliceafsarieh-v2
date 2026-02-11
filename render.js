@@ -463,10 +463,12 @@ margin:4px 0;
     margin-top:10px;
     overflow:hidden;
   }
-  .faq summary{
-    padding:12px 14px;
-    font-weight:900;
-    background:var(--section-bg);
+  /* آکاردئون‌های FAQ */
+.faq summary {
+  background: var(--section-bg); /* پس‌زمینه سبک */
+  padding: 12px 14px;
+  font-weight: 900;
+  color: #0f172a;
     cursor:pointer;
   }
   .faq .ans{padding:10px 14px;color:#334155;font-size:13px;font-weight:normal}
