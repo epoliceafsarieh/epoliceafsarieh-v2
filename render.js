@@ -602,7 +602,7 @@ details.sec#docs .doc-sec .sec-body{
     }
 
     const metaParts = [];
-    if (svc?.meta?.time) metaParts.push(`<div class="pill">زمان معمول: ${esc(svc.meta.time)}</div>`);
+   
 
     let feeHtml = "";
     const feeKey = svc?.meta?.feeKey;
