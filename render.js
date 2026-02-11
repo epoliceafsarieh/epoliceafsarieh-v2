@@ -627,7 +627,7 @@ details.sec#docs .doc-sec .sec-body{
       return;
     }
 
-  const metaParts = [];
+const metaParts = [];
 
 const feeKey = svc?.meta?.feeKey;
 const feeObj =
@@ -643,11 +643,9 @@ if (hasTime || hasFeeTable) {
     ? svc.feeRows.map(r => ({ title: r.label, value: feeObj[r.field] }))
     : [];
 
-  const feeRowsHtml = feeRows.length
-    ? feeRows.map(r =>
-        `<tr><td>هزینه</td><td>${esc(r.title)}: ${esc(safeText(r.value))}</td></tr>`
-      ).join("")
-    : "";
+  const feeRowsHtml = feeRows.map(r =>
+    `<tr><td>هزینه</td><td>${esc(r.title)}: ${esc(safeText(r.value))}</td></tr>`
+  ).join("");
 
   metaParts.push(`
     <details class="pill">
@@ -658,20 +656,6 @@ if (hasTime || hasFeeTable) {
           ${hasTime ? `<tr><td>زمان</td><td>${esc(svc.meta.time)}</td></tr>` : ""}
           ${feeRowsHtml}
         </table>
-      </div>
-    </details>
-  `);
-}
-
-
-
-
-        ${hasFeeTable ? `
-          <table>
-            <tr><th>عنوان</th><th>مبلغ/توضیح</th></tr>
-            ${rows.map(r => `<tr><td>${esc(r.title)}</td><td>${esc(safeText(r.value))}</td></tr>`).join("")}
-          </table>
-        ` : ""}
       </div>
     </details>
   `);
