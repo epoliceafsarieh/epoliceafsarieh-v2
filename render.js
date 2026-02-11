@@ -789,9 +789,10 @@ const restSectionsHtml = otherSecs.map((sec, i) => {
           <div class="card-clip">
             <div class="header">
               <div class="meta">
-                ${metaParts.join("")}
-                ${feeHtml}
-              </div>
+  ${metaParts.join("")}
+  ${metaCtaHtml}
+</div>
+
             </div>
 
             ${heroHtml}
