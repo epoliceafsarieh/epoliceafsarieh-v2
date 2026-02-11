@@ -101,18 +101,19 @@
   font-style:normal;
   font-display:swap;
 }
- :root{
-    --brand-blue:#041E42;
-    --bg:#f5f7fb;
-    --card:#fff;
-    --text:#0f172a;
-    --muted:#475569;
-    --border:#e6e8ee;
-    --soft:#f1f5ff;
-    --shadow:0 10px 30px rgba(2,8,23,.06);
-    --radius:16px;
-    --section-bg:#f8fbff;
-  }
+:root{
+    --brand-blue:#041E42;   /* رنگ برند شما */
+    --bg:#f5f7fb;          /* پس‌زمینه اصلی */
+    --card:#fff;           /* پس‌زمینه کارت‌ها */
+    --text:#0f172a;        /* متن اصلی */
+    --muted:#475569;       /* متن ثانویه */
+    --border:#e6e8ee;      /* مرزها */
+    --soft:#f1f5ff;        /* پس‌زمینه نرم */
+    --shadow:0 10px 30px rgba(2,8,23,.06); /* سایه کارت‌ها */
+    --radius:16px;         /* شعاع مرزها */
+    --section-bg:#f8fbff;  /* پس‌زمینه سکشن‌ها */
+}
+
 
   *{box-sizing:border-box}
   body{
