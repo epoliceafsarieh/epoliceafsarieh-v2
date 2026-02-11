@@ -262,7 +262,7 @@
 
   /* ===== HERO (Task-first) ===== */
   .hero{
-    padding:6px 16px 4px;
+    padding:6px 16px 0px;
     background:#fff;
     border-bottom:none;
   }
@@ -281,15 +281,15 @@
     display:grid;
     grid-template-columns:1fr;
     gap:10px;
-    margin-top:10px;
+    margin-top:5px;
   }
   .hero-actions.sticky-cta{
     position:sticky;
     top:60px;
     z-index:900;
     background:#fff;
-    padding-top:10px;
-    padding-bottom:10px;
+    padding-top:0px;
+    padding-bottom:0px;
   }
   .btn-primary{
     display:block;
