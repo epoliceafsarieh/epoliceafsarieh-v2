@@ -517,17 +517,21 @@ margin:4px 0;
     background:transparent;
   }
 
- details.sec#docs > summary{
+details.sec#docs > summary{
   display:flex;
   align-items:center;
   justify-content:center;
-  background:#F6C343;
-  border:1px solid #E5B12C;
+
+  background:#C9D1DB;          /* خاکستری مثل عکس */
+  border:1px solid #B7C0CB;     /* خاکستری تیره‌تر */
   border-radius:14px;
-  padding:16px 14px;          /* کمی بلندتر */
+
+  padding:16px 14px;
   color:var(--brand-blue);
-  font-size:0;                 /* متن را عملاً مخفی می‌کند */
+
+  font-size:0;                  /* متن مخفی بماند (مثل الان) */
 }
+
 
 /* متن داخل summary مخفی */
 details.sec#docs > summary span,
