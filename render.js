@@ -608,8 +608,8 @@ details.sec#docs .doc-sec .sec-body{
 /* فلش */
 .pill summary::after{
   content:"";
-  width:7px;                 /* کوچک‌تر */
-  height:7px;                /* کوچک‌تر */
+  width:5px;                 /* کوچک‌تر */
+  height:5px;                /* کوچک‌تر */
   border-right:3px solid #334155;  /* کلفت‌تر (بولدتر) */
   border-bottom:3px solid #334155; /* کلفت‌تر */
   transform:translateY(-2px) rotate(45deg); /* کمی بالاتر */
