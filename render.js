@@ -617,7 +617,8 @@ if (stepsSec) {
   stepsHtml = `
     <details class="sec card steps-card" open>
       <summary>
-        <span class="sec-title">${esc(stepsSec.title || "")}</span>
+       <span class="sec-title">${esc(stepsSec.title || "گام‌های انجام کار")}</span>
+
         <span class="chev" aria-hidden="true"></span>
       </summary>
       <div class="sec-body">
