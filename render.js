@@ -962,7 +962,7 @@ if (backBtn) {
 }
 
 
-  // کار ۵: فقط اگر دکمه‌ی Hero به #docs لینک شده باشد
+// کار ۵: فقط اگر دکمه‌ی Hero به #docs لینک شده باشد
 if (wantsDocsAnchor) {
   requestAnimationFrame(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "auto" });
@@ -989,17 +989,16 @@ if (docsWrap) {
 
   const summary = docsWrap.querySelector("summary");
   if (summary) {
-    summary.textContent = "مدارک و شرایط"; // بدون خراب کردن DOM داخلی
+    summary.textContent = "مدارک و شرایط"; // تغییر متن به طور امن
   }
 }
 
+const key = window.SERVICE_KEY;
+if (!key) {
+  app.innerHTML = `${style}<div class="wrap"><div class="card"><div class="card-clip"><div class="content">شناسه خدمت مشخص نیست.</div></div></div></div>`;
+  return;
+}
 
+renderService(key);
 
-  const key = window.SERVICE_KEY;
-  if (!key) {
-    app.innerHTML = `${style}<div class="wrap"><div class="card"><div class="card-clip"><div class="content">شناسه خدمت مشخص نیست.</div></div></div></div>`;
-    return;
-  }
-
-  renderService(key);
 })();
