@@ -317,20 +317,32 @@
   overflow: hidden;
 }
 
-/* واترمارک واقعی تمام‌سطح: اندازه‌اش دقیقاً اندازه‌ی کارت گام‌هاست */
+/* واترمارک واقعی تمام‌سطح (قابل‌دیدن و هم‌اندازه‌ی کارت) */
 .steps-card .sec-body::before{
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
 
-  background-image: url("assets/img/logo/logo_white.png");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 100% 100%;  /* ✅ دقیقاً هم‌قد و هم‌عرض کارت */
-  opacity: .05;                /* شدت ملایم */
+  /* رنگ واترمارک (خیلی ملایم) */
+  background-color: rgba(4,30,66,.045);
+
+  /* ✅ لوگو به عنوان ماسک، اندازه = اندازه‌ی کارت */
+  -webkit-mask-image: url("assets/img/logo/logo_white.png");
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  -webkit-mask-size: 100% 100%;
+
+  mask-image: url("assets/img/logo/logo_white.png");
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: 100% 100%;
+
+  /* اختیاری ولی خوب برای نرم شدن لبه‌ها */
+  filter: blur(.3px);
 }
+
 
 /* محتوای گام‌ها روی واترمارک */
 .steps-card .wmContent{
