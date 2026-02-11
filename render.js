@@ -609,24 +609,25 @@ details.sec#docs .doc-sec .sec-body{
 .header .meta details.pill > summary{
   display:flex;
   align-items:center;
-  justify-content:center;
+  justify-content:space-between;  /* کلید حل RTL */
   gap:10px;
 }
 
+/* فلش سمت چپ (آخر ردیف) */
 .header .meta details.pill > summary::after{
   content:"";
   width:6px;
   height:6px;
   border-right:3px solid #334155;
   border-bottom:3px solid #334155;
-  transform:translateY(-3px) rotate(45deg);
+  transform:translateY(-2px) rotate(45deg);
   transition:transform .2s ease;
 }
 
-
 .header .meta details.pill[open] > summary::after{
-  transform:translateY(-3px) rotate(-135deg);
+  transform:translateY(-2px) rotate(-135deg);
 }
+
 
 
 </style>`;
