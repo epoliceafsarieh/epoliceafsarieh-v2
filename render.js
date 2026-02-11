@@ -363,16 +363,18 @@
     gap:10px;
     background:var(--section-bg);
   }
-  /* فقط تیتر گام‌های انجام کار */
-.sec:first-of-type summary{
+  
+/* فقط تیتر گام‌های انجام کار (فقط روی steps-card) */
+.steps-card summary{
   justify-content:center;
   text-align:center;
 }
-
-.sec:first-of-type summary span{
+.steps-card summary span{
   font-size:17px;
   font-weight:900;
 }
+
+
 
   .sec summary small{
    display:none;
