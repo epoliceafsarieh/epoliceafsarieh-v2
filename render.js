@@ -576,6 +576,12 @@ details.sec#docs .doc-sec .sec-body{
   .content{ padding:12px 12px 14px; }
 
   .sec{ margin-top:8px; }
+  .content > .steps-card{
+  margin-top:6px;   /* قبلاً 12 بود */
+}
+.sec{ margin-top:8px; }
+
+  
   .sec summary{ padding:10px 12px; }
   .sec-body{ padding:10px 12px; }
 
