@@ -573,36 +573,52 @@ margin:4px 0;
     // سکشن اول (گام‌ها) قبل از دکمه‌های Hero بیاید
     // =========================
     
-    const restSectionsHtml = (svc.sections || []).map((sec, idx) => {
-      // ✅ تغییر ۱: فقط برای سکشن اول (گام‌ها) بولت‌ها حذف شود
-      const body = (idx === 0)
-        ? liList(sec.items || [], { noBullets: true })
-        : liList(sec.items || []);
+    // --- SPLIT: Steps (index 0) separate, others under docs ---
+const sections = Array.isArray(svc.sections) ? svc.sections : [];
+const stepsSec = sections.length ? sections[0] : null;
+const otherSecs = sections.length > 1 ? sections.slice(1) : [];
 
-      const ctaHtml = (sec.cta && sec.cta.label && sec.cta.href)
-        ? `<div class="cta"><a href="${esc(sec.cta.href)}">${esc(sec.cta.label)}</a></div>`
-        : "";
-      const openAttr = (sec && sec.open) ? " open" : "";
+// ✅ گام‌ها: همیشه باز + واترمارک + بدون بولتِ لیست اصلی
+let stepsHtml = "";
+if (stepsSec) {
+  const body = liList(stepsSec.items || [], { noBullets: true });
 
-      const isFirst = idx === 0;
+  const ctaHtml = (stepsSec.cta && stepsSec.cta.label && stepsSec.cta.href)
+    ? `<div class="cta"><a href="${esc(stepsSec.cta.href)}">${esc(stepsSec.cta.label)}</a></div>`
+    : "";
 
-const html = `
-    <details class="sec card${isFirst ? ' steps-card' : ''}"${openAttr}>
+  stepsHtml = `
+    <details class="sec card steps-card" open>
+      <summary>
+        <span class="sec-title">${esc(stepsSec.title || "")}</span>
+        <span class="chev" aria-hidden="true"></span>
+      </summary>
+      <div class="sec-body">
+        <div class="wmContent">${body}${ctaHtml}</div>
+      </div>
+    </details>
+  `;
+}
 
-    <summary>
-      <span class="sec-title">${esc(sec.title || "")}</span>
-      <span class="chev" aria-hidden="true"></span>
-    </summary>
-    <div class="sec-body">
-      ${isFirst ? `<div class="wmContent">${body}${ctaHtml}</div>` : `${body}${ctaHtml}`}
-    </div>
-  </details>
-`;
+// ✅ بقیه بخش‌ها: زیر “آنچه باید بدانید” (بسته، ولی عنوان معلوم)
+const restSectionsHtml = otherSecs.map((sec) => {
+  const body = liList(sec.items || []);
+  const ctaHtml = (sec.cta && sec.cta.label && sec.cta.href)
+    ? `<div class="cta"><a href="${esc(sec.cta.href)}">${esc(sec.cta.label)}</a></div>`
+    : "";
+  const openAttr = (sec && sec.open) ? " open" : "";
 
+  return `
+    <details class="sec"${openAttr}>
+      <summary>
+        <span class="sec-title">${esc(sec.title || "")}</span>
+        <span class="chev" aria-hidden="true"></span>
+      </summary>
+      <div class="sec-body">${body}${ctaHtml}</div>
+    </details>
+  `;
+}).join("");
 
-    
-      return html;
-    }).join("");
 
  
      const heroHtml = hasHero ? `
