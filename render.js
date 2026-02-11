@@ -184,22 +184,37 @@
     letter-spacing:-.2px;
   }
 
- .back-btn{
-  width:16px !important;
-  height:16px !important;
-  padding:0 !important;
+.back-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+  background:transparent;
+  border:0;
+  border-radius:0;
+  font-size:0;            /* متن "بازگشت" دیده نشود */
+  cursor:pointer;
+  color:#fff;
+  z-index:3;
+
+  /* اندازه کلیک */
+  width:28px;
+  height:28px;
+
+  /* فاصله از لبه */
+  margin-left:4px;
+  padding:0;
 }
 
 .back-btn::before{
-  width:8px !important;
-  height:8px !important;
-  border-left:2.4px solid rgba(255,255,255,.95) !important;
-  border-bottom:2.4px solid rgba(255,255,255,.95) !important;
+  content:"";
+  width:8px;              /* فلش کوچک */
+  height:8px;
+  border-left:2.4px solid rgba(255,255,255,.95);
+  border-bottom:2.4px solid rgba(255,255,255,.95);
+  transform:rotate(45deg);
 }
 
-
-/* ناحیه کلیک کمی بزرگ‌تر ولی نامرئی */
-.back-btn{ margin-left:4px; }
 
 
  .header{
