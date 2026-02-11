@@ -961,26 +961,37 @@ if (backBtn) {
 }
 
 
-    // کار ۵: کلیک روی «مدارک لازم را ببین» => آکاردئون مادر باز شود و به آن اسکرول کند
-    if (wantsDocsAnchor) {    // همیشه بعد از رندر، صفحه از بالا شروع شود (موبایل/دسکتاپ)
-    requestAnimationFrame(() => {
-      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
-    });
-
-      const btnDocs = app.querySelector('.btn-secondary[href="#docs"]');
-    const docsWrap = app.querySelector('details.sec#docs');
-if (docsWrap) {
-  docsWrap.setAttribute("open", ""); // همیشه باز نگه داشتن آکاردئون
-  docsWrap.addEventListener("toggle", () => {
-    docsWrap.setAttribute("open", ""); // جلوگیری از بسته شدن
+  // کار ۵: فقط اگر دکمه‌ی Hero به #docs لینک شده باشد
+if (wantsDocsAnchor) {
+  requestAnimationFrame(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
   });
 
-  // تغییر متن آکاردئون به "مدارک و شرایط"
-  const summary = docsWrap.querySelector('summary');
-  if (summary) {
-    summary.innerHTML = "مدارک و شرایط"; // تغییر متن
+  const btnDocs = app.querySelector('.btn-secondary[href="#docs"]');
+  const docsWrap = app.querySelector('details.sec#docs');
+  if (btnDocs && docsWrap) {
+    btnDocs.addEventListener("click", function (e) {
+      e.preventDefault();
+      docsWrap.open = true;
+      docsWrap.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
   }
 }
+
+// ✅ این بخش باید همیشه اجرا شود (نه داخل if بالا)
+const docsWrap = app.querySelector('details.sec#docs');
+if (docsWrap) {
+  docsWrap.open = true; // همیشه باز
+  docsWrap.addEventListener("toggle", () => {
+    if (!docsWrap.open) docsWrap.open = true; // جلوگیری از بسته شدن
+  });
+
+  const summary = docsWrap.querySelector("summary");
+  if (summary) {
+    summary.textContent = "مدارک و شرایط"; // بدون خراب کردن DOM داخلی
+  }
+}
+
 
 
   const key = window.SERVICE_KEY;
