@@ -968,16 +968,20 @@ if (backBtn) {
     });
 
       const btnDocs = app.querySelector('.btn-secondary[href="#docs"]');
-      const docsWrap = app.querySelector('details.sec#docs');
-      if (btnDocs && docsWrap) {
-        btnDocs.addEventListener("click", function (e) {
-          e.preventDefault();
-          docsWrap.setAttribute("open", "");
-          docsWrap.scrollIntoView({ behavior: "smooth", block: "start" });
-        });
-      }
-    }
+    const docsWrap = app.querySelector('details.sec#docs');
+if (docsWrap) {
+  docsWrap.setAttribute("open", ""); // همیشه باز نگه داشتن آکاردئون
+  docsWrap.addEventListener("toggle", () => {
+    docsWrap.setAttribute("open", ""); // جلوگیری از بسته شدن
+  });
+
+  // تغییر متن آکاردئون به "مدارک و شرایط"
+  const summary = docsWrap.querySelector('summary');
+  if (summary) {
+    summary.innerHTML = "مدارک و شرایط"; // تغییر متن
   }
+}
+
 
   const key = window.SERVICE_KEY;
   if (!key) {
