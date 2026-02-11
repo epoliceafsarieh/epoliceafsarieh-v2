@@ -312,12 +312,7 @@
   overflow:hidden;  /* جلوگیری از بیرون‌زدگی در Chrome */
 }
 
-/* اطمینان از اینکه وقتی گام‌ها کوتاه باشند، واترمارک دیده شود */
-.steps-card .sec-body{
-  position:relative;
-  min-height:140px;  /* حداقل ارتفاع برای اینکه واترمارک همیشه دیده شود */
-  padding-top:20px;  /* افزایش فضای بالا برای تعادل */
-}
+
 
 /* لایه واترمارک */
 .steps-card .sec-body::before{
