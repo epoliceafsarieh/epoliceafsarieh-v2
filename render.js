@@ -599,12 +599,14 @@ details.sec#docs .doc-sec .sec-body{
   padding:8px 12px;
   border-radius:999px;
   background:var(--brand-blue);
-  color:#fff;
-  text-decoration:none;
+  color:#fff !important;
+  text-decoration:none !important;
   font-weight:900;
   font-size:13px;
   border:1px solid var(--brand-blue);
 }
+
+.header .meta a{ text-decoration:none; }
 
 
 .header .meta details.pill > summary{
