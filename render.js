@@ -934,48 +934,68 @@ ${stepsHtml}
       ${bottomCtaHtml}
     `;
 
-    // ✅ فقط همین تغییرات: هندلر بازگشت بعد از رندر
-   const backBtn = app.querySelector("#backBtn");
-if (backBtn) {
-  backBtn.addEventListener("click", function (e) {
-    e.preventDefault();
+    // ✅ هندلر بازگشت بعد از رندر
+    const backBtn = app.querySelector("#backBtn");
+    if (backBtn) {
+      backBtn.addEventListener("click", function (e) {
+        e.preventDefault();
 
-    const params = new URLSearchParams(location.search);
-    const from = params.get("from");
+        const params = new URLSearchParams(location.search);
+        const from = params.get("from");
 
-    if (from === "all") {
-      location.href = "all.html";
-      return;
+        if (from === "all") {
+          location.href = "all.html";
+          return;
+        }
+
+        const origin = sessionStorage.getItem("serviceFrom");
+        if (origin) {
+          location.href = origin;
+          return;
+        }
+
+        location.href = "index.html";
+      });
+
+      backBtn.setAttribute("aria-label", "بازگشت");
     }
 
-    const origin = sessionStorage.getItem("serviceFrom");
-    if (origin) {
-      location.href = origin;
-      return;
+    // کار ۵: فقط اگر دکمه‌ی Hero به #docs لینک شده باشد
+    if (wantsDocsAnchor) {
+      requestAnimationFrame(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      });
+
+      const btnDocs = app.querySelector('.btn-secondary[href="#docs"]');
+      const docsWrapBtn = app.querySelector('details.sec#docs');
+      if (btnDocs && docsWrapBtn) {
+        btnDocs.addEventListener("click", function (e) {
+          e.preventDefault();
+          docsWrapBtn.open = true;
+          docsWrapBtn.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+      }
     }
 
-    location.href = "index.html";
-  });
-
-  // افزودن aria-label به دکمه بازگشت
-  backBtn.setAttribute("aria-label", "بازگشت");
-}
-
-
-// کار ۵: فقط اگر دکمه‌ی Hero به #docs لینک شده باشد
-if (wantsDocsAnchor) {
-  requestAnimationFrame(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
-  });
-
-  const btnDocs = app.querySelector('.btn-secondary[href="#docs"]');
-  const docsWrap = app.querySelector('details.sec#docs');
-  if (btnDocs && docsWrap) {
-    btnDocs.addEventListener("click", function (e) {
-      e.preventDefault();
+    // ✅ آکاردئون مادر: همیشه باز + متن خاکستری
+    const docsWrap = app.querySelector('details.sec#docs');
+    if (docsWrap) {
       docsWrap.open = true;
-      docsWrap.scrollIntoView({ behavior: "smooth", block: "start" });
-    });
-  }
-}
+      docsWrap.addEventListener("toggle", () => {
+        if (!docsWrap.open) docsWrap.open = true;
+      });
 
+      const span = docsWrap.querySelector("summary span");
+      if (span) span.textContent = "مدارک و شرایط";
+      } // پایان renderService
+
+  const key = window.SERVICE_KEY;
+  if (!key) {
+    app.innerHTML = `${style}<div class="wrap"><div class="card"><div class="card-clip"><div class="content">شناسه خدمت مشخص نیست.</div></div></div></div>`;
+    return;
+  }
+
+  renderService(key);
+})();
+
+      
