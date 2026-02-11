@@ -274,17 +274,20 @@
     background:#fff;
     border-bottom:none;
   }
-  .hero-title{
-    font-weight:900;
-    font-size:16px;
-    margin:0 0 6px;
-  }
-  .hero-sub{
-    margin:0 0 10px;
-    color:#334155;
-    font-size:13px;
-    font-weight:500;
-  }
+  .hero-title {
+  font-weight: 900;
+  font-size: 22px;  /* تغییر به 22px */
+  color: #0f172a;  /* رنگ سرمه‌ای */
+  margin: 0 0 6px;
+}
+
+.hero-sub {
+  font-size: 14px;  /* تغییر به 14px */
+  color: #334155;  /* رنگ خاکستری تیره */
+  font-weight: 500;
+  margin: 0 0 10px;
+}
+
   .hero-actions{
     display:grid;
     grid-template-columns:1fr;
