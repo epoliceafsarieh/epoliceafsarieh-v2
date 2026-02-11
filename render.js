@@ -305,28 +305,47 @@
     border-radius:12px;
     background:#fff;
     overflow:hidden;
-  }
-    /* ===== Watermark (only behind first section / steps) ===== */
-  .stepsWrap{ position:relative; }
+  }/* ===== Watermark behind first section (Steps) ===== */
+.steps-card{
+  position:relative;
+  overflow:hidden;           /* مهم: جلوگیری از بیرون‌زدگی در Chrome */
+}
 
-  .stepsWrap .wmLogo{
-    position:absolute;
-    left:50%;
-    top:50%;
-    transform:translate(-50%,-50%);
-    width:220px;
-    height:auto;
+.steps-card .sec-body{
+  position:relative;
+}
 
-    opacity:.045;
-    pointer-events:none;
-    z-index:0;
+/* لایه واترمارک */
+.steps-card .sec-body::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
 
-    /* چون logo_white.png سفید است، روی زمینه سفید دیده نمی‌شود */
-    filter: invert(1) brightness(.22) saturate(0);
-  }
+  /* شدت/رنگ واترمارک */
+  background-color: rgba(4,30,66,.08);
 
-  /* محتوای گام‌ها روی واترمارک */
-  .stepsWrap .sec{ position:relative; z-index:1; }
+  /* استفاده از لوگوی سفید به‌عنوان ماسک تا واترمارک سورمه‌ای شود */
+  -webkit-mask-image: url("assets/img/logo/logo_white.png");
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  -webkit-mask-size: 260px;
+
+  mask-image: url("assets/img/logo/logo_white.png");
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: 260px;
+
+  opacity: 1;
+}
+
+/* محتوا روی واترمارک */
+.steps-card .wmContent{
+  position:relative;
+  z-index:1;
+}
+
 
   .sec summary{
     padding:12px 14px;
@@ -557,15 +576,20 @@ margin:4px 0;
         : "";
       const openAttr = (sec && sec.open) ? " open" : "";
 
-      const html = `
-        <details class="sec"${openAttr}>
-          <summary>
-            <span>${esc(sec.heading || "")}</span>
-            <small>${esc(sec.tag || "")}</small>
-          </summary>
-          <div class="sec-body">${body}${ctaHtml}</div>
-        </details>
-      `;
+      const isFirst = idx === 0;
+
+const html = `
+  <details class="sec card${isFirst ? ' steps-card' : ''}" ${isOpen ? 'open' : ''}>
+    <summary>
+      <span class="sec-title">${esc(sec.title || "")}</span>
+      <span class="chev" aria-hidden="true"></span>
+    </summary>
+    <div class="sec-body">
+      ${isFirst ? `<div class="wmContent">${body}${ctaHtml}</div>` : `${body}${ctaHtml}`}
+    </div>
+  </details>
+`;
+
 
       if (idx === 0) {
         firstSectionHtml = html;
