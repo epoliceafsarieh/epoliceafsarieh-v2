@@ -485,14 +485,15 @@ margin:4px 0;
   }
 
   details.sec#docs > summary{
-    justify-content:center;
-    text-align:center;
-    background:#fff;
-    border:1px solid rgba(4,30,66,.35);
-    border-radius:14px;
-    padding:12px 14px;
-    color:var(--brand-blue);
-  }
+  justify-content:center;
+  text-align:center;
+  background:#F6C343;           /* زرد */
+  border:1px solid #E5B12C;      /* زرد تیره‌تر */
+  border-radius:14px;
+  padding:12px 14px;
+  color:var(--brand-blue);       /* متن سرمه‌ای بماند */
+}
+
 
   details.sec#docs[open] > summary{
     border-radius:14px 14px 0 0;
