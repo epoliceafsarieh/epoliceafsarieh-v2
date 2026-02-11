@@ -640,20 +640,26 @@ details.sec#docs .doc-sec .sec-body{
 .header .meta a{ text-decoration:none; }
 
 
-/* ===== زمان و هزینه: فلش همیشه سمت چپ (Safari-safe) ===== */
-.header .meta details.pill > summary{
-  position:relative;
-  display:block;              /* از flex خارج می‌شویم */
-  text-align:center;
-  padding:8px 34px 8px 14px;  /* چپ جا برای فلش */
-  direction:rtl;
+/* ===== زمان و هزینه: RTL قطعی در همه مرورگرها ===== */
+.header .meta details.pill{
+  direction: rtl;                 /* کل کنترل RTL */
 }
 
-/* فلش سمت چپ (absolute) */
+.header .meta details.pill > summary{
+  position:relative;
+  display:block;                  /* flex ممنوع */
+  direction:rtl;                  /* قفل RTL روی خود summary */
+  unicode-bidi:plaintext;         /* جلوگیری از قاطی شدن bidi */
+  text-align:center;
+  padding:8px 14px 8px 36px;      /* جای فلش در چپ */
+  line-height:1.2;
+}
+
+/* فلش همیشه سمت چپِ pill */
 .header .meta details.pill > summary::after{
   content:"";
   position:absolute;
-  left:14px;                  /* همیشه چسبیده به چپ */
+  left:14px;
   top:50%;
   width:8px;
   height:8px;
@@ -666,6 +672,7 @@ details.sec#docs .doc-sec .sec-body{
 .header .meta details.pill[open] > summary::after{
   transform:translateY(-45%) rotate(-135deg);
 }
+
 
 
 
