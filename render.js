@@ -305,14 +305,17 @@
     border-radius:12px;
     background:#fff;
     overflow:hidden;
-  }/* ===== Watermark behind first section (Steps) ===== */
+  }
+ /* ===== Watermark behind first section (Steps) ===== */
 .steps-card{
   position:relative;
-  overflow:hidden;           /* مهم: جلوگیری از بیرون‌زدگی در Chrome */
+  overflow:hidden;                /* جلوگیری از بیرون‌زدگی در Chrome */
 }
 
+/* حداقل ارتفاع کم تا در گام‌های کوتاه هم واترمارک «وجود» داشته باشد */
 .steps-card .sec-body{
   position:relative;
+  min-height:120px;               /* اگر هنوز کم بود: 140px */
 }
 
 /* لایه واترمارک */
@@ -323,21 +326,19 @@
   pointer-events:none;
   z-index:0;
 
-  /* شدت/رنگ واترمارک */
-  background-color: rgba(4,30,66,.08);
+  /* شدت کمتر و حرفه‌ای‌تر */
+  background-color: rgba(4,30,66,.06);
 
-  /* استفاده از لوگوی سفید به‌عنوان ماسک تا واترمارک سورمه‌ای شود */
+  /* لوگو به‌صورت ماسک (به رنگ سورمه‌ای) */
   -webkit-mask-image: url("assets/img/logo/logo_white.png");
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-position: center;
-  -webkit-mask-size: clamp(140px, 38vw, 190px);
+  -webkit-mask-size: clamp(140px, 42vw, 210px);
 
   mask-image: url("assets/img/logo/logo_white.png");
   mask-repeat: no-repeat;
   mask-position: center;
- mask-size: clamp(140px, 38vw, 190px);
-
-  opacity: 1;
+  mask-size: clamp(140px, 42vw, 210px);
 }
 
 /* محتوا روی واترمارک */
@@ -345,7 +346,6 @@
   position:relative;
   z-index:1;
 }
-
 
   .sec summary{
     padding:12px 14px;
