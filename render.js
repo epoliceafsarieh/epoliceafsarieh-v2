@@ -504,15 +504,39 @@ margin:4px 0;
     background:transparent;
   }
 
-  details.sec#docs > summary{
+ details.sec#docs > summary{
+  display:flex;
+  align-items:center;
   justify-content:center;
-  text-align:center;
-  background:#F6C343;           /* زرد */
-  border:1px solid #E5B12C;      /* زرد تیره‌تر */
+  background:#F6C343;
+  border:1px solid #E5B12C;
   border-radius:14px;
-  padding:12px 14px;
-  color:var(--brand-blue);       /* متن سرمه‌ای بماند */
+  padding:16px 14px;          /* کمی بلندتر */
+  color:var(--brand-blue);
+  font-size:0;                 /* متن را عملاً مخفی می‌کند */
 }
+
+/* متن داخل summary مخفی */
+details.sec#docs > summary span,
+details.sec#docs > summary small{
+  display:none !important;
+}
+
+/* فلش بزرگ وسط */
+details.sec#docs > summary::after{
+  content:"";
+  width:14px;
+  height:14px;
+  border-right:4px solid rgba(4,30,66,.95);
+  border-bottom:4px solid rgba(4,30,66,.95);
+  transform:translateY(-2px) rotate(45deg);
+  transition:transform .2s ease;
+}
+
+details.sec#docs[open] > summary::after{
+  transform:translateY(-2px) rotate(-135deg);
+}
+
 
 
   details.sec#docs[open] > summary{
