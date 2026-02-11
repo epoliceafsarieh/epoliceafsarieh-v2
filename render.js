@@ -217,19 +217,23 @@
   transform:rotate(45deg);
 }
 .header{
-  padding:26px 16px 14px;   /* فضای سفید کنترل‌شده */
+  padding:10px 16px 10px;   /* کمتر */
   background:#fff;
   border-bottom:none;
 }
 
-  .meta{
+.meta{
   display:flex;
   gap:10px;
   flex-wrap:wrap;
   justify-content:center;
   align-items:center;
-  margin:0;              /* مهم */
+
+  padding-top:18px;         /* ✅ این «پایین‌آوردن» واقعی است */
+  padding-bottom:6px;
+  margin:0;
 }
+
 
 
   
