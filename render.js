@@ -618,13 +618,6 @@ details.sec#docs .doc-sec .sec-body{
 }
 
 
-/* حالت باز */
-.header .meta details.pill[open] > summary::after{
-  transform:translateY(-3px) rotate(-135deg);
-}
-
-
-
 </style>`;
 
   function renderService(serviceKey) {
