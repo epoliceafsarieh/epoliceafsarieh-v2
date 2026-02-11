@@ -505,21 +505,29 @@ margin:4px 0;
     background:#fff;
   }
 
-/* فقط سکشن‌های داخل #docs: ساده و قابل‌دیدن */
-details.sec#docs .sec{
-  border:0;
-  background:transparent;
-  box-shadow:none;
-  margin-top:0;
+/* سکشن‌های داخل #docs (فرزندها) */
+details.sec#docs .doc-sec{
+  margin-top:10px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  background:#fff;
+  overflow:hidden;
 }
 
-details.sec#docs .sec summary{
-  border-top:1px solid var(--border);
-}
-details.sec#docs .sec:first-child summary{
-  border-top:0;
+details.sec#docs .doc-sec summary{
+  padding:12px 14px;
+  font-size:15px;
+  font-weight:900;
+  color:#0f172a;
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  background:var(--section-bg);
 }
 
+details.sec#docs .doc-sec .sec-body{
+  padding:12px 14px;
+}
 
 
   
