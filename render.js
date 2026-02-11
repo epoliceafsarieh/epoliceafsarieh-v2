@@ -1974,6 +1974,9 @@ if (docsWrap) {
   }
 }
 
+// ✅ این آکولادِ بسته شدن renderService جا افتاده بود
+}  // <--- اضافه شود (پایان renderService)
+
 const key = window.SERVICE_KEY;
 if (!key) {
   app.innerHTML = `${style}<div class="wrap"><div class="card"><div class="card-clip"><div class="content">شناسه خدمت مشخص نیست.</div></div></div></div>`;
