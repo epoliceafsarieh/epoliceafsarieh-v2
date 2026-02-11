@@ -960,14 +960,26 @@ ${stepsHtml}
       backBtn.setAttribute("aria-label", "بازگشت");
     }
 
-    // کار ۵: فقط اگر دکمه‌ی Hero به #docs لینک شده باشد
+       // کار ۵: فقط اگر دکمه‌ی Hero به #docs لینک شده باشد
     if (wantsDocsAnchor) {
       requestAnimationFrame(() => {
         window.scrollTo({ top: 0, left: 0, behavior: "auto" });
       });
 
       const btnDocs = app.querySelector('.btn-secondary[href="#docs"]');
-         const docsWrap = app.querySelector('details.sec#docs');
+      const docsWrapBtn = app.querySelector('details.sec#docs');
+
+      if (btnDocs && docsWrapBtn) {
+        btnDocs.addEventListener("click", function (e) {
+          e.preventDefault();
+          docsWrapBtn.open = true;
+          docsWrapBtn.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+      }
+    }
+
+    // ✅ آکاردئون مادر: همیشه باز + تغییر متن
+    const docsWrap = app.querySelector('details.sec#docs');
     if (docsWrap) {
       docsWrap.open = true;
       docsWrap.addEventListener("toggle", () => {
