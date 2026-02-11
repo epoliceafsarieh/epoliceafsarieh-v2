@@ -627,6 +627,23 @@ details.sec#docs .doc-sec .sec-body{
 .header .meta details.pill[open] > summary::after{
   transform:translateY(-2px) rotate(-135deg);
 }
+/* فلش برای "آنچه باید بدانید" */
+details.sec#docs > summary::after{
+  content:"";
+  width:7px;
+  height:7px;
+  border-right:3px solid rgba(4,30,66,.95);
+  border-bottom:3px solid rgba(4,30,66,.95);
+  transform:translateY(-2px) rotate(45deg);
+  transition:transform .2s ease;
+  margin-right:10px; /* فاصله از متن */
+}
+
+details.sec#docs[open] > summary::after{
+  transform:translateY(-2px) rotate(-135deg);
+}
+
+
 
 
 
