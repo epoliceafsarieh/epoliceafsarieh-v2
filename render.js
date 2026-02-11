@@ -504,6 +504,23 @@ margin:4px 0;
     border-radius:0 0 14px 14px;
     background:#fff;
   }
+ /* ===== FIX: کشوهای داخل "آنچه باید بدانید" عنوان‌شان دیده شود ===== */
+
+/* جلوگیری از اینکه قوانین کلی .sec summary، کشوهای داخل docs را خراب کند */
+details.sec#docs .doc-sec > summary{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  text-align:right;
+}
+
+/* تضمین نمایش تیتر (مخصوصاً iOS Safari که گاهی span را می‌بلعد/کوچک می‌کند) */
+details.sec#docs .doc-sec > summary .sec-title{
+  display:block;
+  flex:1;
+  white-space:normal;
+}
+ 
 
 /* سکشن‌های داخل #docs (فرزندها) */
 details.sec#docs .doc-sec{
