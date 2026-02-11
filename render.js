@@ -629,7 +629,8 @@ const restSectionsHtml = otherSecs.map((sec) => {
 
 
   return `
-    <details class="sec"${openAttr}>
+    <details class="doc-sec"${openAttr}>
+
       <summary>
         <span class="sec-title">${esc(sec.title || "")}</span>
         <span class="chev" aria-hidden="true"></span>
