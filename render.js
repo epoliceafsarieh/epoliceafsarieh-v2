@@ -639,9 +639,9 @@ details.sec#docs .doc-sec .sec-body{
   align-items:center;
   justify-content:flex-start;
   gap:10px;
+  direction:rtl;
 }
 
-/* فلش سمت چپ */
 .header .meta details.pill > summary::after{
   content:"";
   width:7px;
@@ -650,12 +650,16 @@ details.sec#docs .doc-sec .sec-body{
   border-bottom:3px solid #334155;
   transform:translateY(-2px) rotate(45deg);
   transition:transform .2s ease;
-  margin-right:auto;     /* این باعث می‌شود برود سمت چپ */
+
+  /* ✅ برای RTL و Safari */
+  margin-left:auto;   /* فلش برود سمت چپ */
+  margin-right:0;
 }
 
 .header .meta details.pill[open] > summary::after{
   transform:translateY(-2px) rotate(-135deg);
 }
+
 
 
 </style>`;
