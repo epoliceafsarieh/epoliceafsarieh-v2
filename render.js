@@ -565,6 +565,33 @@ details.sec#docs .doc-sec .sec-body{
   .hero-actions{ gap:8px; margin-top:8px; }
 }
 
+/* CTA کوچک کنار زمان/هزینه */
+.meta-cta{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:8px 12px;
+  border-radius:999px;
+  background:var(--brand-blue);
+  color:#fff;
+  text-decoration:none;
+  font-weight:900;
+  font-size:13px;
+  border:1px solid var(--brand-blue);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 </style>`;
 
   function renderService(serviceKey) {
