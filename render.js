@@ -822,19 +822,20 @@ const restSectionsHtml = otherSecs.map((sec, i) => {
   : "";
 
 
-   const faqHtml = (svc.faqEnabled === true && svc.faq && svc.faq.length)
+ const faqHtml = (svc.faqEnabled === true && svc.faq && svc.faq.length)
   ? `
-    <div class="faq">
-      <div class="faq-title">سؤالات پرتکرار</div>
-      ${svc.faq.map(f => `
-        <details>
-          <summary>${esc(f.q || "")}</summary>
-          <div class="ans">${esc(f.a || "")}</div>
-        </details>
-      `).join("")}
-    </div>
+    <details class="sec doc-sec">
+      <summary><span class="sec-title">سؤالات پرتکرار</span><span class="chev" aria-hidden="true"></span></summary>
+      <div class="sec-body">
+        ${svc.faq.map(f => `
+          <div style="font-weight:900;margin:10px 0 6px">${esc(f.q || "")}</div>
+          <div style="color:#334155;font-size:13px;line-height:1.9">${esc(f.a || "")}</div>
+        `).join("")}
+      </div>
+    </details>
   `
   : "";
+
 
 
     const iconHtml = svc.icon
