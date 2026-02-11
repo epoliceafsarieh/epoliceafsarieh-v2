@@ -184,8 +184,8 @@
   }
 
   .back-btn{
-  width:34px;
-  height:34px;
+  width:20px;
+  height:20px;
   display:inline-flex;
   align-items:center;
   justify-content:center;
