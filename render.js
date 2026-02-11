@@ -332,12 +332,12 @@
   -webkit-mask-image: url("assets/img/logo/logo_white.png");
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-position: center;
-  -webkit-mask-size: 100% 100%;
+  -webkit-mask-size: auto 100%;
 
   mask-image: url("assets/img/logo/logo_white.png");
   mask-repeat: no-repeat;
   mask-position: center;
-  mask-size: 100% 100%;
+  mask-size: auto 100%;
 
   /* اختیاری ولی خوب برای نرم شدن لبه‌ها */
   filter: blur(.3px);
