@@ -602,7 +602,7 @@ details.sec#docs .doc-sec .sec-body{
       return;
     }
 
-    const metaParts = [];
+  const metaParts = [];
 
 const feeKey = svc?.meta?.feeKey;
 const feeObj =
@@ -634,33 +634,6 @@ if (hasTime || hasFeeTable) {
   `);
 }
 
-const hasTime = !!svc?.meta?.time;
-const hasFeeTable = !!(feeObj && Array.isArray(svc.feeRows) && svc.feeRows.length);
-
-let timeFeeDetails = "";
-
-if (hasTime || hasFeeTable) {
-  const rows = hasFeeTable
-    ? svc.feeRows.map(r => ({ title: r.label, value: feeObj[r.field] }))
-    : [];
-
-  timeFeeDetails = `
-    <details class="pill">
-      <summary>زمان و هزینه (جزئیات)</summary>
-      <div class="fee-box">
-        ${hasTime ? `<div style="font-weight:900;margin-bottom:8px">زمان معمول: ${esc(svc.meta.time)}</div>` : ""}
-        ${hasFeeTable ? `
-          <table>
-            <tr><th>عنوان</th><th>مبلغ/توضیح</th></tr>
-            ${rows.map(r => `<tr><td>${esc(r.title)}</td><td>${esc(safeText(r.value))}</td></tr>`).join("")}
-          </table>
-        ` : ""}
-      </div>
-    </details>
-  `;
-}
-
-if (timeFeeDetails) metaParts.push(timeFeeDetails);
 
 
     // === HERO: فقط اگر سرویس واقعاً داده داده باشد ===
