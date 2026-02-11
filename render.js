@@ -568,17 +568,18 @@ details.sec#docs .doc-sec .sec-body{
 
   
 
-  @media (max-width: 480px){
-  .wrap{ margin:10px auto 60px; padding:0 10px; }
-  .header{ padding:10px 12px 8px; }
+ @media (max-width: 480px){
+  .wrap{ margin:8px auto 60px; padding:0 10px; }
+  .header{ padding:3px 12px 1px; }
+  .hero{ padding:6px 12px 4px; }
+  .content{ padding:6px 12px 12px; }
 
-  .hero{ padding:10px 12px 10px; }
-  .content{ padding:12px 12px 14px; }
-
+  .content > .steps-card{ margin-top:6px; }
   .sec{ margin-top:8px; }
-  .content > .steps-card{
-  margin-top:6px;   /* قبلاً 12 بود */
+  .sec summary{ padding:10px 12px; }
+  .sec-body{ padding:10px 12px; }
 }
+
 .sec{ margin-top:8px; }
 
   
