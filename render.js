@@ -610,11 +610,25 @@ const html = `
     ${heroSubtitle ? `<p class="hero-sub">${heroSubtitle}</p>` : ""}
 
     <div class="hero-actions sticky-cta">
-      ...
+     const heroHtml = hasHero ? `
+  <div class="hero">
+
+    ${svc.heroTitle ? `<h2 class="hero-title">${esc(svc.heroTitle)}</h2>` : ""}
+
+    ${heroSubtitle ? `<p class="hero-sub">${heroSubtitle}</p>` : ""}
+
+    <div class="hero-actions sticky-cta">
+      ${heroPrimary?.label && heroPrimary?.href
+        ? `<a class="btn-primary" href="${esc(heroPrimary.href)}">${esc(heroPrimary.label)}</a>`
+        : ""
+      }
+      ${heroSecondary?.label && heroSecondary?.href
+        ? `<a class="btn-secondary" href="${esc(heroSecondary.href)}">${esc(heroSecondary.label)}</a>`
+        : ""
+      }
     </div>
   </div>
 ` : "";
-
 
     const noticeList =
       (svc.notDone && svc.notDone.length) ? svc.notDone
