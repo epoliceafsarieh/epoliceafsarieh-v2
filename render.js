@@ -214,6 +214,7 @@
     align-items:center;
     margin-top:6px;
   }
+  
 
   .pill{
     background:var(--soft);
@@ -579,6 +580,16 @@ details.sec#docs .doc-sec .sec-body{
   font-weight:900;
   font-size:13px;
   border:1px solid var(--brand-blue);
+}
+.meta-chev {
+  font-weight: 900;
+  margin-right: 6px;
+  opacity: 0.8;
+}
+
+details[open] .meta-chev {
+  transform: rotate(180deg);
+  display: inline-block;
 }
 
 
