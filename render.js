@@ -570,7 +570,7 @@ margin:4px 0;
     // تغییر ۶ (فقط همین):
     // سکشن اول (گام‌ها) قبل از دکمه‌های Hero بیاید
     // =========================
-    let firstSectionHtml = "";
+    
     const restSectionsHtml = (svc.sections || []).map((sec, idx) => {
       // ✅ تغییر ۱: فقط برای سکشن اول (گام‌ها) بولت‌ها حذف شود
       const body = (idx === 0)
