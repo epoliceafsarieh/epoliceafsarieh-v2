@@ -890,14 +890,15 @@ ${stepsHtml}
                   <span> آنچه باید بدانید </span>
                   <small></small>
                 </summary>
-                <div class="sec-body">
-                  ${restSectionsHtml}
-                </div>
+               <div class="sec-body">
+  ${restSectionsHtml}
+  ${notDoneHtml}
+  ${faqHtml}
+</div>
+
               </details>
 
-              ${notDoneHtml}
-              ${faqHtml}
-
+           
               <div class="footer">
                 <span class="hint">این راهنما به مرور کامل‌تر می‌شود</span>
               </div>
