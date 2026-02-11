@@ -123,7 +123,8 @@
     line-height:1.95;
   }
 
-  .wrap{max-width:860px;margin:18px auto 90px;padding:0 14px}
+ .wrap{max-width:860px;margin:8px auto 70px;padding:0 14px}
+
   .card{
     background:var(--card);
     border:1px solid var(--border);
