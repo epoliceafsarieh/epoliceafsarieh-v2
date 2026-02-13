@@ -964,31 +964,6 @@ ${stepsHtml}
       ${bottomCtaHtml}
     `;
 
-    // ✅ هندلر بازگشت بعد از رندر
-    const backBtn = app.querySelector("#backBtn");
-    if (backBtn) {
-      backBtn.addEventListener("click", function (e) {
-        e.preventDefault();
-
-        const params = new URLSearchParams(location.search);
-        const from = params.get("from");
-
-        if (from === "all") {
-          location.href = "all.html";
-          return;
-        }
-
-        const origin = sessionStorage.getItem("serviceFrom");
-        if (origin) {
-          location.href = origin;
-          return;
-        }
-
-        location.href = "index.html";
-      });
-
-      backBtn.setAttribute("aria-label", "بازگشت");
-    }
       
 
        // کار ۵: فقط اگر دکمه‌ی Hero به #docs لینک شده باشد
