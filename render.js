@@ -958,12 +958,13 @@ ${stepsHtml}
   <!-- علامت +/− برای این بخش حذف شد -->
 </summary>
 
-
-               <div class="sec-body">
+<div class="sec-body">
   ${restSectionsHtml}
+  ${feeSectionHtml}
   ${notDoneHtml}
   ${faqHtml}
 </div>
+
 
               </details>
 
