@@ -839,51 +839,13 @@ details.sec#docs .doc-sec > .sec-body{
   margin-top:2px;
 }
 
-/* ===== FAB: intro drop + bounce ===== */
-.scroll-fab{
-  /* برای اینکه از وسط بیاید و بعد settle شود */
-  opacity:0;
-  transform:translateY(0);
-  will-change: transform, opacity;
-}
-
-/* حالت شروع (وسط صفحه) */
-.scroll-fab.is-intro{
-  opacity:1;
-  top:50%;
-  bottom:auto;
-  transform:translateY(-50%);
-  animation: fabIntroDrop .55s cubic-bezier(.2,.9,.2,1) forwards;
-}
-
-/* انیمیشن: از وسط -> پایین (جای نهایی) */
-@keyframes fabIntroDrop{
-  0%{
-    top:50%;
-    bottom:auto;
-    transform:translateY(-50%);
-  }
-  100%{
-    top:auto;
-    bottom:86px;        /* همانی که خودت گذاشتی */
-    transform:translateY(0);
-  }
-}
-
-/* بعد از intro: آماده‌ی bounce */
-.scroll-fab.is-ready{
-  opacity:1;
-}
-
-/* bounce کوتاه (راهنمای اسکرول) */
+/* FAB bounce کوتاه و شیک (فقط وقتی کلاس is-bounce فعال شد) */
 .scroll-fab.is-bounce{
   animation: fabBounce 1.2s ease-in-out infinite;
 }
-
-/* bounce خیلی کوتاه و شیک */
 @keyframes fabBounce{
-  0%, 100% { transform:translateY(0); }
-  50%      { transform:translateY(-6px); }
+  0%,100% { transform:translateY(0); }
+  50%     { transform:translateY(-6px); }
 }
 
 
@@ -1278,11 +1240,11 @@ docChildren.forEach(sec => {
 });
 const fab = app.querySelector("#scrollFab");
 
+
 function isScrollable(){
   const doc = document.documentElement;
   return doc.scrollHeight > (window.innerHeight + 40);
 }
-
 function isNearBottom(){
   const doc = document.documentElement;
   return (window.scrollY + window.innerHeight) >= (doc.scrollHeight - 80);
@@ -1301,36 +1263,46 @@ function updateFab(){
   const nearBottom = isNearBottom();
   fab.classList.toggle("to-top", nearBottom);
 
-  // وقتی نزدیک پایین هستیم، bounce قطع شود
+  // اگر نزدیک پایین هستیم bounce قطع شود، وگرنه فعال
   fab.classList.toggle("is-bounce", !nearBottom);
 }
 
-/* 1) intro: از وسط صفحه بیاید پایین */
+/* Intro: از وسط صفحه (center viewport) به جای نهایی پایین (bottom:86px) حرکت کند */
 function runFabIntro(){
   if (!fab) return;
   if (!isScrollable()) return;
 
   fab.style.display = "inline-flex";
-  fab.classList.add("is-intro");
 
-  // بعد از اتمام intro، تبدیل به حالت عادی + bounce
-  const onDone = () => {
-    fab.classList.remove("is-intro");
-    fab.classList.add("is-ready");
+  // جای نهایی FAB همین الان با CSS پایین ثابت است (bottom:86px)
+  // ما فقط با transform از وسط به پایین حرکت می‌دهیم
+  const rect = fab.getBoundingClientRect();
+  const targetCenterY = rect.top + rect.height/2; // مرکز جای نهایی
+  const midCenterY = window.innerHeight / 2;      // مرکز صفحه
+  const startDy = midCenterY - targetCenterY;
+
+  // انیمیشن: از وسط => جای نهایی
+  const anim = fab.animate(
+    [
+      { transform: `translateY(${startDy}px)`, opacity: 0 },
+      { transform: `translateY(0px)`,         opacity: 1 }
+    ],
+    { duration: 550, easing: "cubic-bezier(.2,.9,.2,1)", fill: "forwards" }
+  );
+
+  anim.onfinish = () => {
+    // reset inline transform/opacity تا کلاس‌ها درست کار کنند
+    fab.style.transform = "";
+    fab.style.opacity = "";
+
+    // چند بار bounce کوتاه برای راهنمایی
     fab.classList.add("is-bounce");
-setTimeout(() => {
-  if (!isNearBottom()) fab.classList.remove("is-bounce");
-}, 6400); // حدوداً 6~5 بار bounce
-
-      
-    fab.removeEventListener("animationend", onDone);
-    updateFab();
+    setTimeout(() => {
+      if (!isNearBottom()) fab.classList.remove("is-bounce");
+    }, 4200); // حدود 3~4 سیکل bounce
   };
-
-  fab.addEventListener("animationend", onDone);
 }
 
-/* کلیک: اگر پایین نیستیم برو پایین، اگر نزدیک پایین هستیم برو بالا */
 if (fab) {
   fab.addEventListener("click", () => {
     const doc = document.documentElement;
@@ -1339,9 +1311,10 @@ if (fab) {
   });
 
   window.addEventListener("scroll", updateFab, { passive:true });
-  window.addEventListener("resize", updateFab);
+  window.addEventListener("resize", () => {
+    updateFab();
+  });
 
-  // اول وضعیت را تنظیم کن، بعد intro را اجرا کن
   updateFab();
   runFabIntro();
 }
