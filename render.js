@@ -72,6 +72,10 @@
 
   const app = document.getElementById("app");
   if (!app) return;
+const metaCtaHtmlTop =
+  (heroPrimary?.label && heroPrimary?.href)
+    ? `<a class="top-cta" href="${esc(heroPrimary.href)}">${esc(heroPrimary.label)}</a>`
+    : "";
 
   if (typeof window.SERVICES === "undefined") {
     app.innerHTML = `<div style="padding:16px;font-family:tahoma">خطا: فایل‌های سرویس بارگذاری نشده است.</div>`;
