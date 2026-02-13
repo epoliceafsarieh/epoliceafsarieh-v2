@@ -901,11 +901,22 @@ const restSectionsHtml = otherSecs.map((sec, i) => {
           <div class="card-clip">
            <div class="header">
 
+${Array.isArray(svc.breadcrumb) && svc.breadcrumb.length ? `
   <div class="breadcrumb">
-    <a href="index.html">خانه</a> >
-    <a href="all.html">خدمات</a> >
+    ${svc.breadcrumb.map((b, idx) => {
+      const sep = idx === 0 ? "" : " <span class=\"bc-sep\">›</span> ";
+      if (b && b.href) return `${sep}<a href="${esc(b.href)}">${esc(b.label || "")}</a>`;
+      return `${sep}<span>${esc(b?.label || "")}</span>`;
+    }).join("")}
+  </div>
+` : `
+  <div class="breadcrumb">
+    <a href="index.html">خانه</a><span class="bc-sep">›</span>
+    <a href="all.html">خدمات</a><span class="bc-sep">›</span>
     <span>${esc(svc.barTitle || svc.shortTitle || "")}</span>
   </div>
+`}
+
 
   <div class="meta">
 
