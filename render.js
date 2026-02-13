@@ -514,7 +514,7 @@ margin:4px 0;
  /* ===== Docs wrapper (مدارک و شرایط) مطابق تصویر ===== */
 details.sec#docs{
   border:0;
-  background:#EEF2F6;     /* ✅ رنگ زمینه مادر */
+  background:#F0F3F7;     /* ✅ رنگ زمینه مادر */
 border-radius:20px;          /* ✅ مادر کمی بزرگ‌تر از کارت‌ها */
   padding:18px;                /* ✅ تنفس بهتر */
   margin-top:18px;             /* ✅ فاصله بهتر از گام‌ها */
