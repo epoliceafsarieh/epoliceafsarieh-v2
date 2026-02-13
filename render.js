@@ -331,7 +331,7 @@
   .sec{
     margin-top:12px;
     border:1px solid var(--border);
-    border-radius:12px;
+    border-radius: var(--radius);
     background:#fff;
     overflow:hidden;
   }
