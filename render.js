@@ -734,23 +734,43 @@ details.sec#docs .doc-sec > .sec-body{
 .scroll-fab{
   position:fixed;
   left:14px;
-  bottom:80px;
+  bottom:86px;
   z-index:2500;
-  width:44px;
-  height:44px;
+
+  width:46px;
+  height:46px;
   border-radius:999px;
-  border:1px solid rgba(4,30,66,.25);
-  background:#fff;
+
+  border:1px solid rgba(4,30,66,.18);
+  background:rgba(255,255,255,.92);
+  backdrop-filter:saturate(140%) blur(8px);
+
+  display:none;
+  align-items:center;
+  justify-content:center;
+
+  cursor:pointer;
+  box-shadow:0 12px 28px rgba(2,8,23,.14);
+  transition:transform .15s ease, box-shadow .15s ease, opacity .15s ease;
+}
+
+.scroll-fab:hover{ transform:translateY(-2px); box-shadow:0 16px 34px rgba(2,8,23,.18); }
+.scroll-fab:active{ transform:translateY(0); }
+
+.scroll-fab span{
   font-size:20px;
   font-weight:900;
-  cursor:pointer;
-  display:none; /* فقط وقتی لازم شد */
-  animation:pulse 1.2s infinite;
+  color:var(--brand-blue);
+  line-height:1;
 }
-@keyframes pulse{
-  0%{ transform:scale(1); }
-  50%{ transform:scale(1.08); }
-  100%{ transform:scale(1); }
+
+/* pulse خیلی ظریف، نه چشمک‌زن */
+.scroll-fab.is-hint{
+  animation:softPulse 1.6s ease-in-out infinite;
+}
+@keyframes softPulse{
+  0%,100%{ transform:translateY(0); }
+  50%{ transform:translateY(-3px); }
 }
 
 
