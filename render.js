@@ -739,7 +739,21 @@ details.sec#docs .doc-sec > .sec-body{
   border:0px solid rgba(255,255,255,.25);
   padding:6px 10px;
   border-radius:999px;
+  position:relative;
+  padding-right:28px; /* جا برای فلش */
 }
+.fee-shortcut::before{
+  content:"";
+  position:absolute;
+  right:10px;
+  top:50%;
+  width:8px;
+  height:8px;
+  border-right:2.6px solid rgba(255,255,255,.95);
+  border-bottom:2.6px solid rgba(255,255,255,.95);
+  transform:translateY(-55%) rotate(45deg); /* فلش رو به پایین */
+}
+
 .top-cta{
   background:#fff;
   color:var(--brand-blue);
@@ -752,8 +766,8 @@ details.sec#docs .doc-sec > .sec-body{
 
 .scroll-fab{
   position:fixed;
-  right:14px;            /* ✅ سمت راست */
-  left:auto;
+ left:14px;
+right:auto;
   bottom:86px;
   z-index:2500;
 
