@@ -919,10 +919,9 @@ ${Array.isArray(svc.breadcrumb) && svc.breadcrumb.length ? `
 
 
   <div class="meta">
-
-  ${metaParts.join("")}
   ${metaCtaHtml}
 </div>
+
 
             </div>
 
