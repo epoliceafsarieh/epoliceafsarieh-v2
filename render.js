@@ -811,15 +811,17 @@ const restSectionsHtml = otherSecs.map((sec, i) => {
     ? `<div class="cta"><a href="${esc(sec.cta.href)}">${esc(sec.cta.label)}</a></div>`
     : "";
 
-<summary>
-  <span class="sec-toggle">+</span>
-  <span class="sec-title">${esc(sec.heading || sec.title || "")}</span>
-</summary>
-
+  return `
+    <details class="sec doc-sec">
+      <summary>
+        <span class="sec-toggle" aria-hidden="true">+</span>
+        <span class="sec-title">${esc(sec.heading || sec.title || "")}</span>
+      </summary>
       <div class="sec-body">${body}${ctaHtml}</div>
     </details>
   `;
 }).join("");
+
 
 
  
