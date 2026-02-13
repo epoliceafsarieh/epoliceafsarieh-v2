@@ -515,9 +515,9 @@ margin:4px 0;
 details.sec#docs{
   border:0;
   background:#EEF2F6;     /* ✅ رنگ زمینه مادر */
-  border-radius:16px;     /* ✅ radius مادر */
-  padding:16px;           /* ✅ padding مادر */
-  margin-top:16px;        /* ✅ فاصله از بالا */
+border-radius:20px;          /* ✅ مادر کمی بزرگ‌تر از کارت‌ها */
+  padding:18px;                /* ✅ تنفس بهتر */
+  margin-top:18px;             /* ✅ فاصله بهتر از گام‌ها */
   overflow:visible;
 }
 
@@ -530,8 +530,8 @@ details.sec#docs > summary{
   border:0;               /* ✅ بدون خط دور */
   border-radius:0;
   padding:0 0 12px;       /* ✅ فاصله زیر تیتر */
-  color:#0f172a;
-  font-size:16px;
+ color:var(--brand-blue);   /* ✅ به برند وصل شود */
+  font-size:18px;
   font-weight:900;
 }
 
@@ -548,10 +548,10 @@ details.sec#docs > .sec-body{
 
 /* ===== کارت‌های داخلی (آکاردئون‌های فرزند) مطابق تصویر ===== */
 details.sec#docs .doc-sec{
-  margin-top:12px;
+  margin-top:10px;
   background:#ffffff;              /* ✅ سفید */
   border:1px solid #e6e8ee;        /* ✅ خط دور */
-  border-radius:16px;              /* ✅ radius کارت داخلی */
+  border-radius:14px;              /* ✅ radius کارت داخلی */
   overflow:hidden;
 }
 
