@@ -319,15 +319,14 @@
   summary::-webkit-details-marker{display:none}
 
   .fee-box{
-    margin-top:10px;
-    border:1px solid var(--border);
-    border-radius:12px;
-    padding:12px;
-    background:#fff;
-    background:transparent;
+  margin-top:10px;
+  border:0;              /* خط دور حذف */
+  border-radius:12px;
+  padding:0;             /* چون داخلش table داریم، padding لازم نیست یا کمش کن */
+  background:transparent;
+  direction:rtl;
+}
 
-     direction: rtl; /* اضافه کردن این خط برای درست شدن rtl */
-  }
   table{width:100%;border-collapse:collapse;font-size:13px}
   th,td{border:1px solid var(--border);padding:10px;text-align:center}
   th{background:#f2f5f9;font-weight:900}
@@ -840,15 +839,6 @@ details.sec#docs .doc-sec > .sec-body{
   margin-top:2px;
 }
 
-/* pulse خیلی نرم (راهنمای طراحانه، نه چشمک زن) */
-.scroll-fab.is-hint{
-  animation:softPulse 1.6s ease-in-out infinite;
-}
-
-@keyframes softPulse{
-  0%,100%{ transform:translateY(0); }
-  50%{ transform:translateY(-3px); }
-}
 /* ===== FAB: intro drop + bounce ===== */
 .scroll-fab{
   /* برای اینکه از وسط بیاید و بعد settle شود */
@@ -906,7 +896,13 @@ details.sec#docs .doc-sec > .sec-body{
       app.innerHTML = `${style}<div class="wrap"><div class="card"><div class="card-clip"><div class="content">این خدمت پیدا نشد.</div></div></div></div>`;
       return;
     }
-const origin = sessionStorage
+// ===== Breadcrumb origin (only when user came from military hub) =====
+const origin = sessionStorage.getItem("serviceFrom") || "";
+const isFromMilitaryHub = origin.includes("military-hub.html");
+     const isMilitaryPage = location.pathname.includes("military") || location.href.includes("military");
+if (!isMilitaryPage) sessionStorage.removeItem("serviceFrom");
+ 
+
 // پایه crumbs
 let crumbs = Array.isArray(svc.breadcrumb) ? svc.breadcrumb.slice() : [
   { label: "خانه", href: "index.html" },
