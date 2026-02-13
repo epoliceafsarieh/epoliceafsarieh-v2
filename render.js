@@ -112,6 +112,9 @@
     --shadow:0 10px 30px rgba(2,8,23,.06); /* سایه کارت‌ها */
     --radius:16px;         /* شعاع مرزها */
     --section-bg:#f8fbff;  /* پس‌زمینه سکشن‌ها */
+    --section-soft: #EEF2F6;
+
+    
 }
 
 
