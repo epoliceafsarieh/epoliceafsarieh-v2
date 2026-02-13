@@ -265,7 +265,8 @@
   display:flex;
   justify-content:flex-end;
   flex:0 0 auto;
-  margin-right:12px;
+ margin-left:12px;
+  margin-right:0;
 }
 
 /* CTA زیر نوار (دانلود فرم) */
@@ -323,6 +324,8 @@
     border-radius:12px;
     padding:12px;
     background:#fff;
+    background:transparent;
+
      direction: rtl; /* اضافه کردن این خط برای درست شدن rtl */
   }
   table{width:100%;border-collapse:collapse;font-size:13px}
@@ -857,10 +860,7 @@ details.sec#docs .doc-sec > .sec-body{
       app.innerHTML = `${style}<div class="wrap"><div class="card"><div class="card-clip"><div class="content">این خدمت پیدا نشد.</div></div></div></div>`;
       return;
     }
-// ===== Breadcrumb (compact mode) =====
-const origin = sessionStorage.getItem("serviceFrom") || "";
-const isFromMilitaryHub = origin.includes("military-hub.html");
-
+const origin = sessionStorage
 // پایه crumbs
 let crumbs = Array.isArray(svc.breadcrumb) ? svc.breadcrumb.slice() : [
   { label: "خانه", href: "index.html" },
@@ -1193,8 +1193,9 @@ ${stepsHtml}
         </div>
       </div>
 <button class="scroll-fab" id="scrollFab" aria-label="اسکرول">
- 
+  <span aria-hidden="true"></span>
 </button>
+
 
 
       ${bottomCtaHtml}
@@ -1233,7 +1234,7 @@ docChildren.forEach(sec => {
   });
 });
 const fab = app.querySelector("#scrollFab");
-const fabImg = app.querySelector("#scrollFabImg");
+
 
 function updateFab(){
   const doc = document.documentElement;
