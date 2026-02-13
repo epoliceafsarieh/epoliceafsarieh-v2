@@ -895,7 +895,7 @@ const restSectionsHtml = otherSecs.map((sec, i) => {
               ${iconHtml}
               <div class="svc-title">${esc(svc.barTitle || svc.shortTitle || "")}</div>
             </div>
-            <a class="back-btn" id="backBtn" href="#">بازگشت</a>
+            
           </div>
 
           <div class="card-clip">
