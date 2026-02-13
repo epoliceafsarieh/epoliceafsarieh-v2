@@ -728,6 +728,23 @@ if (hasTime || hasFeeTable) {
     </details>
   `);
 }
+const feeSectionHtml = (hasTime || hasFeeTable) ? `
+  <details class="sec doc-sec" id="feeBox">
+    <summary>
+      <span class="sec-toggle" aria-hidden="true">+</span>
+      <span class="sec-title">زمان و هزینه</span>
+    </summary>
+    <div class="sec-body">
+      <div class="fee-box" style="margin-top:0">
+        <table>
+          <tr><th>بخش</th><th>مقدار/توضیح</th></tr>
+          ${hasTime ? `<tr><td>زمان</td><td>${esc(svc.meta.time)}</td></tr>` : ""}
+          ${feeRowsHtml}
+        </table>
+      </div>
+    </div>
+  </details>
+` : "";
 
 
 
