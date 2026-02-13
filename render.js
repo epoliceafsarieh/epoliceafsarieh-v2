@@ -1007,10 +1007,13 @@ docChildren.forEach(sec => {
   const icon = sec.querySelector('.sec-toggle');
   if (!icon) return;
 
+  icon.textContent = sec.open ? '−' : '+';
+
   sec.addEventListener('toggle', () => {
     icon.textContent = sec.open ? '−' : '+';
   });
 });
+
 
       
 
