@@ -1181,6 +1181,41 @@ ${stepsHtml}
 
       ${bottomCtaHtml}
     `;
+// ===== Breadcrumb truncate: فقط صفحه فعلی را کوتاه کن (تدریجی) =====
+(function () {
+  const bc = app.querySelector("#breadcrumb");
+  const cur = app.querySelector("#bcCurrent");
+  if (!bc || !cur) return;
+
+  const full = currentLabelFull;
+  cur.textContent = full;
+
+  function fit() {
+    cur.textContent = full;
+
+    // اگر جا شد، هیچ کاری نکن
+    if (bc.scrollWidth <= bc.clientWidth) return;
+
+    // کوتاه‌سازی تدریجی: "ت..." / "ات..." / "مات..." ...
+    let lo = 1, hi = full.length, best = 1;
+
+    while (lo <= hi) {
+      const mid = (lo + hi) >> 1;
+      cur.textContent = full.slice(0, mid) + "…";
+      if (bc.scrollWidth <= bc.clientWidth) {
+        best = mid;
+        lo = mid + 1;
+      } else {
+        hi = mid - 1;
+      }
+    }
+
+    cur.textContent = (best <= 1) ? "…" : (full.slice(0, best) + "…");
+  }
+
+  fit();
+  window.addEventListener("resize", fit);
+})();
 
       
 
