@@ -753,28 +753,18 @@ const feeObj =
 const hasTime = !!svc?.meta?.time;
 const hasFeeTable = !!(feeObj && Array.isArray(svc.feeRows) && svc.feeRows.length);
 
+let feeRowsHtml = "";
+
 if (hasTime || hasFeeTable) {
   const feeRows = hasFeeTable
     ? svc.feeRows.map(r => ({ title: r.label, value: feeObj[r.field] }))
     : [];
 
-  const feeRowsHtml = feeRows.map(r =>
+  feeRowsHtml = feeRows.map(r =>
     `<tr><td>هزینه</td><td>${esc(r.title)}: ${esc(safeText(r.value))}</td></tr>`
   ).join("");
-
-  metaParts.push(`
-    <details class="pill">
-      <summary>زمان و هزینه</summary>
-      <div class="fee-box">
-        <table>
-          <tr><th>بخش</th><th>مقدار/توضیح</th></tr>
-          ${hasTime ? `<tr><td>زمان</td><td>${esc(svc.meta.time)}</td></tr>` : ""}
-          ${feeRowsHtml}
-        </table>
-      </div>
-    </details>
-  `);
 }
+
 const feeSectionHtml = (hasTime || hasFeeTable) ? `
   <details class="sec doc-sec" id="feeBox">
     <summary>
@@ -792,6 +782,7 @@ const feeSectionHtml = (hasTime || hasFeeTable) ? `
     </div>
   </details>
 ` : "";
+
 
 
 
