@@ -1004,6 +1004,19 @@ ${stepsHtml}
         });
       }
     }
+// toggle فقط برای فرزندان
+const docChildren = app.querySelectorAll('details.sec#docs .doc-sec');
+
+docChildren.forEach(sec => {
+  const icon = sec.querySelector('.sec-toggle');
+  if (!icon) return;
+
+  sec.addEventListener('toggle', () => {
+    icon.textContent = sec.open ? '−' : '+';
+  });
+});
+
+      
 
    
   } // پایان renderService
