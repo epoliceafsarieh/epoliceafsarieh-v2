@@ -1301,19 +1301,38 @@ function runFabIntro(){
 
   // جای نهایی FAB همین الان با CSS پایین ثابت است (bottom:86px)
   // ما فقط با transform از وسط به پایین حرکت می‌دهیم
-  const rect = fab.getBoundingClientRect();
-  const targetCenterY = rect.top + rect.height/2; // مرکز جای نهایی
-  const midCenterY = window.innerHeight / 2;      // مرکز صفحه
-  const startDy = midCenterY - targetCenterY;
+// شروع از وسط صفحه
+fab.style.top = "50%";
+fab.style.bottom = "auto";
+fab.style.transform = "translateY(-50%)";
+fab.style.opacity = "0";
 
-  // انیمیشن: از وسط => جای نهایی
-  const anim = fab.animate(
-    [
-      { transform: `translateY(${startDy}px)`, opacity: 0 },
-      { transform: `translateY(0px)`,         opacity: 1 }
-    ],
-    { duration: 3000, easing: "cubic-bezier(.2,.9,.2,1)", fill: "forwards" }
-  );
+// force reflow
+fab.offsetHeight;
+
+fab.animate(
+  [
+    { top: "50%", opacity: 0 },
+    { top: "auto", bottom: "86px", opacity: 1 }
+  ],
+  {
+    duration: 3000,
+    easing: "cubic-bezier(.22,.8,.2,1)",
+    fill: "forwards"
+  }
+).onfinish = () => {
+  fab.style.top = "";
+  fab.style.bottom = "86px";
+  fab.style.transform = "";
+  fab.style.opacity = "";
+
+  fab.classList.add("is-bounce");
+  setTimeout(() => {
+    if (!isNearBottom()) fab.classList.remove("is-bounce");
+  }, 7000);
+};
+
+
 
   anim.onfinish = () => {
     // reset inline transform/opacity تا کلاس‌ها درست کار کنند
