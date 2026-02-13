@@ -689,6 +689,32 @@ details.sec#docs .doc-sec > .sec-body{
   transform:translateY(-45%) rotate(-135deg);
 }
 
+.brand-left{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.fee-shortcut{
+  font-size:12px;
+  font-style:italic;
+  color:rgba(255,255,255,.9);
+  text-decoration:none;
+  border:1px solid rgba(255,255,255,.25);
+  padding:6px 10px;
+  border-radius:999px;
+}
+.top-cta{
+  background:#fff;
+  color:var(--brand-blue);
+  text-decoration:none;
+  font-weight:900;
+  font-size:12px;
+  padding:7px 10px;
+  border-radius:999px;
+}
+
+
+
 
 </style>`;
 
