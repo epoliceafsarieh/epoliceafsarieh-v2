@@ -722,7 +722,7 @@ details.sec#docs .doc-sec > .sec-body{
   font-style:italic;
   color:rgba(255,255,255,.9);
   text-decoration:none;
-  border:1px solid rgba(255,255,255,.25);
+  border:0px solid rgba(255,255,255,.25);
   padding:6px 10px;
   border-radius:999px;
 }
