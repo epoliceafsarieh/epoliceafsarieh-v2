@@ -595,9 +595,24 @@ details.sec#docs .doc-sec > .sec-body{
   border-top:1px solid #e6e8ee;    /* ✅ جداکننده داخل کارت */
   background:#ffffff;
 }
+/* آیکن + برای فرزندان */
+details.sec#docs .doc-sec > summary{
+  display:flex;
+  align-items:center;
+  justify-content:flex-start; /* مهم */
+  gap:6px;
+  cursor:pointer;
+}
 
-
-  
+/* خود علامت */
+.sec-toggle{
+  font-size:18px;
+  font-weight:900;
+  color:#334155;
+  width:18px;
+  text-align:center;
+}
+ 
 
 @media (max-width: 480px){
   .wrap{ margin:8px auto 60px; padding:0 10px; }
