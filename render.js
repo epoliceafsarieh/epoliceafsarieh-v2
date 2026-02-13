@@ -803,7 +803,16 @@ const feeSectionHtml = (hasTime || hasFeeTable) ? `
     const heroSubtitle = esc(svc.heroSubtitle || "");
     const heroPrimary = svc.heroPrimary || null;
     const heroSecondary = svc.heroSecondary || null;
-   const metaCtaHtml =
+  
+      const topCtaHtml =
+  (heroPrimary?.label && heroPrimary?.href)
+    ? `<a class="top-cta" href="${esc(heroPrimary.href)}">${esc(heroPrimary.label)}</a>`
+    : "";
+
+      
+      
+      
+      const metaCtaHtml =
   (heroPrimary?.label && heroPrimary?.href)
     ? `<a class="meta-cta" href="${esc(heroPrimary.href)}">${esc(heroPrimary.label)}</a>`
     : "";
