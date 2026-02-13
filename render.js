@@ -858,12 +858,9 @@ details.sec#docs .doc-sec > .sec-body{
       app.innerHTML = `${style}<div class="wrap"><div class="card"><div class="card-clip"><div class="content">این خدمت پیدا نشد.</div></div></div></div>`;
       return;
     }
-// ===== Breadcrumb origin (only when user came from military hub) =====
+// ===== Breadcrumb (compact + correct) =====
 const origin = sessionStorage.getItem("serviceFrom") || "";
 const isFromMilitaryHub = origin.includes("military-hub.html");
-     const isMilitaryPage = location.pathname.includes("military") || location.href.includes("military");
-if (!isMilitaryPage) sessionStorage.removeItem("serviceFrom");
- 
 
 // پایه crumbs
 let crumbs = Array.isArray(svc.breadcrumb) ? svc.breadcrumb.slice() : [
@@ -872,7 +869,7 @@ let crumbs = Array.isArray(svc.breadcrumb) ? svc.breadcrumb.slice() : [
   { label: (svc.barTitle || svc.shortTitle || ""), href: "" }
 ];
 
-// اگر واقعاً از هاب نظام وظیفه آمده بود
+// اگر واقعاً از هاب نظام وظیفه آمده بود (فقط همین شرط!)
 if (isFromMilitaryHub) {
   const hasMil = crumbs.some(c =>
     (c?.href || "").includes("military-hub.html") ||
@@ -888,14 +885,23 @@ if (isFromMilitaryHub) {
 // حذف crumb آخر (اسم صفحه جاری)
 if (crumbs.length) crumbs = crumbs.slice(0, -1);
 
-// فقط 3 تای آخر
-const MAX_SHOW = 3;
+// خانه را از نمایش حذف کن
+if (crumbs.length && (crumbs[0]?.label || "").includes("خانه")) {
+  crumbs = crumbs.slice(1);
+}
+
+// فقط 2 یا 3 تای آخر
+const MAX_SHOW = isFromMilitaryHub ? 3 : 2;
+
 let crumbsShort = crumbs;
 let hasDots = false;
 
 if (crumbs.length > MAX_SHOW) {
   hasDots = true;
   crumbsShort = crumbs.slice(-MAX_SHOW);
+} else {
+  // اگر خانه حذف شد و هنوز چندتایی هست، بهتر است … داشته باشیم
+  hasDots = true;
 }
 
 
