@@ -971,6 +971,21 @@ ${stepsHtml}
 
       backBtn.setAttribute("aria-label", "بازگشت");
     }
+const docsWrap = app.querySelector('details.sec#docs');
+if (docsWrap) {
+  const toggle = docsWrap.querySelector('.docs-toggle');
+
+  docsWrap.addEventListener("toggle", () => {
+    if (docsWrap.open) {
+      toggle.textContent = "−";
+    } else {
+      toggle.textContent = "+";
+    }
+  });
+}
+
+
+      
 
        // کار ۵: فقط اگر دکمه‌ی Hero به #docs لینک شده باشد
     if (wantsDocsAnchor) {
