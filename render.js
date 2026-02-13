@@ -760,18 +760,72 @@ details.sec#docs .doc-sec > .sec-body{
 .scroll-fab:hover{ transform:translateY(-2px); }
 .scroll-fab:active{ transform:translateY(0); }
 
-.scroll-fab img{
-  width:64px;
-  height:64px;
+/* ===== Scroll FAB (شیشه‌ای مثل تصویر) ===== */
+.scroll-fab{
+  position:fixed;
+  right:14px;          /* ✅ سمت راست */
+  left:auto;
+  bottom:86px;
+  z-index:2500;
+
+  width:66px;
+  height:66px;
+  border-radius:999px;
+
+  /* شیشه‌ای */
+  background:rgba(235, 246, 255, .78);
+  border:1px solid rgba(255,255,255,.85);
+  box-shadow:
+    0 14px 30px rgba(2,8,23,.18),
+    inset 0 1px 0 rgba(255,255,255,.65);
+
+  backdrop-filter:saturate(160%) blur(10px);
+
+  display:none; /* فقط وقتی لازم شد */
+  align-items:center;
+  justify-content:center;
+
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+  transition:transform .15s ease, box-shadow .15s ease, opacity .15s ease;
+}
+
+.scroll-fab:hover{
+  transform:translateY(-2px);
+  box-shadow:
+    0 18px 34px rgba(2,8,23,.20),
+    inset 0 1px 0 rgba(255,255,255,.70);
+}
+.scroll-fab:active{
+  transform:translateY(0);
+}
+
+/* فلش داخل */
+.scroll-fab span{
   display:block;
+  width:18px;
+  height:18px;
+
+  /* ساخت فلش با border (مثل آیکن) */
+  border-right:4px solid rgba(4,30,66,.85);
+  border-bottom:4px solid rgba(4,30,66,.85);
+  transform:rotate(45deg);
+
+  /* جایگیری بصری */
+  margin-top:-2px;
+
+  /* متن قبلی را بی‌اثر می‌کنیم */
+  font-size:0;
+  line-height:0;
 }
 
-/* وقتی باید برگرده بالا */
-.scroll-fab.to-top img{
-  transform:rotate(180deg);
+/* وقتی نزدیک انتهای صفحه‌ایم => جهت بالا */
+.scroll-fab.to-top span{
+  transform:rotate(-135deg);
+  margin-top:2px;
 }
 
-/* پالس خیلی نرم (مثل راهنمای طراحانه، نه چشمک) */
+/* pulse خیلی نرم (راهنمای طراحانه، نه چشمک زن) */
 .scroll-fab.is-hint{
   animation:softPulse 1.6s ease-in-out infinite;
 }
@@ -780,7 +834,6 @@ details.sec#docs .doc-sec > .sec-body{
   0%,100%{ transform:translateY(0); }
   50%{ transform:translateY(-3px); }
 }
-
 
 
 
