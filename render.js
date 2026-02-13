@@ -889,57 +889,6 @@ const currentLabelFull = (svc.barTitle || svc.shortTitle || "صفحه فعلی")
 // اگر خواستی بعداً اضافه می‌کنم.
 
 
-// پایه crumbs
-let crumbs = Array.isArray(svc.breadcrumb) ? svc.breadcrumb.slice() : [
-  { label: "خانه", href: "index.html" },
-  { label: "خدمات", href: "all.html" },
-  { label: (svc.barTitle || svc.shortTitle || ""), href: "" }
-];
-
-// حذف crumb آخر (اسم صفحه جاری)
-if (crumbs.length) crumbs = crumbs.slice(0, -1);
-
-// خانه را از نمایش حذف کن
-if (crumbs.length && (crumbs[0]?.label || "").includes("خانه")) {
-  crumbs = crumbs.slice(1);
-}
-
-// ✅ فقط بر اساس خود سرویس (title/iconKey/serviceKey) نه crumbs
-const isMilitaryService =
-  /نظام\s*وظیفه/.test(String(svc.barTitle || "")) ||
-  /نظام\s*وظیفه/.test(String(svc.shortTitle || "")) ||
-  /military|nezam|vazife|sarbazi/i.test(String(serviceKey || ""));
-
-
-// ✅ فقط اگر (۱) از هاب آمده باشیم و (۲) سرویس واقعاً نظام‌وظیفه‌ای باشد، "نظام وظیفه" را تزریق کن
-if (cameFromMilitaryHub && isMilitaryService) {
-  const hasMilAlready = crumbs.some(c =>
-    /military-hub\.html/.test(String(c?.href || "")) ||
-    /نظام\s*وظیفه/.test(String(c?.label || ""))
-  );
-
-  if (!hasMilAlready) {
-    const idx = crumbs.findIndex(c => /خدمات/.test(String(c?.label || "")));
-    const insertAt = (idx >= 0) ? idx + 1 : 0;
-    crumbs.splice(insertAt, 0, { label: "نظام وظیفه", href: "military-hub.html" });
-  }
-}
-
-// فقط 2 یا 3 تای آخر
-const MAX_SHOW = (cameFromMilitaryHub && isMilitaryService) ? 3 : 2;
-
-let crumbsShort = crumbs;
-let hasDots = false;
-
-if (crumbs.length > MAX_SHOW) {
-  hasDots = true;
-  crumbsShort = crumbs.slice(-MAX_SHOW);
-} else {
-  hasDots = true; // همیشه … داشته باشیم برای کوتاه بودن
-}
-
-// لینک … : اگر نظام وظیفه‌ای نبود، برود all.html
-const dotsHref = (cameFromMilitaryHub && isMilitaryService) ? "military-hub.html" : "all.html";
 
 
 
