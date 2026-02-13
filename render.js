@@ -738,45 +738,49 @@ details.sec#docs .doc-sec > .sec-body{
 
 .scroll-fab{
   position:fixed;
-  left:14px;
+  right:14px;            /* ✅ سمت راست */
+  left:auto;
   bottom:86px;
   z-index:2500;
 
-  width:46px;
-  height:46px;
-  border-radius:999px;
-
-  border:1px solid rgba(4,30,66,.18);
-  background:rgba(255,255,255,.92);
-  backdrop-filter:saturate(140%) blur(8px);
+  width:64px;
+  height:64px;
+  border:0;
+  padding:0;
+  background:transparent;
 
   display:none;
   align-items:center;
   justify-content:center;
 
   cursor:pointer;
-  box-shadow:0 12px 28px rgba(2,8,23,.14);
-  transition:transform .15s ease, box-shadow .15s ease, opacity .15s ease;
+  transition:transform .15s ease, filter .15s ease, opacity .15s ease;
 }
 
-.scroll-fab:hover{ transform:translateY(-2px); box-shadow:0 16px 34px rgba(2,8,23,.18); }
+.scroll-fab:hover{ transform:translateY(-2px); }
 .scroll-fab:active{ transform:translateY(0); }
 
-.scroll-fab span{
-  font-size:20px;
-  font-weight:900;
-  color:var(--brand-blue);
-  line-height:1;
+.scroll-fab img{
+  width:64px;
+  height:64px;
+  display:block;
 }
 
-/* pulse خیلی ظریف، نه چشمک‌زن */
+/* وقتی باید برگرده بالا */
+.scroll-fab.to-top img{
+  transform:rotate(180deg);
+}
+
+/* پالس خیلی نرم (مثل راهنمای طراحانه، نه چشمک) */
 .scroll-fab.is-hint{
   animation:softPulse 1.6s ease-in-out infinite;
 }
+
 @keyframes softPulse{
   0%,100%{ transform:translateY(0); }
   50%{ transform:translateY(-3px); }
 }
+
 
 
 
@@ -1110,7 +1114,7 @@ ${stepsHtml}
         </div>
       </div>
 <button class="scroll-fab" id="scrollFab" aria-label="اسکرول">
-  <span id="scrollFabIcon">↓</span>
+  <img id="scrollFabImg" src="assets/img/ui/scroll-down.png" alt="">
 </button>
 
 
@@ -1150,7 +1154,7 @@ docChildren.forEach(sec => {
   });
 });
 const fab = app.querySelector("#scrollFab");
-const fabIcon = app.querySelector("#scrollFabIcon");
+const fabImg = app.querySelector("#scrollFabImg");
 
 function updateFab(){
   const doc = document.documentElement;
