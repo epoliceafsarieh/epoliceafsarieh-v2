@@ -1005,18 +1005,7 @@ if (docsWrap) {
       }
     }
 
-    // ✅ آکاردئون مادر: همیشه باز + تغییر متن
-    const docsWrap = app.querySelector('details.sec#docs');
-    if (docsWrap) {
-      docsWrap.open = true;
-      docsWrap.addEventListener("toggle", () => {
-        if (!docsWrap.open) docsWrap.open = true;
-      });
-
-      const span = docsWrap.querySelector("summary span");
-      if (span) span.textContent = "مدارک و شرایط";
-    }
-
+   
   } // پایان renderService
 
   const key = window.SERVICE_KEY;
