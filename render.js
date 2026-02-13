@@ -283,7 +283,7 @@
 
 .hero-sub {
   font-size: 14px;  /* تغییر به 14px */
-  color: #334155;  /* رنگ خاکستری تیره */
+  color: var(--muted);
   font-weight: 500;
   margin: 0 0 10px;
 }
