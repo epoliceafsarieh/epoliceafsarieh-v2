@@ -788,6 +788,50 @@ details.sec#docs .doc-sec > .sec-body{
       app.innerHTML = `${style}<div class="wrap"><div class="card"><div class="card-clip"><div class="content">این خدمت پیدا نشد.</div></div></div></div>`;
       return;
     }
+// ✅ Breadcrumb نهایی + تزریق "نظام وظیفه" برای صفحات زیرمجموعه (بدون تغییر سرویس‌ها)
+const origin = sessionStorage.getItem("serviceFrom") || "";
+const qs = new URLSearchParams(location.search);
+const from = qs.get("from") || "";
+
+const isMilitary =
+  location.href.includes("military") ||
+  from === "military" ||
+  origin.includes("military-hub.html");
+
+const baseCrumbs = Array.isArray(svc.breadcrumb) ? svc.breadcrumb.slice() : null;
+
+let crumbs = baseCrumbs;
+
+if (!crumbs) {
+  crumbs = [
+    { label: "خانه", href: "index.html" },
+    { label: "خدمات", href: "all.html" }
+  ];
+
+  if (isMilitary) crumbs.push({ label: "نظام وظیفه", href: "military-hub.html" });
+
+  crumbs.push({ label: (svc.barTitle || svc.shortTitle || ""), href: "" });
+} else {
+  if (isMilitary) {
+    const hasMil = crumbs.some(c =>
+      (c?.href || "").includes("military-hub.html") ||
+      (c?.label || "").includes("نظام وظیفه")
+    );
+
+    if (!hasMil) {
+      // بعد از "خدمات" تزریق کن
+      const idx = crumbs.findIndex(c => (c?.label || "").includes("خدمات"));
+      if (idx >= 0) crumbs.splice(idx + 1, 0, { label: "نظام وظیفه", href: "military-hub.html" });
+      else crumbs.splice(2, 0, { label: "نظام وظیفه", href: "military-hub.html" });
+    }
+  }
+}
+
+
+
+
+
+      
 
 
 const feeKey = svc?.meta?.feeKey;
