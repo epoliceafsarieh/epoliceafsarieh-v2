@@ -743,12 +743,14 @@ details.sec#docs .doc-sec > .sec-body{
   padding:6px 10px;
   border-radius:999px;
   position:relative;
-  padding-right:28px; /* جا برای فلش */
+  padding-left:28px;
+  padding-right:10px;
 }
 .fee-shortcut::before{
   content:"";
   position:absolute;
-  right:10px;
+  left:10px;
+  right:auto;
   top:50%;
   width:8px;
   height:8px;
@@ -858,7 +860,7 @@ right:auto;
 
 /* FAB bounce کوتاه و شیک (فقط وقتی کلاس is-bounce فعال شد) */
 .scroll-fab.is-bounce{
-  animation: fabBounce 1.2s ease-in-out infinite;
+  animation: fabBounce 2.4s ease-in-out infinite;
 }
 @keyframes fabBounce{
   0%,100% { transform:translateY(0); }
@@ -912,14 +914,14 @@ const MAX_SHOW = isFromMilitaryHub ? 3 : 2;
 
 let crumbsShort = crumbs;
 let hasDots = false;
-
 if (crumbs.length > MAX_SHOW) {
   hasDots = true;
   crumbsShort = crumbs.slice(-MAX_SHOW);
 } else {
-  // اگر خانه حذف شد و هنوز چندتایی هست، بهتر است … داشته باشیم
-  hasDots = true;
+  hasDots = false;
+  crumbsShort = crumbs;
 }
+
 
 const dotsHref = isFromMilitaryHub ? "military-hub.html" : "all.html";
 
