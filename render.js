@@ -1307,7 +1307,7 @@ function runFabIntro(){
       { transform: `translateY(${startDy}px)`, opacity: 0 },
       { transform: `translateY(0px)`,         opacity: 1 }
     ],
-    { duration: 550, easing: "cubic-bezier(.2,.9,.2,1)", fill: "forwards" }
+    { duration: 3000, easing: "cubic-bezier(.2,.9,.2,1)", fill: "forwards" }
   );
 
   anim.onfinish = () => {
