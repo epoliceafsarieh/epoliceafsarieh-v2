@@ -742,7 +742,6 @@ details.sec#docs .doc-sec > .sec-body{
       return;
     }
 
-const metaParts = [];
 
 const feeKey = svc?.meta?.feeKey;
 const feeObj =
