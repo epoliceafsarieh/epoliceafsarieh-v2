@@ -278,7 +278,10 @@
 .bc-dots{
   color:#94a3b8;
   margin-left:4px;
+  text-decoration:none;
+  cursor:pointer;
 }
+.bc-dots:hover{ text-decoration:underline; }
 .bc-current{
   font-weight:700;
   color:#475569;
@@ -918,6 +921,7 @@ if (crumbs.length > MAX_SHOW) {
   hasDots = true;
 }
 
+const dotsHref = isFromMilitaryHub ? "military-hub.html" : "all.html";
 
 
 
@@ -1155,7 +1159,8 @@ const restSectionsHtml = otherSecs.map((sec, i) => {
 
   <div class="header-row">
   <div class="breadcrumb">
- ${hasDots ? `<span class="bc-dots">…</span>` : ""}
+${hasDots ? `<a class="bc-dots" href="${esc(dotsHref)}" aria-label="مسیر کامل">…</a>` : ""}
+
 
 ${crumbsShort.map((b, idx) => {
   const sep = (hasDots || idx > 0)
