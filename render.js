@@ -869,7 +869,11 @@ const restSectionsHtml = otherSecs.map((sec, i) => {
  const faqHtml = (svc.faqEnabled === true && svc.faq && svc.faq.length)
   ? `
     <details class="sec doc-sec">
-      <summary><span class="sec-title">سؤالات پرتکرار</span><span class="chev" aria-hidden="true"></span></summary>
+     <summary>
+  <span class="sec-toggle" aria-hidden="true">+</span>
+  <span class="sec-title">سؤالات پرتکرار</span>
+</summary>
+
       <div class="sec-body">
         ${svc.faq.map(f => `
           <div style="font-weight:900;margin:10px 0 6px">${esc(f.q || "")}</div>
