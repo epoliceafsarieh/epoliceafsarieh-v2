@@ -243,38 +243,7 @@
   color:#475569;
   font-weight:600;
 }
-// ✅ تزریق Breadcrumb "نظام وظیفه" برای صفحات زیرمجموعه (بدون تغییر سرویس‌ها)
-const origin = sessionStorage.getItem("serviceFrom") || "";
-const isMilitary =
-  location.href.includes("military") ||
-  (new URLSearchParams(location.search).get("from") === "military") ||
-  origin.includes("military-hub.html");
 
-const baseCrumbs = Array.isArray(svc.breadcrumb) ? svc.breadcrumb.slice() : null;
-
-// اگر سرویس خودش breadcrumb داشت، همان را استفاده کن ولی اگر نظام وظیفه داخلش نبود و صفحه military است، اضافه کن
-let crumbs = baseCrumbs;
-
-if (!crumbs) {
-  crumbs = [
-    { label: "خانه", href: "index.html" },
-    { label: "خدمات", href: "all.html" }
-  ];
-
-  if (isMilitary) crumbs.push({ label: "نظام وظیفه", href: "military-hub.html" });
-
-  crumbs.push({ label: (svc.barTitle || svc.shortTitle || ""), href: "" });
-} else {
-  if (isMilitary) {
-    const hasMil = crumbs.some(c => (c?.href || "").includes("military-hub.html") || (c?.label || "").includes("نظام وظیفه"));
-    if (!hasMil) {
-      // بعد از "خدمات" تزریق کن
-      const idx = crumbs.findIndex(c => (c?.label || "").includes("خدمات"));
-      if (idx >= 0) crumbs.splice(idx + 1, 0, { label: "نظام وظیفه", href: "military-hub.html" });
-      else crumbs.splice(2, 0, { label: "نظام وظیفه", href: "military-hub.html" });
-    }
-  }
-}
 
 
 
