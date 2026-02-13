@@ -919,7 +919,8 @@ ${stepsHtml}
 
 
             
-           <details class="sec" id="docs">
+      <details class="sec" id="docs" open>
+
   <summary>
   <span class="docs-title">مدارک و شرایط</span>
   <!-- علامت +/− برای این بخش حذف شد -->
