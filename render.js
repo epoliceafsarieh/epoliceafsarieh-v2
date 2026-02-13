@@ -794,8 +794,8 @@ right:auto;
 /* ===== Scroll FAB (شیشه‌ای مثل تصویر) ===== */
 .scroll-fab{
   position:fixed;
-  right:14px;          /* ✅ سمت راست */
-  left:auto;
+ left:14px;
+right:auto;
   bottom:86px;
   z-index:2500;
 
