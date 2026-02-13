@@ -1167,7 +1167,7 @@ ${stepsHtml}
         </div>
       </div>
 <button class="scroll-fab" id="scrollFab" aria-label="اسکرول">
-  <img id="scrollFabImg" src="assets/img/ui/scroll-down.png" alt="">
+ 
 </button>
 
 
