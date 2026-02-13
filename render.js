@@ -1167,7 +1167,8 @@ function updateFab(){
 if (fab) fab.classList.toggle("is-hint", window.scrollY < 40);
 
   const nearBottom = (window.scrollY + window.innerHeight) >= (doc.scrollHeight - 80);
-  if (fabIcon) fabIcon.textContent = nearBottom ? "↑" : "↓";
+if (fab) fab.classList.toggle("to-top", nearBottom);
+
 }
 
 if (fab) {
