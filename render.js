@@ -1120,6 +1120,7 @@ function updateFab(){
     return;
   }
   if (fab) fab.style.display = "inline-flex";
+if (fab) fab.classList.toggle("is-hint", window.scrollY < 40);
 
   const nearBottom = (window.scrollY + window.innerHeight) >= (doc.scrollHeight - 80);
   if (fabIcon) fabIcon.textContent = nearBottom ? "↑" : "↓";
