@@ -788,16 +788,16 @@ details.sec#docs .doc-sec > .sec-body{
       app.innerHTML = `${style}<div class="wrap"><div class="card"><div class="card-clip"><div class="content">این خدمت پیدا نشد.</div></div></div></div>`;
       return;
     }
-// ✅ Breadcrumb نهایی + تزریق "نظام وظیفه" برای صفحات زیرمجموعه (بدون تغییر سرویس‌ها)
-const origin = sessionStorage.getItem("serviceFrom") || "";
-const qs = new URLSearchParams(location.search);
-const from = qs.get("from") || "";
+// ✅ Breadcrumb "نظام وظیفه" فقط وقتی واقعا از هاب نظام وظیفه آمده باشیم
+const params = new URLSearchParams(location.search);
+const from = params.get("from") || "";
+const ref = document.referrer || "";
 
-const isMilitary =
-  location.href.includes("military") ||
-  from === "military" ||
-  origin.includes("military-hub.html");
+// فقط اگر لینک‌های هاب نظام وظیفه پارامتر from=military بدهند
+// یا referrer واقعا military-hub.html باشد
+const isMilitary = (from === "military") || ref.includes("military-hub.html");
 
+// breadcrumb پایه
 const baseCrumbs = Array.isArray(svc.breadcrumb) ? svc.breadcrumb.slice() : null;
 
 let crumbs = baseCrumbs;
@@ -805,7 +805,7 @@ let crumbs = baseCrumbs;
 if (!crumbs) {
   crumbs = [
     { label: "خانه", href: "index.html" },
-    { label: "خدمات", href: "all.html" }
+    { label: "خدمات", href: "all.html" },
   ];
 
   if (isMilitary) crumbs.push({ label: "نظام وظیفه", href: "military-hub.html" });
@@ -814,18 +814,16 @@ if (!crumbs) {
 } else {
   if (isMilitary) {
     const hasMil = crumbs.some(c =>
-      (c?.href || "").includes("military-hub.html") ||
-      (c?.label || "").includes("نظام وظیفه")
+      (c?.href || "").includes("military-hub.html") || (c?.label || "").includes("نظام وظیفه")
     );
-
     if (!hasMil) {
-      // بعد از "خدمات" تزریق کن
       const idx = crumbs.findIndex(c => (c?.label || "").includes("خدمات"));
       if (idx >= 0) crumbs.splice(idx + 1, 0, { label: "نظام وظیفه", href: "military-hub.html" });
       else crumbs.splice(2, 0, { label: "نظام وظیفه", href: "military-hub.html" });
     }
   }
 }
+
 
 
 
