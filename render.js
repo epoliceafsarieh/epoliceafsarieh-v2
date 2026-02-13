@@ -855,7 +855,11 @@ const restSectionsHtml = otherSecs.map((sec, i) => {
     const notDoneHtml = (noticeList && noticeList.length)
   ? `
     <details class="sec doc-sec">
-      <summary><span class="sec-title">نکات مهم</span><span class="chev" aria-hidden="true"></span></summary>
+      <summary>
+  <span class="sec-toggle" aria-hidden="true">+</span>
+  <span class="sec-title">نکات مهم</span>
+</summary>
+
       <div class="sec-body">${olList(noticeList)}</div>
     </details>
   `
