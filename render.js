@@ -921,9 +921,10 @@ ${stepsHtml}
             
            <details class="sec" id="docs">
   <summary>
-    <span class="docs-title">مدارک و شرایط</span>
-    <span class="docs-toggle" aria-hidden="true">+</span>
-  </summary>
+  <span class="docs-title">مدارک و شرایط</span>
+  <!-- علامت +/− برای این بخش حذف شد -->
+</summary>
+
 
                <div class="sec-body">
   ${restSectionsHtml}
