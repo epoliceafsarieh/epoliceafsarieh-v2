@@ -883,8 +883,16 @@ const restSectionsHtml = otherSecs.map((sec, i) => {
           </div>
 
           <div class="card-clip">
-            <div class="header">
-              <div class="meta">
+           <div class="header">
+
+  <div class="breadcrumb">
+    <a href="index.html">خانه</a> >
+    <a href="all.html">خدمات</a> >
+    <span>${esc(svc.barTitle || svc.shortTitle || "")}</span>
+  </div>
+
+  <div class="meta">
+
   ${metaParts.join("")}
   ${metaCtaHtml}
 </div>
