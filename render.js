@@ -224,7 +224,7 @@
 }
 /* ===== Breadcrumb ===== */
 .breadcrumb{
-  margin:8px 0 4px;
+  margin:6px 0 2px;
   color:#041e42;
   text-align:right;
    flex:1 1 auto;
@@ -254,7 +254,7 @@
 
 
 
-.bc-sep{ color:#94a3b8; margin:0 3px; }
+.bc-sep{ color:#94a3b8; margin:0 2px; }
 .header-row{
   display:flex;
   align-items:center;
