@@ -355,7 +355,7 @@
   pointer-events:none;
 
   /* رنگ واترمارک (خیلی ملایم) */
-  background-color: rgba(4,30,66,.04);
+  background-color: rgba(4,30,66,.05);
 
   /* ✅ لوگو به عنوان ماسک، اندازه = اندازه‌ی کارت */
   -webkit-mask-image: url("assets/img/logo/logo_white.png");
