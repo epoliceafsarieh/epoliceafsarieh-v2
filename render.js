@@ -233,6 +233,7 @@
   overflow:hidden;
   text-overflow:ellipsis;
   font-size:13px;
+  letter-spacing:-.1px;
 }
 
 .breadcrumb a{
@@ -253,7 +254,7 @@
 
 
 
-.bc-sep{ color:#94a3b8; margin:0 6px; }
+.bc-sep{ color:#94a3b8; margin:0 3px; }
 .header-row{
   display:flex;
   align-items:center;
@@ -877,10 +878,16 @@ right:auto;
       app.innerHTML = `${style}<div class="wrap"><div class="card"><div class="card-clip"><div class="content">این خدمت پیدا نشد.</div></div></div></div>`;
       return;
     }
-// ===== Breadcrumb (stateless + correct) =====
-// فقط از referrer همین ریکوئست استفاده کن (نه sessionStorage)
-const ref = (document.referrer || "");
-const cameFromMilitaryHub = /\/?military-hub\.html(\?|#|$)/.test(ref);
+// ===== Breadcrumb (آخر-محور + کوتاه‌سازی روی صفحه فعلی) =====
+
+// همیشه این دو تا ثابت‌اند
+const servicesCrumb = { label: "خدمات", href: "all.html" };
+const currentLabelFull = (svc.barTitle || svc.shortTitle || "صفحه فعلی").trim();
+
+// (اختیاری) اگر هنوز لازم داری "…" کلیک‌خور داشته باشی:
+// فعلاً نگه نمی‌داریم چون تو خواستی فقط خدمات + صفحه فعلی حتما باشد.
+// اگر خواستی بعداً اضافه می‌کنم.
+
 
 // پایه crumbs
 let crumbs = Array.isArray(svc.breadcrumb) ? svc.breadcrumb.slice() : [
@@ -897,13 +904,12 @@ if (crumbs.length && (crumbs[0]?.label || "").includes("خانه")) {
   crumbs = crumbs.slice(1);
 }
 
-// ✅ تشخیص اینکه خود این سرویس واقعاً نظام‌وظیفه‌ای هست یا نه
-// اگر breadcrumb خودش نشانه‌ی نظام وظیفه داشت، یعنی زیرمجموعه‌ی نظام‌وظیفه است.
+// ✅ فقط بر اساس خود سرویس (title/iconKey/serviceKey) نه crumbs
 const isMilitaryService =
-  crumbs.some(c =>
-    /military-hub\.html/.test(String(c?.href || "")) ||
-    /نظام\s*وظیفه/.test(String(c?.label || ""))
-  );
+  /نظام\s*وظیفه/.test(String(svc.barTitle || "")) ||
+  /نظام\s*وظیفه/.test(String(svc.shortTitle || "")) ||
+  /military|nezam|vazife|sarbazi/i.test(String(serviceKey || ""));
+
 
 // ✅ فقط اگر (۱) از هاب آمده باشیم و (۲) سرویس واقعاً نظام‌وظیفه‌ای باشد، "نظام وظیفه" را تزریق کن
 if (cameFromMilitaryHub && isMilitaryService) {
@@ -1169,25 +1175,10 @@ const restSectionsHtml = otherSecs.map((sec, i) => {
         <div class="header">
 
   <div class="header-row">
-  <div class="breadcrumb">
-${hasDots ? `<a class="bc-dots" href="${esc(dotsHref)}" aria-label="مسیر کامل">…</a>` : ""}
-
-
-${crumbsShort.map((b, idx) => {
-  const sep = (hasDots || idx > 0)
-    ? ` <span class="bc-sep">›</span> `
-    : "";
-
-  if (b && b.href)
-    return `${sep}<a href="${esc(b.href)}">${esc(b.label || "")}</a>`;
-
-  return `${sep}<span>${esc(b?.label || "")}</span>`;
-}).join("")}
-
-${crumbsShort.length ? ` <span class="bc-sep">›</span> ` : ""}
-<span class="bc-current">صفحه فعلی</span>
-
-
+ <div class="breadcrumb" id="breadcrumb">
+  <a href="${esc(servicesCrumb.href)}">${esc(servicesCrumb.label)}</a>
+  <span class="bc-sep">›</span>
+  <span class="bc-current" id="bcCurrent">${esc(currentLabelFull)}</span>
 </div>
 
 
