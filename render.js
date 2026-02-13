@@ -713,6 +713,27 @@ details.sec#docs .doc-sec > .sec-body{
   border-radius:999px;
 }
 
+.scroll-fab{
+  position:fixed;
+  left:14px;
+  bottom:80px;
+  z-index:2500;
+  width:44px;
+  height:44px;
+  border-radius:999px;
+  border:1px solid rgba(4,30,66,.25);
+  background:#fff;
+  font-size:20px;
+  font-weight:900;
+  cursor:pointer;
+  display:none; /* فقط وقتی لازم شد */
+  animation:pulse 1.2s infinite;
+}
+@keyframes pulse{
+  0%{ transform:scale(1); }
+  50%{ transform:scale(1.08); }
+  100%{ transform:scale(1); }
+}
 
 
 
@@ -1013,6 +1034,10 @@ ${stepsHtml}
 
         </div>
       </div>
+<button class="scroll-fab" id="scrollFab" aria-label="اسکرول">
+  <span id="scrollFabIcon">↓</span>
+</button>
+
 
       ${bottomCtaHtml}
     `;
