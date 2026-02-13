@@ -971,7 +971,8 @@ const restSectionsHtml = otherSecs.map((sec, i) => {
             </div>
             <div class="brand-left">
   ${ (hasTime || hasFeeTable) ? `<a class="fee-shortcut" href="#feeBox">زمان و هزینه</a>` : "" }
-  ${metaCtaHtmlTop}
+${topCtaHtml}
+
 </div>
 
             
