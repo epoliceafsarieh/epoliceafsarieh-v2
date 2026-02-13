@@ -1093,6 +1093,22 @@ if (fab) {
   window.addEventListener("resize", updateFab);
   updateFab();
 }
+  // ✅ باز شدن خودکار زمان و هزینه وقتی با شورتکات بالا می‌آیند
+const feeBox = app.querySelector("#feeBox");
+if (feeBox) {
+  // حالت ۱: اگر مستقیم با هش feeBox وارد شدیم
+  if (location.hash === "#feeBox") feeBox.open = true;
+
+  // حالت ۲: اگر روی لینک شورتکات کلیک شد
+  const feeShortcut = app.querySelector('.fee-shortcut[href="#feeBox"]');
+  if (feeShortcut) {
+    feeShortcut.addEventListener("click", () => {
+      // بذار اول اسکرول انجام بشه بعد باز بشه
+      setTimeout(() => { feeBox.open = true; }, 0);
+    });
+  }
+}
+    
 
 
       
