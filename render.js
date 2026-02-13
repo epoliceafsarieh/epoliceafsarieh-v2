@@ -579,29 +579,26 @@ details.sec#docs .doc-sec{
 
 /* summary هر کارت داخلی */
 details.sec#docs .doc-sec > summary{
-  background:#ffffff;              /* ✅ سفید */
+  background:#ffffff;
   padding:16px;
   font-size:15px;
   font-weight:900;
   color:#0f172a;
+
   display:flex;
-  justify-content:space-between;
   align-items:center;
+  justify-content:flex-start;
+  gap:6px;
+
+  cursor:pointer;
 }
+
 
 /* بدنه کارت داخلی */
 details.sec#docs .doc-sec > .sec-body{
   padding:16px;
   border-top:1px solid #e6e8ee;    /* ✅ جداکننده داخل کارت */
   background:#ffffff;
-}
-/* آیکن + برای فرزندان */
-details.sec#docs .doc-sec > summary{
-  display:flex;
-  align-items:center;
-  justify-content:flex-start; /* مهم */
-  gap:6px;
-  cursor:pointer;
 }
 
 /* خود علامت */
