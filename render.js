@@ -908,12 +908,12 @@ ${stepsHtml}
 
 
             
-            <details class="sec" id="docs" open>
+           <details class="sec" id="docs">
+  <summary>
+    <span class="docs-title">مدارک و شرایط</span>
+    <span class="docs-toggle" aria-hidden="true">+</span>
+  </summary>
 
-                <summary>
-                  <span> آنچه باید بدانید </span>
-                  <small></small>
-                </summary>
                <div class="sec-body">
   ${restSectionsHtml}
   ${notDoneHtml}
