@@ -877,9 +877,10 @@ right:auto;
       app.innerHTML = `${style}<div class="wrap"><div class="card"><div class="card-clip"><div class="content">این خدمت پیدا نشد.</div></div></div></div>`;
       return;
     }
-// ===== Breadcrumb (compact + correct) =====
-const origin = sessionStorage.getItem("serviceFrom") || "";
-const isFromMilitaryHub = origin.includes("military-hub.html");
+// ===== Breadcrumb (stateless + correct) =====
+// فقط از referrer همین ریکوئست استفاده کن (نه sessionStorage)
+const ref = (document.referrer || "");
+const cameFromMilitaryHub = /\/?military-hub\.html(\?|#|$)/.test(ref);
 
 // پایه crumbs
 let crumbs = Array.isArray(svc.breadcrumb) ? svc.breadcrumb.slice() : [
@@ -887,19 +888,6 @@ let crumbs = Array.isArray(svc.breadcrumb) ? svc.breadcrumb.slice() : [
   { label: "خدمات", href: "all.html" },
   { label: (svc.barTitle || svc.shortTitle || ""), href: "" }
 ];
-
-// اگر واقعاً از هاب نظام وظیفه آمده بود (فقط همین شرط!)
-if (isFromMilitaryHub) {
-  const hasMil = crumbs.some(c =>
-    (c?.href || "").includes("military-hub.html") ||
-    (c?.label || "").includes("نظام وظیفه")
-  );
-  if (!hasMil) {
-    const idx = crumbs.findIndex(c => (c?.label || "").includes("خدمات"));
-    const insertAt = (idx >= 0) ? idx + 1 : 1;
-    crumbs.splice(insertAt, 0, { label: "نظام وظیفه", href: "military-hub.html" });
-  }
-}
 
 // حذف crumb آخر (اسم صفحه جاری)
 if (crumbs.length) crumbs = crumbs.slice(0, -1);
@@ -909,22 +897,43 @@ if (crumbs.length && (crumbs[0]?.label || "").includes("خانه")) {
   crumbs = crumbs.slice(1);
 }
 
+// ✅ تشخیص اینکه خود این سرویس واقعاً نظام‌وظیفه‌ای هست یا نه
+// اگر breadcrumb خودش نشانه‌ی نظام وظیفه داشت، یعنی زیرمجموعه‌ی نظام‌وظیفه است.
+const isMilitaryService =
+  crumbs.some(c =>
+    /military-hub\.html/.test(String(c?.href || "")) ||
+    /نظام\s*وظیفه/.test(String(c?.label || ""))
+  );
+
+// ✅ فقط اگر (۱) از هاب آمده باشیم و (۲) سرویس واقعاً نظام‌وظیفه‌ای باشد، "نظام وظیفه" را تزریق کن
+if (cameFromMilitaryHub && isMilitaryService) {
+  const hasMilAlready = crumbs.some(c =>
+    /military-hub\.html/.test(String(c?.href || "")) ||
+    /نظام\s*وظیفه/.test(String(c?.label || ""))
+  );
+
+  if (!hasMilAlready) {
+    const idx = crumbs.findIndex(c => /خدمات/.test(String(c?.label || "")));
+    const insertAt = (idx >= 0) ? idx + 1 : 0;
+    crumbs.splice(insertAt, 0, { label: "نظام وظیفه", href: "military-hub.html" });
+  }
+}
+
 // فقط 2 یا 3 تای آخر
-const MAX_SHOW = isFromMilitaryHub ? 3 : 2;
+const MAX_SHOW = (cameFromMilitaryHub && isMilitaryService) ? 3 : 2;
 
 let crumbsShort = crumbs;
 let hasDots = false;
+
 if (crumbs.length > MAX_SHOW) {
   hasDots = true;
   crumbsShort = crumbs.slice(-MAX_SHOW);
 } else {
-  hasDots = false;
-  crumbsShort = crumbs;
+  hasDots = true; // همیشه … داشته باشیم برای کوتاه بودن
 }
 
-
-const dotsHref = isFromMilitaryHub ? "military-hub.html" : "all.html";
-
+// لینک … : اگر نظام وظیفه‌ای نبود، برود all.html
+const dotsHref = (cameFromMilitaryHub && isMilitaryService) ? "military-hub.html" : "all.html";
 
 
 
