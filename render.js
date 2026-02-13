@@ -225,9 +225,14 @@
 /* ===== Breadcrumb ===== */
 .breadcrumb{
   margin:8px 0 4px;
-  font-size:13px;
   color:#041e42;
   text-align:right;
+   flex:1 1 auto;
+  min-width:0;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  font-size:13px;
 }
 
 .breadcrumb a{
@@ -260,6 +265,7 @@
   display:flex;
   justify-content:flex-end;
   flex:0 0 auto;
+  margin-right:12px;
 }
 
 /* CTA زیر نوار (دانلود فرم) */
@@ -268,8 +274,14 @@
   padding:7px 10px;
   border-radius:999px;
 }
-
-
+.bc-dots{
+  color:#94a3b8;
+  margin-left:4px;
+}
+.bc-current{
+  font-weight:700;
+  color:#475569;
+}
 
 
 .meta{
@@ -845,41 +857,43 @@ details.sec#docs .doc-sec > .sec-body{
       app.innerHTML = `${style}<div class="wrap"><div class="card"><div class="card-clip"><div class="content">این خدمت پیدا نشد.</div></div></div></div>`;
       return;
     }
-// ✅ Breadcrumb "نظام وظیفه" فقط وقتی واقعا از هاب نظام وظیفه آمده باشیم
-const params = new URLSearchParams(location.search);
-const from = params.get("from") || "";
-const ref = document.referrer || "";
+// ===== Breadcrumb (compact mode) =====
+const origin = sessionStorage.getItem("serviceFrom") || "";
+const isFromMilitaryHub = origin.includes("military-hub.html");
 
-// فقط اگر لینک‌های هاب نظام وظیفه پارامتر from=military بدهند
-// یا referrer واقعا military-hub.html باشد
-const isMilitary = (from === "military") || ref.includes("military-hub.html");
+// پایه crumbs
+let crumbs = Array.isArray(svc.breadcrumb) ? svc.breadcrumb.slice() : [
+  { label: "خانه", href: "index.html" },
+  { label: "خدمات", href: "all.html" },
+  { label: (svc.barTitle || svc.shortTitle || ""), href: "" }
+];
 
-// breadcrumb پایه
-const baseCrumbs = Array.isArray(svc.breadcrumb) ? svc.breadcrumb.slice() : null;
-
-let crumbs = baseCrumbs;
-
-if (!crumbs) {
-  crumbs = [
-    { label: "خانه", href: "index.html" },
-    { label: "خدمات", href: "all.html" },
-  ];
-
-  if (isMilitary) crumbs.push({ label: "نظام وظیفه", href: "military-hub.html" });
-
-  crumbs.push({ label: (svc.barTitle || svc.shortTitle || ""), href: "" });
-} else {
-  if (isMilitary) {
-    const hasMil = crumbs.some(c =>
-      (c?.href || "").includes("military-hub.html") || (c?.label || "").includes("نظام وظیفه")
-    );
-    if (!hasMil) {
-      const idx = crumbs.findIndex(c => (c?.label || "").includes("خدمات"));
-      if (idx >= 0) crumbs.splice(idx + 1, 0, { label: "نظام وظیفه", href: "military-hub.html" });
-      else crumbs.splice(2, 0, { label: "نظام وظیفه", href: "military-hub.html" });
-    }
+// اگر واقعاً از هاب نظام وظیفه آمده بود
+if (isFromMilitaryHub) {
+  const hasMil = crumbs.some(c =>
+    (c?.href || "").includes("military-hub.html") ||
+    (c?.label || "").includes("نظام وظیفه")
+  );
+  if (!hasMil) {
+    const idx = crumbs.findIndex(c => (c?.label || "").includes("خدمات"));
+    const insertAt = (idx >= 0) ? idx + 1 : 1;
+    crumbs.splice(insertAt, 0, { label: "نظام وظیفه", href: "military-hub.html" });
   }
 }
+
+// حذف crumb آخر (اسم صفحه جاری)
+if (crumbs.length) crumbs = crumbs.slice(0, -1);
+
+// فقط 3 تای آخر
+const MAX_SHOW = 3;
+let crumbsShort = crumbs;
+let hasDots = false;
+
+if (crumbs.length > MAX_SHOW) {
+  hasDots = true;
+  crumbsShort = crumbs.slice(-MAX_SHOW);
+}
+
 
 
 
@@ -1117,11 +1131,23 @@ const restSectionsHtml = otherSecs.map((sec, i) => {
 
   <div class="header-row">
   <div class="breadcrumb">
-  ${crumbs.map((b, idx) => {
-    const sep = idx === 0 ? "" : ` <span class="bc-sep">›</span> `;
-    if (b && b.href) return `${sep}<a href="${esc(b.href)}">${esc(b.label || "")}</a>`;
-    return `${sep}<span>${esc(b?.label || "")}</span>`;
-  }).join("")}
+ ${hasDots ? `<span class="bc-dots">…</span>` : ""}
+
+${crumbsShort.map((b, idx) => {
+  const sep = (hasDots || idx > 0)
+    ? ` <span class="bc-sep">›</span> `
+    : "";
+
+  if (b && b.href)
+    return `${sep}<a href="${esc(b.href)}">${esc(b.label || "")}</a>`;
+
+  return `${sep}<span>${esc(b?.label || "")}</span>`;
+}).join("")}
+
+${crumbsShort.length ? ` <span class="bc-sep">›</span> ` : ""}
+<span class="bc-current">صفحه فعلی</span>
+
+
 </div>
 
 
