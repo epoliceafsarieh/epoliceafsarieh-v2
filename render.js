@@ -909,9 +909,15 @@ const restSectionsHtml = otherSecs.map((sec, i) => {
 
           <div class="brandbar">
             <div class="brand-right">
+            
               ${iconHtml}
               <div class="svc-title">${esc(svc.barTitle || svc.shortTitle || "")}</div>
             </div>
+            <div class="brand-left">
+  ${ (hasTime || hasFeeTable) ? `<a class="fee-shortcut" href="#feeBox">زمان و هزینه</a>` : "" }
+  ${metaCtaHtmlTop}
+</div>
+
             
           </div>
 
