@@ -1074,6 +1074,32 @@ docChildren.forEach(sec => {
     icon.textContent = sec.open ? '−' : '+';
   });
 });
+const fab = app.querySelector("#scrollFab");
+const fabIcon = app.querySelector("#scrollFabIcon");
+
+function updateFab(){
+  const doc = document.documentElement;
+  const scrollable = doc.scrollHeight > (window.innerHeight + 40);
+  if (!scrollable) {
+    if (fab) fab.style.display = "none";
+    return;
+  }
+  if (fab) fab.style.display = "inline-flex";
+
+  const nearBottom = (window.scrollY + window.innerHeight) >= (doc.scrollHeight - 80);
+  if (fabIcon) fabIcon.textContent = nearBottom ? "↑" : "↓";
+}
+
+if (fab) {
+  fab.addEventListener("click", () => {
+    const doc = document.documentElement;
+    const nearBottom = (window.scrollY + window.innerHeight) >= (doc.scrollHeight - 80);
+    window.scrollTo({ top: nearBottom ? 0 : doc.scrollHeight, behavior: "smooth" });
+  });
+  window.addEventListener("scroll", updateFab, { passive:true });
+  window.addEventListener("resize", updateFab);
+  updateFab();
+}
 
 
       
