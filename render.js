@@ -244,6 +244,28 @@
   font-weight:600;
 }
 .bc-sep{ color:#94a3b8; margin:0 6px; }
+.header-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.header-cta{
+  display:flex;
+  justify-content:flex-end;
+  flex:0 0 auto;
+}
+
+/* CTA زیر نوار (دانلود فرم) */
+.header-cta .meta-cta{
+  font-size:12px;
+  padding:7px 10px;
+  border-radius:999px;
+}
+
+
+
 
 .meta{
   display:flex;
