@@ -1326,17 +1326,7 @@ function runFabIntro(){
 
 
 
-  anim.onfinish = () => {
-    // reset inline transform/opacity تا کلاس‌ها درست کار کنند
-    fab.style.transform = "";
-    fab.style.opacity = "";
-
-    // چند بار bounce کوتاه برای راهنمایی
-    fab.classList.add("is-bounce");
-    setTimeout(() => {
-      if (!isNearBottom()) fab.classList.remove("is-bounce");
-    }, 4200); // حدود 3~4 سیکل bounce
-  };
+ 
 }
 
 if (fab) {
