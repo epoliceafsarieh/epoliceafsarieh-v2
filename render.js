@@ -222,6 +222,28 @@
   background:#fff;
   border-bottom:none;
 }
+/* ===== Breadcrumb ===== */
+.breadcrumb{
+  margin:8px 0 4px;
+  font-size:13px;
+  color:#041e42;
+  text-align:right;
+}
+
+.breadcrumb a{
+  color:#041e42;
+  text-decoration:none;
+}
+
+.breadcrumb a:hover{
+  text-decoration:underline;
+}
+
+.breadcrumb span{
+  color:#475569;
+  font-weight:600;
+}
+
 
 .meta{
   display:flex;
