@@ -276,7 +276,7 @@
   }
   .hero-title {
   font-weight: 900;
-  font-size: 22px;  /* تغییر به 22px */
+  font-size: 20px;  /* تغییر به 22px */
   color: #0f172a;  /* رنگ سرمه‌ای */
   margin: 0 0 6px;
 }
