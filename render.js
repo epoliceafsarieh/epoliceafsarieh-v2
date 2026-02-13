@@ -688,20 +688,6 @@ details.sec#docs .doc-sec > summary{
   transform:translateY(-45%) rotate(-135deg);
 }
 
-/* ===== Docs Toggle Icon ===== */
-details.sec#docs > summary{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  cursor:pointer;
-}
-
-.docs-toggle{
-  font-size:18px;
-  font-weight:900;
-  color:#334155;
-  transition:.2s ease;
-}
 
 </style>`;
 
