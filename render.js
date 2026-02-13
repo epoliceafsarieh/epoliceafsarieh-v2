@@ -244,6 +244,8 @@
   font-weight:600;
 }
 
+.bc-sep{ color:#94a3b8; margin:0 6px; }
+
 
 .meta{
   display:flex;
