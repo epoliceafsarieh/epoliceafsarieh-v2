@@ -1310,38 +1310,44 @@ function runFabIntro(){
 
   fab.style.display = "inline-flex";
 
-  // جای نهایی FAB همین الان با CSS پایین ثابت است (bottom:86px)
-  // ما فقط با transform از وسط به پایین حرکت می‌دهیم
-// شروع از وسط صفحه
-fab.style.top = "50%";
-fab.style.bottom = "auto";
-fab.style.transform = "translateY(-50%)";
-fab.style.opacity = "0";
+  // مطمئن شو FAB در جای نهایی خودش (bottom:86px) رندر شده
+  requestAnimationFrame(() => {
+    const rect = fab.getBoundingClientRect();
 
-// force reflow
-fab.offsetHeight;
+    // مرکز جای نهایی
+    const targetCenterY = rect.top + rect.height / 2;
 
-fab.animate(
-  [
-    { top: "50%", opacity: 0 },
-    { top: "auto", bottom: "86px", opacity: 1 }
-  ],
-  {
-    duration: 3000,
-    easing: "cubic-bezier(.22,.8,.2,1)",
-    fill: "forwards"
-  }
-).onfinish = () => {
-  fab.style.top = "";
-  fab.style.bottom = "86px";
-  fab.style.transform = "";
-  fab.style.opacity = "";
+    // مرکز ویوپورت
+    const midCenterY = window.innerHeight / 2;
 
-  fab.classList.add("is-bounce");
-  setTimeout(() => {
-    if (!isNearBottom()) fab.classList.remove("is-bounce");
-  }, 7000);
-};
+    // چقدر باید از وسط بیاید پایین تا برسد به جای نهایی
+    const startDy = midCenterY - targetCenterY;
+
+    const anim = fab.animate(
+      [
+        { transform: `translateY(${startDy}px)`, opacity: 0 },
+        { transform: `translateY(0px)`,         opacity: 1 }
+      ],
+      {
+        duration: 3000, // آهسته‌تر
+        easing: "cubic-bezier(.22,.8,.2,1)",
+        fill: "forwards"
+      }
+    );
+
+    anim.onfinish = () => {
+      // پاکسازی تا کلاس‌های bounce درست کار کنند
+      fab.style.transform = "";
+      fab.style.opacity = "";
+
+      // bounce راهنما فقط چند ثانیه
+      fab.classList.add("is-bounce");
+      setTimeout(() => {
+        if (!isNearBottom()) fab.classList.remove("is-bounce");
+      }, 7000);
+    };
+  });
+}
 
 
 
