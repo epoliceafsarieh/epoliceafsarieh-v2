@@ -933,6 +933,14 @@ if (!hubKey) {
     if (HUBS[k].match(svc, serviceKey)) { hubKey = k; break; }
   }
 }
+// اگر هنوز hubKey نداریم، از حافظه نشست بخوان (برای ورود از سرچ/QR بعد از یک بار ورود از هاب)
+if (!hubKey) {
+  try {
+    const last = sessionStorage.getItem("lastHub");
+    if (last && HUBS[last]) hubKey = last;
+  } catch (e) { /* ignore */ }
+}
+      
 
 // 3) حافظه نشست: آخرین هاب
 // - اگر صفحه الان زیرمجموعه هاب است => ذخیره کن
