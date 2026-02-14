@@ -1395,8 +1395,12 @@ ${stepsHtml}
       return;
     }
 
-    // ===== غیرنظام: اگر هنوز جا کم است، خدمات هم حذف شود =====
-    setDisplay(services, false);
+  // ===== غیرنظام: اگر هنوز جا کم است، خدمات هم حذف شود =====
+// در این مرحله "…" باید برود به خدمات (نه لندینگ)
+setDisplay(services, false);
+setDisplay(sepDots, false);           // جلوگیری از دو تا جداکننده
+if (dots) dots.href = "all.html";     // ✅ قرارداد: … => خدمات
+
   }
 
   fit();
