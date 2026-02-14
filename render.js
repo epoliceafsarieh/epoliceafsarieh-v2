@@ -1594,6 +1594,7 @@ anim.onfinish = () => {
 
     fab.style.animation = prevAnim;
     fab.style.transition = prevTransition;
+      fab.classList.add("intro-running");
     fabIntroRunning = false;
 
     // ❌ اینجا updateFab نزن (اگر بزنی ممکنه reset کند)
