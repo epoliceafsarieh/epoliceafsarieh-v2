@@ -1497,6 +1497,8 @@ function runFabIntro(){
   if (!isScrollable()) return;
 
   fabIntroRunning = true;
+   fab.classList.add("intro-running");
+ 
   fab.classList.remove("is-bounce");
 
   // تداخل‌های transform/animation را صفر کن
@@ -1536,7 +1538,7 @@ function runFabIntro(){
 
     // یک فریم: ببریمش بالا
     fab.style.transform = `translateY(${startY}px)`;
-    fab.style.opacity = "1";
+    fab.style.opacity = "0";
 
     // انیمیشن اصلی: از بالا به کف + برخورد + برگشت
 const anim = fab.animate(
