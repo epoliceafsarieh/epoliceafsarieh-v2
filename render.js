@@ -1002,7 +1002,10 @@ const breadcrumbHtml = `
   ` : ""}
 
   <span class="bc-sep" id="bcSepCurrent">›</span>
-  <span class="bc-current" id="bcCurrent">صفحه جاری</span>
+ <span class="bc-current ${hubKey ? "military-current" : ""}" id="bcCurrent">
+  ${hubKey ? "" : "صفحه جاری"}
+</span>
+
 </div>
 `;
 
