@@ -8,7 +8,7 @@
     barTitle: "معافیت پزشکی",
     shortTitle: "معافیت پزشکی",
     //icon: "assets/img/icons/military-medical.png",
-    heroPrimary: { label: " راهنمای دسته‌بندی بیماری‌ها (PDF)", href: PDF_HREF },
+    heroPrimary: { label: "دسته‌بندی بیماری‌ها", href: PDF_HREF },
 
   heroTitle: "معافیت پزشکی",
     meta: {
