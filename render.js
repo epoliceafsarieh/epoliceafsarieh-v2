@@ -1530,20 +1530,21 @@ function runFabIntro(){
     fab.style.opacity = "1";
 
     // انیمیشن اصلی: از بالا به کف + برخورد + برگشت
-    const anim = fab.animate(
-      [
-        { transform: `translateY(${startY}px)`, opacity: 0.0 },
-        { transform: `translateY(${endY}px)`,   opacity: 1.0, offset: 0.82 },
-        { transform: `translateY(${endY + 14}px)`, opacity: 1.0, offset: 0.88 }, // برخورد (فرو رفتن)
-        { transform: `translateY(${endY - 8}px)`,  opacity: 1.0, offset: 0.94 }, // برگشت
-        { transform: `translateY(${endY}px)`,   opacity: 1.0 }
-      ],
-      {
-        duration: 2000,
-        easing: "cubic-bezier(.22,.85,.2,1)",
-        fill: "forwards"
-      }
-    );
+  const anim = fab.animate(
+  [
+    { transform: `translateY(${startY}px)`, opacity: 0.0 },
+    { transform: `translateY(${endY}px)`,   opacity: 1.0, offset: 0.88 },
+    { transform: `translateY(${endY + 12}px)`, opacity: 1.0, offset: 0.93 }, // برخورد
+    { transform: `translateY(${endY - 7}px)`,  opacity: 1.0, offset: 0.97 }, // برگشت
+    { transform: `translateY(${endY}px)`,   opacity: 1.0 }
+  ],
+  {
+    duration: 3200,
+    easing: "cubic-bezier(.16,1,.3,1)", // نرم‌تر (easeOutExpo-ish)
+    fill: "forwards"
+  }
+);
+
 
     anim.onfinish = () => {
       // ۳ ضربه به کف
