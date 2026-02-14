@@ -1140,11 +1140,10 @@ const restSectionsHtml = otherSecs.map((sec, i) => {
         <div class="header">
 
   <div class="header-row">
- <div class="breadcrumb" id="breadcrumb">
-  <a href="${esc(servicesCrumb.href)}">${esc(servicesCrumb.label)}</a>
-  <span class="bc-sep">›</span>
+<div class="breadcrumb" id="breadcrumb">
   <span class="bc-current" id="bcCurrent">${esc(currentLabelFull)}</span>
 </div>
+
 
 
     ${metaCtaHtml ? `<div class="header-cta">${metaCtaHtml}</div>` : `<div class="header-cta"></div>`}
