@@ -1320,10 +1320,7 @@ const services = app.querySelector("#bcServices");
 const sepParent = app.querySelector("#bcSepParent");
 const parent = app.querySelector("#bcParent");
 
-  const sep1       = app.querySelector("#bcSep1");          // بعد از …
-  const sepCurrent = app.querySelector("#bcSepCurrent");    // قبل از صفحه جاری
-
-function setDisplay(el, on){
+ function setDisplay(el, on){
   if (!el) return;
   el.style.display = on ? "" : "none";
 }
