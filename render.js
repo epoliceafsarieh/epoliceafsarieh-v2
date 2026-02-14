@@ -875,19 +875,14 @@ right:auto;
   display:block;
   width:18px;
   height:18px;
-
-  /* ساخت فلش با border (مثل آیکن) */
-  border-right:4px solid rgba(4,30,66,.85);
-  border-bottom:4px solid rgba(4,30,66,.85);
+  border-right:4px solid rgba(35,55,80,.75);
+  border-bottom:4px solid rgba(35,55,80,.75);
   transform:rotate(45deg);
-
-  /* جایگیری بصری */
   margin-top:-2px;
-
-  /* متن قبلی را بی‌اثر می‌کنیم */
   font-size:0;
   line-height:0;
 }
+
 
 /* وقتی نزدیک انتهای صفحه‌ایم => جهت بالا */
 .scroll-fab.to-top span{
