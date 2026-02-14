@@ -1517,15 +1517,20 @@ function updateFab(){
 fab.classList.toggle("is-bounce", (!fabIntroRunning && !nearBottom));
 
 }
-
-/* Intro: از وسط صفحه (center viewport) به جای نهایی پایین (bottom:86px) حرکت کند */
 function runFabIntro(){
   if (!fab) return;
   if (!isScrollable()) return;
 
+  // جلوگیری از تداخل transform با bounce
+  fabIntroRunning = true;
+  fab.classList.remove("is-bounce");
+
   fab.style.display = "inline-flex";
 
-  // مطمئن شو FAB در جای نهایی خودش (bottom:86px) رندر شده
+  // transition روی transform هم موقتاً خاموش شود که ضربه نزند
+  const prevTransition = fab.style.transition;
+  fab.style.transition = "none";
+
   requestAnimationFrame(() => {
     const rect = fab.getBoundingClientRect();
 
@@ -1535,34 +1540,50 @@ function runFabIntro(){
     // مرکز ویوپورت
     const midCenterY = window.innerHeight / 2;
 
-    // چقدر باید از وسط بیاید پایین تا برسد به جای نهایی
+    // از وسط تا جای نهایی چقدر فاصله داریم
     const startDy = midCenterY - targetCenterY;
 
     const anim = fab.animate(
       [
         { transform: `translateY(${startDy}px)`, opacity: 0 },
-        { transform: `translateY(0px)`,         opacity: 1 }
+        // ✅ برخورد به پایین (کمی از جای نهایی پایین‌تر می‌رود)
+        { transform: `translateY(14px)`,         opacity: 1, offset: 0.78 },
+        // ✅ برگشت کوچک رو به بالا
+        { transform: `translateY(-8px)`,         opacity: 1, offset: 0.90 },
+        // ✅ نشستن روی جای نهایی
+        { transform: `translateY(0px)`,          opacity: 1 }
       ],
       {
-        duration: 3000, // آهسته‌تر
-        easing: "cubic-bezier(.22,.8,.2,1)",
+        duration: 1400,
+        easing: "cubic-bezier(.22,.9,.2,1)",
         fill: "forwards"
       }
     );
 
     anim.onfinish = () => {
-      // پاکسازی تا کلاس‌های bounce درست کار کنند
+      // پاکسازی transform/opacity تا کلاس‌ها درست کار کنند
       fab.style.transform = "";
       fab.style.opacity = "";
+      fab.style.transition = prevTransition;
 
-      // bounce راهنما فقط چند ثانیه
-      fab.classList.add("is-bounce");
-      setTimeout(() => {
-        if (!isNearBottom()) fab.classList.remove("is-bounce");
-      }, 7000);
+      fabIntroRunning = false;
+
+      // یک ضربه‌ی نمایشی: چند بار بزند به پایین (۳ بار)
+      fab.animate(
+        [
+          { transform: "translateY(0px)" },
+          { transform: "translateY(10px)" },
+          { transform: "translateY(0px)" }
+        ],
+        { duration: 260, iterations: 3, easing: "ease-in-out" }
+      );
+
+      // بعد از intro وضعیت کلاس‌ها را با منطق خودت sync کن
+      updateFab();
     };
   });
 }
+
 
 if (fab) {
   fab.addEventListener("click", () => {
