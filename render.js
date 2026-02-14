@@ -1543,7 +1543,7 @@ function runFabIntro() {
         { transform: `translateY(${endY}px)`, opacity: 1.0, offset: 1.00 }
       ],
       {
-        duration: 2600,
+        duration: 4600,
         easing: "cubic-bezier(.22,.85,.2,1)",
         fill: "forwards"
       }
