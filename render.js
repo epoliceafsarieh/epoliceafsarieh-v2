@@ -1557,16 +1557,18 @@ function runFabIntro(){
         { duration: 260, iterations: 3, easing: "ease-in-out" }
       );
 
-      hit.onfinish = () => {
-        // پاکسازی و برگشت به حالت عادی
-        fab.style.transform = "";
-        fab.style.opacity = "";
-        fab.style.animation = prevAnim;
-        fab.style.transition = prevTransition;
+    hit.onfinish = () => {
 
-        fabIntroRunning = false;
-        updateFab();
-      };
+  // 👇 transform را پاک نکن!
+  fab.style.animation = prevAnim;
+  fab.style.transition = prevTransition;
+
+  fabIntroRunning = false;
+
+  // الان دیگر reset نکن
+  updateFab();
+};
+
     };
   });
 }
