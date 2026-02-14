@@ -1304,103 +1304,100 @@ ${stepsHtml}
 
       ${bottomCtaHtml}
     `;
-// ===== Windows Breadcrumb fit (… > خدمات > parent > صفحه جاری) =====
+// ===== Windows Breadcrumb fit (خانه > خدمات > parent > صفحه جاری) =====
 (function () {
   const bc = app.querySelector("#breadcrumb");
   if (!bc) return;
 
-const home = app.querySelector("#bcHome");
-const sepHome = app.querySelector("#bcSepHome");
+  const home = app.querySelector("#bcHome");
+  const sepHome = app.querySelector("#bcSepHome");
 
-const dots = app.querySelector("#bcDots");
-const sepDots = app.querySelector("#bcSepDots");
+  const dots = app.querySelector("#bcDots");
+  const sepDots = app.querySelector("#bcSepDots");
 
-const services = app.querySelector("#bcServices");
+  const services = app.querySelector("#bcServices");
 
-const sepParent = app.querySelector("#bcSepParent");
-const parent = app.querySelector("#bcParent");
+  const sepParent = app.querySelector("#bcSepParent");
+  const parent = app.querySelector("#bcParent");
 
- function setDisplay(el, on){
-  if (!el) return;
-  el.style.display = on ? "" : "none";
-}
-
-// کوتاه‌سازی parent از چپ: …ظام وظیفه
-function leftEllipsize(el, full){
-  if (!el) return;
-
-  el.textContent = full;
-  if (bc.scrollWidth <= bc.clientWidth) return;
-
-  let lo = 1, hi = full.length, best = 1;
-  while (lo <= hi) {
-    const mid = (lo + hi) >> 1;
-    el.textContent = "…" + full.slice(full.length - mid);
-    if (bc.scrollWidth <= bc.clientWidth) { best = mid; lo = mid + 1; }
-    else { hi = mid - 1; }
+  function setDisplay(el, on){
+    if (!el) return;
+    el.style.display = on ? "" : "none";
   }
-  el.textContent = (best <= 1) ? "…" : ("…" + full.slice(full.length - best));
-}
 
-function fit(){
-  // ===== حالت پایه (قرارداد): خانه > خدمات > [parent] > صفحه جاری =====
-  setDisplay(home, true);
-  setDisplay(sepHome, true);
+  // کوتاه‌سازی parent از چپ: …ظام وظیفه
+  function leftEllipsize(el, full){
+    if (!el) return;
 
-  setDisplay(dots, false);
-  setDisplay(sepDots, false);
+    el.textContent = full;
+    if (bc.scrollWidth <= bc.clientWidth) return;
 
-  setDisplay(services, true);
+    let lo = 1, hi = full.length, best = 1;
+    while (lo <= hi) {
+      const mid = (lo + hi) >> 1;
+      el.textContent = "…" + full.slice(full.length - mid);
+      if (bc.scrollWidth <= bc.clientWidth) { best = mid; lo = mid + 1; }
+      else { hi = mid - 1; }
+    }
+    el.textContent = (best <= 1) ? "…" : ("…" + full.slice(full.length - best));
+  }
 
-  setDisplay(sepParent, !!parent);
-  setDisplay(parent, !!parent);
+  function fit(){
+    // ===== حالت پایه: خانه > خدمات > [parent] > صفحه جاری =====
+    setDisplay(home, true);
+    setDisplay(sepHome, true);
 
-  // ریست parent
-  if (parent) parent.textContent = parent.getAttribute("data-full") || parent.textContent;
+    setDisplay(dots, false);
+    setDisplay(sepDots, false);
 
-  // dots پیش‌فرض وقتی جای "خانه" را می‌گیرد => index.html
-  if (dots) dots.href = "index.html";
+    setDisplay(services, true);
 
-  if (bc.scrollWidth <= bc.clientWidth) return;
+    setDisplay(sepParent, !!parent);
+    setDisplay(parent, !!parent);
 
-  // ===== مرحله 1: خانه تبدیل به … (… لینک به landing = index.html) =====
-  setDisplay(home, false);
-  setDisplay(sepHome, false);
+    // ریست parent
+    if (parent) parent.textContent = parent.getAttribute("data-full") || parent.textContent;
 
-  setDisplay(dots, true);
-  setDisplay(sepDots, true);
-  if (dots) dots.href = "index.html";
-
-  if (bc.scrollWidth <= bc.clientWidth) return;
-
-  // ===== مرحله 2:
-  // اگر صفحه نظام‌وظیفه‌ای است و هنوز جا کم است:
-  // "خانه+خدمات" در … ادغام می‌شود => … لینک به خدمات (all.html)
-  const isMilitaryPage = !!hubKey; // چون بالاتر hubKey را ساختی
-  if (isMilitaryPage) {
-    setDisplay(services, false);
-    if (dots) dots.href = "all.html"; // ✅ قرارداد: این … برود خدمات
+    // dots وقتی جای "خانه" را می‌گیرد => index.html
+    if (dots) dots.href = "index.html";
 
     if (bc.scrollWidth <= bc.clientWidth) return;
 
-    // ===== مرحله 3: parent را از چپ کوتاه کن (…ظام وظیفه) =====
-    if (parent){
-      const full = parent.getAttribute("data-full") || parent.textContent || "";
-      leftEllipsize(parent, full);
+    // ===== مرحله 1: خانه => … (… لینک به landing = index.html) =====
+    setDisplay(home, false);
+    setDisplay(sepHome, false);
+
+    setDisplay(dots, true);
+    setDisplay(sepDots, true);
+    if (dots) dots.href = "index.html";
+
+    if (bc.scrollWidth <= bc.clientWidth) return;
+
+    // ===== مرحله 2: نظام‌وظیفه‌ای‌ها: خدمات حذف شود و … برود all.html =====
+    const isMilitaryPage = !!hubKey;
+
+    if (isMilitaryPage) {
+      setDisplay(services, false);
+      if (dots) dots.href = "all.html";
+
       if (bc.scrollWidth <= bc.clientWidth) return;
+
+      // ===== مرحله 3: parent را از چپ کوتاه کن =====
+      if (parent){
+        const full = parent.getAttribute("data-full") || parent.textContent || "";
+        leftEllipsize(parent, full);
+        if (bc.scrollWidth <= bc.clientWidth) return;
+      }
+
+      // ===== مرحله 4: فقط … + صفحه جاری =====
+      setDisplay(sepParent, false);
+      setDisplay(parent, false);
+      return;
     }
 
-    // ===== مرحله 4: اگر باز هم جا نشد: فقط … + صفحه جاری =====
-    setDisplay(sepParent, false);
-    setDisplay(parent, false);
-    return;
+    // ===== غیرنظام: اگر هنوز جا کم است، خدمات هم حذف شود =====
+    setDisplay(services, false);
   }
-
-  // ===== غیرنظام: اگر هنوز جا کم است، خدمات را هم حذف کن => … + صفحه جاری
-  // (… همچنان لینک به index.html باقی می‌ماند)
-  setDisplay(services, false);
-}
-
 
   fit();
   window.addEventListener("resize", fit);
