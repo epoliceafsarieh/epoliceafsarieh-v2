@@ -1563,29 +1563,34 @@ const anim = fab.animate(
 );
 
 
+anim.onfinish = () => {
+  // تکان میرا: هر بار کمتر
+  const settle = fab.animate(
+    [
+      { transform: `translateY(${endY}px)` },
+      { transform: `translateY(${endY + 8}px)` },
+      { transform: `translateY(${endY}px)` },
+      { transform: `translateY(${endY + 5}px)` },
+      { transform: `translateY(${endY}px)` },
+      { transform: `translateY(${endY + 3}px)` },
+      { transform: `translateY(${endY}px)` }
+    ],
+    { duration: 520, easing: "ease-out", fill: "forwards" }
+  );
 
-    anim.onfinish = () => {
-      // ۳ ضربه به کف
-      const hit = fab.animate(
-        [
-          { transform: `translateY(${endY}px)` },
-          { transform: `translateY(${endY + 12}px)` },
-          { transform: `translateY(${endY}px)` }
-        ],
-        { duration: 260, iterations: 3, easing: "ease-in-out" }
-      );
+  settle.onfinish = () => {
+    // ✅ قفل روی پایین (همانجا بایستد)
+    fab.style.transform = `translateY(${endY}px)`;
+    fab.style.opacity = "1";
 
-  hit.onfinish = () => {
+    fab.style.animation = prevAnim;
+    fab.style.transition = prevTransition;
+    fabIntroRunning = false;
 
-  // transform را روی موقعیت نهایی قفل کن
-  fab.style.transform = `translateY(${endY}px)`;
-  fab.style.opacity = "1";
-
-  fab.style.animation = prevAnim;
-  fab.style.transition = prevTransition;
-
-  fabIntroRunning = false;
+    // ❌ اینجا updateFab نزن (اگر بزنی ممکنه reset کند)
+  };
 };
+
 
 
     };
