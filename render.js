@@ -990,8 +990,14 @@ if (!parent) parent = raw.length ? raw[raw.length - 1] : null;
 // HTML breadcrumb
 const breadcrumbHtml = `
 <div class="breadcrumb" id="breadcrumb">
- <a class="bc-dots" id="bcDots" href="index.html">…</a>
- <span class="bc-sep" id="bcSep1">›</span>
+
+  <!-- خانه (پیش‌فرض نمایش داده می‌شود) -->
+  <a class="bc-home" id="bcHome" href="index.html">خانه</a>
+  <span class="bc-sep" id="bcSepHome">›</span>
+
+  <!-- سه‌نقطه (پیش‌فرض مخفی است؛ فقط وقتی کم جا شد جای خانه/خدمات می‌نشیند) -->
+  <a class="bc-dots" id="bcDots" href="index.html" style="display:none">…</a>
+  <span class="bc-sep" id="bcSepDots" style="display:none">›</span>
 
   <a class="bc-services" id="bcServices" href="all.html">خدمات</a>
 
@@ -1007,6 +1013,7 @@ const breadcrumbHtml = `
   <span class="bc-current" id="bcCurrent">صفحه جاری</span>
 </div>
 `;
+
 
 
 
