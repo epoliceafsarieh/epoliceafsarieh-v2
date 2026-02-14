@@ -1531,7 +1531,7 @@ function runFabIntro() {
   window.setTimeout(() => {
     fab.classList.remove("intro-running");
     fabIntroRunning = false;
-  }, 3200); // باید کمی بیشتر/نزدیک duration باشد (اینجا 3000ms + حاشیه)
+  }, 4200); // باید کمی بیشتر/نزدیک duration باشد (اینجا 3000ms + حاشیه)
 }
 
 
