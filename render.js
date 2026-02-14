@@ -235,7 +235,8 @@
   align-items:center;
   gap:2px;
   white-space:nowrap;
-  overflow:visible;
+ overflow:hidden;
+
   text-overflow:clip;
 
   font-size:13px;
