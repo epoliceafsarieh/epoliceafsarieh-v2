@@ -871,6 +871,27 @@ details.sec#docs .doc-sec > .sec-body{
   backdrop-filter:none !important;
   -webkit-backdrop-filter:none !important;
 }
+/* ===== FAB intro drop (cross-browser) ===== */
+@keyframes fabDropIntro {
+  0%   { transform: translateY(-120px); opacity: 0; }
+  18%  { transform: translateY(0px);    opacity: 1; }
+
+  /* چند بار bounce */
+  45%  { transform: translateY(0px); }
+  58%  { transform: translateY(-14px); }
+  68%  { transform: translateY(0px); }
+  78%  { transform: translateY(-9px); }
+  86%  { transform: translateY(0px); }
+  93%  { transform: translateY(-5px); }
+  100% { transform: translateY(0px); }
+}
+
+/* وقتی intro-running فعال شد، این انیمیشن اجرا شود */
+.scroll-fab.intro-running{
+  animation: fabDropIntro 4000ms cubic-bezier(.22,.85,.2,1) 1 both;
+}
+
+
 
 
 </style>`;
