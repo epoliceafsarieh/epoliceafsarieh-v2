@@ -1464,7 +1464,7 @@ if (smartBack) {
 
 function isScrollable(){
   const doc = document.documentElement;
-  return doc.scrollHeight > (window.innerHeight + 40);
+  return doc.scrollHeight > (window.innerHeight + 5);
 }
 function isNearBottom(){
   const doc = document.documentElement;
