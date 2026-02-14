@@ -295,13 +295,11 @@
   font-weight:700;
   color:#475569;
 }
-/* ✅ فقط صفحه فعلی مجاز به کوتاه شدن است */
 #bcCurrent{
   display:inline-block;
-  min-width:0;
-  overflow:hidden;
-  text-overflow:clip; /* ellipsis را JS می‌سازد */
+  flex:0 0 auto;        /* ✅ قفل: آخرین آیتم همیشه دیده شود */
   white-space:nowrap;
+  overflow:visible;     /* ✅ دیگر نباید "صفحه" نصفه شود */
 }
 
 
