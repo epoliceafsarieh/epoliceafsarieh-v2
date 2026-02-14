@@ -784,6 +784,56 @@ details.sec#docs .doc-sec > .sec-body{
   padding:7px 10px;
   border-radius:999px;
 }
+/* ===== Scroll FAB (glossy / jelly like sample) ===== */
+.scroll-fab{
+  position:fixed;
+  left:14px;
+  right:auto;
+  bottom:86px;
+  z-index:2500;
+
+  width:66px;
+  height:66px;
+  border-radius:999px;
+
+  /* ✅ گرادیان ژله‌ای (خاکستری-آبیِ سیرتر) */
+  background:
+    radial-gradient(120% 120% at 30% 22%,
+      rgba(255,255,255,.92) 0%,
+      rgba(245,248,252,.80) 28%,
+      rgba(214,226,238,.75) 55%,
+      rgba(176,192,210,.88) 100%);
+
+  /* ✅ رینگ دور و لبه‌ی نرم */
+  border:1px solid rgba(140,160,180,.55);
+
+  /* ✅ عمق و درخشش (مثل نمونه) */
+  box-shadow:
+    0 16px 34px rgba(2,8,23,.22),                  /* سایه بیرونی */
+    inset 0 2px 0 rgba(255,255,255,.85),           /* هایلایت بالا */
+    inset 0 -10px 18px rgba(90,110,130,.18),       /* عمق پایین */
+    inset 0 0 0 6px rgba(255,255,255,.35);         /* رینگ داخلی */
+
+  backdrop-filter:saturate(150%) blur(10px);
+
+  display:none;
+  align-items:center;
+  justify-content:center;
+
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+  transition:transform .15s ease, box-shadow .15s ease, opacity .15s ease;
+}
+
+.scroll-fab:hover{
+  transform:translateY(-2px);
+  box-shadow:
+    0 18px 38px rgba(2,8,23,.24),
+    inset 0 2px 0 rgba(255,255,255,.88),
+    inset 0 -10px 18px rgba(90,110,130,.18),
+    inset 0 0 0 6px rgba(255,255,255,.38);
+}
+.scroll-fab:active{ transform:translateY(0); }
 
 .scroll-fab{
   position:fixed;
@@ -809,35 +859,6 @@ right:auto;
 .scroll-fab:hover{ transform:translateY(-2px); }
 .scroll-fab:active{ transform:translateY(0); }
 
-/* ===== Scroll FAB (شیشه‌ای مثل تصویر) ===== */
-.scroll-fab{
-  position:fixed;
- left:14px;
-right:auto;
-  bottom:86px;
-  z-index:2500;
-
-  width:66px;
-  height:66px;
-  border-radius:999px;
-
-  /* شیشه‌ای */
-  background:rgba(235, 246, 255, .78);
-  border:1px solid rgba(255,255,255,.85);
-  box-shadow:
-    0 14px 30px rgba(2,8,23,.18),
-    inset 0 1px 0 rgba(255,255,255,.65);
-
-  backdrop-filter:saturate(160%) blur(10px);
-
-  display:none; /* فقط وقتی لازم شد */
-  align-items:center;
-  justify-content:center;
-
-  cursor:pointer;
-  -webkit-tap-highlight-color:transparent;
-  transition:transform .15s ease, box-shadow .15s ease, opacity .15s ease;
-}
 
 .scroll-fab:hover{
   transform:translateY(-2px);
