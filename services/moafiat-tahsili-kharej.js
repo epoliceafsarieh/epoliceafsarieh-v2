@@ -11,7 +11,7 @@
 
     heroTitle: "معافیت تحصیلی خارج از کشور",
     //heroSubtitle: "اگر خارج از کشور هستید، دفتر می‌تواند با معرفی/وکالت شما، مراحل ثبت و پیگیری معافیت تحصیلی را انجام دهد.",
-    heroPrimary: { label: "چک لیست معافیت تحصیلی خارج از کشور (PDF)", href: FORM_HREF },
+    heroPrimary: { label:"چک لیست", href: FORM_HREF },
 
     meta: {
       time: "متغیر",
