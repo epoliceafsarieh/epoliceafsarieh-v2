@@ -1554,6 +1554,7 @@ if (fab) {
 
   updateFab();
   runFabIntro();
+    setTimeout(runFabIntro, 250);
 }   
 
    
