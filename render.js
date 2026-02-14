@@ -1309,9 +1309,6 @@ ${stepsHtml}
   const bc = app.querySelector("#breadcrumb");
   if (!bc) return;
 
-  const bc = app.querySelector("#breadcrumb");
-if (!bc) return;
-
 const home = app.querySelector("#bcHome");
 const sepHome = app.querySelector("#bcSepHome");
 
