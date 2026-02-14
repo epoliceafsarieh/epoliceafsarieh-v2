@@ -1309,11 +1309,21 @@ ${stepsHtml}
   const bc = app.querySelector("#breadcrumb");
   if (!bc) return;
 
-  const dots       = app.querySelector("#bcDots");
+  const bc = app.querySelector("#breadcrumb");
+if (!bc) return;
+
+const home = app.querySelector("#bcHome");
+const sepHome = app.querySelector("#bcSepHome");
+
+const dots = app.querySelector("#bcDots");
+const sepDots = app.querySelector("#bcSepDots");
+
+const services = app.querySelector("#bcServices");
+
+const sepParent = app.querySelector("#bcSepParent");
+const parent = app.querySelector("#bcParent");
+
   const sep1       = app.querySelector("#bcSep1");          // بعد از …
-  const services   = app.querySelector("#bcServices");      // خدمات
-  const sepParent  = app.querySelector("#bcSepParent");     // بین خدمات و parent (فقط وقتی parent داریم)
-  const parent     = app.querySelector("#bcParent");        // نظام وظیفه یا دسته دیگر
   const sepCurrent = app.querySelector("#bcSepCurrent");    // قبل از صفحه جاری
 
   function setDisplay(el, on){
