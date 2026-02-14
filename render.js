@@ -835,40 +835,7 @@ details.sec#docs .doc-sec > .sec-body{
 }
 .scroll-fab:active{ transform:translateY(0); }
 
-.scroll-fab{
-  position:fixed;
- left:14px;
-right:auto;
-  bottom:86px;
-  z-index:2500;
 
-  width:64px;
-  height:64px;
-  border:0;
-  padding:0;
-  background:transparent;
-
-  display:none;
-  align-items:center;
-  justify-content:center;
-
-  cursor:pointer;
-  transition:transform .15s ease, filter .15s ease, opacity .15s ease;
-}
-
-.scroll-fab:hover{ transform:translateY(-2px); }
-.scroll-fab:active{ transform:translateY(0); }
-
-
-.scroll-fab:hover{
-  transform:translateY(-2px);
-  box-shadow:
-    0 18px 34px rgba(2,8,23,.20),
-    inset 0 1px 0 rgba(255,255,255,.70);
-}
-.scroll-fab:active{
-  transform:translateY(0);
-}
 
 /* فلش داخل */
 .scroll-fab span{
@@ -898,8 +865,6 @@ right:auto;
   0%,100% { transform:translateY(0); }
   50%     { transform:translateY(-6px); }
 }
-
-
 
 </style>`;
 
