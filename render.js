@@ -1477,9 +1477,11 @@ function updateFab(){
   const nearBottom = isNearBottom();
   fab.classList.toggle("to-top", nearBottom);
 
-  // اگر نزدیک پایین هستیم bounce قطع شود، وگرنه فعال
- // وقتی intro در حال اجراست، هیچ انیمیشن bounce روی transform فعال نشود
-fab.classList.toggle("is-bounce", (!fabIntroRunning && !nearBottom));
+// بعد از intro دیگر bounce خودکار نداشته باش
+if (!fabIntroRunning) {
+  fab.classList.remove("is-bounce");
+}
+
 
 }
 
