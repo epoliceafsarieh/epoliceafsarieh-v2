@@ -866,34 +866,6 @@ details.sec#docs .doc-sec > .sec-body{
   50%     { transform:translateY(-6px); }
 }
 
-/* جلوگیری از سفید شدن هنگام intro */
-.scroll-fab.intro-running{
-  backdrop-filter:none !important;
-  -webkit-backdrop-filter:none !important;
-}
-/* ===== FAB intro drop (cross-browser) ===== */
-@keyframes fabDropIntro {
-  0%   { transform: translateY(-120px); opacity: 0; }
-  18%  { transform: translateY(0px);    opacity: 1; }
-
-  /* چند بار bounce */
-  45%  { transform: translateY(0px); }
-  58%  { transform: translateY(-14px); }
-  68%  { transform: translateY(0px); }
-  78%  { transform: translateY(-9px); }
-  86%  { transform: translateY(0px); }
-  93%  { transform: translateY(-5px); }
-  100% { transform: translateY(0px); }
-}
-
-/* وقتی intro-running فعال شد، این انیمیشن اجرا شود */
-.scroll-fab.intro-running{
-  animation: fabDropIntro 4000ms cubic-bezier(.22,.85,.2,1) 1 both;
-}
-
-
-
-
 </style>`;
 
   function renderService(serviceKey) {
@@ -1485,7 +1457,7 @@ if (smartBack) {
 
 function isScrollable(){
   const doc = document.documentElement;
-  return doc.scrollHeight > (window.innerHeight + 5);
+  return doc.scrollHeight > (window.innerHeight + 40);
 }
 function isNearBottom(){
   const doc = document.documentElement;
@@ -1505,47 +1477,106 @@ function updateFab(){
   const nearBottom = isNearBottom();
   fab.classList.toggle("to-top", nearBottom);
 
-// بعد از intro دیگر bounce خودکار نداشته باش
-if (!fabIntroRunning) {
-  fab.classList.remove("is-bounce");
-}
-
+  // اگر نزدیک پایین هستیم bounce قطع شود، وگرنه فعال
+ // وقتی intro در حال اجراست، هیچ انیمیشن bounce روی transform فعال نشود
+fab.classList.toggle("is-bounce", (!fabIntroRunning && !nearBottom));
 
 }
 
-function runFabIntro() {
+function runFabIntro(){
   if (!fab) return;
-  if (!isScrollable()) return; // فقط وقتی واقعاً پایین چیزی هست
+  if (!isScrollable()) return;
 
-  // ریست کامل تا انیمیشن دوباره از اول اجرا شود
   fabIntroRunning = true;
-  fab.classList.remove("intro-running");
-  fab.style.animation = "none";    // reset animation
-  void fab.offsetWidth;            // force reflow
-  fab.style.animation = "";
+  fab.classList.remove("is-bounce");
+
+  // تداخل‌های transform/animation را صفر کن
+  const prevAnim = fab.style.animation;
+  const prevTransition = fab.style.transition;
+  fab.style.animation = "none";
+  fab.style.transition = "none";
 
   fab.style.display = "inline-flex";
-  fab.classList.add("intro-running");
 
-  // بعد از پایان انیمیشن، کلاس را بردار تا با updateFab تداخل نکند
-  window.setTimeout(() => {
-    fab.classList.remove("intro-running");
-    fabIntroRunning = false;
-  }, 4200); // باید کمی بیشتر/نزدیک duration باشد (اینجا 3000ms + حاشیه)
+  requestAnimationFrame(() => {
+    const rect = fab.getBoundingClientRect();
+    const h = rect.height || 66;
+
+    // --- شروع: نزدیک بالای صفحه (زیر نوار برند) ---
+    const brandbarH = 60;
+    const startCenterY = Math.max(90, brandbarH + 14 + (h / 2));
+
+    // --- هدف: کف واقعی viewport (با لحاظ bottom-cta) ---
+    const bottomCtaEl = document.querySelector(".bottom-cta");
+    const bottomCtaH = bottomCtaEl ? bottomCtaEl.getBoundingClientRect().height : 0;
+
+    const hitPad = 6; // کمی بالاتر از کف برای برخورد طبیعی‌تر
+    const targetCenterY = window.innerHeight - hitPad - (h/2) - bottomCtaH;
+
+    // موقعیت فعلی FAB
+    const currentCenterY = rect.top + (h/2);
+
+    // FAB را به نقطه شروع ببریم
+    const dyToStart = startCenterY - currentCenterY;
+
+    // فاصله از شروع تا هدف
+    const dyStartToTarget = targetCenterY - startCenterY;
+
+    const startY = dyToStart;
+    const endY   = dyToStart + dyStartToTarget;
+
+    // یک فریم: ببریمش بالا
+    fab.style.transform = `translateY(${startY}px)`;
+    fab.style.opacity = "1";
+
+    // انیمیشن اصلی: از بالا به کف + برخورد + برگشت
+  const anim = fab.animate(
+  [
+    { transform: `translateY(${startY}px)`, opacity: 0.0 },
+    { transform: `translateY(${endY}px)`,   opacity: 1.0, offset: 0.88 },
+    { transform: `translateY(${endY + 12}px)`, opacity: 1.0, offset: 0.93 }, // برخورد
+    { transform: `translateY(${endY - 7}px)`,  opacity: 1.0, offset: 0.97 }, // برگشت
+    { transform: `translateY(${endY}px)`,   opacity: 1.0 }
+  ],
+  {
+    duration: 4200,
+    easing: "cubic-bezier(.16,1,.3,1)", // نرم‌تر (easeOutExpo-ish)
+    fill: "forwards"
+  }
+);
+
+
+    anim.onfinish = () => {
+      // ۳ ضربه به کف
+      const hit = fab.animate(
+        [
+          { transform: `translateY(${endY}px)` },
+          { transform: `translateY(${endY + 12}px)` },
+          { transform: `translateY(${endY}px)` }
+        ],
+        { duration: 260, iterations: 3, easing: "ease-in-out" }
+      );
+
+      hit.onfinish = () => {
+        // پاکسازی و برگشت به حالت عادی
+        fab.style.transform = "";
+        fab.style.opacity = "";
+        fab.style.animation = prevAnim;
+        fab.style.transition = prevTransition;
+
+        fabIntroRunning = false;
+        updateFab();
+      };
+    };
+  });
 }
 
-
-
 if (fab) {
- fab.addEventListener("click", () => {
-  const goingUp = fab.classList.contains("to-top");
-
-  window.scrollTo({
-    top: goingUp ? 0 : document.documentElement.scrollHeight,
-    behavior: "smooth"
+  fab.addEventListener("click", () => {
+    const doc = document.documentElement;
+    const nearBottom = isNearBottom();
+    window.scrollTo({ top: nearBottom ? 0 : doc.scrollHeight, behavior: "smooth" });
   });
-});
-
 
   window.addEventListener("scroll", updateFab, { passive:true });
   window.addEventListener("resize", () => {
@@ -1554,7 +1585,6 @@ if (fab) {
 
   updateFab();
   runFabIntro();
-    setTimeout(runFabIntro, 250);
 }   
 
    
