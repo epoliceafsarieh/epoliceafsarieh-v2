@@ -227,14 +227,21 @@
   margin:6px 0 2px;
   color:#041e42;
   text-align:right;
-   flex:1 1 auto;
+  flex:1 1 auto;
   min-width:0;
+
+  /* ✅ اینجا ellipsis کل خط را خاموش کن */
+  display:flex;
+  align-items:center;
+  gap:2px;
   white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
+  overflow:visible;
+  text-overflow:clip;
+
   font-size:13px;
   letter-spacing:-.1px;
 }
+
 
 .breadcrumb a{
   color:#041e42;
