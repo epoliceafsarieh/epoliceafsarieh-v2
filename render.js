@@ -1487,9 +1487,9 @@ function runFabIntro(){
   if (!isScrollable()) return;
 
   fabIntroRunning = true;
-
-  // هر انیمیشن CSS روی transform را صفر کن
   fab.classList.remove("is-bounce");
+
+  // تداخل‌های transform/animation را صفر کن
   const prevAnim = fab.style.animation;
   const prevTransition = fab.style.transition;
   fab.style.animation = "none";
@@ -1498,31 +1498,77 @@ function runFabIntro(){
   fab.style.display = "inline-flex";
 
   requestAnimationFrame(() => {
-    const h = fab.offsetHeight || 66;
+    const rect = fab.getBoundingClientRect();
+    const h = rect.height || 66;
 
-    // ✅ هدف: مرکز FAB دقیقاً نزدیک کف ویوپورت (کف واقعی)
-    const hitBottomPadding = 6; // چند پیکسل بالاتر از لبه برای "برخورد"
-    const targetCenterY = window.innerHeight - hitBottomPadding - (h / 2);
+    // --- شروع: نزدیک بالای صفحه ---
+    // می‌خواهیم FAB در شروع تقریباً زیر نوار برند دیده شود
+    const startCenterY = Math.max(90, (60 + 14) + h/2); // 60=brandbar height تقریبی
 
-    // شروع: مرکز ویوپورت
-    const midCenterY = window.innerHeight / 2;
+    // --- هدف: کف واقعی viewport (با درنظر گرفتن bottom-cta و safe-area) ---
+    const safe = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--safeBottom") || "0") || 0;
+    const safeArea = (window.visualViewport ? (window.innerHeight - window.visualViewport.height) : 0);
+    const bottomCtaEl = document.querySelector(".bottom-cta");
+    const bottomCtaH = bottomCtaEl ? bottomCtaEl.getBoundingClientRect().height : 0;
 
-    // translateY لازم برای آوردن FAB از وسط به کف
-    const startDy = midCenterY - targetCenterY;
+    // چند پیکسل بالاتر از کف برای اینکه "برخورد" طبیعی‌تر دیده شود
+    const hitPad = 6;
 
+    // مرکزِ هدف در کف viewport
+    const targetCenterY =
+      window.innerHeight - hitPad - (h/2) - bottomCtaH - safeArea - safe;
+
+    // حالا FAB الان کجاست؟
+    const currentCenterY = rect.top + h/2;
+
+    // translate شروع (FAB را به startCenterY منتقل کن)
+    const dyToStart = startCenterY - currentCenterY;
+
+    // translate از start به target
+    const dyStartToTarget = targetCenterY - startCenterY;
+
+    // 1) اول FAB را یک‌فریم ببر به موقعیت شروع (بالا)
+    fab.style.transform = `translateY(${dyToStart}px)`;
+    fab.style.opacity = "1";
+
+    // 2) حالا انیمیشن: از بالا به کف + برخورد + برگشت + نشستن
     const anim = fab.animate(
       [
-        { transform: `translateY(${startDy}px)`, opacity: 0 },
-        { transform: `translateY(18px)`,        opacity: 1, offset: 0.86 }, // کمی "فرو رفتن" به کف
-        { transform: `translateY(-10px)`,       opacity: 1, offset: 0.93 }, // برگشت
-        { transform: `translateY(0px)`,         opacity: 1 }
+        { transform: `translateY(${dyToStart}px)`,                 opacity: 0.0 },
+        { transform: `translateY(${dyToStart + dyStartToTarget}px)`, opacity: 1.0, offset: 0.82 },
+        { transform: `translateY(${dyToStart + dyStartToTarget + 14}px)`, opacity: 1.0, offset: 0.88 }, // فرو رفتن به کف
+        { transform: `translateY(${dyToStart + dyStartToTarget - 8}px)`,  opacity: 1.0, offset: 0.94 }, // برگشت
+        { transform: `translateY(${dyToStart + dyStartToTarget}px)`, opacity: 1.0 }
       ],
       {
-        duration: 2300, // ✅ آهسته‌تر و قابل دیدن
+        duration: 2000, // سرعت متداول
         easing: "cubic-bezier(.22,.85,.2,1)",
         fill: "forwards"
       }
     );
+
+    anim.onfinish = () => {
+      // 3) ضربه‌های کوتاه به کف (۳ بار)
+      fab.animate(
+        [
+          { transform: `translateY(${dyToStart + dyStartToTarget}px)` },
+          { transform: `translateY(${dyToStart + dyStartToTarget + 12}px)` },
+          { transform: `translateY(${dyToStart + dyStartToTarget}px)` }
+        ],
+        { duration: 260, iterations: 3, easing: "ease-in-out" }
+      ).onfinish = () => {
+        // 4) پاکسازی و برگشت به رفتار عادی (یعنی bottom:86px خودش)
+        fab.style.transform = "";
+        fab.style.opacity = "";
+        fab.style.animation = prevAnim;
+        fab.style.transition = prevTransition;
+
+        fabIntroRunning = false;
+        updateFab();
+      };
+    };
+  });
+}
 
     anim.onfinish = () => {
       // پاکسازی
