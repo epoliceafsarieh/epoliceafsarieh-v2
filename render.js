@@ -945,8 +945,7 @@ try {
 // 4) parent را از hubKey بساز
 let parent = hubKey ? { label: HUBS[hubKey].label, href: HUBS[hubKey].href } : null;
 
-// 5) breadcrumb خام از دیتا (اگر نباشد می‌سازیم)
-const currentLabelFull = (svc.barTitle || svc.shortTitle || "صفحه فعلی").trim();
+
 
 let raw = Array.isArray(svc.breadcrumb) ? svc.breadcrumb.slice() : [
   { label: "خانه", href: "index.html" },
