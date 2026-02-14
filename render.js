@@ -922,7 +922,10 @@ if (raw.length) raw = raw.slice(0, -1);
 // حذف خانه
 raw = raw.filter(c => !/خانه/.test(String(c?.label || "")));
 
-// parent = آخرین بخش قبل از صفحه (مثلاً "نظام وظیفه" در معافیت تحصیلی)
+// ✅ حذف "خدمات" از لیست parentها (چون "خدمات" را جداگانه ثابت رندر می‌کنیم)
+raw = raw.filter(c => !/^خدمات$/.test(String(c?.label || "").trim()));
+
+// parent = آخرین بخش قبل از صفحه (مثلاً نظام وظیفه)
 let parent = raw.length ? raw[raw.length - 1] : null;
 
 // فقط اگر واقعاً نظام‌وظیفه‌ای است و از هاب آمده‌ایم، parent را هاب کن
