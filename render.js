@@ -1570,40 +1570,6 @@ function runFabIntro(){
   });
 }
 
-
-
-
-
-
-
-      
-
-    anim.onfinish = () => {
-      // پاکسازی
-      fab.style.transform = "";
-      fab.style.opacity = "";
-      fab.style.animation = prevAnim;
-      fab.style.transition = prevTransition;
-
-      fabIntroRunning = false;
-
-      // ✅ چند ضربه به کف (نمایشی)
-      fab.animate(
-        [
-          { transform: "translateY(0px)" },
-          { transform: "translateY(12px)" },
-          { transform: "translateY(0px)" }
-        ],
-        { duration: 280, iterations: 3, easing: "ease-in-out" }
-      );
-
-      updateFab();
-    };
-  });
-}
-
-
-
 if (fab) {
   fab.addEventListener("click", () => {
     const doc = document.documentElement;
