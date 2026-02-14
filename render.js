@@ -897,7 +897,7 @@ right:auto;
 // ===== Breadcrumb (آخر-محور + کوتاه‌سازی روی صفحه فعلی) =====
 
 // همیشه این دو تا ثابت‌اند
-const servicesCrumb = { label: "خدمات", href: "all.html" };
+
 const currentLabelFull = (svc.barTitle || svc.shortTitle || "صفحه فعلی").trim();
 
 // (اختیاری) اگر هنوز لازم داری "…" کلیک‌خور داشته باشی:
