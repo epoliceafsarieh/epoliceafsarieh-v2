@@ -1482,94 +1482,73 @@ function updateFab(){
 fab.classList.toggle("is-bounce", (!fabIntroRunning && !nearBottom));
 
 }
-
 function runFabIntro(){
   if (!fab) return;
   if (!isScrollable()) return;
 
+  // جلوگیری از تداخل transform با bounce
   fabIntroRunning = true;
   fab.classList.remove("is-bounce");
 
-  // تداخل‌های transform/animation را صفر کن
-  const prevAnim = fab.style.animation;
-  const prevTransition = fab.style.transition;
-  fab.style.animation = "none";
-  fab.style.transition = "none";
-
   fab.style.display = "inline-flex";
+
+  // transition روی transform هم موقتاً خاموش شود که ضربه نزند
+  const prevTransition = fab.style.transition;
+  fab.style.transition = "none";
 
   requestAnimationFrame(() => {
     const rect = fab.getBoundingClientRect();
-    const h = rect.height || 66;
 
-    // --- شروع: نزدیک بالای صفحه (زیر نوار برند) ---
-    const brandbarH = 60;
-    const startCenterY = Math.max(90, brandbarH + 14 + (h / 2));
+    // مرکز جای نهایی
+    const targetCenterY = rect.top + rect.height / 2;
 
-    // --- هدف: کف واقعی viewport (با لحاظ bottom-cta) ---
-    const bottomCtaEl = document.querySelector(".bottom-cta");
-    const bottomCtaH = bottomCtaEl ? bottomCtaEl.getBoundingClientRect().height : 0;
+    // مرکز ویوپورت
+    const midCenterY = window.innerHeight / 2;
 
-    const hitPad = 6; // کمی بالاتر از کف برای برخورد طبیعی‌تر
-    const targetCenterY = window.innerHeight - hitPad - (h/2) - bottomCtaH;
+    // از وسط تا جای نهایی چقدر فاصله داریم
+    const startDy = midCenterY - targetCenterY;
 
-    // موقعیت فعلی FAB
-    const currentCenterY = rect.top + (h/2);
-
-    // FAB را به نقطه شروع ببریم
-    const dyToStart = startCenterY - currentCenterY;
-
-    // فاصله از شروع تا هدف
-    const dyStartToTarget = targetCenterY - startCenterY;
-
-    const startY = dyToStart;
-    const endY   = dyToStart + dyStartToTarget;
-
-    // یک فریم: ببریمش بالا
-    fab.style.transform = `translateY(${startY}px)`;
-    fab.style.opacity = "1";
-
-    // انیمیشن اصلی: از بالا به کف + برخورد + برگشت
-  const anim = fab.animate(
-  [
-    { transform: `translateY(${startY}px)`, opacity: 0.0 },
-    { transform: `translateY(${endY}px)`,   opacity: 1.0, offset: 0.88 },
-    { transform: `translateY(${endY + 12}px)`, opacity: 1.0, offset: 0.93 }, // برخورد
-    { transform: `translateY(${endY - 7}px)`,  opacity: 1.0, offset: 0.97 }, // برگشت
-    { transform: `translateY(${endY}px)`,   opacity: 1.0 }
-  ],
-  {
-    duration: 4200,
-    easing: "cubic-bezier(.16,1,.3,1)", // نرم‌تر (easeOutExpo-ish)
-    fill: "forwards"
-  }
-);
-
+    const anim = fab.animate(
+      [
+        { transform: `translateY(${startDy}px)`, opacity: 0 },
+        // ✅ برخورد به پایین (کمی از جای نهایی پایین‌تر می‌رود)
+        { transform: `translateY(14px)`,         opacity: 1, offset: 0.78 },
+        // ✅ برگشت کوچک رو به بالا
+        { transform: `translateY(-8px)`,         opacity: 1, offset: 0.90 },
+        // ✅ نشستن روی جای نهایی
+        { transform: `translateY(0px)`,          opacity: 1 }
+      ],
+      {
+        duration: 1400,
+        easing: "cubic-bezier(.22,.9,.2,1)",
+        fill: "forwards"
+      }
+    );
 
     anim.onfinish = () => {
-      // ۳ ضربه به کف
-      const hit = fab.animate(
+      // پاکسازی transform/opacity تا کلاس‌ها درست کار کنند
+      fab.style.transform = "";
+      fab.style.opacity = "";
+      fab.style.transition = prevTransition;
+
+      fabIntroRunning = false;
+
+      // یک ضربه‌ی نمایشی: چند بار بزند به پایین (۳ بار)
+      fab.animate(
         [
-          { transform: `translateY(${endY}px)` },
-          { transform: `translateY(${endY + 12}px)` },
-          { transform: `translateY(${endY}px)` }
+          { transform: "translateY(0px)" },
+          { transform: "translateY(10px)" },
+          { transform: "translateY(0px)" }
         ],
         { duration: 260, iterations: 3, easing: "ease-in-out" }
       );
 
-      hit.onfinish = () => {
-        // پاکسازی و برگشت به حالت عادی
-        fab.style.transform = "";
-        fab.style.opacity = "";
-        fab.style.animation = prevAnim;
-        fab.style.transition = prevTransition;
-
-        fabIntroRunning = false;
-        updateFab();
-      };
+      // بعد از intro وضعیت کلاس‌ها را با منطق خودت sync کن
+      updateFab();
     };
   });
 }
+
 
 if (fab) {
   fab.addEventListener("click", () => {
