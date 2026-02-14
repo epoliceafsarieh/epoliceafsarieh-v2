@@ -1299,17 +1299,17 @@ ${stepsHtml}
 
       ${bottomCtaHtml}
     `;
-// ===== Windows Breadcrumb fit (… > خدمات > parent > اینجا) =====
+// ===== Windows Breadcrumb fit (… > خدمات > parent > صفحه جاری) =====
 (function () {
   const bc = app.querySelector("#breadcrumb");
   if (!bc) return;
 
-  const dots = app.querySelector("#bcDots");
-  const services = app.querySelector("#bcServices");
-  const sepParent = app.querySelector("#bcSepParent");
-  const parent = app.querySelector("#bcParent");
-
-  if (dots) dots.href = "all.html"; // سه‌نقطه همیشه به خدمات
+  const dots       = app.querySelector("#bcDots");
+  const sep1       = app.querySelector("#bcSep1");          // بعد از …
+  const services   = app.querySelector("#bcServices");      // خدمات
+  const sepParent  = app.querySelector("#bcSepParent");     // بین خدمات و parent (فقط وقتی parent داریم)
+  const parent     = app.querySelector("#bcParent");        // نظام وظیفه یا دسته دیگر
+  const sepCurrent = app.querySelector("#bcSepCurrent");    // قبل از صفحه جاری
 
   function setDisplay(el, on){
     if (!el) return;
@@ -1319,8 +1319,8 @@ ${stepsHtml}
   // کوتاه‌سازی از چپ: …ظام وظیفه
   function leftEllipsize(el, full){
     if (!el) return;
-
     el.textContent = full;
+
     if (bc.scrollWidth <= bc.clientWidth) return;
 
     let lo = 1, hi = full.length, best = 1;
@@ -1333,37 +1333,68 @@ ${stepsHtml}
     el.textContent = (best <= 1) ? "…" : ("…" + full.slice(full.length - best));
   }
 
+  function setDotsTarget(mode){
+    // mode = "home"  => … نماینده خانه است => index.html
+    // mode = "services" => … نماینده خانه+خدمات است => all.html
+    if (!dots) return;
+    dots.href = (mode === "home") ? "index.html" : "all.html";
+  }
+
+  function resetParentText(){
+    if (!parent) return;
+    parent.textContent = parent.getAttribute("data-full") || parent.textContent;
+  }
+
   function fit(){
-    // حالت پایه: … > خدمات > parent > اینجا
+    // ===== حالت پایه =====
+    // …(خانه) > خدمات > parent > صفحه جاری
+    // (اگر parent نبود => … > خدمات > صفحه جاری)
+    setDotsTarget("home");
+
+    setDisplay(sep1, true);
+
     setDisplay(services, true);
-    setDisplay(sepParent, !!parent);
+    resetParentText();
+
     setDisplay(parent, !!parent);
-
-    // reset parent text
-    if (parent) parent.textContent = parent.getAttribute("data-full") || parent.textContent;
+    setDisplay(sepParent, !!parent);       // فقط وقتی خدمات هست معنی دارد
+    setDisplay(sepCurrent, true);          // قبل از صفحه جاری
 
     if (bc.scrollWidth <= bc.clientWidth) return;
 
-    // اگر جا کم بود: … > parent > اینجا (خدمات حذف)
+    // ===== مرحله 1: اگر جا کم بود، فقط خانه را جمع کردیم (همان … که هست)
+    // (اینجا تغییری لازم نیست چون خانه داریم و … نشانش می‌دهد)
+
+    // ===== مرحله 2: اگر باز هم جا کم بود: خدمات حذف شود
+    // …(خانه+خدمات) > parent > صفحه جاری
     setDisplay(services, false);
+    setDisplay(sepParent, false);          // چون خدمات حذف شد، این sep دیگر نباید دیده شود
+    setDotsTarget("services");             // حالا … باید برود به خدمات (all.html)
+
+    // اگر parent نیست: باید فقط “… > صفحه جاری” باشد
+    if (!parent) {
+      setDisplay(sepCurrent, false);       // جلوگیری از “› ›”
+      if (bc.scrollWidth <= bc.clientWidth) return;
+      return;
+    }
+
     if (bc.scrollWidth <= bc.clientWidth) return;
 
-    // اگر باز هم جا کم بود: …>…ظام وظیفه>اینجا
+    // ===== مرحله 3: اگر باز هم جا کم بود: parent را از چپ کوتاه کن (…نظام وظیفه)
     if (parent){
       const full = parent.getAttribute("data-full") || parent.textContent || "";
       leftEllipsize(parent, full);
       if (bc.scrollWidth <= bc.clientWidth) return;
     }
 
-    // اگر باز هم جا نشد: … > اینجا
-    setDisplay(sepParent, false);
+    // ===== مرحله 4: اگر باز هم جا نشد: parent حذف شود => فقط “… > صفحه جاری”
     setDisplay(parent, false);
+    setDisplay(sepCurrent, false);         // فقط sep1 کافی است
   }
 
   fit();
   window.addEventListener("resize", fit);
 })();
-
 
       
 
