@@ -933,13 +933,24 @@ if (!hubKey) {
     if (HUBS[k].match(svc, serviceKey)) { hubKey = k; break; }
   }
 }
-// اگر هنوز hubKey نداریم، از حافظه نشست بخوان (برای ورود از سرچ/QR بعد از یک بار ورود از هاب)
+// اگر هنوز hubKey نداریم: فقط در صورتی از lastHub استفاده کن
+// که خودِ صفحه "به احتمال زیاد" نظام‌وظیفه‌ای باشد (بر اساس متن/کلید)
 if (!hubKey) {
   try {
     const last = sessionStorage.getItem("lastHub");
-    if (last && HUBS[last]) hubKey = last;
+    if (last && HUBS[last]) {
+      // یک چک سبک برای اینکه page واقعاً همون خانواده باشد
+      const t = `${svc?.barTitle || ""} ${svc?.shortTitle || ""}`;
+      const k = String(serviceKey || "");
+      const looksMilitary =
+        /military|nezam|vazife|sarbazi/i.test(k) ||
+        /نظام\s*وظیفه|سرباز|سربازی|مشمول|اعزام|معافیت/i.test(t);
+
+      if (looksMilitary) hubKey = last;
+    }
   } catch (e) { /* ignore */ }
 }
+
       
 
 // 3) حافظه نشست: آخرین هاب
