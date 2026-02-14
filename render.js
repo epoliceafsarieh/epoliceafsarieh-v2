@@ -1441,6 +1441,34 @@ docChildren.forEach(sec => {
   });
 });
 const fab = app.querySelector("#scrollFab");
+// ===== Smart Back Button =====
+const smartBack = app.querySelector("#smartBackBtn");
+
+if (smartBack) {
+  smartBack.addEventListener("click", function (e) {
+    e.preventDefault();
+
+    const ref = document.referrer || "";
+
+    if (/military-hub\.html/.test(ref)) {
+      location.href = "military-hub.html";
+      return;
+    }
+
+    if (/all\.html/.test(ref)) {
+      location.href = "all.html";
+      return;
+    }
+
+    if (/index\.html/.test(ref)) {
+      location.href = "index.html";
+      return;
+    }
+
+    // اگر مستقیم با QR آمده
+    location.href = "all.html";
+  });
+}
 
 
 function isScrollable(){
