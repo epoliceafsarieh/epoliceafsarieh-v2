@@ -1248,41 +1248,71 @@ ${stepsHtml}
 
       ${bottomCtaHtml}
     `;
-// ===== Breadcrumb truncate: فقط صفحه فعلی را کوتاه کن (تدریجی) =====
+// ===== Windows Breadcrumb fit (… > خدمات > parent > اینجا) =====
 (function () {
   const bc = app.querySelector("#breadcrumb");
-  const cur = app.querySelector("#bcCurrent");
-  if (!bc || !cur) return;
+  if (!bc) return;
 
-  const full = currentLabelFull;
-  cur.textContent = full;
+  const dots = app.querySelector("#bcDots");
+  const services = app.querySelector("#bcServices");
+  const sepParent = app.querySelector("#bcSepParent");
+  const parent = app.querySelector("#bcParent");
 
-  function fit() {
-    cur.textContent = full;
+  if (dots) dots.href = "all.html"; // سه‌نقطه همیشه به خدمات
 
-    // اگر جا شد، هیچ کاری نکن
+  function setDisplay(el, on){
+    if (!el) return;
+    el.style.display = on ? "" : "none";
+  }
+
+  // کوتاه‌سازی از چپ: …ظام وظیفه
+  function leftEllipsize(el, full){
+    if (!el) return;
+
+    el.textContent = full;
     if (bc.scrollWidth <= bc.clientWidth) return;
 
-    // کوتاه‌سازی تدریجی: "ت..." / "ات..." / "مات..." ...
     let lo = 1, hi = full.length, best = 1;
-
     while (lo <= hi) {
       const mid = (lo + hi) >> 1;
-      cur.textContent = full.slice(0, mid) + "…";
-      if (bc.scrollWidth <= bc.clientWidth) {
-        best = mid;
-        lo = mid + 1;
-      } else {
-        hi = mid - 1;
-      }
+      el.textContent = "…" + full.slice(full.length - mid);
+      if (bc.scrollWidth <= bc.clientWidth) { best = mid; lo = mid + 1; }
+      else { hi = mid - 1; }
+    }
+    el.textContent = (best <= 1) ? "…" : ("…" + full.slice(full.length - best));
+  }
+
+  function fit(){
+    // حالت پایه: … > خدمات > parent > اینجا
+    setDisplay(services, true);
+    setDisplay(sepParent, !!parent);
+    setDisplay(parent, !!parent);
+
+    // reset parent text
+    if (parent) parent.textContent = parent.getAttribute("data-full") || parent.textContent;
+
+    if (bc.scrollWidth <= bc.clientWidth) return;
+
+    // اگر جا کم بود: … > parent > اینجا (خدمات حذف)
+    setDisplay(services, false);
+    if (bc.scrollWidth <= bc.clientWidth) return;
+
+    // اگر باز هم جا کم بود: …>…ظام وظیفه>اینجا
+    if (parent){
+      const full = parent.getAttribute("data-full") || parent.textContent || "";
+      leftEllipsize(parent, full);
+      if (bc.scrollWidth <= bc.clientWidth) return;
     }
 
-    cur.textContent = (best <= 1) ? "…" : (full.slice(0, best) + "…");
+    // اگر باز هم جا نشد: … > اینجا
+    setDisplay(sepParent, false);
+    setDisplay(parent, false);
   }
 
   fit();
   window.addEventListener("resize", fit);
 })();
+
 
       
 
