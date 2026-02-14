@@ -1539,7 +1539,7 @@ function runFabIntro(){
     { transform: `translateY(${endY}px)`,   opacity: 1.0 }
   ],
   {
-    duration: 3200,
+    duration: 4200,
     easing: "cubic-bezier(.16,1,.3,1)", // نرم‌تر (easeOutExpo-ish)
     fill: "forwards"
   }
