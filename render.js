@@ -1482,6 +1482,7 @@ function updateFab(){
 fab.classList.toggle("is-bounce", (!fabIntroRunning && !nearBottom));
 
 }
+
 function runFabIntro(){
   if (!fab) return;
   if (!isScrollable()) return;
@@ -1501,63 +1502,62 @@ function runFabIntro(){
     const rect = fab.getBoundingClientRect();
     const h = rect.height || 66;
 
-    // --- شروع: نزدیک بالای صفحه ---
-    // می‌خواهیم FAB در شروع تقریباً زیر نوار برند دیده شود
-    const startCenterY = Math.max(90, (60 + 14) + h/2); // 60=brandbar height تقریبی
+    // --- شروع: نزدیک بالای صفحه (زیر نوار برند) ---
+    const brandbarH = 60;
+    const startCenterY = Math.max(90, brandbarH + 14 + (h / 2));
 
-    // --- هدف: کف واقعی viewport (با درنظر گرفتن bottom-cta و safe-area) ---
-    const safe = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--safeBottom") || "0") || 0;
-    const safeArea = (window.visualViewport ? (window.innerHeight - window.visualViewport.height) : 0);
+    // --- هدف: کف واقعی viewport (با لحاظ bottom-cta) ---
     const bottomCtaEl = document.querySelector(".bottom-cta");
     const bottomCtaH = bottomCtaEl ? bottomCtaEl.getBoundingClientRect().height : 0;
 
-    // چند پیکسل بالاتر از کف برای اینکه "برخورد" طبیعی‌تر دیده شود
-    const hitPad = 6;
+    const hitPad = 6; // کمی بالاتر از کف برای برخورد طبیعی‌تر
+    const targetCenterY = window.innerHeight - hitPad - (h/2) - bottomCtaH;
 
-    // مرکزِ هدف در کف viewport
-    const targetCenterY =
-      window.innerHeight - hitPad - (h/2) - bottomCtaH - safeArea - safe;
+    // موقعیت فعلی FAB
+    const currentCenterY = rect.top + (h/2);
 
-    // حالا FAB الان کجاست؟
-    const currentCenterY = rect.top + h/2;
-
-    // translate شروع (FAB را به startCenterY منتقل کن)
+    // FAB را به نقطه شروع ببریم
     const dyToStart = startCenterY - currentCenterY;
 
-    // translate از start به target
+    // فاصله از شروع تا هدف
     const dyStartToTarget = targetCenterY - startCenterY;
 
-    // 1) اول FAB را یک‌فریم ببر به موقعیت شروع (بالا)
-    fab.style.transform = `translateY(${dyToStart}px)`;
+    const startY = dyToStart;
+    const endY   = dyToStart + dyStartToTarget;
+
+    // یک فریم: ببریمش بالا
+    fab.style.transform = `translateY(${startY}px)`;
     fab.style.opacity = "1";
 
-    // 2) حالا انیمیشن: از بالا به کف + برخورد + برگشت + نشستن
+    // انیمیشن اصلی: از بالا به کف + برخورد + برگشت
     const anim = fab.animate(
       [
-        { transform: `translateY(${dyToStart}px)`,                 opacity: 0.0 },
-        { transform: `translateY(${dyToStart + dyStartToTarget}px)`, opacity: 1.0, offset: 0.82 },
-        { transform: `translateY(${dyToStart + dyStartToTarget + 14}px)`, opacity: 1.0, offset: 0.88 }, // فرو رفتن به کف
-        { transform: `translateY(${dyToStart + dyStartToTarget - 8}px)`,  opacity: 1.0, offset: 0.94 }, // برگشت
-        { transform: `translateY(${dyToStart + dyStartToTarget}px)`, opacity: 1.0 }
+        { transform: `translateY(${startY}px)`, opacity: 0.0 },
+        { transform: `translateY(${endY}px)`,   opacity: 1.0, offset: 0.82 },
+        { transform: `translateY(${endY + 14}px)`, opacity: 1.0, offset: 0.88 }, // برخورد (فرو رفتن)
+        { transform: `translateY(${endY - 8}px)`,  opacity: 1.0, offset: 0.94 }, // برگشت
+        { transform: `translateY(${endY}px)`,   opacity: 1.0 }
       ],
       {
-        duration: 2000, // سرعت متداول
+        duration: 2000,
         easing: "cubic-bezier(.22,.85,.2,1)",
         fill: "forwards"
       }
     );
 
     anim.onfinish = () => {
-      // 3) ضربه‌های کوتاه به کف (۳ بار)
-      fab.animate(
+      // ۳ ضربه به کف
+      const hit = fab.animate(
         [
-          { transform: `translateY(${dyToStart + dyStartToTarget}px)` },
-          { transform: `translateY(${dyToStart + dyStartToTarget + 12}px)` },
-          { transform: `translateY(${dyToStart + dyStartToTarget}px)` }
+          { transform: `translateY(${endY}px)` },
+          { transform: `translateY(${endY + 12}px)` },
+          { transform: `translateY(${endY}px)` }
         ],
         { duration: 260, iterations: 3, easing: "ease-in-out" }
-      ).onfinish = () => {
-        // 4) پاکسازی و برگشت به رفتار عادی (یعنی bottom:86px خودش)
+      );
+
+      hit.onfinish = () => {
+        // پاکسازی و برگشت به حالت عادی
         fab.style.transform = "";
         fab.style.opacity = "";
         fab.style.animation = prevAnim;
@@ -1569,6 +1569,14 @@ function runFabIntro(){
     };
   });
 }
+
+
+
+
+
+
+
+      
 
     anim.onfinish = () => {
       // پاکسازی
