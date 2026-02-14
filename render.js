@@ -1513,7 +1513,9 @@ function updateFab(){
   fab.classList.toggle("to-top", nearBottom);
 
   // اگر نزدیک پایین هستیم bounce قطع شود، وگرنه فعال
-  fab.classList.toggle("is-bounce", !nearBottom);
+ // وقتی intro در حال اجراست، هیچ انیمیشن bounce روی transform فعال نشود
+fab.classList.toggle("is-bounce", (!fabIntroRunning && !nearBottom));
+
 }
 
 /* Intro: از وسط صفحه (center viewport) به جای نهایی پایین (bottom:86px) حرکت کند */
