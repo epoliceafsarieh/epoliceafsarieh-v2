@@ -1494,7 +1494,11 @@ if (!fabIntroRunning) {
 
 function runFabIntro(){
   if (!fab) return;
+
+  fab.classList.remove("intro-running");  // ✅ ایمن‌سازی
+
   if (!isScrollable()) return;
+
 
   fabIntroRunning = true;
    fab.classList.add("intro-running");
