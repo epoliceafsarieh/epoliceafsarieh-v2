@@ -872,6 +872,10 @@ details.sec#docs .doc-sec > .sec-body{
   -webkit-backdrop-filter:none !important;
 }
 
+.military-current::before{
+  content:"●";
+  font-size:14px;
+}
 
 </style>`;
 
