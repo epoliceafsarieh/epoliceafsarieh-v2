@@ -992,7 +992,7 @@ if (!parent) parent = raw.length ? raw[raw.length - 1] : null;
 // HTML breadcrumb
 const breadcrumbHtml = `
 <div class="breadcrumb" id="breadcrumb">
-  <a class="bc-dots" id="bcDots" href="all.html">…</a>
+ <a class="bc-dots" id="bcDots" href="index.html">…</a>
   <span class="bc-sep">›</span>
 
   <a class="bc-services" id="bcServices" href="all.html">خدمات</a>
