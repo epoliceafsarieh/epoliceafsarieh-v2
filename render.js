@@ -1587,18 +1587,17 @@ anim.onfinish = () => {
     { duration: 520, easing: "ease-out", fill: "forwards" }
   );
 
-  settle.onfinish = () => {
-    // ✅ قفل روی پایین (همانجا بایستد)
-    fab.style.transform = `translateY(${endY}px)`;
-    fab.style.opacity = "1";
+ settle.onfinish = () => {
+  fab.style.transform = `translateY(${endY}px)`;
+  fab.style.opacity = "1";
 
-    fab.style.animation = prevAnim;
-    fab.style.transition = prevTransition;
-      fab.classList.remove("intro-running");
-    fabIntroRunning = false;
+  fab.style.animation = prevAnim;
+  fab.style.transition = prevTransition;
 
-    // ❌ اینجا updateFab نزن (اگر بزنی ممکنه reset کند)
-  };
+  fab.classList.remove("intro-running");  // ✅ درست
+  fabIntroRunning = false;
+};
+
 };
 
 
