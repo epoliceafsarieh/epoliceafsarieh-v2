@@ -24,7 +24,7 @@
     ],
 
     heroPrimary: {
-      label: "دانلود PDF مراکز معاینه و واکسن (تهران)",
+      label:"مراکز معاینه و واکسن (تهران)",
       href: "assets/forms/nezam-ezam-centers-tehran.pdf"
     },
 
