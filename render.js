@@ -1239,9 +1239,10 @@ const restSectionsHtml = otherSecs.map((sec, i) => {
               ${iconHtml}
               <div class="svc-title">${esc(svc.barTitle || svc.shortTitle || "")}</div>
             </div>
-           <div class="brand-left">
-  ${ (hasTime || hasFeeTable) ? `<a class="fee-shortcut" href="#feeBox">زمان و هزینه</a>` : "" }
+         <div class="brand-left">
+  <a class="back-btn" id="smartBackBtn" href="#" aria-label="بازگشت"></a>
 </div>
+
 
             
           </div>
