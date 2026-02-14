@@ -1486,68 +1486,68 @@ function runFabIntro(){
   if (!fab) return;
   if (!isScrollable()) return;
 
-  // جلوگیری از تداخل transform با bounce
   fabIntroRunning = true;
+
+  // هر انیمیشن CSS روی transform را صفر کن
   fab.classList.remove("is-bounce");
+  const prevAnim = fab.style.animation;
+  const prevTransition = fab.style.transition;
+  fab.style.animation = "none";
+  fab.style.transition = "none";
 
   fab.style.display = "inline-flex";
 
-  // transition روی transform هم موقتاً خاموش شود که ضربه نزند
-  const prevTransition = fab.style.transition;
-  fab.style.transition = "none";
-
   requestAnimationFrame(() => {
-    const rect = fab.getBoundingClientRect();
+    const h = fab.offsetHeight || 66;
 
-    // مرکز جای نهایی
-    const targetCenterY = rect.top + rect.height / 2;
+    // ✅ هدف: مرکز FAB دقیقاً نزدیک کف ویوپورت (کف واقعی)
+    const hitBottomPadding = 6; // چند پیکسل بالاتر از لبه برای "برخورد"
+    const targetCenterY = window.innerHeight - hitBottomPadding - (h / 2);
 
-    // مرکز ویوپورت
+    // شروع: مرکز ویوپورت
     const midCenterY = window.innerHeight / 2;
 
-    // از وسط تا جای نهایی چقدر فاصله داریم
+    // translateY لازم برای آوردن FAB از وسط به کف
     const startDy = midCenterY - targetCenterY;
 
     const anim = fab.animate(
       [
         { transform: `translateY(${startDy}px)`, opacity: 0 },
-        // ✅ برخورد به پایین (کمی از جای نهایی پایین‌تر می‌رود)
-        { transform: `translateY(14px)`,         opacity: 1, offset: 0.78 },
-        // ✅ برگشت کوچک رو به بالا
-        { transform: `translateY(-8px)`,         opacity: 1, offset: 0.90 },
-        // ✅ نشستن روی جای نهایی
-        { transform: `translateY(0px)`,          opacity: 1 }
+        { transform: `translateY(18px)`,        opacity: 1, offset: 0.86 }, // کمی "فرو رفتن" به کف
+        { transform: `translateY(-10px)`,       opacity: 1, offset: 0.93 }, // برگشت
+        { transform: `translateY(0px)`,         opacity: 1 }
       ],
       {
-        duration: 1400,
-        easing: "cubic-bezier(.22,.9,.2,1)",
+        duration: 2300, // ✅ آهسته‌تر و قابل دیدن
+        easing: "cubic-bezier(.22,.85,.2,1)",
         fill: "forwards"
       }
     );
 
     anim.onfinish = () => {
-      // پاکسازی transform/opacity تا کلاس‌ها درست کار کنند
+      // پاکسازی
       fab.style.transform = "";
       fab.style.opacity = "";
+      fab.style.animation = prevAnim;
       fab.style.transition = prevTransition;
 
       fabIntroRunning = false;
 
-      // یک ضربه‌ی نمایشی: چند بار بزند به پایین (۳ بار)
+      // ✅ چند ضربه به کف (نمایشی)
       fab.animate(
         [
           { transform: "translateY(0px)" },
-          { transform: "translateY(10px)" },
+          { transform: "translateY(12px)" },
           { transform: "translateY(0px)" }
         ],
-        { duration: 260, iterations: 3, easing: "ease-in-out" }
+        { duration: 280, iterations: 3, easing: "ease-in-out" }
       );
 
-      // بعد از intro وضعیت کلاس‌ها را با منطق خودت sync کن
       updateFab();
     };
   });
 }
+
 
 
 if (fab) {
