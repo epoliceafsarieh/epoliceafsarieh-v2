@@ -1541,7 +1541,7 @@ function runFabIntro(){
     { transform: `translateY(${endY}px)`,   opacity: 1.0 }
   ],
   {
-    duration: 4200,
+    duration: 5200,
     easing: "cubic-bezier(.16,1,.3,1)", // نرم‌تر (easeOutExpo-ish)
     fill: "forwards"
   }
@@ -1559,28 +1559,33 @@ function runFabIntro(){
         { duration: 260, iterations: 3, easing: "ease-in-out" }
       );
 
-    hit.onfinish = () => {
+  hit.onfinish = () => {
 
-  // 👇 transform را پاک نکن!
+  // transform را روی موقعیت نهایی قفل کن
+  fab.style.transform = `translateY(${endY}px)`;
+  fab.style.opacity = "1";
+
   fab.style.animation = prevAnim;
   fab.style.transition = prevTransition;
 
   fabIntroRunning = false;
-
-  // الان دیگر reset نکن
-  updateFab();
 };
+
 
     };
   });
 }
 
 if (fab) {
-  fab.addEventListener("click", () => {
-    const doc = document.documentElement;
-    const nearBottom = isNearBottom();
-    window.scrollTo({ top: nearBottom ? 0 : doc.scrollHeight, behavior: "smooth" });
+ fab.addEventListener("click", () => {
+  const goingUp = fab.classList.contains("to-top");
+
+  window.scrollTo({
+    top: goingUp ? 0 : document.documentElement.scrollHeight,
+    behavior: "smooth"
   });
+});
+
 
   window.addEventListener("scroll", updateFab, { passive:true });
   window.addEventListener("resize", () => {
