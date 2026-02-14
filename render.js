@@ -866,6 +866,13 @@ details.sec#docs .doc-sec > .sec-body{
   50%     { transform:translateY(-6px); }
 }
 
+/* جلوگیری از سفید شدن هنگام intro */
+.scroll-fab.intro-running{
+  backdrop-filter:none !important;
+  -webkit-backdrop-filter:none !important;
+}
+
+
 </style>`;
 
   function renderService(serviceKey) {
