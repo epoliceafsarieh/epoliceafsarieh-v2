@@ -900,6 +900,59 @@ right:auto;
 // همیشه این دو تا ثابت‌اند
 
 const currentLabelFull = (svc.barTitle || svc.shortTitle || "صفحه فعلی").trim();
+// ===== Windows Breadcrumb (… > خدمات > [parent] > اینجا) =====
+const ref = (document.referrer || "");
+const cameFromMilitaryHub = /(^|\/)military-hub\.html(\?|#|$)/.test(ref);
+
+const isMilitaryService =
+  /نظام\s*وظیفه/.test(String(svc.barTitle || "")) ||
+  /نظام\s*وظیفه/.test(String(svc.shortTitle || "")) ||
+  /military|nezam|vazife|sarbazi/i.test(String(serviceKey || ""));
+
+// breadcrumb خام از دیتا (اگر نباشد می‌سازیم)
+let raw = Array.isArray(svc.breadcrumb) ? svc.breadcrumb.slice() : [
+  { label: "خانه", href: "index.html" },
+  { label: "خدمات", href: "all.html" },
+  { label: currentLabelFull, href: "" }
+];
+
+// حذف صفحه فعلی
+if (raw.length) raw = raw.slice(0, -1);
+
+// حذف خانه
+raw = raw.filter(c => !/خانه/.test(String(c?.label || "")));
+
+// parent = آخرین بخش قبل از صفحه (مثلاً "نظام وظیفه" در معافیت تحصیلی)
+let parent = raw.length ? raw[raw.length - 1] : null;
+
+// فقط اگر واقعاً نظام‌وظیفه‌ای است و از هاب آمده‌ایم، parent را هاب کن
+if (cameFromMilitaryHub && isMilitaryService) {
+  parent = { label: "نظام وظیفه", href: "military-hub.html" };
+} else {
+  // اگر سرویس نظام‌وظیفه‌ای نیست، هر "نظام وظیفه" را حذف کن
+  if (parent && /نظام\s*وظیفه/.test(String(parent.label || ""))) parent = null;
+}
+
+// HTML breadcrumb آماده
+const breadcrumbHtml = `
+<div class="breadcrumb" id="breadcrumb">
+  <a class="bc-dots" id="bcDots" href="all.html">…</a>
+  <span class="bc-sep">›</span>
+
+  <a class="bc-services" id="bcServices" href="all.html">خدمات</a>
+
+  ${parent ? `
+    <span class="bc-sep" id="bcSepParent">›</span>
+    ${parent.href
+      ? `<a class="bc-parent bc-part" id="bcParent" data-full="${esc(parent.label)}" href="${esc(parent.href)}">${esc(parent.label)}</a>`
+      : `<span class="bc-parent bc-part" id="bcParent" data-full="${esc(parent.label)}">${esc(parent.label)}</span>`
+    }
+  ` : ""}
+
+  <span class="bc-sep">›</span>
+  <span class="bc-current" id="bcCurrent">اینجا</span>
+</div>
+`;
 
 // (اختیاری) اگر هنوز لازم داری "…" کلیک‌خور داشته باشی:
 // فعلاً نگه نمی‌داریم چون تو خواستی فقط خدمات + صفحه فعلی حتما باشد.
