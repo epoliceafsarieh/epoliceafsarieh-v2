@@ -1457,6 +1457,9 @@ docChildren.forEach(sec => {
   });
 });
 const fab = app.querySelector("#scrollFab");
+let fabIntroRunning = false;
+
+      
 // ===== Smart Back Button =====
 const smartBack = app.querySelector("#smartBackBtn");
 
