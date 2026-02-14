@@ -900,16 +900,54 @@ right:auto;
 // همیشه این دو تا ثابت‌اند
 
 const currentLabelFull = (svc.barTitle || svc.shortTitle || "صفحه فعلی").trim();
-// ===== Windows Breadcrumb (… > خدمات > [parent] > اینجا) =====
+// ===== Windows Breadcrumb (… > خدمات > [parent] > صفحه جاری) =====
 const ref = (document.referrer || "");
 const cameFromMilitaryHub = /(^|\/)military-hub\.html(\?|#|$)/.test(ref);
 
-const isMilitaryService =
-  /نظام\s*وظیفه/.test(String(svc.barTitle || "")) ||
-  /نظام\s*وظیفه/.test(String(svc.shortTitle || "")) ||
-  /military|nezam|vazife|sarbazi/i.test(String(serviceKey || ""));
+// 1) تعریف قوانین هاب‌ها (الان فقط نظام وظیفه)
+const HUBS = {
+  military: {
+    label: "نظام وظیفه",
+    href: "military-hub.html",
+    // تشخیص «زیرمجموعه نظام وظیفه» بدون نیاز به تغییر تک‌تک سرویس‌ها
+    match: (svc, key) => {
+      const t = `${svc?.barTitle || ""} ${svc?.shortTitle || ""}`;
+      const k = String(key || "");
+      return (
+        /military|nezam|vazife|sarbazi/i.test(k) ||
+        /نظام\s*وظیفه|سرباز|سربازی|مشمول|اعزام|معافیت/i.test(t)
+      );
+    }
+  }
+};
 
-// breadcrumb خام از دیتا (اگر نباشد می‌سازیم)
+// 2) تعیین hubKey
+let hubKey = null;
+
+// اگر از هاب نظام وظیفه آمده‌ایم => قطعی
+if (cameFromMilitaryHub) hubKey = "military";
+
+// اگر از سرچ/QR آمده‌ایم => با match تشخیص بده
+if (!hubKey) {
+  for (const k in HUBS) {
+    if (HUBS[k].match(svc, serviceKey)) { hubKey = k; break; }
+  }
+}
+
+// 3) حافظه نشست: آخرین هاب
+// - اگر صفحه الان زیرمجموعه هاب است => ذخیره کن
+// - اگر نیست => پاک کن (تا گذرنامه/… آلوده نشود)
+try {
+  if (hubKey) sessionStorage.setItem("lastHub", hubKey);
+  else sessionStorage.removeItem("lastHub");
+} catch (e) { /* ignore */ }
+
+// 4) parent را از hubKey بساز
+let parent = hubKey ? { label: HUBS[hubKey].label, href: HUBS[hubKey].href } : null;
+
+// 5) breadcrumb خام از دیتا (اگر نباشد می‌سازیم)
+const currentLabelFull = (svc.barTitle || svc.shortTitle || "صفحه فعلی").trim();
+
 let raw = Array.isArray(svc.breadcrumb) ? svc.breadcrumb.slice() : [
   { label: "خانه", href: "index.html" },
   { label: "خدمات", href: "all.html" },
@@ -922,21 +960,18 @@ if (raw.length) raw = raw.slice(0, -1);
 // حذف خانه
 raw = raw.filter(c => !/خانه/.test(String(c?.label || "")));
 
-// ✅ حذف "خدمات" از لیست parentها (چون "خدمات" را جداگانه ثابت رندر می‌کنیم)
+// حذف "خدمات" از parentها (چون جداگانه رندر می‌کنیم)
 raw = raw.filter(c => !/^خدمات$/.test(String(c?.label || "").trim()));
 
-// parent = آخرین بخش قبل از صفحه (مثلاً نظام وظیفه)
-let parent = raw.length ? raw[raw.length - 1] : null;
-
-// فقط اگر واقعاً نظام‌وظیفه‌ای است و از هاب آمده‌ایم، parent را هاب کن
-if (cameFromMilitaryHub && isMilitaryService) {
-  parent = { label: "نظام وظیفه", href: "military-hub.html" };
-} else {
-  // اگر سرویس نظام‌وظیفه‌ای نیست، هر "نظام وظیفه" را حذف کن
-  if (parent && /نظام\s*وظیفه/.test(String(parent.label || ""))) parent = null;
+// اگر سرویس زیرمجموعه هاب نبود، اجازه نده "نظام وظیفه" از breadcrumb دیتا وارد شود
+if (!hubKey) {
+  raw = raw.filter(c => !/نظام\s*وظیفه/.test(String(c?.label || "")));
 }
 
-// HTML breadcrumb آماده
+// اگر hubKey نداریم، parent را از raw بگیر (برای سایر دسته‌ها)
+if (!parent) parent = raw.length ? raw[raw.length - 1] : null;
+
+// HTML breadcrumb
 const breadcrumbHtml = `
 <div class="breadcrumb" id="breadcrumb">
   <a class="bc-dots" id="bcDots" href="all.html">…</a>
@@ -953,14 +988,9 @@ const breadcrumbHtml = `
   ` : ""}
 
   <span class="bc-sep">›</span>
-  <span class="bc-current" id="bcCurrent">اینجا</span>
+  <span class="bc-current" id="bcCurrent">صفحه جاری</span>
 </div>
 `;
-
-// (اختیاری) اگر هنوز لازم داری "…" کلیک‌خور داشته باشی:
-// فعلاً نگه نمی‌داریم چون تو خواستی فقط خدمات + صفحه فعلی حتما باشد.
-// اگر خواستی بعداً اضافه می‌کنم.
-
 
 
 
