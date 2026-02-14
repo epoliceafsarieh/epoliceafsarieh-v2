@@ -1194,9 +1194,7 @@ const restSectionsHtml = otherSecs.map((sec, i) => {
         <div class="header">
 
   <div class="header-row">
-<div class="breadcrumb" id="breadcrumb">
-  <span class="bc-current" id="bcCurrent">${esc(currentLabelFull)}</span>
-</div>
+${breadcrumbHtml}
 
 
 
