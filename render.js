@@ -1532,20 +1532,36 @@ function runFabIntro(){
     fab.style.opacity = "1";
 
     // انیمیشن اصلی: از بالا به کف + برخورد + برگشت
-  const anim = fab.animate(
+const anim = fab.animate(
   [
-    { transform: `translateY(${startY}px)`, opacity: 0.0 },
-    { transform: `translateY(${endY}px)`,   opacity: 1.0, offset: 0.88 },
-    { transform: `translateY(${endY + 12}px)`, opacity: 1.0, offset: 0.93 }, // برخورد
-    { transform: `translateY(${endY - 7}px)`,  opacity: 1.0, offset: 0.97 }, // برگشت
-    { transform: `translateY(${endY}px)`,   opacity: 1.0 }
+    // شروع (بالا) - fade in سریع
+    { transform: `translateY(${startY}px)`, opacity: 0.0, offset: 0.00 },
+
+    // سقوط: شتاب می‌گیرد
+    { transform: `translateY(${startY + (endY-startY)*0.35}px)`, opacity: 1.0, offset: 0.20 },
+
+    // نزدیک کف: کندتر می‌شود
+    { transform: `translateY(${startY + (endY-startY)*0.78}px)`, opacity: 1.0, offset: 0.62 },
+
+    // رسیدن به کف (قبل از برخورد)
+    { transform: `translateY(${endY}px)`, opacity: 1.0, offset: 0.78 },
+
+    // برخورد: کمی فرو رفتن
+    { transform: `translateY(${endY + 12}px)`, opacity: 1.0, offset: 0.84 },
+
+    // برگشت
+    { transform: `translateY(${endY - 7}px)`, opacity: 1.0, offset: 0.90 },
+
+    // نشستن روی کف
+    { transform: `translateY(${endY}px)`, opacity: 1.0, offset: 1.00 }
   ],
   {
-    duration: 5200,
-    easing: "cubic-bezier(.16,1,.3,1)", // نرم‌تر (easeOutExpo-ish)
+    duration: 2600, // طبیعی‌تر از 4200 (4200 خیلی کند و کشدار میشه)
+    easing: "cubic-bezier(.22,.85,.2,1)",
     fill: "forwards"
   }
 );
+
 
 
     anim.onfinish = () => {
