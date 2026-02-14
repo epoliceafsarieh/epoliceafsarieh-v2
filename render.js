@@ -993,7 +993,7 @@ if (!parent) parent = raw.length ? raw[raw.length - 1] : null;
 const breadcrumbHtml = `
 <div class="breadcrumb" id="breadcrumb">
  <a class="bc-dots" id="bcDots" href="index.html">…</a>
-  <span class="bc-sep">›</span>
+ <span class="bc-sep" id="bcSep1">›</span>
 
   <a class="bc-services" id="bcServices" href="all.html">خدمات</a>
 
@@ -1005,7 +1005,7 @@ const breadcrumbHtml = `
     }
   ` : ""}
 
-  <span class="bc-sep">›</span>
+  <span class="bc-sep" id="bcSepCurrent">›</span>
   <span class="bc-current" id="bcCurrent">صفحه جاری</span>
 </div>
 `;
