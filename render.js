@@ -1515,88 +1515,25 @@ if (!fabIntroRunning) {
 
 function runFabIntro() {
   if (!fab) return;
+  if (!isScrollable()) return; // فقط وقتی واقعاً پایین چیزی هست
 
-  fab.classList.remove("intro-running"); // ایمن‌سازی
-  if (!isScrollable()) return;
-
+  // ریست کامل تا انیمیشن دوباره از اول اجرا شود
   fabIntroRunning = true;
-  fab.classList.add("intro-running");
-  fab.classList.remove("is-bounce");
-
-  const prevAnim = fab.style.animation;
-  const prevTransition = fab.style.transition;
-  fab.style.animation = "none";
-  fab.style.transition = "none";
+  fab.classList.remove("intro-running");
+  fab.style.animation = "none";    // reset animation
+  void fab.offsetWidth;            // force reflow
+  fab.style.animation = "";
 
   fab.style.display = "inline-flex";
+  fab.classList.add("intro-running");
 
-  requestAnimationFrame(() => {
-    const rect = fab.getBoundingClientRect();
-    const h = rect.height || 66;
-
-    const brandbarH = 60;
-    const startCenterY = Math.max(90, brandbarH + 14 + (h / 2));
-
-    const bottomCtaEl = document.querySelector(".bottom-cta");
-    const bottomCtaH = bottomCtaEl ? bottomCtaEl.getBoundingClientRect().height : 0;
-
-    const hitPad = 6;
-    const targetCenterY = window.innerHeight - hitPad - (h / 2) - bottomCtaH;
-
-    const currentCenterY = rect.top + (h / 2);
-    const dyToStart = startCenterY - currentCenterY;
-    const dyStartToTarget = targetCenterY - startCenterY;
-
-    const startY = dyToStart;
-    const endY = dyToStart + dyStartToTarget;
-
-    fab.style.transform = `translateY(${startY}px)`;
-    fab.style.opacity = "0";
-
-    const anim = fab.animate(
-      [
-        { transform: `translateY(${startY}px)`, opacity: 0.0, offset: 0.00 },
-        { transform: `translateY(${startY + (endY - startY) * 0.35}px)`, opacity: 1.0, offset: 0.20 },
-        { transform: `translateY(${startY + (endY - startY) * 0.78}px)`, opacity: 1.0, offset: 0.62 },
-        { transform: `translateY(${endY}px)`, opacity: 1.0, offset: 0.78 },
-        { transform: `translateY(${endY + 12}px)`, opacity: 1.0, offset: 0.84 },
-        { transform: `translateY(${endY - 7}px)`, opacity: 1.0, offset: 0.90 },
-        { transform: `translateY(${endY}px)`, opacity: 1.0, offset: 1.00 }
-      ],
-      {
-        duration: 2600,
-        easing: "cubic-bezier(.22,.85,.2,1)",
-        fill: "forwards"
-      }
-    );
-
-    anim.onfinish = () => {
-      const settle = fab.animate(
-        [
-          { transform: `translateY(${endY}px)` },
-          { transform: `translateY(${endY + 8}px)` },
-          { transform: `translateY(${endY}px)` },
-          { transform: `translateY(${endY + 5}px)` },
-          { transform: `translateY(${endY}px)` },
-          { transform: `translateY(${endY + 3}px)` },
-          { transform: `translateY(${endY}px)` }
-        ],
-        { duration: 520, easing: "ease-out", fill: "forwards" }
-      );
-
-      settle.onfinish = () => {
-        fab.style.transform = `translateY(${endY}px)`;
-        fab.style.opacity = "1";
-
-        fab.style.animation = prevAnim;
-        fab.style.transition = prevTransition;
-
-        fab.classList.remove("intro-running");
-        fabIntroRunning = false;
-      };
-    };
-  });
+  // بعد از پایان انیمیشن، کلاس را بردار تا با updateFab تداخل نکند
+  window.setTimeout(() => {
+    fab.classList.remove("intro-running");
+    fabIntroRunning = false;
+  }, 3200); // باید کمی بیشتر/نزدیک duration باشد (اینجا 3000ms + حاشیه)
 }
+
 
 
 if (fab) {
