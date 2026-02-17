@@ -140,27 +140,32 @@
     border-radius:0 0 var(--radius) var(--radius);
   }
 
-  .brandbar{
-   position:fixed;   /* به جای sticky */
-width:100%;
-max-width:860px;  /* برابر wrap */
+ .brandbar{
+  position:fixed;
+  top:0;
+  z-index:1000;
 
-    top:0;
-    z-index:1000;
-    background:rgba(4,30,66,.82);   /* شفاف */
-     backdrop-filter: blur(12px) saturate(140%);
+  width:100%;
+  max-width:860px;
+
+  left:50%;
+  transform:translateX(-50%);
+
+  background:rgba(4,30,66,.82);
+  backdrop-filter: blur(12px) saturate(140%);
   -webkit-backdrop-filter: blur(12px) saturate(140%);
-    color:#fff;
-    padding:6px 12px;
-    height:60px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:10px;
-    overflow:hidden;
-   border-radius:0;
+  color:#fff;
 
-  }
+  padding:6px 12px;
+  height:60px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  overflow:hidden;
+  border-radius:0;
+}
+
   .card-clip{
   padding-top:60px;   /* دقیقاً برابر ارتفاع brandbar */
 }
