@@ -141,10 +141,15 @@
   }
 
   .brandbar{
-    position:sticky;
+   position:fixed;   /* به جای sticky */
+width:100%;
+max-width:860px;  /* برابر wrap */
+
     top:0;
     z-index:1000;
-    background:var(--brand-blue) !important;
+    background:rgba(4,30,66,.82);   /* شفاف */
+     backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
     color:#fff;
     padding:6px 12px;
     height:60px;
@@ -153,8 +158,12 @@
     justify-content:space-between;
     gap:10px;
     overflow:hidden;
-    border-radius:var(--radius) var(--radius) 0 0;
+   border-radius:0;
+
   }
+  .card-clip{
+  padding-top:60px;   /* دقیقاً برابر ارتفاع brandbar */
+}
 
   .brand-right{
     position:relative;
