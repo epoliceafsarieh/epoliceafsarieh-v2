@@ -631,7 +631,8 @@ details.sec#docs > summary{
   display:flex;
   align-items:center;
   justify-content:center;
- background: var(--blue-3);   /* ✅ هم‌رنگ گام‌ها */
+ background: var(--ramp-2);
+
   border:0;               /* ✅ بدون خط دور */
   border-radius:0;
  padding:12px 0;             /* به جای 0 0 12px */
