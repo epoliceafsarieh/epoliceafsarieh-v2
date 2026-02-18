@@ -616,39 +616,42 @@ margin:4px 0;
     margin:0 auto;
   }
 
-/* ===== Docs wrapper (lighter + natural, still within blue ramp) ===== */
+/* =========================
+   DOCS (30-principles version)
+   4 blue tones used as ACCENTS, not big fills
+   ========================= */
+
+/* مادر docs: فقط ته‌رنگ خیلی ملایم */
 details.sec#docs{
   border:0;
-  background: linear-gradient(180deg, rgba(78,100,152,.18) 0%, rgba(78,100,152,.08) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(78,100,152,.14) 0%,
+    rgba(78,100,152,.06) 100%
+  );
   border-radius:20px;
   padding:14px;
   margin-top:14px;
   overflow:visible;
 }
 
-/* عنوان مادر */
+/* تیتر مادر: یک سطح رنگی مجاز (کنترل‌شده) */
 details.sec#docs > summary{
   display:flex;
   align-items:center;
   justify-content:center;
-  background: var(--ramp-2);
+
+  background: var(--ramp-2);          /* tone #2 */
+  color:#fff;
+
   border:0;
   border-radius:14px;
   padding:12px 0;
-  color:#fff;
   font-size:18px;
   font-weight:900;
-  margin:0 0 10px;
-}
-/* همه هدرهای داخلی یکدست (طبق ۳۰ اصل) */
-details.sec#docs .doc-sec > summary{
-  background: var(--ramp-3);
-}
-/* فقط وقتی باز است: کمی تیره‌تر (سیگنال وضعیت) */
-details.sec#docs .doc-sec[open] > summary{
-  background: var(--ramp-1);
-}
 
+  margin:0 0 12px;
+}
 
 /* حذف فلش پیش‌فرض */
 details.sec#docs > summary::after{ content:none !important; }
@@ -661,28 +664,60 @@ details.sec#docs > .sec-body{
   padding:0;
 }
 
-/* کارت‌های داخلی: سفید + جداشدن واضح */
+/* کارت‌های داخلی: سفید، تمیز، با ریتم فاصله */
 details.sec#docs .doc-sec{
-  margin-top:10px;
+  margin-top:12px;
   background:#fff;
   border:1px solid #E6EAF2;
   border-radius:14px;
   overflow:hidden;
-  box-shadow: 0 8px 22px rgba(22,30,49,.06);
+  box-shadow: 0 8px 22px rgba(22,30,49,.05);
 }
 
-/* summary کارت‌های داخلی: رنگی، اما با ارتفاع کنترل‌شده */
+/* هدر کارت داخلی: سفید + نوار اکسانت (رنگ اصلی اینجا نیست) */
 details.sec#docs .doc-sec > summary{
-  padding:14px 14px;
+  position:relative;
+  padding:12px 14px;
   font-size:14px;
   font-weight:900;
-  color:#fff;
+  color: var(--ramp-1);               /* tone #1 as ink */
+  background:#fff;
+
   display:flex;
   align-items:center;
-  justify-content:flex-start;
-  gap:8px;
+  justify-content:space-between;
+  gap:10px;
+
   cursor:pointer;
   border:0;
+}
+
+/* نوار اکسانت سمت راست (همه یکدست = کم‌نویز) */
+details.sec#docs .doc-sec > summary::before{
+  content:"";
+  position:absolute;
+  right:0;
+  top:10px;
+  bottom:10px;
+  width:6px;
+  border-radius:8px;
+  background: var(--ramp-3);          /* tone #3 */
+  opacity:.95;
+}
+
+/* حالت hover: فقط یک حس لطیف، نه رنگ‌پاشی */
+details.sec#docs .doc-sec > summary:hover{
+  background: rgba(78,100,152,.06);   /* tone #4 as tint */
+}
+
+/* وقتی باز شد: فقط خط بالا (سیگنال وضعیت) */
+details.sec#docs .doc-sec[open] > summary{
+  box-shadow: inset 0 3px 0 var(--ramp-1);
+}
+
+/* و نوار اکسانت کمی تیره‌تر شود */
+details.sec#docs .doc-sec[open] > summary::before{
+  background: var(--ramp-1);
 }
 
 /* بدنه کارت داخلی */
@@ -692,14 +727,17 @@ details.sec#docs .doc-sec > .sec-body{
   background:#fff;
 }
 
-/* علامت +/− روی هدرهای تیره خواناتر شود */
+/* +/− استاندارد، کم‌جلب‌توجه */
 details.sec#docs .sec-toggle{
   font-size:18px;
   font-weight:900;
-  color: rgba(255,255,255,.95);
-  width:18px;
+  color: var(--ramp-ink);             /* support tone */
+  width:22px;
   text-align:center;
+  flex:0 0 22px;
+  margin-right:auto;                  /* به چپ */
 }
+
 
  
 
