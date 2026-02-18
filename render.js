@@ -697,7 +697,7 @@ details.sec#docs .doc-sec > summary{
 
   display:flex;
   align-items:center;
-  justify-content:space-between;
+  justify-content:flex-between;
   gap:10px;
 
   cursor:pointer;
