@@ -193,7 +193,15 @@
   z-index:2;
 }
 
-  .svc-icon{width:52px;height:52px;object-fit:contain;display:block}
+  .svc-icon{
+  width:52px;height:52px;
+  object-fit:contain;
+  display:block;
+  border:0;
+  outline:0;
+  background:transparent;
+}
+
 
   .svc-title{
     font-weight:900;
