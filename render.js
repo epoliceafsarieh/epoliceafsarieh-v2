@@ -697,11 +697,24 @@ details.sec#docs .doc-sec > summary{
 
   display:flex;
   align-items:center;
-  justify-content:flex-between;
+ justify-content:flex-start;
+
   gap:10px;
 
   cursor:pointer;
   border:0;
+}
+/* FIX: title right, +/- left (only inside docs) */
+details.sec#docs .doc-sec > summary .sec-title{
+  order:1;
+  flex:1 1 auto;
+  min-width:0;
+  text-align:right;
+}
+
+details.sec#docs .doc-sec > summary .sec-toggle{
+  order:2;
+  margin-right:auto;   /* هل بده به چپ */
 }
 
 /* نوار اکسانت سمت راست (همه یکدست = کم‌نویز) */
