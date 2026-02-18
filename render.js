@@ -618,7 +618,8 @@ margin:4px 0;
  /* ===== Docs wrapper (مدارک و شرایط) مطابق تصویر ===== */
 details.sec#docs{
   border:0;
- background:var(--blue-4);
+background: linear-gradient(180deg, var(--ramp-4) 0%, rgba(78,100,152,.18) 100%);
+
 border-radius:20px;          /* ✅ مادر کمی بزرگ‌تر از کارت‌ها */
   padding:18px;                /* ✅ تنفس بهتر */
   margin-top:14px;             /* ✅ فاصله بهتر از گام‌ها */
