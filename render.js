@@ -662,21 +662,31 @@ details.sec#docs .doc-sec{
   overflow:hidden;
 }
 
-/* summary هر کارت داخلی */
+/* summary هر کارت داخلی: پلکانی و تمیز */
 details.sec#docs .doc-sec > summary{
-  background:#ffffff;
   padding:16px;
   font-size:15px;
   font-weight:900;
-  color:#0f172a;
+  color:#fff;
 
   display:flex;
   align-items:center;
   justify-content:flex-start;
-  gap:6px;
+  gap:8px;
 
   cursor:pointer;
+  border:0;
 }
+
+/* 4-step ramp on inner accordions (uses all 4 colors) */
+details.sec#docs .doc-sec:nth-of-type(1) > summary{ background: var(--ramp-1); }
+details.sec#docs .doc-sec:nth-of-type(2) > summary{ background: var(--ramp-2); }
+details.sec#docs .doc-sec:nth-of-type(3) > summary{ background: var(--ramp-3); }
+details.sec#docs .doc-sec:nth-of-type(4) > summary{ background: var(--ramp-4); }
+
+/* اگر تعداد بیشتر شد، از 4 به بعد روی رنگ 3 بماند (ثبات بصری) */
+details.sec#docs .doc-sec:nth-of-type(n+5) > summary{ background: var(--ramp-3); }
+
 
 
 /* بدنه کارت داخلی */
