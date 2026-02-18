@@ -676,13 +676,6 @@ details.sec#docs .doc-sec > summary{
   border:0;
 }
 
-/* استفاده واقعی از هر ۴ رنگ طیف (پلکانی) */
-details.sec#docs .doc-sec:nth-of-type(1) > summary{ background: var(--ramp-1); }
-details.sec#docs .doc-sec:nth-of-type(2) > summary{ background: var(--ramp-2); }
-details.sec#docs .doc-sec:nth-of-type(3) > summary{ background: var(--ramp-3); }
-details.sec#docs .doc-sec:nth-of-type(4) > summary{ background: var(--ramp-4); }
-details.sec#docs .doc-sec:nth-of-type(n+5) > summary{ background: var(--ramp-3); }
-
 /* بدنه کارت داخلی */
 details.sec#docs .doc-sec > .sec-body{
   padding:14px;
