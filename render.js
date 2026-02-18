@@ -180,15 +180,19 @@
     margin-right:-16px;
   }
 
-  .svc-badge{
-    width:60px;height:60px;border-radius:12px;
-    display:flex;align-items:center;justify-content:center;
-    border:2px solid var(--brand-blue);
-    background:transparent;
-    position:absolute;right:12px;top:50%;
-    transform:translateY(-50%);
-    z-index:2;
-  }
+ .svc-badge{
+  width:60px;height:60px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+
+  border:0;                 /* ✅ کادر حذف */
+  background:transparent;   /* ✅ پس‌زمینه حذف */
+  box-shadow:none;          /* ✅ سایه حذف */
+
+  position:absolute;right:12px;top:50%;
+  transform:translateY(-50%);
+  z-index:2;
+}
+
   .svc-icon{width:52px;height:52px;object-fit:contain;display:block}
 
   .svc-title{
