@@ -640,6 +640,15 @@ details.sec#docs > summary{
   font-weight:900;
   margin:0 0 10px;
 }
+/* همه هدرهای داخلی یکدست (طبق ۳۰ اصل) */
+details.sec#docs .doc-sec > summary{
+  background: var(--ramp-3);
+}
+/* فقط وقتی باز است: کمی تیره‌تر (سیگنال وضعیت) */
+details.sec#docs .doc-sec[open] > summary{
+  background: var(--ramp-1);
+}
+
 
 /* حذف فلش پیش‌فرض */
 details.sec#docs > summary::after{ content:none !important; }
