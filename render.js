@@ -102,9 +102,18 @@
   font-display:swap;
 }
 :root{
---blue-2:#364775;
---blue-3:#5871AA;
---blue-4:#9EACD6;
+/* ===== Blue ramp (from your sample) ===== */
+--ramp-1:#161E31; /* darkest */
+--ramp-2:#2C3A5E; /* between */
+--ramp-3:#394974; /* mid */
+--ramp-4:#4E6498; /* light */
+--ramp-ink:#424757; /* support tone (borders/shadows) */
+
+/* mapping for existing code (no widespread refactor) */
+--blue-2: var(--ramp-2);
+--blue-3: var(--ramp-3);
+--blue-4: var(--ramp-4);
+
 
 
     --brand-blue:#041E42;   /* رنگ برند شما */
