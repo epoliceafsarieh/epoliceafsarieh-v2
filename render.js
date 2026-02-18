@@ -615,95 +615,89 @@ margin:4px 0;
     margin:0 auto;
   }
 
- /* ===== Docs wrapper (مدارک و شرایط) مطابق تصویر ===== */
+/* ===== Docs wrapper (lighter + natural, still within blue ramp) ===== */
 details.sec#docs{
   border:0;
-background: linear-gradient(180deg, var(--ramp-4) 0%, rgba(78,100,152,.18) 100%);
-
-border-radius:20px;          /* ✅ مادر کمی بزرگ‌تر از کارت‌ها */
-  padding:18px;                /* ✅ تنفس بهتر */
-  margin-top:14px;             /* ✅ فاصله بهتر از گام‌ها */
+  background: linear-gradient(180deg, rgba(78,100,152,.18) 0%, rgba(78,100,152,.08) 100%);
+  border-radius:20px;
+  padding:14px;
+  margin-top:14px;
   overflow:visible;
 }
 
-/* تیتر مادر: روی زمینه خاکستری باشد، نه یک دکمه/کارت جدا */
+/* عنوان مادر */
 details.sec#docs > summary{
   display:flex;
   align-items:center;
   justify-content:center;
- background: var(--ramp-2);
-
-  border:0;               /* ✅ بدون خط دور */
-  border-radius:0;
- padding:12px 0;             /* به جای 0 0 12px */
-color:#fff;                 /* ✅ سفید مثل گام‌ها */
-font-size:18px;
+  background: var(--ramp-2);
+  border:0;
+  border-radius:14px;
+  padding:12px 0;
+  color:#fff;
+  font-size:18px;
   font-weight:900;
-   margin-bottom:12px;         /* فاصله از کارت‌های داخلی */
+  margin:0 0 10px;
 }
 
-/* فلش پیش‌فرض را کامل حذف کن */
+/* حذف فلش پیش‌فرض */
 details.sec#docs > summary::after{ content:none !important; }
 details.sec#docs > summary::-webkit-details-marker{ display:none; }
 
-/* بدنه‌ی مادر: شفاف تا خاکستریِ مادر دیده شود */
+/* بدنه مادر */
 details.sec#docs > .sec-body{
   border:0;
   background:transparent;
   padding:0;
 }
 
-/* ===== کارت‌های داخلی (آکاردئون‌های فرزند) مطابق تصویر ===== */
+/* کارت‌های داخلی: سفید + جداشدن واضح */
 details.sec#docs .doc-sec{
   margin-top:10px;
-  background:#ffffff;              /* ✅ سفید */
-  border:1px solid #e6e8ee;        /* ✅ خط دور */
-  border-radius:14px;              /* ✅ radius کارت داخلی */
+  background:#fff;
+  border:1px solid #E6EAF2;
+  border-radius:14px;
   overflow:hidden;
+  box-shadow: 0 8px 22px rgba(22,30,49,.06);
 }
 
-/* summary هر کارت داخلی: پلکانی و تمیز */
+/* summary کارت‌های داخلی: رنگی، اما با ارتفاع کنترل‌شده */
 details.sec#docs .doc-sec > summary{
-  padding:16px;
-  font-size:15px;
+  padding:14px 14px;
+  font-size:14px;
   font-weight:900;
   color:#fff;
-
   display:flex;
   align-items:center;
   justify-content:flex-start;
   gap:8px;
-
   cursor:pointer;
   border:0;
 }
 
-/* 4-step ramp on inner accordions (uses all 4 colors) */
+/* استفاده واقعی از هر ۴ رنگ طیف (پلکانی) */
 details.sec#docs .doc-sec:nth-of-type(1) > summary{ background: var(--ramp-1); }
 details.sec#docs .doc-sec:nth-of-type(2) > summary{ background: var(--ramp-2); }
 details.sec#docs .doc-sec:nth-of-type(3) > summary{ background: var(--ramp-3); }
 details.sec#docs .doc-sec:nth-of-type(4) > summary{ background: var(--ramp-4); }
-
-/* اگر تعداد بیشتر شد، از 4 به بعد روی رنگ 3 بماند (ثبات بصری) */
 details.sec#docs .doc-sec:nth-of-type(n+5) > summary{ background: var(--ramp-3); }
-
-
 
 /* بدنه کارت داخلی */
 details.sec#docs .doc-sec > .sec-body{
-  padding:16px;
-  border-top:1px solid #e6e8ee;    /* ✅ جداکننده داخل کارت */
-  background:#ffffff;
+  padding:14px;
+  border-top:1px solid #E6EAF2;
+  background:#fff;
 }
 
-/* خود علامت */
-.sec-toggle{
+/* علامت +/− روی هدرهای تیره خواناتر شود */
+details.sec#docs .sec-toggle{
   font-size:18px;
   font-weight:900;
-  color:#334155;
+  color: rgba(255,255,255,.95);
   width:18px;
   text-align:center;
 }
+
  
 
 @media (max-width: 480px){
