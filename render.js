@@ -499,7 +499,8 @@
   font-weight:900;
 }
 .steps-card summary{
-  background:var(--blue-3) !important;
+ background: var(--ramp-3) !important;
+
   color:#fff !important;
 }
 .steps-card summary span{
