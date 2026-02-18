@@ -621,12 +621,14 @@ details.sec#docs > summary{
   display:flex;
   align-items:center;
   justify-content:center;
-  background:transparent; /* ✅ شفاف تا زمینه خاکستری دیده شود */
+ background: var(--blue-3);   /* ✅ هم‌رنگ گام‌ها */
   border:0;               /* ✅ بدون خط دور */
   border-radius:0;
-  padding:0 0 12px;       /* ✅ فاصله زیر تیتر */
-color:#041E42; /* تیتر آبی/سرمه‌ای خوبه گفتی */  font-size:18px;
+ padding:12px 0;             /* به جای 0 0 12px */
+color:#fff;                 /* ✅ سفید مثل گام‌ها */
+font-size:18px;
   font-weight:900;
+   margin-bottom:12px;         /* فاصله از کارت‌های داخلی */
 }
 
 /* فلش پیش‌فرض را کامل حذف کن */
