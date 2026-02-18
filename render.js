@@ -102,6 +102,11 @@
   font-display:swap;
 }
 :root{
+--blue-2:#364775;
+--blue-3:#5871AA;
+--blue-4:#9EACD6;
+
+
     --brand-blue:#041E42;   /* رنگ برند شما */
     --bg:#f5f7fb;          /* پس‌زمینه اصلی */
     --card:#fff;           /* پس‌زمینه کارت‌ها */
@@ -484,6 +489,14 @@
   font-size:17px;
   font-weight:900;
 }
+.steps-card summary{
+  background:var(--blue-3) !important;
+  color:#fff !important;
+}
+.steps-card summary span{
+  color:#fff !important;
+}
+
 
 
 
@@ -596,7 +609,7 @@ margin:4px 0;
  /* ===== Docs wrapper (مدارک و شرایط) مطابق تصویر ===== */
 details.sec#docs{
   border:0;
-  background:#F0F3F7;   /* ✅ رنگ زمینه مادر */
+ background:var(--blue-4);
 border-radius:20px;          /* ✅ مادر کمی بزرگ‌تر از کارت‌ها */
   padding:18px;                /* ✅ تنفس بهتر */
   margin-top:14px;             /* ✅ فاصله بهتر از گام‌ها */
@@ -612,8 +625,7 @@ details.sec#docs > summary{
   border:0;               /* ✅ بدون خط دور */
   border-radius:0;
   padding:0 0 12px;       /* ✅ فاصله زیر تیتر */
- color:var(--brand-blue);   /* ✅ به برند وصل شود */
-  font-size:18px;
+color:#041E42; /* تیتر آبی/سرمه‌ای خوبه گفتی */  font-size:18px;
   font-weight:900;
 }
 
@@ -700,8 +712,8 @@ details.sec#docs .doc-sec > .sec-body{
   align-items:center;
   justify-content:center;
   padding:8px 12px;
-  border-radius:999px;
-  background:var(--brand-blue);
+  border:1px solid var(--blue-2);
+  background:var(--blue-2);
   color:#fff !important;
   text-decoration:none !important;
   font-weight:900;
