@@ -706,14 +706,13 @@ margin:4px 0;
    ========================= */
 details.sec#docs{
   border:0;
- background:#EEF2F7;
-
+  background:#EEF2F7;
   border-radius: var(--radius);
-  padding:0;              /* ✅ عرض مثل گام‌ها */
+  padding:0;
   margin-top:12px;
   overflow:hidden;
- }
 }
+
 
 details.sec#docs > summary{
   display:flex;
