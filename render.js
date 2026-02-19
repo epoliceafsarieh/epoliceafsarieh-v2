@@ -18,6 +18,9 @@ function escAttr(s) {
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#39;");
 }
+   // Backward-compatible: هرجا esc(...) مانده، همان escText حساب شود
+function esc(s){ return escText(s); }
+ 
 
   function safeText(v) {
     const t = (v ?? "").toString().trim();
