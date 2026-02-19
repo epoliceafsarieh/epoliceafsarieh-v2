@@ -3,12 +3,22 @@
     // جلوگیری از scroll restore مرورگر بعد از رفرش/بازگشت
   if ("scrollRestoration" in history) history.scrollRestoration = "manual";
 
-  function esc(s) {
-    return String(s ?? "")
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;");
-  }
+ function escText(s) {
+  return String(s ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;");
+}
+
+function escAttr(s) {
+  return String(s ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
   function safeText(v) {
     const t = (v ?? "").toString().trim();
     return t ? t : "—";
