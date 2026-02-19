@@ -962,8 +962,8 @@ line-height:1;
   bottom:86px;
   z-index:2500;
 
-  width:56px;
-  height:56px;
+  width:54px;
+  height:54px;
   border-radius:999px;
 
   /* ✅ گرادیان ژله‌ای (خاکستری-آبیِ سیرتر) */
@@ -1010,12 +1010,12 @@ line-height:1;
 /* فلش داخل: رنگ از متغیر می‌آید */
 .scroll-fab span{
   display:block;
-  width:18px;
-  height:18px;
+  width:14px;
+  height:14px;
 
   color: var(--fab-ink, rgba(35,55,80,.75));   /* ✅ فقط رنگ آیکون */
-  border-right:4px solid currentColor;
-  border-bottom:4px solid currentColor;
+  border-right:3px solid currentColor;
+  border-bottom:3px solid currentColor;
 
   transform:rotate(45deg);
   margin-top:-2px;
