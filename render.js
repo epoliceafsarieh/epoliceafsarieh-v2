@@ -746,7 +746,7 @@ details.sec#docs .doc-sec[open] > summary::before{
 
 /* بدنه کارت داخلی */
 details.sec#docs .doc-sec > .sec-body{
-  padding:14px;
+  padding:12px;
   border-top:1px solid #E6EAF2;
   background:#fff;
 }
