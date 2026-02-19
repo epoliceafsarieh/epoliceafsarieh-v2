@@ -803,7 +803,7 @@ font-size:14px;       /* از 13 بیشتر => خواناتر */
   font-weight:900;
 
   color: var(--ramp-1);
-  background:#fff;
+  background:transparent;   /* از رنگ مادر تبعیت کند */
 
   display:flex;
   align-items:center;
