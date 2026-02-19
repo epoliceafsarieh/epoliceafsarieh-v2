@@ -714,18 +714,6 @@ details.sec#docs .doc-sec > summary{
   text-align:right;
 }
 
-/* نوار عمودی سمت راست: باریک‌تر */
-details.sec#docs .doc-sec > summary::before{
-  content:"";
-  position:absolute;
-  right:0;
-  top:12px;
-  bottom:12px;
-  width:2px;                    /* ✅ باریک */
-  border-radius:8px;
-  background: var(--ramp-3);
-  opacity:.90;
-}
 
 /* hover لطیف */
 details.sec#docs .doc-sec > summary:hover{
