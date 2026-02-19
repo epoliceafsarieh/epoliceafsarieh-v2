@@ -718,6 +718,9 @@ details.sec#docs > .sec-body{
   background:transparent;
   padding:var(--padY) var(--padX);
 }
+.steps-card .sec-body{
+  padding:var(--padY) var(--padX) !important;
+}
 
 
 
