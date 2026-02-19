@@ -935,6 +935,9 @@ details.sec#docs .doc-sec > summary .sec-toggle{
   margin-top:-2px;
   font-size:0;
   line-height:0;
+  opacity: var(--fab-op, 1);
+transition: opacity .15s ease;
+
 }
 
 
