@@ -716,8 +716,9 @@ details.sec#docs > summary{
 
 details.sec#docs > .sec-body{
   background:transparent;
-  padding:12px 14px;   /* دقیقاً مثل .sec-body عمومی */
+  padding:var(--padY) var(--padX);
 }
+
 
 
 
