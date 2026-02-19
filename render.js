@@ -1157,8 +1157,9 @@ const breadcrumbHtml = `
   ${parent ? `
     <span class="bc-sep" id="bcSepParent">›</span>
     ${parent.href
-      ? `<a class="bc-parent bc-part" id="bcParent" data-full="${esc(parent.label)}" href="${esc(parent.href)}">${esc(parent.label)}</a>`
-      : `<span class="bc-parent bc-part" id="bcParent" data-full="${esc(parent.label)}">${esc(parent.label)}</span>`
+    ? `<a class="bc-parent bc-part" id="bcParent" data-full="${escAttr(parent.label)}" href="${escAttr(parent.href)}">${escText(parent.label)}</a>`
+: `<span class="bc-parent bc-part" id="bcParent" data-full="${escAttr(parent.label)}">${escText(parent.label)}</span>`
+
     }
   ` : ""}
 
