@@ -684,9 +684,8 @@ details.sec#docs > summary::-webkit-details-marker{ display:none; }
 
 
 
-/* بچه‌ها: از دو طرف جمع شوند تا مادر دیده شود */
 details.sec#docs .doc-sec{
-  margin:10px 10px 0;            /* ✅ این همان “جمع شدن از دو طرف” است */
+  margin:8px 0 0;          /* ✅ فاصله کمتر + عرض دقیقاً هم‌راستا */
   background:#fff;
   border:1px solid #E6EAF2;
   border-radius:14px;
