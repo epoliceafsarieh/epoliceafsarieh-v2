@@ -809,6 +809,9 @@ details.sec#docs .doc-sec[open]{
     0 2px 6px rgba(15,23,42,.05);
 }
 
+details.sec#docs .doc-sec:active{
+  transform:scale(.997);
+}
 
 
 
