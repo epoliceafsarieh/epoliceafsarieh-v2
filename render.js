@@ -457,6 +457,19 @@
     background:#fff;
     overflow:hidden;
   }
+  /* ===== Emphasis for main blocks (Steps + Docs) ===== */
+.steps-card,
+details.sec#docs{
+  border:1px solid rgba(22,30,49,.20) !important;
+  box-shadow: 0 18px 42px rgba(2,8,23,.12) !important;
+}
+
+.steps-card summary,
+details.sec#docs > summary{
+  box-shadow: inset 0 -1px 0 rgba(22,30,49,.06);
+}
+
+  
 /* ===== Watermark behind first section (Steps) ===== */
 .steps-card{
   position: relative;
