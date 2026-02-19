@@ -137,6 +137,9 @@
   color:var(--text);
   line-height:1.95;
   direction:rtl;          /* کلیدی */
+    background: var(--bg) !important;
+  background-image: none !important;
+
 }
 
 
