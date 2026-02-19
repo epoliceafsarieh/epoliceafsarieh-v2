@@ -581,14 +581,19 @@ details.sec#docs > summary{
   align-items:center !important;
   justify-content:center !important;
 
-  padding:var(--padY) var(--padX) !important;
+  /* ✅ ارتفاع دقیق‌تر و یک‌دست مثل رفرنس */
+  min-height:52px !important;
+  padding:12px 12px !important;
   line-height:1.2 !important;
 
   font-size:17px !important;
   font-weight:900 !important;
-
   text-align:center !important;
+
+  /* ✅ یک‌تکه شدن هدر */
+  border-bottom:0 !important;
 }
+
 
 /* title spans */
 .steps-card > summary .sec-title,
