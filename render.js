@@ -681,7 +681,8 @@ details.sec#docs > summary{
   font-weight:900;
 
   margin:0;
-  border-bottom:1px solid var(--border);  /* ✅ حس بلوک مثل گام‌ها */
+  border-bottom:0 !important;
+
 }
 
 details.sec#docs > .sec-body{
