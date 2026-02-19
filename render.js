@@ -493,13 +493,18 @@ background: linear-gradient(270deg,
   }
 
 
-  /* ===== Emphasis for main blocks (Steps + Docs) ===== */
+/* ===== Emphasis for main blocks (Steps + Docs) ===== */
 .steps-card{
-  box-shadow: 0 16px 36px rgba(2,8,23,.10) !important;
+  box-shadow:
+    0 12px 28px rgba(15,23,42,.08),
+    0 2px 6px rgba(15,23,42,.04) !important;
 }
 details.sec#docs{
-  box-shadow: 0 16px 36px rgba(2,8,23,.10) !important;
+  box-shadow:
+    0 12px 28px rgba(15,23,42,.08),
+    0 2px 6px rgba(15,23,42,.04) !important;
 }
+
 
 .steps-card summary,
 details.sec#docs > summary{
