@@ -1387,7 +1387,8 @@ const restSectionsHtml = otherSecs.map((sec, i) => {
     const bottomCtaHtml = bottomCta ? `
       <div class="bottom-cta">
         <div class="inner">
-          <a class="btn-primary" href="${esc(bottomCta.href)}">${esc(bottomCta.label)}</a>
+         <a class="btn-primary" href="${escAttr(bottomCta.href)}">${escText(bottomCta.label)}</a>
+
         </div>
       </div>
     ` : "";
