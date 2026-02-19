@@ -159,7 +159,7 @@
     top:0;
     z-index:1000;
  
-  background: linear-gradient(90deg,
+background: linear-gradient(270deg,
   var(--ramp-1) 0%,
   var(--ramp-1) 62%,
   var(--ramp-2) 82%,
