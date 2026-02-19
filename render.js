@@ -483,9 +483,10 @@ background: linear-gradient(270deg,
   /* ===== Emphasis for main blocks (Steps + Docs) ===== */
 .steps-card,
 details.sec#docs{
-  border:0 !important;   /* ✅ حذف خط دور */
-  box-shadow: 0 18px 42px rgba(2,8,23,.12) !important;
+  border:0 !important;
+  box-shadow: 0 18px 42px rgba(2,8,23,.12), 0 0 0 1px rgba(22,30,49,.08) !important;
 }
+
 /* ✅ override مستقیم border از .sec */
 .steps-card.sec,
 details.sec#docs{
