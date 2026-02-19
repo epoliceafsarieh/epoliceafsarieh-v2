@@ -205,8 +205,8 @@
 }
 /* فقط صفحه گذرنامه: آیکن بالا کمی کوچک‌تر */
 .is-passport .svc-icon{
-  width:48px;
-  height:48px;
+  width:44px;
+  height:44px;
 }
 
 
