@@ -87,10 +87,24 @@
     setTimeout(removeLoader, 8000);
   }
 
-  // ✅ اگر body هنوز آماده نیست، صبر کن
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", boot, { once: true });
-  } else {
-    boot();
+ let bootTimeout = null;
+let loaderStarted = false;
+
+function delayedBoot() {
+  loaderStarted = true;
+  boot();
+}
+
+bootTimeout = setTimeout(delayedBoot, 300); // ⬅️ 300ms تاخیر
+
+window.__bootHide = function () {
+  clearTimeout(bootTimeout);
+  if (loaderStarted) {
+    const el = document.getElementById("bootLoader");
+    if (el) {
+      el.classList.add("boot-hide");
+      setTimeout(() => el.remove(), 380);
+    }
   }
+};
 })();
