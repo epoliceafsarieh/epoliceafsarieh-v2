@@ -787,6 +787,11 @@ details.sec#docs .doc-sec{
   box-shadow: 0 6px 14px rgba(22,30,49,.04);
   transition:background .25s ease, box-shadow .25s ease;
 }
+details.sec#docs .doc-sec[open]{
+  background:#ffffff;   /* 👈 حالت باز */
+  box-shadow: 0 10px 22px rgba(22,30,49,.08);
+}
+
 
 
 /* هدر کارت داخلی */
