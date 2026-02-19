@@ -661,8 +661,8 @@ details.sec#docs > summary{
   border:0;
   border-radius:0;
 
-  padding:8px 10px 14px;
-  font-size:18px;
+  padding:12px 14px;     /* ✅ دقیقاً مثل گام‌ها */
+  font-size:17px;        /* ✅ دقیقاً مثل گام‌ها */
   font-weight:900;
   margin:0;
 }
