@@ -554,10 +554,14 @@ details.sec#docs > summary{
     font-weight:900;
     color:#0f172a;
     display:flex;
-    justify-content:space-between;
     gap:10px;
     background:var(--section-bg);
   }
+  /* فقط summary های عادی space-between داشته باشند */
+.sec:not(.steps-card):not(#docs) > summary{
+  justify-content:space-between;
+}
+
   
 /* === unify: steps + docs header (same height & font) === */
 .steps-card > summary,
