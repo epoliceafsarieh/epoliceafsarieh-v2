@@ -668,15 +668,15 @@ margin:4px 0;
   .hint{font-size:12px;color:#777}
 
   /* ===== Bottom CTA ثابت (فقط وقتی سرویس بخواهد) ===== */
-  .bottom-cta{
-    position:fixed;
-    right:0;left:0;bottom:0;
-    background:rgba(245,247,251,.92);
-    backdrop-filter:saturate(140%) blur(6px);
-    border-top:1px solid var(--border);
-    padding:10px 14px calc(10px + env(safe-area-inset-bottom));
-    z-index:2000;
-  }
+.bottom-cta{
+  position:fixed;
+  right:0;left:0;bottom:0;
+  background:var(--bg);
+  border-top:1px solid var(--border);
+  padding:10px 14px calc(10px + env(safe-area-inset-bottom));
+  z-index:2000;
+}
+
   .bottom-cta .inner{
     max-width:860px;
     margin:0 auto;
