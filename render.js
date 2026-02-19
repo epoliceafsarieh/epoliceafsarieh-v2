@@ -229,7 +229,7 @@ background: linear-gradient(270deg,
     align-items:center;
     gap:8px;
     min-width:0;
-    padding-right:90px;
+    padding-right:72px;
     margin-right:-16px;
   }
 
