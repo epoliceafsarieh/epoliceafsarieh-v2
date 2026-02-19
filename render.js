@@ -133,6 +133,7 @@
   --secGap:8px;
 }
 .content{ padding:0 var(--padX) 14px; }
+.card-gap{ height:12px; }
 
 .sec{
   margin-top:var(--secGap);
