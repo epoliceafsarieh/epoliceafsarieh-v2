@@ -670,12 +670,11 @@ details.sec#docs > summary{
 details.sec#docs > summary::after{ content:none !important; }
 details.sec#docs > summary::-webkit-details-marker{ display:none; }
 
-/* بدنه مادر */
 details.sec#docs > .sec-body{
-  border:0;
-  background:transparent;
-  padding:0;
+  background:#fff;
+  padding:12px 14px;
 }
+
 
 /* کارت‌های داخلی: سفید، تمیز */
 details.sec#docs .doc-sec{
