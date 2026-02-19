@@ -562,6 +562,8 @@ details.sec#docs > summary{
 .steps-card summary{
   justify-content:center;
   text-align:center;
+   padding:10px 12px;   /* قفل ارتفاع مثل docs */
+  line-height:1.2;
 }
 .steps-card summary span{
   font-size:17px;
