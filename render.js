@@ -543,7 +543,8 @@ details.sec#docs > summary{
 .steps-card summary{
   background: #F0F3F7 !important;   /* ✅ همان طیف خاکستری */
   color: var(--ramp-1) !important;  /* ✅ متن تیره */
-  border-bottom:1px solid var(--border);
+   border-bottom:0 !important;
+
 }
 .steps-card summary span{
   color: var(--ramp-1) !important;
