@@ -719,26 +719,6 @@ details.sec#docs{
   margin-top:12px;
   overflow:hidden;
 }
-
-
-details.sec#docs > summary{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  background:#F0F3F7;      /* ✅ هم‌بدنه‌ی گام‌ها */
-  color: var(--ramp-1);
-
- padding:var(--padY) var(--padX);
-       /* هم‌قد با .sec summary */
-  line-height:1.2;         /* ارتفاع کنترل‌شده */
-  font-weight:900;
-
-  margin:0;
-  border-bottom:0 !important;
-
-}
-
 details.sec#docs > .sec-body{
   background:transparent;
   padding:var(--padY) var(--padX);
