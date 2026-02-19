@@ -629,35 +629,34 @@ margin:4px 0;
   }
 
 /* =========================
-   DOCS (30-principles version)
-   4 blue tones used as ACCENTS, not big fills
+   DOCS (v3 / proposal #3)
+   - minimal, clean
+   - 4 blue tones used as accents (not big fills)
+   - titles RTL-fixed + plus always left
    ========================= */
 
-/* مادر docs: فقط ته‌رنگ خیلی ملایم */
+/* مادر docs: فقط یک ته‌رنگ خیلی ملایم (tone #4) */
 details.sec#docs{
   border:0;
-  background: linear-gradient(
-    180deg,
-    rgba(78,100,152,.14) 0%,
-    rgba(78,100,152,.06) 100%
-  );
+  background: rgba(78,100,152,.06);     /* ramp-4 tint */
   border-radius:20px;
   padding:14px;
   margin-top:14px;
   overflow:visible;
 }
 
-/* تیتر مادر: یک سطح رنگی مجاز (کنترل‌شده) */
+/* تیتر مادر: Chip/Outline (نه پرکننده‌ی سطح) */
 details.sec#docs > summary{
   display:flex;
   align-items:center;
   justify-content:center;
 
-  background: var(--ramp-2);          /* tone #2 */
-  color:#fff;
+  background: rgba(78,100,152,.10);     /* ramp-4 tint */
+  color: var(--ramp-2);                 /* tone #2 */
 
-  border:0;
+  border:1px solid rgba(78,100,152,.22);/* ramp-4 border */
   border-radius:14px;
+
   padding:12px 0;
   font-size:18px;
   font-weight:900;
@@ -665,7 +664,7 @@ details.sec#docs > summary{
   margin:0 0 12px;
 }
 
-/* حذف فلش پیش‌فرض */
+/* حذف فلش پیش‌فرض summary مادر */
 details.sec#docs > summary::after{ content:none !important; }
 details.sec#docs > summary::-webkit-details-marker{ display:none; }
 
@@ -676,71 +675,58 @@ details.sec#docs > .sec-body{
   padding:0;
 }
 
-/* کارت‌های داخلی: سفید، تمیز، با ریتم فاصله */
+/* کارت‌های داخلی: سفید، تمیز */
 details.sec#docs .doc-sec{
   margin-top:12px;
   background:#fff;
   border:1px solid #E6EAF2;
   border-radius:14px;
   overflow:hidden;
-  box-shadow: 0 8px 22px rgba(22,30,49,.05);
+  box-shadow: 0 8px 18px rgba(22,30,49,.04); /* ramp-1-ish shadow */
 }
 
-/* هدر کارت داخلی: سفید + نوار اکسانت (رنگ اصلی اینجا نیست) */
+/* هدر کارت داخلی: سفید + نوار اکسانت سمت راست */
 details.sec#docs .doc-sec > summary{
   position:relative;
   padding:12px 14px;
   font-size:14px;
   font-weight:900;
-  color: var(--ramp-1);               /* tone #1 as ink */
+
+  color: var(--ramp-1);   /* tone #1 as ink */
   background:#fff;
 
   display:flex;
   align-items:center;
- justify-content:flex-start;
-
+  justify-content:flex-start;  /* ✅ معتبر و پایدار */
   gap:10px;
 
   cursor:pointer;
   border:0;
-}
-/* FIX: title right, +/- left (only inside docs) */
-details.sec#docs .doc-sec > summary .sec-title{
-  order:1;
-  flex:1 1 auto;
-  min-width:0;
-  text-align:right;
+  direction:rtl;               /* ✅ RTL قفل */
 }
 
-details.sec#docs .doc-sec > summary .sec-toggle{
-  order:2;
-  margin-right:auto;   /* هل بده به چپ */
-}
-
-/* نوار اکسانت سمت راست (همه یکدست = کم‌نویز) */
+/* نوار اکسانت سمت راست (tone #3) */
 details.sec#docs .doc-sec > summary::before{
   content:"";
   position:absolute;
   right:0;
   top:10px;
   bottom:10px;
-  width:6px;
+  width:4px;
   border-radius:8px;
-  background: var(--ramp-3);          /* tone #3 */
+  background: var(--ramp-3);   /* tone #3 */
   opacity:.95;
 }
 
-/* حالت hover: فقط یک حس لطیف، نه رنگ‌پاشی */
+/* hover: فقط tint لطیف (tone #4) */
 details.sec#docs .doc-sec > summary:hover{
-  background: rgba(78,100,152,.06);   /* tone #4 as tint */
+  background: rgba(78,100,152,.06);
 }
 
-/* وقتی باز شد: فقط خط بالا (سیگنال وضعیت) */
+/* وقتی باز شد: سیگنال وضعیت با tone #1 */
 details.sec#docs .doc-sec[open] > summary{
   box-shadow: inset 0 3px 0 var(--ramp-1);
 }
-
-/* و نوار اکسانت کمی تیره‌تر شود */
 details.sec#docs .doc-sec[open] > summary::before{
   background: var(--ramp-1);
 }
@@ -752,16 +738,29 @@ details.sec#docs .doc-sec > .sec-body{
   background:#fff;
 }
 
-/* +/− استاندارد، کم‌جلب‌توجه */
-details.sec#docs .sec-toggle{
+/* =========================
+   RTL FIX (قطعی):
+   - عنوان همیشه راست
+   - + همیشه چپ
+   ========================= */
+details.sec#docs .doc-sec > summary .sec-title{
+  order:1;
+  flex:1 1 auto;
+  min-width:0;
+  text-align:right;
+}
+
+details.sec#docs .doc-sec > summary .sec-toggle{
+  order:2;
+  margin-right:auto;     /* ✅ + برود سمت چپ */
   font-size:18px;
   font-weight:900;
-  color: var(--ramp-ink);             /* support tone */
+  color: var(--ramp-ink);
   width:22px;
   text-align:center;
   flex:0 0 22px;
-  margin-right:auto;                  /* به چپ */
 }
+
 
 
  
