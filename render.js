@@ -645,7 +645,7 @@ details.sec#docs{
   border:0;                      /* ✅ مثل 18:40 قاب بیرونی نداشته باشد */
   background:#F0F3F7;            /* ✅ پوسته مادر خاکستری */
   border-radius: var(--radius);  /* ✅ گرد مثل گام‌ها */
-  padding:14px;                  /* ✅ فاصله داخلی برای دیده شدن مادر */
+  padding:0 14px 14px;   /* ✅ بالا صفر شد؛ چپ/راست/پایین مثل قبل */
   margin-top:12px;
   overflow:hidden;
 }
