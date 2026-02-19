@@ -700,8 +700,7 @@ details.sec#docs{
   padding:0;              /* ✅ عرض مثل گام‌ها */
   margin-top:12px;
   overflow:hidden;
-  box-shadow: 0 18px 42px rgba(2,8,23,.12), 0 0 0 1px rgba(22,30,49,.08) !important;
-}
+ }
 }
 
 details.sec#docs > summary{
