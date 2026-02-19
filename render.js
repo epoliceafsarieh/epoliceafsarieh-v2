@@ -132,6 +132,20 @@
   --padY:10px;
   --secGap:8px;
 }
+.content{ padding:0 var(--padX) 14px; }
+
+.sec{
+  margin-top:var(--secGap);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  background:#fff;
+  overflow:hidden;
+}
+
+.sec summary{ padding:var(--padY) var(--padX); }
+.sec-body{ padding:var(--padY) var(--padX); }
+
+
 @media (max-width:480px){
   :root{ --padX:12px; --padY:10px; --secGap:8px; }
 }
