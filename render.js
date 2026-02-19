@@ -696,8 +696,8 @@ details.sec#docs .doc-sec{
 /* هدر کارت داخلی */
 details.sec#docs .doc-sec > summary{
   position:relative;
-  padding:14px 14px;
-  font-size:14px;
+  padding:11px 12px;     /* ✅ باریک‌تر */
+  font-size:13px;        /* ✅ کمی جمع‌تر */
   font-weight:900;
 
   color: var(--ramp-1);
@@ -713,6 +713,7 @@ details.sec#docs .doc-sec > summary{
   direction:rtl;
   text-align:right;
 }
+
 
 
 /* hover لطیف */
