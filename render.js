@@ -1660,7 +1660,12 @@ const setFabInkByProgress = (p) => {
   if (p >= 0.62) c = "var(--ramp-2)";
   if (p >= 0.78) c = "var(--ramp-1)";
   fab.style.setProperty("--fab-ink", c);
+
+  // ✅ محو -> پررنگ
+  const op = 0.12 + (p * 0.88);   // از 0.12 تا 1
+  fab.style.setProperty("--fab-op", op.toFixed(3));
 };
+
 
 const dur = anim.effect.getTiming().duration || 1;
 
