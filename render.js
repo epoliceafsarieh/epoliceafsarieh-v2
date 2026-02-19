@@ -988,6 +988,16 @@ transition: opacity .15s ease;
   content:"●";
   font-size:14px;
 }
+/* ✅ بالا کشیدن کل محتوا (گام‌ها می‌آید بالا) */
+.content{
+  margin-top:-18px !important;
+}
+
+/* موبایل کمی کمتر */
+@media (max-width: 480px){
+  .content{ margin-top:-12px !important; }
+}
+
 
 </style>`;
 
