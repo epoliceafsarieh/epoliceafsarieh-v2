@@ -629,142 +629,100 @@ margin:4px 0;
   }
 
 /* =========================
-   DOCS (v3 / proposal #3)
-   - minimal, clean
-   - 4 blue tones used as accents (not big fills)
-   - titles RTL-fixed + plus always left
+   DOCS (مدارک و شرایط) — نسخه یکپارچه با گام‌ها
+   هدف:
+   - تیتر docs هم‌هویت با تیتر گام‌ها (brand-blue + متن سفید)
+   - حذف حس «بلوک جدا افتاده»
+   - آکاردئون‌های داخلی تمیز و منظم
    ========================= */
 
-/* مادر docs: فقط یک ته‌رنگ خیلی ملایم (tone #4) */
 details.sec#docs{
-  /* ✅ مثل بقیه سکشن‌ها: یکی شدن با تنه */
-  border:1px solid var(--border);
-  background:#fff;
-  border-radius: var(--radius);
-  padding:0;
+  background:#fff;                 /* ✅ مثل بقیه کارت‌ها */
+  border:1px solid var(--border);  /* ✅ یکپارچه با سیستم */
+  border-radius:var(--radius);
+  padding:0;                       /* ✅ دیگر بلوک جدا نمی‌سازد */
   margin-top:12px;
-  overflow:hidden;
+  overflow:hidden;                 /* ✅ تیتر تیره، گوشه‌ها را درست می‌گیرد */
 }
 
-
+/* تیتر مادر: دقیقاً مثل تیتر گام‌ها */
 details.sec#docs > summary{
   display:flex;
   align-items:center;
   justify-content:center;
 
-  /* ✅ هم‌رنگ و هم-استایل با گام‌ها */
-  background: var(--ramp-2);
+  background:var(--brand-blue);
   color:#fff;
 
-  border:0;
-  border-radius:0;
   padding:12px 14px;
   font-size:17px;
   font-weight:900;
 
-  margin:0;
+  border:0;
 }
 
-
-/* حذف فلش پیش‌فرض summary مادر */
+/* فلش پیش‌فرض summary مادر را حذف کن */
 details.sec#docs > summary::after{ content:none !important; }
 details.sec#docs > summary::-webkit-details-marker{ display:none; }
 
+details.sec#docs > summary .docs-title{
+  color:#fff;
+}
+
+/* بدنه مادر */
 details.sec#docs > .sec-body{
   background:#fff;
-  padding:12px 14px;
+  padding:12px 14px;              /* ✅ مثل سکشن‌ها */
 }
 
-
-/* کارت‌های داخلی: سفید، تمیز */
+/* کارت‌های داخلی docs (آکاردئون‌ها) */
 details.sec#docs .doc-sec{
-  margin-top:12px;
+  margin-top:10px;
   background:#fff;
-  border:1px solid #E6EAF2;
+  border:1px solid #e6e8ee;
   border-radius:14px;
   overflow:hidden;
-  box-shadow: 0 8px 18px rgba(22,30,49,.04); /* ramp-1-ish shadow */
 }
 
-/* هدر کارت داخلی: سفید + نوار اکسانت سمت راست */
+/* هدر کارت داخلی */
 details.sec#docs .doc-sec > summary{
-  position:relative;
-  padding:12px 14px;
-  font-size:14px;
-  font-weight:900;
-
-  color: var(--ramp-1);   /* tone #1 as ink */
   background:#fff;
+  padding:14px 14px;
+  font-size:15px;
+  font-weight:900;
+  color:#0f172a;
 
   display:flex;
   align-items:center;
-  justify-content:flex-start;  /* ✅ معتبر و پایدار */
   gap:10px;
 
+  direction:rtl;                  /* ✅ RTL قطعی */
   cursor:pointer;
-  border:0;
-  direction:rtl;  /* ✅ RTL قفل */
- text-align:right;
- 
 }
 
-
-/* نوار اکسانت سمت راست (tone #3) */
-details.sec#docs .doc-sec > summary::before{
-  content:"";
-  position:absolute;
-  right:0;
-  top:10px;
-  bottom:10px;
-  width:4px;
-  border-radius:8px;
-  background: var(--ramp-3);   /* tone #3 */
-  opacity:.95;
-}
-
-/* hover: فقط tint لطیف (tone #4) */
-details.sec#docs .doc-sec > summary:hover{
-  background: rgba(78,100,152,.06);
-}
-
-/* وقتی باز شد: سیگنال وضعیت با tone #1 */
-details.sec#docs .doc-sec[open] > summary{
-  box-shadow: inset 0 3px 0 var(--ramp-1);
-}
-details.sec#docs .doc-sec[open] > summary::before{
-  background: var(--ramp-1);
-}
-
-/* بدنه کارت داخلی */
-details.sec#docs .doc-sec > .sec-body{
-  padding:14px;
-  border-top:1px solid #E6EAF2;
-  background:#fff;
-}
-
-/* =========================
-   RTL FIX (قطعی):
-   - عنوان همیشه راست
-   - + همیشه چپ
-   ========================= */
+/* عنوان همیشه راست */
 details.sec#docs .doc-sec > summary .sec-title{
-  order:1;
   flex:1 1 auto;
   min-width:0;
   text-align:right;
 }
 
+/* + همیشه چپ */
 details.sec#docs .doc-sec > summary .sec-toggle{
-  order:2;
-  margin-right:auto;     /* ✅ + برود سمت چپ */
-  font-size:18px;
-  font-weight:900;
-  color: var(--ramp-ink);
+  margin-right:auto;              /* ✅ می‌بردش سمت چپ */
   width:22px;
   text-align:center;
-  flex:0 0 22px;
+  font-size:18px;
+  font-weight:900;
+  color:#334155;
 }
 
+/* بدنه کارت داخلی */
+details.sec#docs .doc-sec > .sec-body{
+  padding:14px 14px;
+  border-top:1px solid #e6e8ee;
+  background:#fff;
+}
 
 
  
