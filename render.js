@@ -158,7 +158,9 @@
     position:sticky;
     top:0;
     z-index:1000;
-    background: linear-gradient(90deg, var(--ramp-1) 0%, var(--ramp-3) 55%, var(--ramp-4) 100%) !important;
+ 
+    background: linear-gradient(90deg, var(--ramp-4) 0%, var(--ramp-3) 55%, var(--ramp-1) 100%) !important;
+
     color:#fff;
     padding:6px 12px;
     height:60px;
