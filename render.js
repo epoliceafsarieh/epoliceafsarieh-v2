@@ -814,10 +814,18 @@ font-size:14px;       /* از 13 بیشتر => خواناتر */
 
 
 
-/* hover لطیف */
-details.sec#docs .doc-sec > summary:hover{
+/* فقط دستگاه‌هایی که واقعاً hover دارند (دسکتاپ) */
+@media (hover:hover) and (pointer:fine){
+  details.sec#docs .doc-sec > summary:hover{
+    background: rgba(78,100,152,.06);
+  }
+}
+
+/* موبایل: فقط هنگام لمس، نه حالت چسبنده */
+details.sec#docs .doc-sec > summary:active{
   background: rgba(78,100,152,.06);
 }
+
 
 /* open state */
 details.sec#docs .doc-sec[open] > summary{
