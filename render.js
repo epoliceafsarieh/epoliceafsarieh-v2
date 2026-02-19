@@ -766,7 +766,7 @@ details.sec#docs > .sec-body{
   background:transparent;
 
   /* ✅ اینجا “فریم خاکستری” ساخته می‌شود */
-  padding:12px 12px 14px;
+  padding:4px 12px 14px;
 }
 
 
