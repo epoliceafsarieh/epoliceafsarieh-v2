@@ -594,7 +594,7 @@ details.sec#docs > summary{
   border-bottom:0 !important;
 }
 details.sec#docs > summary{
-  padding:18px 12px 10px !important;
+  padding:25px 12px 10px !important;
 }
 
 
