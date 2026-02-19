@@ -732,20 +732,22 @@ margin:4px 0;
    - children inset (mother visible)
    ========================= */
 details.sec#docs{
-  border:0;
+  /* ✅ مادر باید قاب داشته باشد */
+  border:1px solid #E6EAF2;
   background:#EEF2F7;
   border-radius: var(--radius);
   padding:0;
   margin-top:12px;
   overflow:hidden;
 }
+
 details.sec#docs > .sec-body{
   background:transparent;
-  padding:var(--padY) var(--padX);
+
+  /* ✅ اینجا “فریم خاکستری” ساخته می‌شود */
+  padding:12px 12px 14px;
 }
-.steps-card .sec-body{
-  padding:var(--padY) var(--padX) !important;
-}
+
 
 
 
