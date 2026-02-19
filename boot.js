@@ -1,17 +1,17 @@
 (function () {
   const BRAND_BG = "#041E42";
   const LOGO_SRC = "assets/img/logo/logo_white.png";
-  const SHOW_DELAY_MS = 350; // ✅ فقط اگر بیشتر از این طول کشید، لودر را نشان بده
+  const SHOW_DELAY_MS = 250;
   const FAILSAFE_MS = 8000;
 
   let showTimer = null;
   let failTimer = null;
   let shown = false;
+  let done = false;
 
-  // ✅ 1) از همان اول، قبل از هر paint، پس‌زمینه را سرمه‌ای کن (حذف فلش سفید)
+  // حذف فلش سفید
   try {
     document.documentElement.style.background = BRAND_BG;
-    // اگر body هنوز نیامده، مشکلی نیست
     if (document.body) document.body.style.background = BRAND_BG;
   } catch (e) {}
 
@@ -27,14 +27,14 @@
         background:${BRAND_BG};
         display:flex; align-items:center; justify-content:center;
         z-index:99999;
-        transition:opacity .35s ease;
+        transition:opacity .28s ease;
       }
       #bootLoader.boot-hide{opacity:0}
 
       .boot-inner{display:flex;flex-direction:column;align-items:center;gap:14px}
       .boot-logo{
         width:92px; height:auto;
-        animation:pulseLogo 1.5s ease-in-out infinite;
+        animation:pulseLogo 1.45s ease-in-out infinite;
         filter: drop-shadow(0 10px 18px rgba(0,0,0,.25));
       }
       @keyframes pulseLogo{
@@ -46,7 +46,7 @@
         width:22px;height:22px;border-radius:999px;
         border:3px solid rgba(255,255,255,.25);
         border-top-color: rgba(255,255,255,.9);
-        animation:spin .9s linear infinite;
+        animation:spin .85s linear infinite;
       }
       @keyframes spin{to{transform:rotate(360deg)}}
     `;
@@ -63,9 +63,7 @@
         <div class="boot-spinner" aria-hidden="true"></div>
       </div>
     `;
-
-    const mount = document.body || document.documentElement;
-    mount.appendChild(loader);
+    (document.body || document.documentElement).appendChild(loader);
 
     const imgEl = loader.querySelector(".boot-logo");
     if (imgEl) {
@@ -78,32 +76,60 @@
   }
 
   function showLoader() {
+    if (done) return;          // اگر صفحه آماده شد، اصلاً نشان نده
     shown = true;
     injectCSS();
     createLoader();
-
-    // Fail-safe فقط وقتی نمایش داده شد
-    failTimer = setTimeout(hideLoader, FAILSAFE_MS);
+    failTimer = setTimeout(hideNow, FAILSAFE_MS);
   }
 
-  function hideLoader() {
-    if (showTimer) clearTimeout(showTimer);
-    if (failTimer) clearTimeout(failTimer);
-
+  function hideNow() {
+    if (!shown) return;
     const el = document.getElementById("bootLoader");
     if (!el) return;
     el.classList.add("boot-hide");
-    setTimeout(() => el.remove(), 380);
+    setTimeout(() => el.remove(), 300);
   }
 
-  // ✅ 2) سیگنال پایان: اگر لود سریع بود، تایمر را کنسل می‌کند و لودر اصلاً ساخته نمی‌شود
-  window.__bootHide = function () {
-    if (showTimer) clearTimeout(showTimer);
-    if (shown) hideLoader(); // فقط اگر واقعاً نمایش داده شده
-  };
+  function markDone() {
+    if (done) return;
+    done = true;
 
-  // ✅ 3) لودر را با تأخیر نشان بده
-  // اگر DOM هنوز آماده نیست، باز هم ok: showLoader mount را body||html می‌کند
+    if (showTimer) clearTimeout(showTimer);
+    if (failTimer) clearTimeout(failTimer);
+
+    // اگر لودر نمایش داده شده، جمعش کن
+    hideNow();
+  }
+
+  // ✅ این را برای کدهای دیگر هم نگه می‌داریم (اگر خواستی بعداً از render.js صدا بزنی)
+  window.__bootHide = markDone;
+
+  // ✅ اگر DOM آماده شد، معمولاً کافی است (مخصوصاً صفحات ساده مثل index / all / hub)
+  document.addEventListener("DOMContentLoaded", () => {
+    // یک فریم فرصت بده تا اسکریپت‌ها inject کنند
+    requestAnimationFrame(() => requestAnimationFrame(markDone));
+  }, { once: true });
+
+  // ✅ اگر تصاویر/فونت‌ها دیر برسند، نهایتاً load هم جمعش می‌کند
+  window.addEventListener("load", markDone, { once: true });
+
+  // ✅ برای صفحات سرویس که با JS داخل #app رندر می‌شوند:
+  // وقتی #app اولین محتوا را گرفت، یعنی صفحه عملاً آماده نمایش است
+  try {
+    const app = document.getElementById("app");
+    if (app) {
+      const obs = new MutationObserver(() => {
+        if (app.childNodes && app.childNodes.length > 0) {
+          obs.disconnect();
+          markDone();
+        }
+      });
+      obs.observe(app, { childList: true, subtree: true });
+    }
+  } catch (e) {}
+
+  // ✅ نمایش با تأخیر (روی اینترنت سریع معمولاً قبل از این done می‌شود و اصلاً نمی‌آید)
   showTimer = setTimeout(showLoader, SHOW_DELAY_MS);
 
 })();
