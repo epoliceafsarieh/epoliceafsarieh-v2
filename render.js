@@ -488,15 +488,6 @@ details.sec#docs{
   box-shadow: 0 16px 36px rgba(2,8,23,.10) !important;
 }
 
-
-
-/* ✅ override مستقیم border از .sec */
-.steps-card.sec,
-details.sec#docs{
-  border:0 !important;
-}
-
-
 .steps-card summary,
 details.sec#docs > summary{
   box-shadow: none !important;
