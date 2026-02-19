@@ -1720,7 +1720,8 @@ function runFabIntro() {
 
   requestAnimationFrame(() => {
     const rect = fab.getBoundingClientRect();
-    const h = rect.height || 66;
+   const h = rect.height || parseInt(getComputedStyle(fab).height);
+
 
     const brandbarH = 60;
     const startCenterY = Math.max(90, brandbarH + 14 + (h / 2));
