@@ -703,8 +703,11 @@ details.sec#docs .doc-sec > summary{
 
   cursor:pointer;
   border:0;
-  direction:rtl;               /* ✅ RTL قفل */
+  direction:rtl;  /* ✅ RTL قفل */
+ text-align:right;
+ 
 }
+
 
 /* نوار اکسانت سمت راست (tone #3) */
 details.sec#docs .doc-sec > summary::before{
