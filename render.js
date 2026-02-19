@@ -1380,25 +1380,20 @@ const restSectionsHtml = otherSecs.map((sec, i) => {
 
 
  
-     const heroHtml = hasHero ? `
+   const heroHtml = hasHero ? `
   <div class="hero">
-
- "" 
-
-
 
     ${heroSubtitle ? `<p class="hero-sub">${heroSubtitle}</p>` : ""}
 
     <div class="hero-actions sticky-cta">
-    
       ${heroSecondary?.label && heroSecondary?.href
-      ? `<a class="btn-secondary" href="${escAttr(heroSecondary.href)}">${escText(heroSecondary.label)}</a>`
-
+        ? `<a class="btn-secondary" href="${escAttr(heroSecondary.href)}">${escText(heroSecondary.label)}</a>`
         : ""
       }
     </div>
   </div>
 ` : "";
+
 
     const noticeList =
       (svc.notDone && svc.notDone.length) ? svc.notDone
