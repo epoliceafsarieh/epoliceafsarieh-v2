@@ -203,6 +203,12 @@
   outline:0;
   background:transparent;
 }
+/* فقط صفحه گذرنامه: آیکن بالا کمی کوچک‌تر */
+.is-passport .svc-icon{
+  width:48px;
+  height:48px;
+}
+
 
 
   .svc-title{
@@ -970,6 +976,10 @@ details.sec#docs .doc-sec > summary .sec-toggle{
   function renderService(serviceKey) {
     const svc = window.SERVICES[serviceKey];
     if (!svc) {
+            const isPassport =
+      /passport/i.test(String(serviceKey || "")) ||
+      /گذرنامه/.test(String(svc?.barTitle || svc?.shortTitle || ""));
+
       app.innerHTML = `${style}<div class="wrap"><div class="card"><div class="card-clip"><div class="content">این خدمت پیدا نشد.</div></div></div></div>`;
       return;
     }
