@@ -705,8 +705,8 @@ details.sec#docs > summary{
   background:#F0F3F7;      /* ✅ هم‌بدنه‌ی گام‌ها */
   color: var(--ramp-1);
 
-  padding:12px 14px;       /* ✅ دقیقاً مثل گام‌ها */
-  font-size:17px;
+ padding:10px 12px;       /* هم‌قد با .sec summary */
+  line-height:1.2;         /* ارتفاع کنترل‌شده */
   font-weight:900;
 
   margin:0;
