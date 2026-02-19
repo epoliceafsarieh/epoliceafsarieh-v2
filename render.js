@@ -559,17 +559,28 @@ details.sec#docs > summary{
     background:var(--section-bg);
   }
   
-/* فقط تیتر گام‌های انجام کار (فقط روی steps-card) */
-.steps-card summary{
-  justify-content:center;
-  text-align:center;
-   padding:10px 12px;   /* قفل ارتفاع مثل docs */
+/* === unify: steps + docs header (same height & font) === */
+.steps-card > summary,
+details.sec#docs > summary{
+  display:flex;
+  align-items:center;
+  justify-content:center !important;
+
+  padding:var(--padY) var(--padX) !important; /* ارتفاع یکسان */
   line-height:1.2;
+
+  font-size:17px !important;  /* فونت یکسان */
+  font-weight:900 !important;
+  text-align:center;
 }
-.steps-card summary span{
-  font-size:17px;
-  font-weight:900;
+
+/* title spans */
+.steps-card > summary .sec-title,
+details.sec#docs > summary .docs-title{
+  font-size:inherit !important;
+  font-weight:inherit !important;
 }
+
 .steps-card summary{
   background: #F0F3F7 !important;   /* ✅ همان طیف خاکستری */
   color: var(--ramp-1) !important;  /* ✅ متن تیره */
