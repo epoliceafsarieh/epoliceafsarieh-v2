@@ -1229,7 +1229,9 @@ const feeSectionHtml = (hasTime || hasFeeTable) ? `
     const hasHero =
       !!(svc.heroTitle || svc.heroSubtitle || svc.heroPrimary || svc.heroSecondary);
 
-   
+   const heroTitle = escText(svc.heroTitle || "");
+const heroSubtitle = escText(svc.heroSubtitle || "");
+
   
     const heroPrimary = svc.heroPrimary || null;
     const heroSecondary = svc.heroSecondary || null;
