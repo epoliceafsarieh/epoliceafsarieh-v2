@@ -921,18 +921,22 @@ details.sec#docs .doc-sec > summary .sec-toggle{
 
 
 
-/* فلش داخل */
+/* فلش داخل: رنگ از متغیر می‌آید */
 .scroll-fab span{
   display:block;
   width:18px;
   height:18px;
-  border-right:4px solid rgba(35,55,80,.75);
-  border-bottom:4px solid rgba(35,55,80,.75);
+
+  color: var(--fab-ink, rgba(35,55,80,.75));   /* ✅ فقط رنگ آیکون */
+  border-right:4px solid currentColor;
+  border-bottom:4px solid currentColor;
+
   transform:rotate(45deg);
   margin-top:-2px;
   font-size:0;
   line-height:0;
 }
+
 
 
 /* وقتی نزدیک انتهای صفحه‌ایم => جهت بالا */
