@@ -562,16 +562,17 @@ details.sec#docs > summary{
 /* === unify: steps + docs header (same height & font) === */
 .steps-card > summary,
 details.sec#docs > summary{
-  display:flex;
-  align-items:center;
+  display:flex !important;
+  align-items:center !important;
   justify-content:center !important;
 
-  padding:var(--padY) var(--padX) !important; /* ارتفاع یکسان */
-  line-height:1.2;
+  padding:var(--padY) var(--padX) !important;
+  line-height:1.2 !important;
 
-  font-size:17px !important;  /* فونت یکسان */
+  font-size:17px !important;
   font-weight:900 !important;
-  text-align:center;
+
+  text-align:center !important;
 }
 
 /* title spans */
@@ -580,6 +581,12 @@ details.sec#docs > summary .docs-title{
   font-size:inherit !important;
   font-weight:inherit !important;
 }
+
+/* ✅ گام‌ها: اون span اضافه که تداخل ایجاد می‌کند */
+.steps-card > summary .chev{
+  display:none !important;
+}
+
 
 .steps-card summary{
   background: #F0F3F7 !important;   /* ✅ همان طیف خاکستری */
