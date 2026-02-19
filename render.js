@@ -1291,7 +1291,8 @@ if (stepsSec) {
 const restSectionsHtml = otherSecs.map((sec, i) => {
   const body = liList(sec.items || []);
   const ctaHtml = (sec.cta && sec.cta.label && sec.cta.href)
-    ? `<div class="cta"><a href="${esc(sec.cta.href)}">${esc(sec.cta.label)}</a></div>`
+  ? `<div class="cta"><a href="${escAttr(sec.cta.href)}">${escText(sec.cta.label)}</a></div>`
+
     : "";
 
   return `
