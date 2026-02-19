@@ -484,8 +484,9 @@ background: linear-gradient(270deg,
 .steps-card,
 details.sec#docs{
   border:0 !important;
-  box-shadow: 0 18px 42px rgba(2,8,23,.12), 0 0 0 1px rgba(22,30,49,.08) !important;
+  box-shadow: 0 16px 36px rgba(2,8,23,.10) !important;  /* فقط یک سایه تمیز */
 }
+
 
 /* ✅ override مستقیم border از .sec */
 .steps-card.sec,
