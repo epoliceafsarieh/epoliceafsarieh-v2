@@ -785,17 +785,30 @@ details.sec#docs > summary::-webkit-details-marker{ display:none; }
 
 details.sec#docs .doc-sec{
   margin:8px 0 0;
-  background:#F3F6FA;   /* 👈 حالت بسته */
-  border:1px solid #E1E6EF;
+  background:#F4F7FB;                 /* ✅ بسته: سفید نیست، ولی روشن و تمیز */
+  border:1px solid #E7ECF3;           /* ✅ مرز نرم‌تر */
   border-radius:14px;
   overflow:hidden;
-  box-shadow: 0 6px 14px rgba(22,30,49,.04);
-  transition:background .25s ease, box-shadow .25s ease;
+
+  /* ✅ سایه‌ی کم‌عمق و طبیعی */
+  box-shadow:
+    0 4px 10px rgba(15,23,42,.05),
+    0 1px 2px rgba(15,23,42,.03);
+
+  /* ✅ موشن کامل‌تر */
+  transition:
+    background .25s ease,
+    box-shadow .25s ease,
+    transform .18s ease;
 }
+
 details.sec#docs .doc-sec[open]{
-  background:#ffffff;   /* 👈 حالت باز */
-  box-shadow: 0 10px 22px rgba(22,30,49,.08);
+  background:#ffffff;                 /* ✅ باز: سفید کامل */
+  box-shadow:
+    0 8px 18px rgba(15,23,42,.08),
+    0 2px 6px rgba(15,23,42,.05);
 }
+
 
 
 
