@@ -687,7 +687,7 @@ details.sec#docs > summary{
 
 details.sec#docs > .sec-body{
   background:transparent;
-  padding:12px;            /* ✅ اینجا “تو رفتگی” ایجاد می‌شود (نه روی summary) */
+  padding:10px 12px 12px;   /* ✅ اینجا تو رفتگی ایجاد می‌شود، نه روی summary */
 }
 
 
