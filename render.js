@@ -764,7 +764,7 @@ details.sec#docs .doc-sec > summary .sec-toggle{
   .hero{ padding:6px 12px 4px; }
   .content{ padding:6px 12px 12px; }
 
-  .content > .steps-card{ margin-top:4px; }
+  .content > .steps-card{ margin-top:2px; }
   .sec{ margin-top:8px; }
   .sec summary{ padding:10px 12px; }
   .sec-body{ padding:10px 12px; }
