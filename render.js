@@ -593,10 +593,6 @@ details.sec#docs > summary{
   /* ✅ یک‌تکه شدن هدر */
   border-bottom:0 !important;
 }
-details.sec#docs > summary{
-  padding:25px 12px 10px !important;
-}
-
 
 /* title spans */
 .steps-card > summary .sec-title,
@@ -1067,7 +1063,9 @@ transition: opacity .15s ease;
   .content{ margin-top:-12px !important; }
 }
 
-
+details.sec#docs > summary{
+  padding:25px 12px 10px !important;
+}
 </style>`;
 
   function renderService(serviceKey) {
