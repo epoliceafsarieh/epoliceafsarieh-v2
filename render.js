@@ -565,7 +565,7 @@ details.sec#docs > summary{
   .sec summary small{
    display:none;
   }
-  .sec-body{padding:12px 14px}
+ 
 
   ul,ol{margin:0;padding-right:20px;font-size:14px}
   li{margin:8px 0;font-weight:normal}
