@@ -1637,8 +1637,32 @@ function runFabIntro() {
         { transform: `translateY(${endY - 7}px)`, opacity: 1.0, offset: 0.90 },
         { transform: `translateY(${endY}px)`, opacity: 1.0, offset: 1.00 }
       ],
+            // ✅ رنگ آیکون FAB هنگام پایین آمدن: ramp-4 -> ramp-3 -> ramp-2 -> ramp-1
+    const setFabInkByProgress = (p) => {
+      // چهار پله (کم به زیاد)
+      let c = "var(--ramp-4)";
+      if (p >= 0.35) c = "var(--ramp-3)";
+      if (p >= 0.62) c = "var(--ramp-2)";
+      if (p >= 0.78) c = "var(--ramp-1)";
+      fab.style.setProperty("--fab-ink", c);
+    };
+
+    const dur = anim.effect.getTiming().duration || 1;
+
+    const tickInk = () => {
+      if (!fabIntroRunning) return;
+      const t = (anim.currentTime || 0);
+      const p = Math.max(0, Math.min(1, t / dur));
+      setFabInkByProgress(p);
+      requestAnimationFrame(tickInk);
+    };
+
+    // شروع از کم
+    fab.style.setProperty("--fab-ink", "var(--ramp-4)");
+    requestAnimationFrame(tickInk);
+
       {
-        duration: 14600,
+        duration: 15000,
         easing: "cubic-bezier(.22,.85,.2,1)",
         fill: "forwards"
       }
