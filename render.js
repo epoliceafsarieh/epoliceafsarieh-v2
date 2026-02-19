@@ -740,6 +740,26 @@ details.sec#docs{
   margin-top:12px;
   overflow:hidden;
 }
+/* ✅ FIX: یکپارچگی نوار عنوان "مدارک و شرایط" با بدنه‌ی مادر */
+details.sec#docs > summary{
+  background:#EEF2F7 !important;          /* هم‌رنگ بدنه‌ی مادر */
+  border-bottom:0 !important;             /* خط جداکننده نداشته باشد */
+  margin:0 !important;
+
+  /* گردی بالای کارت دقیقاً روی summary هم بنشیند */
+  border-radius: var(--radius) var(--radius) 0 0 !important;
+}
+
+/* ✅ FIX: بدنه از زیرِ نوار جدا دیده نشود */
+details.sec#docs > .sec-body{
+  padding-top: 8px !important;            /* اگر هنوز جدا بود: 4px کن */
+}
+
+/* ✅ (اختیاری ولی پیشنهاد من برای تمیزی): عنوان کمی فشرده‌تر مثل رفرنس */
+details.sec#docs > summary{
+  padding: 12px var(--padX) !important;   /* ارتفاع نوار کنترل‌شده */
+}
+
 
 details.sec#docs > .sec-body{
   background:transparent;
