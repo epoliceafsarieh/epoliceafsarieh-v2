@@ -1639,46 +1639,46 @@ function runFabIntro() {
     fab.style.transform = `translateY(${startY}px)`;
     fab.style.opacity = "0";
 
-    const anim = fab.animate(
-      [
-        { transform: `translateY(${startY}px)`, opacity: 0.0, offset: 0.00 },
-        { transform: `translateY(${startY + (endY - startY) * 0.35}px)`, opacity: 1.0, offset: 0.20 },
-        { transform: `translateY(${startY + (endY - startY) * 0.78}px)`, opacity: 1.0, offset: 0.62 },
-        { transform: `translateY(${endY}px)`, opacity: 1.0, offset: 0.78 },
-        { transform: `translateY(${endY + 12}px)`, opacity: 1.0, offset: 0.84 },
-        { transform: `translateY(${endY - 7}px)`, opacity: 1.0, offset: 0.90 },
-        { transform: `translateY(${endY}px)`, opacity: 1.0, offset: 1.00 }
-      ],
-            // ✅ رنگ آیکون FAB هنگام پایین آمدن: ramp-4 -> ramp-3 -> ramp-2 -> ramp-1
-    const setFabInkByProgress = (p) => {
-      // چهار پله (کم به زیاد)
-      let c = "var(--ramp-4)";
-      if (p >= 0.35) c = "var(--ramp-3)";
-      if (p >= 0.62) c = "var(--ramp-2)";
-      if (p >= 0.78) c = "var(--ramp-1)";
-      fab.style.setProperty("--fab-ink", c);
-    };
+   const anim = fab.animate(
+  [
+    { transform: `translateY(${startY}px)`, opacity: 0.0, offset: 0.00 },
+    { transform: `translateY(${startY + (endY - startY) * 0.35}px)`, opacity: 1.0, offset: 0.20 },
+    { transform: `translateY(${startY + (endY - startY) * 0.78}px)`, opacity: 1.0, offset: 0.62 },
+    { transform: `translateY(${endY}px)`, opacity: 1.0, offset: 0.78 },
+    { transform: `translateY(${endY + 12}px)`, opacity: 1.0, offset: 0.84 },
+    { transform: `translateY(${endY - 7}px)`, opacity: 1.0, offset: 0.90 },
+    { transform: `translateY(${endY}px)`, opacity: 1.0, offset: 1.00 }
+  ],
+  {
+    duration: 15000,
+    easing: "cubic-bezier(.22,.85,.2,1)",
+    fill: "forwards"
+  }
+);
 
-    const dur = anim.effect.getTiming().duration || 1;
+// ✅ رنگ آیکون FAB هنگام پایین آمدن: ramp-4 -> ramp-3 -> ramp-2 -> ramp-1
+const setFabInkByProgress = (p) => {
+  let c = "var(--ramp-4)";
+  if (p >= 0.35) c = "var(--ramp-3)";
+  if (p >= 0.62) c = "var(--ramp-2)";
+  if (p >= 0.78) c = "var(--ramp-1)";
+  fab.style.setProperty("--fab-ink", c);
+};
 
-    const tickInk = () => {
-      if (!fabIntroRunning) return;
-      const t = (anim.currentTime || 0);
-      const p = Math.max(0, Math.min(1, t / dur));
-      setFabInkByProgress(p);
-      requestAnimationFrame(tickInk);
-    };
+const dur = anim.effect.getTiming().duration || 1;
 
-    // شروع از کم
-    fab.style.setProperty("--fab-ink", "var(--ramp-4)");
-    requestAnimationFrame(tickInk);
+const tickInk = () => {
+  if (!fabIntroRunning) return;
+  const t = (anim.currentTime || 0);
+  const p = Math.max(0, Math.min(1, t / dur));
+  setFabInkByProgress(p);
+  requestAnimationFrame(tickInk);
+};
 
-      {
-        duration: 15000,
-        easing: "cubic-bezier(.22,.85,.2,1)",
-        fill: "forwards"
-      }
-    );
+// شروع از کم
+fab.style.setProperty("--fab-ink", "var(--ramp-4)");
+requestAnimationFrame(tickInk);
+
 
     anim.onfinish = () => {
       const settle = fab.animate(
