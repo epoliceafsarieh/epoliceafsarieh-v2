@@ -1261,9 +1261,7 @@ if (stepsSec) {
       <summary>
        
        <span class="sec-title">${esc(stepsSec.heading || stepsSec.title || "گام‌های انجام کار")}</span>
-
-        <span class="chev" aria-hidden="true"></span>
-      </summary>
+ </summary>
       <div class="sec-body">
         <div class="wmContent">${body}${ctaHtml}</div>
       </div>
