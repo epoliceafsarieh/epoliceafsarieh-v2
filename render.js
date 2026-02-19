@@ -759,13 +759,15 @@ details.sec#docs > summary::-webkit-details-marker{ display:none; }
 
 
 details.sec#docs .doc-sec{
-  margin:6px 0 0;          /* ✅ فاصله کمتر + عرض دقیقاً هم‌راستا */
+  /* ✅ inset واقعی: از چپ و راست فاصله بده تا مادر دیده شود */
+  margin:8px 0 0;
   background:#fff;
   border:1px solid #E6EAF2;
   border-radius:14px;
   overflow:hidden;
   box-shadow: 0 8px 18px rgba(22,30,49,.04);
 }
+
 
 /* هدر کارت داخلی */
 details.sec#docs .doc-sec > summary{
