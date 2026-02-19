@@ -779,13 +779,13 @@ details.sec#docs > summary::-webkit-details-marker{ display:none; }
 
 
 details.sec#docs .doc-sec{
-  /* ✅ inset واقعی: از چپ و راست فاصله بده تا مادر دیده شود */
   margin:8px 0 0;
-  background:#fff;
-  border:1px solid #E6EAF2;
+  background:#F3F6FA;   /* 👈 حالت بسته */
+  border:1px solid #E1E6EF;
   border-radius:14px;
   overflow:hidden;
-  box-shadow: 0 8px 18px rgba(22,30,49,.04);
+  box-shadow: 0 6px 14px rgba(22,30,49,.04);
+  transition:background .25s ease, box-shadow .25s ease;
 }
 
 
