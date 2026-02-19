@@ -790,17 +790,9 @@ line-height:1;
   .wrap{ margin:8px auto 60px; padding:0 10px; }
 .header{ padding:10px 12px 10px; }
 .meta{ padding-top:18px; padding-bottom:6px; }
-
-
   .hero{ padding:6px 12px 4px; }
-  .content{ padding:6px 12px 12px; }
-
   .content > .steps-card{ margin-top:2px; }
-  
-  
-
-
-  .footer{ margin-top:10px; padding-top:6px; }
+    .footer{ margin-top:10px; padding-top:6px; }
   .hero-actions{ gap:8px; margin-top:8px; }
 }
 
