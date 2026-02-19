@@ -1320,7 +1320,8 @@ const restSectionsHtml = otherSecs.map((sec, i) => {
 
    ${
   (svc.heroTitle && (svc.heroTitle !== (svc.barTitle || svc.shortTitle || "")))
-    ? `<h2 class="hero-title">${esc(svc.heroTitle)}</h2>`
+  ? `<h2 class="hero-title">${heroTitle}</h2>`
+
     : ""
 }
 
