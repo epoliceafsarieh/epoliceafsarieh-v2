@@ -629,107 +629,98 @@ margin:4px 0;
   }
 
 /* =========================
-   DOCS (v3 / proposal #3)
-   - minimal, clean
-   - 4 blue tones used as accents (not big fills)
-   - titles RTL-fixed + plus always left
+   DOCS (match 18:40)
+   - mother shell (light gray)
+   - dark title
+   - children inset (mother visible)
    ========================= */
 
 details.sec#docs{
-  border:0;                 /* ✅ بدون قاب */
-  background:transparent;    /* ✅ هم‌رنگ تنه */
-  border-radius:0;
-  padding:0;
-  margin-top:10px;
-  overflow:visible;
+  border:0;                      /* ✅ مثل 18:40 قاب بیرونی نداشته باشد */
+  background:#F0F3F7;            /* ✅ پوسته مادر خاکستری */
+  border-radius: var(--radius);  /* ✅ گرد مثل گام‌ها */
+  padding:14px;                  /* ✅ فاصله داخلی برای دیده شدن مادر */
+  margin-top:12px;
+  overflow:hidden;
 }
 
-
-
+/* تیتر مادر: روی همان پوسته، بدون نوار جدا */
 details.sec#docs > summary{
   display:flex;
   align-items:center;
   justify-content:center;
 
-  /* ✅ هم‌رنگ و هم-استایل با گام‌ها */
-  background: var(--ramp-2);
-  color:#fff;
-
+  background:transparent;
+  color: var(--ramp-1);          /* ✅ فونت سورمه‌ای تیره */
   border:0;
   border-radius:0;
-  padding:12px 14px;
-  font-size:17px;
-  font-weight:900;
 
+  padding:8px 10px 14px;
+  font-size:18px;
+  font-weight:900;
   margin:0;
 }
-
 
 /* حذف فلش پیش‌فرض summary مادر */
 details.sec#docs > summary::after{ content:none !important; }
 details.sec#docs > summary::-webkit-details-marker{ display:none; }
 
+/* بدنه مادر: شفاف تا رنگ مادر دیده شود */
 details.sec#docs > .sec-body{
-  background:transparent;    /* ✅ زمینه از تنه می‌آید */
-  padding:0;                 /* ✅ مثل 18:40 */
+  background:transparent;
+  padding:0;
 }
 
-
-
-/* کارت‌های داخلی: سفید، تمیز */
+/* بچه‌ها: از دو طرف جمع شوند تا مادر دیده شود */
 details.sec#docs .doc-sec{
-  margin-top:12px;
+  margin:10px 10px 0;            /* ✅ این همان “جمع شدن از دو طرف” است */
   background:#fff;
   border:1px solid #E6EAF2;
   border-radius:14px;
   overflow:hidden;
-  box-shadow: 0 8px 18px rgba(22,30,49,.04); /* ramp-1-ish shadow */
+  box-shadow: 0 8px 18px rgba(22,30,49,.04);
 }
 
-/* هدر کارت داخلی: سفید + نوار اکسانت سمت راست */
+/* هدر کارت داخلی */
 details.sec#docs .doc-sec > summary{
   position:relative;
-  padding:12px 14px;
+  padding:14px 14px;
   font-size:14px;
   font-weight:900;
 
-  color: var(--ramp-1);   /* tone #1 as ink */
+  color: var(--ramp-1);
   background:#fff;
 
   display:flex;
   align-items:center;
-  justify-content:flex-start;  /* ✅ معتبر و پایدار */
+  justify-content:flex-start;
   gap:10px;
 
   cursor:pointer;
   border:0;
-  direction:rtl;  /* ✅ RTL قفل */
- text-align:right;
- 
+  direction:rtl;
+  text-align:right;
 }
 
-
-/* نوار اکسانت سمت راست (tone #3) */
+/* نوار عمودی سمت راست: باریک‌تر */
 details.sec#docs .doc-sec > summary::before{
   content:"";
   position:absolute;
   right:0;
-  top:10px;
-  bottom:10px;
-  width:2px;
-  opacity:.85;
-
+  top:12px;
+  bottom:12px;
+  width:2px;                    /* ✅ باریک */
   border-radius:8px;
-  background: var(--ramp-3);   /* tone #3 */
-  opacity:.95;
+  background: var(--ramp-3);
+  opacity:.90;
 }
 
-/* hover: فقط tint لطیف (tone #4) */
+/* hover لطیف */
 details.sec#docs .doc-sec > summary:hover{
   background: rgba(78,100,152,.06);
 }
 
-/* وقتی باز شد: سیگنال وضعیت با tone #1 */
+/* open state */
 details.sec#docs .doc-sec[open] > summary{
   box-shadow: inset 0 3px 0 var(--ramp-1);
 }
@@ -744,21 +735,16 @@ details.sec#docs .doc-sec > .sec-body{
   background:#fff;
 }
 
-/* =========================
-   RTL FIX (قطعی):
-   - عنوان همیشه راست
-   - + همیشه چپ
-   ========================= */
+/* RTL: عنوان راست، + چپ */
 details.sec#docs .doc-sec > summary .sec-title{
   order:1;
   flex:1 1 auto;
   min-width:0;
   text-align:right;
 }
-
 details.sec#docs .doc-sec > summary .sec-toggle{
   order:2;
-  margin-right:auto;     /* ✅ + برود سمت چپ */
+  margin-right:auto;            /* ✅ + سمت چپ */
   font-size:18px;
   font-weight:900;
   color: var(--ramp-ink);
@@ -766,8 +752,6 @@ details.sec#docs .doc-sec > summary .sec-toggle{
   text-align:center;
   flex:0 0 22px;
 }
-
-
 
  
 
