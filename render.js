@@ -1270,7 +1270,8 @@ if (stepsSec) {
   const body = liList(stepsSec.items || [], { noBullets: true });
 
   const ctaHtml = (stepsSec.cta && stepsSec.cta.label && stepsSec.cta.href)
-    ? `<div class="cta"><a href="${esc(stepsSec.cta.href)}">${esc(stepsSec.cta.label)}</a></div>`
+  ? `<div class="cta"><a href="${escAttr(stepsSec.cta.href)}">${escText(stepsSec.cta.label)}</a></div>`
+
     : "";
 
   stepsHtml = `
