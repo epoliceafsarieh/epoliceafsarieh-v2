@@ -647,24 +647,24 @@ details.sec#docs{
 }
 
 
-/* تیتر مادر: Chip/Outline (نه پرکننده‌ی سطح) */
 details.sec#docs > summary{
   display:flex;
   align-items:center;
   justify-content:center;
 
-  background: rgba(78,100,152,.10);     /* ramp-4 tint */
-  color: var(--ramp-2);                 /* tone #2 */
+  /* ✅ هم‌رنگ و هم-استایل با گام‌ها */
+  background: var(--ramp-2);
+  color:#fff;
 
-  border:1px solid rgba(78,100,152,.22);/* ramp-4 border */
-  border-radius:14px;
-
-  padding:12px 0;
-  font-size:18px;
+  border:0;
+  border-radius:0;
+  padding:12px 14px;
+  font-size:17px;
   font-weight:900;
 
-  margin:0 0 12px;
+  margin:0;
 }
+
 
 /* حذف فلش پیش‌فرض summary مادر */
 details.sec#docs > summary::after{ content:none !important; }
