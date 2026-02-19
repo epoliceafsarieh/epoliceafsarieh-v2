@@ -1404,14 +1404,12 @@ ${breadcrumbHtml}
 
             ${heroHtml}
 
-            <div class="content">
+<div class="content">
 
 ${stepsHtml}
-
-
-
-            
-      <details class="sec" id="docs" open>
+<div class="card-gap"></div>
+          
+<details class="sec" id="docs" open>
 
   <summary>
   <span class="docs-title">مدارک و شرایط</span>
