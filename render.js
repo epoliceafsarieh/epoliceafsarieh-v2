@@ -780,8 +780,14 @@ details.sec#docs .doc-sec > summary .sec-toggle{
   .content{ padding:6px 12px 12px; }
 
   .content > .steps-card{ margin-top:2px; }
+  
   .sec{ margin-top:8px; }
-  .sec summary{ padding:10px 12px; }
+  
+  .se/* کشیدن کل content کمی به بالا */
+.content{
+  margin-top:-6px;             /* کنترل دقیق ارتفاع سفید بالا */
+}
+summary{ padding:10px 12px; }
   .sec-body{ padding:10px 12px; }
 
   .footer{ margin-top:10px; padding-top:6px; }
