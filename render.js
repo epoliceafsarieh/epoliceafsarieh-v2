@@ -720,8 +720,9 @@ details.sec#docs .doc-sec{
 /* هدر کارت داخلی */
 details.sec#docs .doc-sec > summary{
   position:relative;
-  padding:10px 12px;     /* ✅ باریک‌تر */
-  font-size:13px;        /* ✅ جمع‌تر */
+ padding:9px 12px;     /* از 10 کمتر => باریک‌تر */
+font-size:14px;       /* از 13 بیشتر => خواناتر */
+
   font-weight:900;
 
   color: var(--ramp-1);
