@@ -550,10 +550,15 @@ details.sec#docs > summary{
     gap:10px;
     background:var(--section-bg);
   }
-  /* فقط summary های عادی space-between داشته باشند */
-.sec:not(.steps-card):not(#docs) > summary{
-  justify-content:space-between;
+ /* پیش‌فرض: summary های سکشن‌ها space-between */
+.sec > summary{ justify-content:space-between; }
+
+/* steps + docs: وسط‌چین */
+.steps-card > summary,
+details.sec#docs > summary{
+  justify-content:center !important;
 }
+
 
   
 /* === unify: steps + docs header (same height & font) === */
