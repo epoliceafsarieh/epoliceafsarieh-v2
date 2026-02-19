@@ -130,6 +130,11 @@
 
 
   *{box-sizing:border-box}
+  html{
+  background: var(--bg) !important;
+  background-image:none !important;
+}
+
   body{
   margin:0;
   font-family:"Vazirmatn", Tahoma, Arial, sans-serif;
