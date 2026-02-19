@@ -672,9 +672,10 @@ details.sec#docs > summary::after{ content:none !important; }
 details.sec#docs > summary::-webkit-details-marker{ display:none; }
 
 details.sec#docs > .sec-body{
-  background:#fff;
-  padding:12px 14px;
+  background:transparent;    /* ✅ زمینه از تنه می‌آید */
+  padding:0;                 /* ✅ مثل 18:40 */
 }
+
 
 
 /* کارت‌های داخلی: سفید، تمیز */
