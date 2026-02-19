@@ -481,11 +481,13 @@ background: linear-gradient(270deg,
 
 
   /* ===== Emphasis for main blocks (Steps + Docs) ===== */
-.steps-card,
-details.sec#docs{
-  border:0 !important;
-  box-shadow: 0 16px 36px rgba(2,8,23,.10) !important;  /* فقط یک سایه تمیز */
+.steps-card{
+  box-shadow: 0 16px 36px rgba(2,8,23,.10) !important;
 }
+details.sec#docs{
+  box-shadow: 0 16px 36px rgba(2,8,23,.10) !important;
+}
+
 
 
 /* ✅ override مستقیم border از .sec */
