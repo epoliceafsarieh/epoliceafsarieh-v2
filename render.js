@@ -975,14 +975,16 @@ details.sec#docs .doc-sec > summary .sec-toggle{
 
   function renderService(serviceKey) {
     const svc = window.SERVICES[serviceKey];
-    if (!svc) {
-            const isPassport =
-      /passport/i.test(String(serviceKey || "")) ||
-      /گذرنامه/.test(String(svc?.barTitle || svc?.shortTitle || ""));
+   if (!svc) {
+  app.innerHTML = `${style}<div class="wrap"><div class="card"><div class="card-clip"><div class="content">این خدمت پیدا نشد.</div></div></div></div>`;
+  return;
+}
 
-      app.innerHTML = `${style}<div class="wrap"><div class="card"><div class="card-clip"><div class="content">این خدمت پیدا نشد.</div></div></div></div>`;
-      return;
-    }
+const isPassport =
+  /passport/i.test(String(serviceKey || "")) ||
+  /گذرنامه/.test(String(svc?.barTitle || svc?.shortTitle || ""));
+
+      
 // ===== Breadcrumb (آخر-محور + کوتاه‌سازی روی صفحه فعلی) =====
 
 // همیشه این دو تا ثابت‌اند
