@@ -637,16 +637,15 @@ margin:4px 0;
    - titles RTL-fixed + plus always left
    ========================= */
 
-/* مادر docs: فقط یک ته‌رنگ خیلی ملایم (tone #4) */
 details.sec#docs{
-  /* ✅ مثل بقیه سکشن‌ها: یکی شدن با تنه */
-  border:1px solid var(--border);
-  background:#fff;
-  border-radius: var(--radius);
+  border:0;                 /* ✅ بدون قاب */
+  background:transparent;    /* ✅ هم‌رنگ تنه */
+  border-radius:0;
   padding:0;
-  margin-top:12px;
-  overflow:hidden;
+  margin-top:10px;
+  overflow:visible;
 }
+
 
 
 details.sec#docs > summary{
