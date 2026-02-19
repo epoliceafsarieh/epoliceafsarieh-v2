@@ -699,7 +699,7 @@ details.sec#docs > summary::-webkit-details-marker{ display:none; }
 
 
 details.sec#docs .doc-sec{
-  margin:8px 0 0;          /* ✅ فاصله کمتر + عرض دقیقاً هم‌راستا */
+  margin:6px 0 0;          /* ✅ فاصله کمتر + عرض دقیقاً هم‌راستا */
   background:#fff;
   border:1px solid #E6EAF2;
   border-radius:14px;
