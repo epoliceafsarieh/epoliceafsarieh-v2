@@ -1,12 +1,27 @@
 (function () {
   const BRAND_BG = "#041E42";
   const LOGO_SRC = "assets/img/logo/logo_white.png";
+  const SHOW_DELAY_MS = 350; // ✅ فقط اگر بیشتر از این طول کشید، لودر را نشان بده
+  const FAILSAFE_MS = 8000;
+
+  let showTimer = null;
+  let failTimer = null;
+  let shown = false;
+
+  // ✅ 1) از همان اول، قبل از هر paint، پس‌زمینه را سرمه‌ای کن (حذف فلش سفید)
+  try {
+    document.documentElement.style.background = BRAND_BG;
+    // اگر body هنوز نیامده، مشکلی نیست
+    if (document.body) document.body.style.background = BRAND_BG;
+  } catch (e) {}
 
   function injectCSS() {
     if (document.getElementById("bootCSS")) return;
     const style = document.createElement("style");
     style.id = "bootCSS";
     style.textContent = `
+      html,body{background:${BRAND_BG} !important;}
+
       #bootLoader{
         position:fixed; inset:0;
         background:${BRAND_BG};
@@ -27,7 +42,6 @@
         50%{transform:scale(1.07);opacity:1}
         100%{transform:scale(1);opacity:.92}
       }
-
       .boot-spinner{
         width:22px;height:22px;border-radius:999px;
         border:3px solid rgba(255,255,255,.25);
@@ -41,7 +55,6 @@
 
   function createLoader() {
     if (document.getElementById("bootLoader")) return;
-
     const loader = document.createElement("div");
     loader.id = "bootLoader";
     loader.innerHTML = `
@@ -51,11 +64,9 @@
       </div>
     `;
 
-    // ✅ مهم: اگر body هنوز نیامده، به html بچسبان؛ بعداً ok است
     const mount = document.body || document.documentElement;
     mount.appendChild(loader);
 
-    // لوگو
     const imgEl = loader.querySelector(".boot-logo");
     if (imgEl) {
       imgEl.src = LOGO_SRC;
@@ -63,48 +74,36 @@
         const sp = loader.querySelector(".boot-spinner");
         if (sp) sp.remove();
       };
-      imgEl.onerror = () => {
-        // اگر لوگو لود نشد، اسپینر بماند
-      };
     }
   }
 
-  function removeLoader() {
+  function showLoader() {
+    shown = true;
+    injectCSS();
+    createLoader();
+
+    // Fail-safe فقط وقتی نمایش داده شد
+    failTimer = setTimeout(hideLoader, FAILSAFE_MS);
+  }
+
+  function hideLoader() {
+    if (showTimer) clearTimeout(showTimer);
+    if (failTimer) clearTimeout(failTimer);
+
     const el = document.getElementById("bootLoader");
     if (!el) return;
     el.classList.add("boot-hide");
     setTimeout(() => el.remove(), 380);
   }
 
-  function boot() {
-    injectCSS();
-    createLoader();
+  // ✅ 2) سیگنال پایان: اگر لود سریع بود، تایمر را کنسل می‌کند و لودر اصلاً ساخته نمی‌شود
+  window.__bootHide = function () {
+    if (showTimer) clearTimeout(showTimer);
+    if (shown) hideLoader(); // فقط اگر واقعاً نمایش داده شده
+  };
 
-    // سیگنال حذف (از render.js / all.js / index / hub)
-    window.__bootHide = removeLoader;
+  // ✅ 3) لودر را با تأخیر نشان بده
+  // اگر DOM هنوز آماده نیست، باز هم ok: showLoader mount را body||html می‌کند
+  showTimer = setTimeout(showLoader, SHOW_DELAY_MS);
 
-    // Fail-safe
-    setTimeout(removeLoader, 8000);
-  }
-
- let bootTimeout = null;
-let loaderStarted = false;
-
-function delayedBoot() {
-  loaderStarted = true;
-  boot();
-}
-
-bootTimeout = setTimeout(delayedBoot, 300); // ⬅️ 300ms تاخیر
-
-window.__bootHide = function () {
-  clearTimeout(bootTimeout);
-  if (loaderStarted) {
-    const el = document.getElementById("bootLoader");
-    if (el) {
-      el.classList.add("boot-hide");
-      setTimeout(() => el.remove(), 380);
-    }
-  }
-};
 })();
