@@ -583,7 +583,7 @@ details.sec#docs > summary{
 
   /* ✅ ارتفاع دقیق‌تر و یک‌دست مثل رفرنس */
   min-height:52px !important;
-  padding:12px 12px !important;
+  padding:18px 12px 10px !important;
   line-height:1.2 !important;
 
   font-size:17px !important;
