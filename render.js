@@ -609,7 +609,8 @@ details.sec#docs > summary .docs-title{
 
 
 .steps-card summary{
-  background: #F0F3F7 !important;   /* ✅ همان طیف خاکستری */
+ background: #EEF2F7 !important;
+
   color: var(--ramp-1) !important;  /* ✅ متن تیره */
    border-bottom:0 !important;
 
