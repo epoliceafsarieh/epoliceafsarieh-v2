@@ -548,7 +548,7 @@ details.sec#docs > summary{
 
 
   .sec summary{
-    padding:12px 14px;
+    padding:var(--padY) var(--padX);
     font-size:15px;
     font-weight:900;
     color:#0f172a;
