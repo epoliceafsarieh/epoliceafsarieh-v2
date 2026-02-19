@@ -722,7 +722,9 @@ details.sec#docs .doc-sec > summary::before{
   right:0;
   top:10px;
   bottom:10px;
-  width:4px;
+  width:2px;
+  opacity:.85;
+
   border-radius:8px;
   background: var(--ramp-3);   /* tone #3 */
   opacity:.95;
