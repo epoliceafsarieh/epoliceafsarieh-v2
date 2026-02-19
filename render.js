@@ -593,6 +593,9 @@ details.sec#docs > summary{
   /* ✅ یک‌تکه شدن هدر */
   border-bottom:0 !important;
 }
+details.sec#docs > summary{
+  padding:18px 12px 10px !important;
+}
 
 
 /* title spans */
