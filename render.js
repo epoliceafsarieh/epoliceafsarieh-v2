@@ -464,16 +464,7 @@ background: linear-gradient(270deg,
     border:1px solid rgba(4,30,66,.35);
   }
 
- .content{padding:0px 16px 14px}
 
-
-  .sec{
-    margin-top:12px;
-    border:1px solid var(--border);
-    border-radius: var(--radius);
-    background:#fff;
-    overflow:hidden;
-  }
   /* ===== Emphasis for main blocks (Steps + Docs) ===== */
 .steps-card,
 details.sec#docs{
