@@ -637,13 +637,15 @@ margin:4px 0;
 
 /* مادر docs: فقط یک ته‌رنگ خیلی ملایم (tone #4) */
 details.sec#docs{
-  border:0;
-  background: rgba(78,100,152,.06);     /* ramp-4 tint */
-  border-radius:20px;
-  padding:14px;
-  margin-top:14px;
-  overflow:visible;
+  /* ✅ مثل بقیه سکشن‌ها: یکی شدن با تنه */
+  border:1px solid var(--border);
+  background:#fff;
+  border-radius: var(--radius);
+  padding:0;
+  margin-top:12px;
+  overflow:hidden;
 }
+
 
 /* تیتر مادر: Chip/Outline (نه پرکننده‌ی سطح) */
 details.sec#docs > summary{
