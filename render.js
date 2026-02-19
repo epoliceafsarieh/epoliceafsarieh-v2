@@ -695,7 +695,8 @@ margin:4px 0;
    ========================= */
 details.sec#docs{
   border:0;
-  background:#F0F3F7;
+ background:#EEF2F7;
+
   border-radius: var(--radius);
   padding:0;              /* ✅ عرض مثل گام‌ها */
   margin-top:12px;
