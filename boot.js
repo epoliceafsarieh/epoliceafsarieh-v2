@@ -1,15 +1,6 @@
 (function () {
-  const BRAND_BG = "#041E42"; // پس‌زمینه مناسب برای لوگوی سفید
-
-  // چند مسیر رایج لوگو در پروژه‌ها (یکی باید جواب بدهد)
-  const LOGO_CANDIDATES = [
-    "assets/img/logo/logo_white.png",
-    "/assets/img/logo/logo_white.png",
-    "assets/img/logo/logo.png",
-    "/assets/img/logo/logo.png",
-    "assets/img/logo/logo.svg",
-    "/assets/img/logo/logo.svg",
-  ];
+  const BRAND_BG = "#041E42";
+  const LOGO_SRC = "assets/img/logo/logo_white.png";
 
   function injectCSS() {
     if (document.getElementById("bootCSS")) return;
@@ -24,6 +15,7 @@
         transition:opacity .35s ease;
       }
       #bootLoader.boot-hide{opacity:0}
+
       .boot-inner{display:flex;flex-direction:column;align-items:center;gap:14px}
       .boot-logo{
         width:92px; height:auto;
@@ -35,6 +27,7 @@
         50%{transform:scale(1.07);opacity:1}
         100%{transform:scale(1);opacity:.92}
       }
+
       .boot-spinner{
         width:22px;height:22px;border-radius:999px;
         border:3px solid rgba(255,255,255,.25);
@@ -48,34 +41,32 @@
 
   function createLoader() {
     if (document.getElementById("bootLoader")) return;
+
     const loader = document.createElement("div");
     loader.id = "bootLoader";
     loader.innerHTML = `
       <div class="boot-inner">
-        <img class="boot-logo" alt="" style="display:none" />
+        <img class="boot-logo" alt="" />
         <div class="boot-spinner" aria-hidden="true"></div>
       </div>
     `;
-    document.body.appendChild(loader);
-  }
 
-  function tryLoadLogo(imgEl) {
-    return new Promise((resolve) => {
-      let i = 0;
-      function next() {
-        if (i >= LOGO_CANDIDATES.length) return resolve(false);
-        const src = LOGO_CANDIDATES[i++];
-        const probe = new Image();
-        probe.onload = () => {
-          imgEl.src = src;
-          imgEl.style.display = "block";
-          resolve(true);
-        };
-        probe.onerror = () => next();
-        probe.src = src + (src.includes("?") ? "&" : "?") + "v=" + Date.now();
-      }
-      next();
-    });
+    // ✅ مهم: اگر body هنوز نیامده، به html بچسبان؛ بعداً ok است
+    const mount = document.body || document.documentElement;
+    mount.appendChild(loader);
+
+    // لوگو
+    const imgEl = loader.querySelector(".boot-logo");
+    if (imgEl) {
+      imgEl.src = LOGO_SRC;
+      imgEl.onload = () => {
+        const sp = loader.querySelector(".boot-spinner");
+        if (sp) sp.remove();
+      };
+      imgEl.onerror = () => {
+        // اگر لوگو لود نشد، اسپینر بماند
+      };
+    }
   }
 
   function removeLoader() {
@@ -85,23 +76,21 @@
     setTimeout(() => el.remove(), 380);
   }
 
-  injectCSS();
-  createLoader();
+  function boot() {
+    injectCSS();
+    createLoader();
 
-  const imgEl = document.querySelector("#bootLoader .boot-logo");
-  if (imgEl) {
-    tryLoadLogo(imgEl).then((ok) => {
-      // اگر لوگو پیدا شد، اسپینر را حذف کن
-      if (ok) {
-        const sp = document.querySelector("#bootLoader .boot-spinner");
-        if (sp) sp.remove();
-      }
-    });
+    // سیگنال حذف (از render.js / all.js / index / hub)
+    window.__bootHide = removeLoader;
+
+    // Fail-safe
+    setTimeout(removeLoader, 8000);
   }
 
-  // سیگنال پایان لود از صفحات (render.js / all.js / hub / index)
-  window.__bootHide = removeLoader;
-
-  // Fail-safe: اگر جایی سیگنال نیامد، گیر نکند
-  setTimeout(removeLoader, 8000);
+  // ✅ اگر body هنوز آماده نیست، صبر کن
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot, { once: true });
+  } else {
+    boot();
+  }
 })();
