@@ -697,7 +697,7 @@ details.sec#docs > summary{
 
 details.sec#docs > .sec-body{
   background:transparent;
-  padding:10px 12px 12px;   /* ✅ اینجا تو رفتگی ایجاد می‌شود، نه روی summary */
+  padding:12px 14px;   /* دقیقاً مثل .sec-body عمومی */
 }
 
 
