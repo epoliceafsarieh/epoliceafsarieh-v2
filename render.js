@@ -1236,7 +1236,8 @@ const feeSectionHtml = (hasTime || hasFeeTable) ? `
   
       const topCtaHtml =
   (heroPrimary?.label && heroPrimary?.href)
-    ? `<a class="top-cta" href="${esc(heroPrimary.href)}">${esc(heroPrimary.label)}</a>`
+  ? `<a class="top-cta" href="${escAttr(heroPrimary.href)}">${escText(heroPrimary.label)}</a>`
+
     : "";
 
       
