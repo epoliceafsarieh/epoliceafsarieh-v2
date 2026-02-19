@@ -772,7 +772,9 @@ details.sec#docs .doc-sec > summary .sec-title{
 details.sec#docs .doc-sec > summary .sec-toggle{
   order:2;
   margin-right:auto;            /* ✅ + سمت چپ */
-  font-size:18px;
+  font-size:20px;
+line-height:1;
+
   font-weight:900;
   color: var(--ramp-ink);
   width:22px;
