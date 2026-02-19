@@ -1679,6 +1679,9 @@ const tickInk = () => {
 
 // شروع از کم
 fab.style.setProperty("--fab-ink", "var(--ramp-4)");
+fab.style.setProperty("--fab-op", "0.12");
+
+      fab.style.setProperty("--fab-ink", "var(--ramp-4)");
 requestAnimationFrame(tickInk);
 
 
