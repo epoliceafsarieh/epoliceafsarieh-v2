@@ -962,8 +962,8 @@ line-height:1;
   bottom:86px;
   z-index:2500;
 
-  width:66px;
-  height:66px;
+  width:56px;
+  height:56px;
   border-radius:999px;
 
   /* ✅ گرادیان ژله‌ای (خاکستری-آبیِ سیرتر) */
