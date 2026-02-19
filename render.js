@@ -469,7 +469,7 @@ details.sec#docs{
 
 .steps-card summary,
 details.sec#docs > summary{
-  box-shadow: inset 0 -1px 0 rgba(22,30,49,.06);
+  box-shadow: none !important;
 }
 
   
