@@ -646,42 +646,43 @@ margin:4px 0;
    - dark title
    - children inset (mother visible)
    ========================= */
-
 details.sec#docs{
-  border:0;                      /* ✅ مثل 18:40 قاب بیرونی نداشته باشد */
-  background:#F0F3F7;            /* ✅ پوسته مادر خاکستری */
-  border-radius: var(--radius);  /* ✅ گرد مثل گام‌ها */
-  padding:0 14px 14px;   /* ✅ بالا صفر شد؛ چپ/راست/پایین مثل قبل */
+  border:0;
+  background:#F0F3F7;
+  border-radius: var(--radius);
+  padding:0;              /* ✅ عرض مثل گام‌ها */
   margin-top:12px;
   overflow:hidden;
 }
 
-/* تیتر مادر: روی همان پوسته، بدون نوار جدا */
 details.sec#docs > summary{
   display:flex;
   align-items:center;
   justify-content:center;
 
-  background:transparent;
-  color: var(--ramp-1);          /* ✅ فونت سورمه‌ای تیره */
-  border:0;
-  border-radius:0;
+  background:#F0F3F7;      /* ✅ هم‌بدنه‌ی گام‌ها */
+  color: var(--ramp-1);
 
-  padding:12px 14px;     /* ✅ دقیقاً مثل گام‌ها */
-  font-size:17px;        /* ✅ دقیقاً مثل گام‌ها */
+  padding:12px 14px;       /* ✅ دقیقاً مثل گام‌ها */
+  font-size:17px;
   font-weight:900;
+
   margin:0;
+  border-bottom:1px solid var(--border);  /* ✅ حس بلوک مثل گام‌ها */
 }
+
+details.sec#docs > .sec-body{
+  background:transparent;
+  padding:12px;            /* ✅ اینجا “تو رفتگی” ایجاد می‌شود (نه روی summary) */
+}
+
+
 
 /* حذف فلش پیش‌فرض summary مادر */
 details.sec#docs > summary::after{ content:none !important; }
 details.sec#docs > summary::-webkit-details-marker{ display:none; }
 
-/* بدنه مادر: شفاف تا رنگ مادر دیده شود */
-details.sec#docs > .sec-body{
-  background:transparent;
-  padding:0;
-}
+
 
 /* بچه‌ها: از دو طرف جمع شوند تا مادر دیده شود */
 details.sec#docs .doc-sec{
