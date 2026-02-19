@@ -1324,7 +1324,7 @@ const restSectionsHtml = otherSecs.map((sec, i) => {
     app.innerHTML = `
       ${style}
       <div class="wrap">
-        <div class="card">
+       <div class="card ${isPassport ? "is-passport" : ""}">
 
           <div class="brandbar">
             <div class="brand-right">
