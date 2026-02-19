@@ -1368,7 +1368,8 @@ const restSectionsHtml = otherSecs.map((sec, i) => {
 
 
     const iconHtml = svc.icon
-      ? `<div class="svc-badge"><img class="svc-icon" src="${esc(svc.icon)}" alt=""></div>`
+    ? `<div class="svc-badge"><img class="svc-icon" src="${escAttr(svc.icon)}" alt=""></div>`
+
       : "";
 
     // Bottom CTA: فقط اگر سرویس explicitly داده باشد
