@@ -127,6 +127,15 @@
     --radius:16px;         /* شعاع مرزها */
     --section-bg:#f8fbff;  /* پس‌زمینه سکشن‌ها */
 }
+:root{
+  --padX:12px;
+  --padY:10px;
+  --secGap:8px;
+}
+@media (max-width:480px){
+  :root{ --padX:12px; --padY:10px; --secGap:8px; }
+}
+
 
 
   *{box-sizing:border-box}
