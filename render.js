@@ -521,12 +521,6 @@
   color: var(--ramp-1) !important;
 }
 
-.steps-card summary span{
-  color:#fff !important;
-}
-
-
-
 
   .sec summary small{
    display:none;
