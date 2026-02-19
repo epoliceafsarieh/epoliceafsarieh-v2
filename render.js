@@ -751,9 +751,6 @@ details.sec#docs .doc-sec > summary:hover{
 details.sec#docs .doc-sec[open] > summary{
   box-shadow: inset 0 3px 0 var(--ramp-1);
 }
-details.sec#docs .doc-sec[open] > summary::before{
-  background: var(--ramp-1);
-}
 
 /* بدنه کارت داخلی */
 details.sec#docs .doc-sec > .sec-body{
