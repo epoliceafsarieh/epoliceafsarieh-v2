@@ -209,11 +209,11 @@ answers[questions[currentStep].key] = value;
     currentStep++;
     showQuestion();
   });
-  function normalizePersianNumbers(text) {
-  const map = {
-    "۰":"0","۱":"1","۲":"2","۳":"3","۴":"4",
-    "۵":"5","۶":"6","۷":"7","۸":"8","۹":"9"
-  };
+ function normalizePersianNumbers(text) {
+  return String(text || "")
+    .replace(/[۰-۹]/g, d => "۰۱۲۳۴۵۶۷۸۹".indexOf(d))
+    .replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d));
+};
   return text.replace(/[۰-۹]/g, d => map[d]);
 }
  // Voice Input (Robust)
