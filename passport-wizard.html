@@ -225,7 +225,7 @@ voiceBtn.addEventListener("click", async function () {
 
     recognition.onresult = function (event) {
       const text = event.results?.[0]?.[0]?.transcript || "";
-      inputEl.value = text;
+      inputEl.value = normalizePersianNumbers(text);
     };
 
     recognition.onerror = function (event) {
@@ -246,6 +246,13 @@ voiceBtn.addEventListener("click", async function () {
     alert("ورودی صوتی در این دستگاه/مرورگر قابل اجرا نیست.");
   }
 });
+  function normalizePersianNumbers(text) {
+  const map = {
+    "۰":"0","۱":"1","۲":"2","۳":"3","۴":"4",
+    "۵":"5","۶":"6","۷":"7","۸":"8","۹":"9"
+  };
+  return text.replace(/[۰-۹]/g, d => map[d]);
+}
 downloadBtn.addEventListener("click", async function () {
   try {
     await generatePdf(answers);
