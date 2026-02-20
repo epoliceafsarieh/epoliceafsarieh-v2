@@ -74,7 +74,9 @@ if (imgEl) {
     failTimer = setTimeout(forceHide, FAILSAFE);
   }
 
-  function forceHide() {
+   function forceHide() {
+    try { document.documentElement.classList.remove("boot-loading"); } catch(e){}
+
     const el = document.getElementById("bootLoader");
     if (!el) return;
     el.classList.add("boot-hide");
