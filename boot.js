@@ -111,11 +111,13 @@ try { document.documentElement.classList.remove("boot-loading"); } catch(e){}
   }
 
   // سیگنال عمومی برای all.js و render.js
-  window.__bootHide = markDone;
-// اگر boot.js دیر اجرا شد و eventها از دست رفتند، همینجا جمعش کن
+ window.__bootHide = markDone;
+
 if (document.readyState === "interactive" || document.readyState === "complete") {
   markDone();
 }
+
+if (done) return;   // ✅ این خط را اضافه کن
   // تشخیص اولین ورود (سراسری)
   let firstVisit = false;
   try {
