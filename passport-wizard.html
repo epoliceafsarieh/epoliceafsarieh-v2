@@ -184,7 +184,13 @@ async function drawTextAsPngOnPdf(pdfDoc, page, text, x, y, fontSize) {
     currentStep++;
     showQuestion();
   });
-
+  function normalizePersianNumbers(text) {
+  const map = {
+    "۰":"0","۱":"1","۲":"2","۳":"3","۴":"4",
+    "۵":"5","۶":"6","۷":"7","۸":"8","۹":"9"
+  };
+  return text.replace(/[۰-۹]/g, d => map[d]);
+}
  // Voice Input (Robust)
 voiceBtn.addEventListener("click", async function () {
   try {
@@ -233,13 +239,7 @@ voiceBtn.addEventListener("click", async function () {
     alert("ورودی صوتی در این دستگاه/مرورگر قابل اجرا نیست.");
   }
 });
-  function normalizePersianNumbers(text) {
-  const map = {
-    "۰":"0","۱":"1","۲":"2","۳":"3","۴":"4",
-    "۵":"5","۶":"6","۷":"7","۸":"8","۹":"9"
-  };
-  return text.replace(/[۰-۹]/g, d => map[d]);
-}
+
 downloadBtn.addEventListener("click", async function () {
   try {
     await generatePdf(answers);
