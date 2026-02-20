@@ -89,17 +89,21 @@ document.addEventListener('DOMContentLoaded', function () {
   const nextBtn = document.getElementById("nextButton");
   const progressEl = document.getElementById("progress");
   const voiceBtn = document.getElementById("voiceButton");
-
+const downloadBtn = document.getElementById("downloadPdfButton");
   function showQuestion() {
     if (currentStep < questions.length) {
       questionEl.innerText = questions[currentStep].question;
       progressEl.innerText = "سؤال " + (currentStep+1) + " از " + questions.length;
       inputEl.value = "";
       inputEl.focus();
-    } else {
-      alert("پایان سوالات");
-      console.log("Answers:", answers);
-    }
+   } else {
+  questionEl.innerText = "تمام شد ✅";
+  progressEl.innerText = "";
+  inputEl.style.display = "none";
+  nextBtn.style.display = "none";
+  voiceBtn.style.display = "none";
+  downloadBtn.style.display = "block";
+}
   }
 
   nextBtn.addEventListener("click", function () {
@@ -128,6 +132,14 @@ document.addEventListener('DOMContentLoaded', function () {
       inputEl.value = text;
     };
   });
+  downloadBtn.addEventListener("click", async function () {
+  try {
+    await generatePdf(answers);
+  } catch (e) {
+    console.error(e);
+    alert("خطا در ساخت PDF");
+  }
+});
 
   showQuestion();
 
