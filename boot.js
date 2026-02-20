@@ -64,8 +64,7 @@
     loader.innerHTML = `
       <div class="boot-inner">
         <img class="boot-logo" alt="" />
-        <div class="boot-spinner" aria-hidden="true"></div>
-      </div>
+           </div>
     `;
     (document.body || document.documentElement).appendChild(loader);
 
