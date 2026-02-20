@@ -182,7 +182,14 @@ async function drawTextAsPngOnPdf(pdfDoc, page, text, x, y, fontSize) {
       questionEl.innerText = questions[currentStep].question;
       progressEl.innerText = "سؤال " + (currentStep+1) + " از " + questions.length;
       inputEl.value = "";
-      inputEl.type = (questions[currentStep].key === "height") ? "number" : "text";
+     if (questions[currentStep].key === "height") {
+  inputEl.type = "text";
+  inputEl.inputMode = "numeric";
+  inputEl.pattern = "[0-9۰-۹]*";
+} else {
+  inputEl.type = "text";
+  inputEl.inputMode = "text";
+}
       inputEl.focus();
    } else {
   questionEl.innerText = "تمام شد ✅";
