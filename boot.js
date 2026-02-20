@@ -106,6 +106,8 @@ if (imgEl) {
 
     // اگر لودر نمایش داده شده، با رعایت حداقل زمان نمایش جمع کن
     hideRespectMinTime();
+    // اگر هنوز لودر ساخته نشده بود، کلاس boot-loading را هم حتماً بردار
+try { document.documentElement.classList.remove("boot-loading"); } catch(e){}
   }
 
   // سیگنال عمومی برای all.js و render.js
