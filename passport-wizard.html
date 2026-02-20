@@ -106,6 +106,10 @@ document.addEventListener('DOMContentLoaded', function () {
   const nextBtn = document.getElementById("nextButton");
   const progressEl = document.getElementById("progress");
   const voiceBtn = document.getElementById("voiceButton");
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+if (isIOS) {
+  voiceBtn.style.display = "none";
+}
 const downloadBtn = document.getElementById("downloadPdfButton");
   // ====== PNG TEXT RENDER (بدون reshaper/bidi) ======
 async function drawTextAsPngOnPdf(pdfDoc, page, text, x, y, fontSize) {
