@@ -77,6 +77,15 @@
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 
+  // تابع کمکی برای شکل‌دهی متن فارسی
+  function faText(s) {
+    const t = String(s ?? "").trim();
+    if (!t) return "";
+    // reshape + bidi
+    const reshaped = ArabicPersianReshaper.reshape(t);
+    return bidi.from_string(reshaped).toString();
+  }
+
   const questions = [
     { question: "نام شما چیست؟", key: "firstName" },
     { question: "نام خانوادگی شما چیست؟", key: "lastName" },
