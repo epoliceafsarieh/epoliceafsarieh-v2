@@ -112,6 +112,60 @@ document.addEventListener('DOMContentLoaded', function () {
   const progressEl = document.getElementById("progress");
   const voiceBtn = document.getElementById("voiceButton");
 const downloadBtn = document.getElementById("downloadPdfButton");
+  // ====== PNG TEXT RENDER (بدون reshaper/bidi) ======
+async function drawTextAsPngOnPdf(pdfDoc, page, text, x, y, fontSize) {
+  const t = String(text ?? "").trim();
+  if (!t) return;
+
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+
+  const pad = Math.ceil(fontSize * 0.6);
+
+  // Vazirmatn باید در CSS لود شده باشد (woff2)
+  ctx.font = `${fontSize}px Vazirmatn`;
+  ctx.direction = "rtl";
+  ctx.textAlign = "right";
+  ctx.textBaseline = "alphabetic";
+
+  const m = ctx.measureText(t);
+  const w = Math.ceil(m.width) + pad * 2;
+  const h = Math.ceil(fontSize * 1.6) + pad * 2;
+
+  canvas.width = w;
+  canvas.height = h;
+
+  // بعد از تغییر سایز باید دوباره ست شود
+  ctx.font = `${fontSize}px Vazirmatn`;
+  ctx.direction = "rtl";
+  ctx.textAlign = "right";
+  ctx.textBaseline = "alphabetic";
+
+  ctx.clearRect(0, 0, w, h);
+  ctx.fillStyle = "#000";
+
+  // رسم متن: راست‌چین
+  ctx.fillText(t, w - pad, h - pad);
+
+  const dataUrl = canvas.toDataURL("image/png");
+  const pngBytes = await fetch(dataUrl).then(r => r.arrayBuffer());
+  const png = await pdfDoc.embedPng(pngBytes);
+
+  // تبدیل تقریبی px به PDF units
+  const SCALE = 0.75;
+
+  const imgW = w * SCALE;
+  const imgH = h * SCALE;
+
+  // x,y در map شما نزدیک baseline است؛ این تنظیم‌ها را اگر لازم شد ریز تنظیم می‌کنیم
+  page.drawImage(png, {
+    x: x - imgW + 1,              // راست‌چین
+    y: y - (fontSize * SCALE),    // baseline
+    width: imgW,
+    height: imgH,
+  });
+}
+// ====== END PNG TEXT RENDER ======
   function showQuestion() {
     if (currentStep < questions.length) {
       questionEl.innerText = questions[currentStep].question;
