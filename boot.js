@@ -65,15 +65,7 @@
    const imgEl = loader.querySelector(".boot-logo");
 if (imgEl) {
   imgEl.src = LOGO;
-  imgEl.onload = () => {
-    const sp = loader.querySelector(".boot-spinner");
-    if (sp) sp.remove();
-  };
-  imgEl.onerror = () => {
-    const sp = loader.querySelector(".boot-spinner");
-    if (sp) sp.remove();  // حذف اسپینر حتی اگر لوگو لود نشود
-  };
-}
+  }
 
     shown = true;
     failTimer = setTimeout(forceHide, FAILSAFE);
