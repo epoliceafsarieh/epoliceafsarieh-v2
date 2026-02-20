@@ -4,7 +4,7 @@
 
   // ✅ سیاست نمایش
   const FIRST_VISIT_MIN_SHOW = 3000;   // اولین ورود: حداقل 800ms نمایش
-  const DELAY_SHOW = 500;             // دفعات بعد: اگر تا 450ms آماده نشد، نشان بده
+  const DELAY_SHOW = 100;             // دفعات بعد: اگر تا 450ms آماده نشد، نشان بده
   const FAILSAFE = 8000;
 
   const KEY = "ep_seen_v1"; // کلید اولین ورود (سراسری برای کل سایت)
