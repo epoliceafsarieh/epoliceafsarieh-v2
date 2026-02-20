@@ -74,7 +74,15 @@ body{
 <div class="card">
   <div class="progress" id="progress"></div>
   <h3 id="question"></h3>
-  <input type="text" id="answerInput" />
+  <input 
+  type="text" 
+  id="answerInput" 
+  inputmode="text" 
+  autocomplete="off"
+  autocorrect="on"
+  autocapitalize="none"
+  spellcheck="true"
+/>
   <button class="voice" id="voiceButton">🎤 ورود صوتی</button>
   <button class="primary" id="nextButton">بعدی</button>
   <button class="primary" id="downloadPdfButton" style="display:none;">دانلود PDF</button>
