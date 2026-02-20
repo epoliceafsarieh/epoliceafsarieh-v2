@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>کالیبراسیون مختصات فرم</title>
+  <style>
+    body{font-family:sans-serif;background:#f2f4f8;padding:16px}
+    .bar{max-width:980px;margin:0 auto 12px;background:#fff;padding:12px;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,.08)}
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    select,input,button{padding:10px;border-radius:10px;border:1px solid #cbd5e1;font-size:14px}
+    button{cursor:pointer;background:#0f172a;color:#fff;border:none}
+    .wrap{max-width:980px;margin:0 auto}
+    canvas{width:100%;background:#fff;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,.08)}
+    code{display:block;direction:ltr;unicode-bidi:plaintext;background:#0b1020;color:#e2e8f0;padding:10px;border-radius:12px;margin-top:10px;overflow:auto}
+  </style>
+</head>
+<body>
+
+<div class="bar">
+  <div class="row">
+    <div>فیلد:</div>
+    <select id="fieldKey">
+      <option value="firstName">firstName (نام)</option>
+      <option value="lastName">lastName (نام خانوادگی)</option>
+      <option value="height">height (قد)</option>
+      <!-- هر فیلدی می‌خوای اضافه کن -->
+    </select>
+
+    <div>سایز فونت:</div>
+    <input id="fontSize" type="number" value="11" style="width:80px" />
+
+    <div>صفحه:</div>
+    <select id="pageIndex">
+      <option value="0">0</option>
+      <!-- اگر PDF چند صفحه است، 1،2... اضافه کن -->
+    </select>
+
+    <button id="copyJson">کپی JSON</button>
+  </div>
+
+  <div>روی جای دقیق همان فیلد در PDF کلیک کن. خروجی مختصات پایین می‌آید.</div>
+  <code id="out">{}</code>
+</div>
+
+<div class="wrap">
+  <canvas id="c"></canvas>
+</div>
+
+<!-- pdf.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.2.67/pdf.min.js"></script>
+
+<script>
+(async function () {
+  const templateUrl = "assets/forms/passport.pdf"; // ✅ PDF واقعی ریپو تو
+  const canvas = document.getElementById("c");
+  const ctx = canvas.getContext("2d");
+
+  const fieldKeyEl = document.getElementById("fieldKey");
+  const fontSizeEl = document.getElementById("fontSize");
+  const pageIndexEl = document.getElementById("pageIndex");
+  const outEl = document.getElementById("out");
+  const copyBtn = document.getElementById("copyJson");
+
+  // نتیجه‌ها را اینجا جمع می‌کنیم
+  const fieldMap = {};
+
+  // pdf.js worker
+  pdfjsLib.GlobalWorkerOptions.workerSrc =
+    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.2.67/pdf.worker.min.js";
+
+  const loadingTask = pdfjsLib.getDocument(templateUrl);
+  const pdf = await loadingTask.promise;
+
+  // اگر PDF چند صفحه است، dropdown صفحات را خودکار پر کن
+  pageIndexEl.innerHTML = "";
+  for (let i = 0; i < pdf.numPages; i++) {
+    const opt = document.createElement("option");
+    opt.value = String(i);
+    opt.textContent = String(i);
+    pageIndexEl.appendChild(opt);
+  }
+
+  let page = null;
+  let viewport = null;
+  let scale = 1.6; // اگر لازم شد کم/زیاد کن
+
+  async function renderPage() {
+    const pageIndex = Number(pageIndexEl.value);
+    page = await pdf.getPage(pageIndex + 1);
+    viewport = page.getViewport({ scale });
+
+    canvas.width = Math.floor(viewport.width);
+    canvas.height = Math.floor(viewport.height);
+
+    await page.render({ canvasContext: ctx, viewport }).promise;
+  }
+
+  pageIndexEl.addEventListener("change", renderPage);
+
+  canvas.addEventListener("click", (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const cx = e.clientX - rect.left;
+    const cy = e.clientY - rect.top;
+
+    // تبدیل از مختصات canvas به واحد PDF
+    // pdf x = cx / scale
+    // pdf y = (canvas.height - cy) / scale  چون محور y در PDF از پایین است
+    const x = +(cx / scale).toFixed(2);
+    const y = +((canvas.height - cy) / scale).toFixed(2);
+
+    const key = fieldKeyEl.value;
+    const size = Number(fontSizeEl.value) || 11;
+    const p = Number(pageIndexEl.value);
+
+    fieldMap[key] = { page: p, x, y, size };
+
+    // نشانه‌گذاری روی canvas (دایره کوچک)
+    ctx.beginPath();
+    ctx.arc(cx, cy, 6, 0, Math.PI * 2);
+    ctx.stroke();
+
+    outEl.textContent = JSON.stringify(fieldMap, null, 2);
+  });
+
+  copyBtn.addEventListener("click", async () => {
+    const txt = JSON.stringify(fieldMap, null, 2);
+    await navigator.clipboard.writeText(txt);
+    alert("کپی شد");
+  });
+
+  await renderPage();
+})();
+</script>
+
+</body>
+</html>
