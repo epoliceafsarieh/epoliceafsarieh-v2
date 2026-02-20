@@ -44,13 +44,7 @@
         50%{transform:scale(1.07);opacity:1}
         100%{transform:scale(1);opacity:.92}
       }
-      .boot-spinner{
-        width:22px;height:22px;border-radius:999px;
-        border:3px solid rgba(255,255,255,.25);
-        border-top-color: rgba(255,255,255,.9);
-        animation:spin .85s linear infinite;
-      }
-      @keyframes spin{to{transform:rotate(360deg)}}
+     
     `;
     document.head.appendChild(style);
   }
