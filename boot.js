@@ -108,7 +108,10 @@ if (imgEl) {
 
   // سیگنال عمومی برای all.js و render.js
   window.__bootHide = markDone;
-
+// اگر boot.js دیر اجرا شد و eventها از دست رفتند، همینجا جمعش کن
+if (document.readyState === "interactive" || document.readyState === "complete") {
+  markDone();
+}
   // تشخیص اولین ورود (سراسری)
   let firstVisit = false;
   try {
