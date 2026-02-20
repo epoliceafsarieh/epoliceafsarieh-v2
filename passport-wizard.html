@@ -190,25 +190,54 @@ async function drawTextAsPngOnPdf(pdfDoc, page, text, x, y, fontSize) {
     showQuestion();
   });
 
-  // Voice Input
-  voiceBtn.addEventListener("click", function () {
+ // Voice Input (Robust)
+voiceBtn.addEventListener("click", async function () {
+  try {
+    // باید HTTPS باشد
+    if (location.protocol !== "https:" && location.hostname !== "localhost") {
+      alert("ورودی صوتی فقط روی https کار می‌کند.");
+      return;
+    }
 
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
     if (!SpeechRecognition) {
-      alert("مرورگر شما از ورودی صوتی پشتیبانی نمی‌کند");
+      alert("این مرورگر از تبدیل گفتار به متن پشتیبانی نمی‌کند (به‌خصوص Safari/iPhone). لطفاً با Chrome تست کنید یا تایپ کنید.");
       return;
     }
 
+    // بعضی مرورگرها بدون gesture یا بدون مجوز میکروفون مشکل دارند
     const recognition = new SpeechRecognition();
-    recognition.lang = 'fa-IR';
-    recognition.start();
+    recognition.lang = "fa-IR";
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    voiceBtn.disabled = true;
+    voiceBtn.textContent = "🎙️ در حال گوش دادن...";
 
     recognition.onresult = function (event) {
-      const text = event.results[0][0].transcript;
+      const text = event.results?.[0]?.[0]?.transcript || "";
       inputEl.value = text;
     };
-  });
+
+    recognition.onerror = function (event) {
+      console.error("SpeechRecognition error:", event);
+      alert("خطای ورودی صوتی: " + (event.error || "نامشخص"));
+    };
+
+    recognition.onend = function () {
+      voiceBtn.disabled = false;
+      voiceBtn.textContent = "🎤 ورود صوتی";
+    };
+
+    recognition.start();
+  } catch (e) {
+    console.error(e);
+    voiceBtn.disabled = false;
+    voiceBtn.textContent = "🎤 ورود صوتی";
+    alert("ورودی صوتی در این دستگاه/مرورگر قابل اجرا نیست.");
+  }
+});
 downloadBtn.addEventListener("click", async function () {
   try {
     await generatePdf(answers);
