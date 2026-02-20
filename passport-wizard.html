@@ -203,7 +203,9 @@ async function drawTextAsPngOnPdf(pdfDoc, page, text, x, y, fontSize) {
 
   nextBtn.addEventListener("click", function () {
     if (!inputEl.value.trim()) return;
-    answers[questions[currentStep].key] = inputEl.value.trim();
+   let value = inputEl.value.trim();
+value = normalizePersianNumbers(value);
+answers[questions[currentStep].key] = value;
     currentStep++;
     showQuestion();
   });
