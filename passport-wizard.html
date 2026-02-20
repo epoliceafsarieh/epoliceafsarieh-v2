@@ -132,7 +132,8 @@ const downloadBtn = document.getElementById("downloadPdfButton");
       inputEl.value = text;
     };
   });
-  downloadBtn.addEventListener("click", async function () {
+ ...
+downloadBtn.addEventListener("click", async function () {
   try {
     await generatePdf(answers);
   } catch (e) {
@@ -141,7 +142,39 @@ const downloadBtn = document.getElementById("downloadPdfButton");
   }
 });
 
-  showQuestion();
+
+// ✅ اینجا تابع را بگذار
+async function generatePdf(answers) {
+  const { PDFDocument } = PDFLib;
+
+  const templateUrl = "assets/forms/passport-template.pdf";
+  const existingPdfBytes = await fetch(templateUrl).then(r => r.arrayBuffer());
+  const pdfDoc = await PDFDocument.load(existingPdfBytes);
+
+  pdfDoc.registerFontkit(fontkit);
+  const fontBytes = await fetch("assets/fonts/Vazirmatn-Regular.ttf").then(r => r.arrayBuffer());
+  const font = await pdfDoc.embedFont(fontBytes);
+
+  const page0 = pdfDoc.getPages()[0];
+
+  page0.drawText(answers.firstName || "", { x: 420, y: 700, size: 11, font });
+  page0.drawText(answers.lastName  || "", { x: 300, y: 700, size: 11, font });
+  page0.drawText(answers.height    || "", { x: 200, y: 650, size: 11, font });
+
+  const pdfBytes = await pdfDoc.save();
+  const blob = new Blob([pdfBytes], { type: "application/pdf" });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "passport-filled.pdf";
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+
+// این دو خط باید آخرین خط‌های داخل DOMContentLoaded باشند
+showQuestion();
 
 });
 </script>
