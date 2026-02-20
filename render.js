@@ -1860,8 +1860,9 @@ if (fab) {
     updateFab();
   });
 
-  updateFab();
+   updateFab();
   runFabIntro();
+  window.__bootHide?.();   // ✅ وقتی سرویس کامل رندر شد، لودر جمع شود
 }   
 
    
