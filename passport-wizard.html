@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>فرم مرحله‌ای گذرنامه</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f2f4f8;
+      padding: 20px;
+    }
+
+    .card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 14px;
+      box-shadow: 0 6px 20px rgba(0,0,0,.08);
+      max-width: 480px;
+      margin: auto;
+    }
+
+    h3 {
+      margin-bottom: 15px;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      margin-bottom: 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+
+    .primary {
+      background: #0f172a;
+      color: white;
+    }
+
+    .voice {
+      background: #e2e8f0;
+    }
+
+    .progress {
+      font-size: 14px;
+      margin-bottom: 10px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <div class="progress" id="progress"></div>
+  <h3 id="question"></h3>
+  <input type="text" id="answerInput" />
+  <button class="voice" id="voiceButton">🎤 ورود صوتی</button>
+  <button class="primary" id="nextButton">بعدی</button>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+  const questions = [
+    { question: "نام شما چیست؟", key: "firstName" },
+    { question: "نام خانوادگی شما چیست؟", key: "lastName" },
+    { question: "قد شما چقدر است؟", key: "height" }
+  ];
+
+  let currentStep = 0;
+  const answers = {};
+
+  const questionEl = document.getElementById("question");
+  const inputEl = document.getElementById("answerInput");
+  const nextBtn = document.getElementById("nextButton");
+  const progressEl = document.getElementById("progress");
+  const voiceBtn = document.getElementById("voiceButton");
+
+  function showQuestion() {
+    if (currentStep < questions.length) {
+      questionEl.innerText = questions[currentStep].question;
+      progressEl.innerText = "سؤال " + (currentStep+1) + " از " + questions.length;
+      inputEl.value = "";
+      inputEl.focus();
+    } else {
+      alert("پایان سوالات");
+      console.log("Answers:", answers);
+    }
+  }
+
+  nextBtn.addEventListener("click", function () {
+    if (!inputEl.value.trim()) return;
+    answers[questions[currentStep].key] = inputEl.value.trim();
+    currentStep++;
+    showQuestion();
+  });
+
+  // Voice Input
+  voiceBtn.addEventListener("click", function () {
+
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    if (!SpeechRecognition) {
+      alert("مرورگر شما از ورودی صوتی پشتیبانی نمی‌کند");
+      return;
+    }
+
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'fa-IR';
+    recognition.start();
+
+    recognition.onresult = function (event) {
+      const text = event.results[0][0].transcript;
+      inputEl.value = text;
+    };
+  });
+
+  showQuestion();
+
+});
+</script>
+
+</body>
+</html>
