@@ -112,6 +112,7 @@ const downloadBtn = document.getElementById("downloadPdfButton");
       questionEl.innerText = questions[currentStep].question;
       progressEl.innerText = "سؤال " + (currentStep+1) + " از " + questions.length;
       inputEl.value = "";
+      inputEl.type = (questions[currentStep].key === "height") ? "number" : "text";
       inputEl.focus();
    } else {
   questionEl.innerText = "تمام شد ✅";
