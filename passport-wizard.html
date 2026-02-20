@@ -151,7 +151,7 @@ async function generatePdf(answers) {
   const pdfDoc = await PDFDocument.load(existingPdfBytes);
 
   pdfDoc.registerFontkit(fontkit);
-  const fontBytes = await fetch("assets/fonts/Vazirmatn-Regular.ttf").then(r => r.arrayBuffer());
+  const fontBytes = await fetch("assets/fonts/vazirmatn/Vazirmatn-Regular.ttf").then(r => r.arrayBuffer());
   const font = await pdfDoc.embedFont(fontBytes);
 
   const page0 = pdfDoc.getPages()[0];
