@@ -146,7 +146,7 @@ downloadBtn.addEventListener("click", async function () {
 async function generatePdf(answers) {
   const { PDFDocument } = PDFLib;
 
-  const templateUrl = "assets/forms/passport-template.pdf";
+ const templateUrl = "assets/forms/passport.pdf";
   const existingPdfBytes = await fetch(templateUrl).then(r => r.arrayBuffer());
   const pdfDoc = await PDFDocument.load(existingPdfBytes);
 
