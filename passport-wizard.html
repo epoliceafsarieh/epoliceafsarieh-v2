@@ -132,7 +132,6 @@ const downloadBtn = document.getElementById("downloadPdfButton");
       inputEl.value = text;
     };
   });
- ...
 downloadBtn.addEventListener("click", async function () {
   try {
     await generatePdf(answers);
