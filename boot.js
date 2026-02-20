@@ -17,6 +17,7 @@
 
   // حذف فلش سفید
   try {
+        document.documentElement.classList.add("boot-loading");
     document.documentElement.style.background = BG;
     if (document.body) document.body.style.background = BG;
   } catch (e) {}
@@ -27,6 +28,8 @@
     style.id = "bootCSS";
     style.textContent = `
       html,body{background:${BG} !important;}
+            .boot-loading body{visibility:hidden;}
+      .boot-loading #bootLoader{visibility:visible;}
       #bootLoader{
         position:fixed; inset:0; background:${BG};
         display:flex; align-items:center; justify-content:center;
