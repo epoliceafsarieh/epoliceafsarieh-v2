@@ -174,9 +174,9 @@ async function generatePdf(answers) {
   const page0 = pdfDoc.getPages()[0];
 
  // ۳ فیلد با مختصات دقیق
-page0.drawText(answers.firstName || "", { x: 451.25, y: 652.5, size: 11, font });
-page0.drawText(answers.lastName  || "", { x: 372.5, y: 615.63, size: 11, font });
-page0.drawText(answers.height    || "", { x: 326.88, y: 513.13, size: 11, font });
+page0.drawText(faText(answers.firstName), { x: 451.25, y: 652.5, size: 11, font });
+page0.drawText(faText(answers.lastName),  { x: 372.5,  y: 615.63, size: 11, font });
+page0.drawText(String(answers.height ?? ""), { x: 326.88, y: 513.13, size: 11, font });
 
   const pdfBytes = await pdfDoc.save();
   const blob = new Blob([pdfBytes], { type: "application/pdf" });
