@@ -92,20 +92,7 @@ body{
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 
-  function faText(s) {
-  const t = String(s ?? "").trim();
-  if (!t) return "";
-
-  // اگر کتابخانه‌ها لود نشدند، متن خام را برگردان (PDF خراب نشود)
-  if (typeof ArabicPersianReshaper === "undefined" || typeof bidi === "undefined") {
-    return t;
-  }
-
-  const reshaped = ArabicPersianReshaper.reshape(t);
-  return bidi.from_string(reshaped).toString();
-}
-
-  const questions = [
+   const questions = [
     { question: "نام شما چیست؟", key: "firstName" },
     { question: "نام خانوادگی شما چیست؟", key: "lastName" },
     { question: "قد شما چقدر است؟", key: "height" }
