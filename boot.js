@@ -53,6 +53,8 @@
   }
 
   function createLoader() {
+    // اگر صفحه آماده است، اصلاً لودر نساز
+if (document.readyState === "interactive" || document.readyState === "complete") return;
     if (document.getElementById("bootLoader")) return;
     injectCSS();
 
