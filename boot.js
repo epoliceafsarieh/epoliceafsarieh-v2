@@ -52,9 +52,9 @@
     document.head.appendChild(style);
   }
 
-  function createLoader() {
-    // اگر صفحه آماده است، اصلاً لودر نساز
-if (document.readyState === "interactive" || document.readyState === "complete") return;
+function createLoader() {
+  if (done) return;
+  if (document.readyState === "interactive" || document.readyState === "complete") return;
     if (document.getElementById("bootLoader")) return;
     injectCSS();
 
