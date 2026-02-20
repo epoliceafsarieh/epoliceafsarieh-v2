@@ -218,25 +218,19 @@ downloadBtn.addEventListener("click", async function () {
   }
 });
 
-
-// ✅ اینجا تابع را بگذار
 async function generatePdf(answers) {
   const { PDFDocument } = PDFLib;
 
- const templateUrl = "assets/forms/passport.pdf";
+  const templateUrl = "assets/forms/passport.pdf";
   const existingPdfBytes = await fetch(templateUrl).then(r => r.arrayBuffer());
   const pdfDoc = await PDFDocument.load(existingPdfBytes);
 
-  pdfDoc.registerFontkit(fontkit);
-  const fontBytes = await fetch("assets/fonts/vazirmatn/Vazirmatn-Regular.ttf").then(r => r.arrayBuffer());
-  const font = await pdfDoc.embedFont(fontBytes);
-
   const page0 = pdfDoc.getPages()[0];
 
- // ۳ فیلد با مختصات دقیق
-page0.drawText(faText(answers.firstName), { x: 451.25, y: 652.5, size: 11, font });
-page0.drawText(faText(answers.lastName),  { x: 372.5,  y: 615.63, size: 11, font });
-page0.drawText(String(answers.height ?? ""), { x: 326.88, y: 513.13, size: 11, font });
+  // ۳ فیلد با مختصات دقیق (به صورت PNG روی PDF)
+  await drawTextAsPngOnPdf(pdfDoc, page0, answers.firstName, 451.25, 652.5, 11);
+  await drawTextAsPngOnPdf(pdfDoc, page0, answers.lastName,  372.5,  615.63, 11);
+  await drawTextAsPngOnPdf(pdfDoc, page0, answers.height,    326.88, 513.13, 11);
 
   const pdfBytes = await pdfDoc.save();
   const blob = new Blob([pdfBytes], { type: "application/pdf" });
