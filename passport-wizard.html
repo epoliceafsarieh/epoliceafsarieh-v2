@@ -448,7 +448,29 @@ button{
   /* [ANCHOR:B3 MOBILE HERO BUTTONS] */
 @media (max-width: 480px){
   .hero-btn{ width: 72px; height: 62px; }
-} 
+}
+/* چشمک زدن عبارت */
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+/* فعال کردن ورودی و چشمک زدن عبارت */
+.hero-question {
+  font-size: 28px;
+  line-height: 1.5;
+  font-weight: 800;
+  text-align: center;
+  color: rgba(15,23,42,.65);
+  margin: 28px 0 14px;
+  animation: blink 1s infinite; /* افزودن انیمیشن چشمک زدن */
+}
+
+.hero-input:focus {
+  border-color: #4caf50;  /* سبز برای حالت فعال */
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);  /* سایه سبز روشن برای چشمک‌زن */
+}   
 </style>
 </head>
 <body>
@@ -634,73 +656,81 @@ if (isIOS) {
     }
   }
 
-  function showQuestion() {
-    if (currentStep < totalSteps) {
-      const { field } = resolveStep(currentStep);
+function showQuestion() {
+  if (currentStep < totalSteps) {
+    const { field } = resolveStep(currentStep);
 
-      const qText = field.question;
-      const stepText = `سؤال ${currentStep + 1} از ${totalSteps}`;
+    const qText = field.question;
 
-      // سوال داخل placeholder
-      heroQuestionEl.style.display = "none";
-      inputEl.style.display = "block";
+    // سوال داخل placeholder
+    heroQuestionEl.style.display = "none";
+    inputEl.style.display = "block";
 
-      // انیمیشن نرم
-      inputEl.style.transition = "opacity 0.22s ease, transform 0.22s ease";
-      inputEl.style.opacity = "0";
-      inputEl.style.transform = "translateY(6px)";
+    // انیمیشن نرم
+    inputEl.style.transition = "opacity 0.22s ease, transform 0.22s ease";
+    inputEl.style.opacity = "0";
+    inputEl.style.transform = "translateY(6px)";
 
+    window.requestAnimationFrame(() => {
+      inputEl.placeholder = `${qText}`;
+      inputEl.value = answers[field.key] || "";
+
+      // نوع ورودی
+      if (field.key === "height") {
+        inputEl.type = "text";
+        inputEl.inputMode = "decimal";
+        inputEl.dir = "ltr";
+      } else {
+        inputEl.type = "text";
+        inputEl.inputMode = "text";
+        inputEl.dir = "rtl";
+      }
+
+      // دکمه‌ها همیشه visible
+      prevBtn.style.display = "inline-flex";
+      nextBtn.style.display = "inline-flex";
+
+      // پایان/دانلود مخفی
+      downloadBtn.style.display = "none";
+      document.getElementById("wmNote").style.display = "none";
+
+      renderDots();
+      updateNavState();
+
+      // fade in
       window.requestAnimationFrame(() => {
-       inputEl.placeholder = `${qText}`;
-        inputEl.value = answers[field.key] || "";
-
-        // نوع ورودی
-        if (field.key === "height") {
-          inputEl.type = "text";
-          inputEl.inputMode = "decimal";
-          inputEl.dir = "ltr";
-        } else {
-          inputEl.type = "text";
-          inputEl.inputMode = "text";
-          inputEl.dir = "rtl";
-        }
-
-        // دکمه‌ها همیشه visible
-        prevBtn.style.display = "inline-flex";
-        nextBtn.style.display = "inline-flex";
-
-        // پایان/دانلود مخفی
-        downloadBtn.style.display = "none";
-        document.getElementById("wmNote").style.display = "none";
-
-        renderDots();
-        updateNavState();
-
-        // fade in
-        window.requestAnimationFrame(() => {
-          inputEl.style.opacity = "1";
-          inputEl.style.transform = "translateY(0)";
-        });
-
-        inputEl.focus();
+        inputEl.style.opacity = "1";
+        inputEl.style.transform = "translateY(0)";
       });
 
-      return;
-    }
+      inputEl.focus();  // این خط ورودی را فعال می‌کند تا مستطیل چشمک بزند
+    });
 
-    // پایان
-    heroQuestionEl.style.display = "block";
-   if (currentStep === totalSteps) {
-  // اضافه کردن تیک سبز در کنار دکمه‌ها وقتی تمام مراحل تمام شده است.
-  const checkmark = document.createElement('span');
-  checkmark.className = 'checkmark';
-  checkmark.innerHTML = '✔';  // تیک سبز
+    return;
+  }
 
-  // اضافه کردن تیک به `hero-question`
-  heroQuestionEl.appendChild(checkmark);
+  // پایان
+  heroQuestionEl.style.display = "block";
+  if (currentStep === totalSteps) {
+    const checkmark = document.createElement('span');
+    checkmark.className = 'checkmark';
+    checkmark.innerHTML = '✔';  // تیک سبز
+
+    heroQuestionEl.appendChild(checkmark);  // اضافه کردن تیک سبز
+  }
+
+  heroQuestionEl.innerText = "تمام شد ✅";
+
+  inputEl.style.display = "none";
+  prevBtn.style.display = "none";
+  nextBtn.style.display = "none";
+  voiceBtn.style.display = "none";
+
+  downloadBtn.style.display = "inline-flex";
+  document.getElementById("wmNote").style.display = "block";
+
+  renderDots();
 }
-    
-    heroQuestionEl.innerText = "تمام شد ✅";
     if (currentStep === totalSteps) {
   // اضافه کردن تیک سبز در کنار دکمه‌ها وقتی تمام مراحل تمام شده است.
   const checkmark = document.createElement('span');
