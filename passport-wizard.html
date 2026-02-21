@@ -350,21 +350,27 @@ button{
  <div class="flow-head flow-head--compact">
   <div class="hero-question" id="heroQuestion">نام خود را بنویسید</div>
 
-  <div class="hero-row">
-    <button class="hero-back" id="prevButton" type="button" aria-label="مرحله قبل" style="display:none;">◀</button>
+ <!-- [ANCHOR:A1 HERO-ROW] -->
+<div class="hero-row">
+  <!-- مرحله قبل -->
+  <button class="hero-back" id="prevButton" type="button" aria-label="مرحله قبل" style="display:none;">◀</button>
 
-    <input
-      class="hero-input"
-      type="text"
-      id="answerInput"
-      inputmode="text"
-      autocomplete="off"
-      autocorrect="on"
-      autocapitalize="none"
-      spellcheck="true"
-      placeholder=""
-    />
-  </div>
+  <!-- ورودی -->
+  <input
+    class="hero-input"
+    type="text"
+    id="answerInput"
+    inputmode="text"
+    autocomplete="off"
+    autocorrect="on"
+    autocapitalize="none"
+    spellcheck="true"
+    placeholder=""
+  />
+
+  <!-- مرحله بعد (همین دکمه سبز کنار ورودی) -->
+  <button class="hero-next" id="nextButton" type="button" aria-label="مرحله بعد">▶</button>
+</div>
 
   <div class="dots" id="dots"></div>
 
