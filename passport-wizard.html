@@ -481,8 +481,10 @@ const prevBtn = document.getElementById("prevButton");
 
   function showQuestion() {
     if (currentStep < questions.length) {
-      questionEl.innerText = questions[currentStep].question;
-      progressEl.innerText = "سؤال " + (currentStep + 1) + " از " + questions.length;
+     heroQuestionEl.innerText = questions[currentStep].question;
+renderDots();
+
+prevBtn.style.display = currentStep > 0 ? "inline-flex" : "none";
       inputEl.value = "";
 
       if (questions[currentStep].key === "height") {
