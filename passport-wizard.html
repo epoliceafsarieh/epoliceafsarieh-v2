@@ -29,34 +29,37 @@ body{
   margin: 0 auto;
 }
 
-/* Header (خیلی سبک، فقط برای Continuity) */
+/* Header (minimal, aligned) */
 .flow-top{
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
-  padding: 10px 6px 8px;
+  gap: 12px;
+  padding: 10px 6px 6px;
+}
+
+.flow-service{
+  font-size: 12px;
+  color: rgba(15, 23, 42, .45);
+  letter-spacing: .2px;
 }
 
 .back-link{
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
   text-decoration: none;
   color: #0f172a;
   font-size: 13px;
-  opacity: .85;
-  padding: 8px 10px;
-  border-radius: 12px;
-  background: rgba(15, 23, 42, 0.06);
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.05);
   border: 1px solid rgba(15, 23, 42, 0.08);
 }
-
-.flow-service{
-  font-size: 13px;
-  color: rgba(15, 23, 42, .60);
+.back-link:hover{
+  background: rgba(15, 23, 42, 0.07);
 }
-
 /* Head text */
 .flow-head{
   margin: 18px 6px 14px;
