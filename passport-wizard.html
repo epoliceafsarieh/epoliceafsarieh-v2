@@ -436,7 +436,6 @@ button{
 <script src="https://unpkg.com/@pdf-lib/fontkit@1.1.1/dist/fontkit.umd.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-
   const questions = [
     { question: "نام شما چیست؟", key: "firstName" },
     { question: "نام خانوادگی شما چیست؟", key: "lastName" },
@@ -446,21 +445,67 @@ document.addEventListener('DOMContentLoaded', function () {
   let currentStep = 0;
   const answers = {};
 
-   const inputEl = document.getElementById("answerInput");
+  const inputEl = document.getElementById("answerInput");
   const heroQuestionEl = document.getElementById("heroQuestion");
-const dotsEl = document.getElementById("dots");
-const prevBtn = document.getElementById("prevButton");
+  const nextBtn = document.getElementById("nextButton");
+  const prevBtn = document.getElementById("prevButton");
+  const dotsEl = document.getElementById("dots");
+
   function renderDots() {
-  dotsEl.innerHTML = "";
-  for (let i = 0; i < questions.length; i++) {
-    const d = document.createElement("span");
-    d.className =
-      "dot" +
-      (i < currentStep ? " is-done" : "") +
-      (i === currentStep ? " is-active" : "");
-    dotsEl.appendChild(d);
+    dotsEl.innerHTML = "";
+    for (let i = 0; i < questions.length; i++) {
+      const d = document.createElement("span");
+      d.className =
+        "dot" +
+        (i < currentStep ? " is-done" : "") +
+        (i === currentStep ? " is-active" : "");
+      dotsEl.appendChild(d);
+    }
   }
-}
+
+  function showQuestion() {
+    if (currentStep < questions.length) {
+      heroQuestionEl.innerText = questions[currentStep].question;
+      renderDots();
+
+      prevBtn.style.display = currentStep > 0 ? "inline-flex" : "none";
+      inputEl.value = "";
+
+      // تنظیم دکمه "بعدی"
+      if (inputEl.value.trim() === "") {
+        nextBtn.disabled = true;
+        nextBtn.style.backgroundColor = "rgba(15, 37, 71, 0.2)";  // خاکی
+      } else {
+        nextBtn.disabled = false;
+        nextBtn.style.backgroundColor = "linear-gradient(to bottom, #17335f, #0f2547)";  // سبز
+      }
+
+      inputEl.focus();
+    } else {
+      heroQuestionEl.innerText = "تمام شد ✅";
+      nextBtn.style.display = "none";
+      prevBtn.style.display = "none";
+      document.getElementById("downloadPdfButton").style.display = "inline-flex";
+    }
+  }
+
+  nextBtn.addEventListener("click", function () {
+    const raw = inputEl.value.trim();
+    if (!raw) return;
+    answers[questions[currentStep].key] = raw;
+    currentStep++;
+    showQuestion();
+  });
+
+  prevBtn.addEventListener("click", function () {
+    if (currentStep <= 0) return;
+    currentStep--;
+    inputEl.value = answers[questions[currentStep].key] || "";
+    showQuestion();
+  });
+
+  showQuestion();
+});
   const nextBtn = document.getElementById("nextButton");
   
   const voiceBtn = document.getElementById("voiceButton");
