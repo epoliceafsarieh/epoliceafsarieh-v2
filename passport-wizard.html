@@ -526,44 +526,66 @@ const prevBtn = document.getElementById("prevButton");
   }
   // ====== END PNG TEXT RENDER ======
 
-  function showQuestion() {
-    if (currentStep < questions.length) {
-     heroQuestionEl.innerText = questions[currentStep].question;
-renderDots();
-prevBtn.style.display = currentStep > 0 ? "inline-flex" : "none";
-      inputEl.value = "";
-     
+ // [ANCHOR:JS1 SHOWQUESTION-REPLACE]
+function showQuestion() {
+  // حالت داخل فرم
+  if (currentStep < questions.length) {
+    // سوال را داخل input به صورت placeholder کم‌رنگ نشان بده
+    const qText = questions[currentStep].question;
+    const stepText = `سؤال ${currentStep + 1} از ${questions.length}`;
 
+    heroQuestionEl.style.display = "none"; // تیتر بیرون ورودی حذف/خاموش
+    inputEl.placeholder = `${qText} — ${stepText}`;
 
-      if (questions[currentStep].key === "height") {
-        inputEl.type = "text";
-        inputEl.inputMode = "decimal";
-        inputEl.dir = "ltr";
-      } else {
-        inputEl.type = "text";
-        inputEl.inputMode = "text";
-        inputEl.dir = "rtl";
-      }
+    renderDots();
 
-      inputEl.focus();
+    // دکمه‌ها
+    prevBtn.style.display = currentStep > 0 ? "inline-flex" : "none";
+    nextBtn.style.display = "inline-flex";
+    nextBtn.disabled = false;
+
+    // مقدار قبلی را اگر داشت نشان بده (برای رفت و برگشت)
+    inputEl.value = answers[questions[currentStep].key] || "";
+
+    // نوع ورودی
+    if (questions[currentStep].key === "height") {
+      inputEl.type = "text";
+      inputEl.inputMode = "decimal";
+      inputEl.dir = "ltr";
     } else {
-     heroQuestionEl.innerText = "تمام شد ✅";
-      inputEl.style.display = "none";
-      nextBtn.style.display = "none";
-      voiceBtn.style.display = "none";
-      downloadBtn.style.display = "block";
-      document.getElementById("wmNote").style.display = "block";
-      renderDots();
+      inputEl.type = "text";
+      inputEl.inputMode = "text";
+      inputEl.dir = "rtl";
     }
+
+    inputEl.focus();
+    return;
   }
 
-  nextBtn.addEventListener("click", function () {
-    const raw = inputEl.value.trim();
-    if (!raw) return;
-    answers[questions[currentStep].key] = normalizePersianNumbers(raw);
-    currentStep++;
-    showQuestion();
-  });
+  // حالت پایان
+  heroQuestionEl.style.display = "block";
+  heroQuestionEl.innerText = "تمام شد ✅";
+  inputEl.style.display = "none";
+
+  prevBtn.style.display = "none";
+  nextBtn.style.display = "none";
+  voiceBtn.style.display = "none";
+
+  downloadBtn.style.display = "inline-flex";
+  document.getElementById("wmNote").style.display = "block";
+
+  renderDots();
+}
+ // [ANCHOR:JS2 NEXT-LISTENER]
+nextBtn.addEventListener("click", function () {
+  const raw = inputEl.value.trim();
+  if (!raw) return;
+
+  answers[questions[currentStep].key] = normalizePersianNumbers(raw);
+
+  currentStep++;
+  showQuestion();
+});
   prevBtn.addEventListener("click", function () {
   if (currentStep <= 0) return;
 
