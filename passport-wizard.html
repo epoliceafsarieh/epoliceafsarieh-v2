@@ -199,7 +199,11 @@ button{
   font-size: 13px;
   color: rgba(15, 23, 42, .60);
 }
-
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: .35; }
+  100% { opacity: 1; }
+}
 /* Mobile */
 @media (max-width: 480px){
   body{ padding: 14px; }
