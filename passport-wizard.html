@@ -627,16 +627,47 @@ function showQuestion() {
       // دکمه‌ها همیشه visible
       prevBtn.style.display = "inline-flex";
       nextBtn.style.display = "inline-flex";
-          // زمانی که تمام مراحل پر شده باشد، لینک دانلود فعال می‌شود
-    if (currentStep === totalSteps) {
-topDownloadLink.classList.remove("is-disabled");
-topDownloadLink.removeAttribute("aria-disabled");
-topDownloadLink.removeAttribute("tabindex");
+
+      // زمانی که تمام مراحل پر شده باشد، لینک دانلود فعال می‌شود
+      if (currentStep === totalSteps) {
+        topDownloadLink.classList.remove("is-disabled");
+        topDownloadLink.removeAttribute("aria-disabled");
+        topDownloadLink.removeAttribute("tabindex");
+      }
+
       // پایان/دانلود مخفی
       downloadBtn.style.display = "none";
       document.getElementById("wmNote").style.display = "none";
 
       renderDots();
+      updateNavState();
+
+      // fade in
+      window.requestAnimationFrame(() => {
+        inputEl.style.opacity = "1";
+        inputEl.style.transform = "translateY(0)";
+      });
+
+      inputEl.focus();  // این خط ورودی را فعال می‌کند تا مستطیل چشمک بزند
+    });
+
+    return;
+  }
+
+  // پایان
+  heroQuestionEl.style.display = "block";
+  heroQuestionEl.innerHTML = `تمام شد <span class="checkmark">✔</span>`;
+
+  inputEl.style.display = "none";
+  prevBtn.style.display = "none";
+  nextBtn.style.display = "none";
+  voiceBtn.style.display = "none";
+
+  downloadBtn.style.display = "inline-flex";
+  document.getElementById("wmNote").style.display = "block";
+
+  renderDots();
+}
       updateNavState();
 
       // fade in
