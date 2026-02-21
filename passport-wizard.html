@@ -382,10 +382,10 @@ button{
  <div class="flow-head flow-head--compact">
   <div class="hero-question" id="heroQuestion">نام خود را بنویسید</div>
 
- <!-- [ANCHOR:A1 HERO-ROW] -->
+<!-- [ANCHOR:A1 HERO-ROW] -->
 <div class="hero-row">
-  <!-- مرحله قبل -->
-  <button class="hero-back" id="prevButton" type="button" aria-label="مرحله قبل" style="display:none;">▶</button>
+  <!-- مرحله قبل (سمت راستِ صفحه RTL) -->
+  <button class="hero-btn hero-prev" id="prevButton" type="button" aria-label="مرحله قبل">▶</button>
 
   <!-- ورودی -->
   <input
@@ -400,8 +400,8 @@ button{
     placeholder=""
   />
 
-  <!-- مرحله بعد (همین دکمه سبز کنار ورودی) -->
-  <button class="hero-next" id="nextButton" type="button" aria-label="مرحله بعد">◀</button>
+  <!-- مرحله بعد (سمت چپِ صفحه RTL) -->
+  <button class="hero-btn hero-next" id="nextButton" type="button" aria-label="مرحله بعد">◀</button>
 </div>
 
   <div class="dots" id="dots"></div>
