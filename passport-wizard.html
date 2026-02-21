@@ -140,9 +140,9 @@ input{
   margin-top: 10px;
 } 
 
-input:focus{
-  border-color: rgba(28, 61, 117, .55);
-  box-shadow: 0 0 0 3px rgba(28, 61, 117, .08);
+.hero-input:focus {
+  border-color: #4caf50;  /* سبز برای حالت فعال */
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);  /* سایه سبز روشن برای چشمک‌زن */
 }
 
 /* Buttons */
@@ -423,6 +423,12 @@ button{
   color: rgba(15,23,42,.55);
   margin-top: 8px;
 }
+  /* اضافه کردن تیک سبز */
+.checkmark {
+  color: #388e3c; /* رنگ سبز تیک */
+  font-size: 24px;  /* سایز تیک */
+  margin-left: 10px;  /* فاصله از متن */
+} 
 
 /* Actions card becomes minimal (just buttons) */
 .card--actions{
@@ -684,7 +690,26 @@ if (isIOS) {
 
     // پایان
     heroQuestionEl.style.display = "block";
+   if (currentStep === totalSteps) {
+  // اضافه کردن تیک سبز در کنار دکمه‌ها وقتی تمام مراحل تمام شده است.
+  const checkmark = document.createElement('span');
+  checkmark.className = 'checkmark';
+  checkmark.innerHTML = '✔';  // تیک سبز
+
+  // اضافه کردن تیک به `hero-question`
+  heroQuestionEl.appendChild(checkmark);
+}
+    
     heroQuestionEl.innerText = "تمام شد ✅";
+    if (currentStep === totalSteps) {
+  // اضافه کردن تیک سبز در کنار دکمه‌ها وقتی تمام مراحل تمام شده است.
+  const checkmark = document.createElement('span');
+  checkmark.className = 'checkmark';
+  checkmark.innerHTML = '✔';  // تیک سبز
+
+  // اضافه کردن تیک به `hero-question`
+  heroQuestionEl.appendChild(checkmark);
+}
 
     inputEl.style.display = "none";
     prevBtn.style.display = "none";
