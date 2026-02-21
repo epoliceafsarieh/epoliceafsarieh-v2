@@ -536,27 +536,24 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const inputEl = document.getElementById("answerInput");
   const heroQuestionEl = document.getElementById("heroQuestion");
- const nextBtn = document.getElementById("nextButton");
-const prevBtn = document.getElementById("prevButton");
-const dotsEl = document.getElementById("dots");
- const topDownloadLink = document.getElementById("topDownloadLink"); 
+  const nextBtn = document.getElementById("nextButton");
+  const prevBtn = document.getElementById("prevButton");
+  const dotsEl = document.getElementById("dots");
+  const topDownloadLink = document.getElementById("topDownloadLink");
+  const voiceBtn = document.getElementById("voiceButton");
+  const downloadBtn = document.getElementById("downloadPdfButton");
+  const iosHint = document.getElementById("iosHint");
 
-const voiceBtn = document.getElementById("voiceButton");
-const downloadBtn = document.getElementById("downloadPdfButton");
-const iosHint = document.getElementById("iosHint");
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+  if (isIOS) {
+    voiceBtn.style.display = "none";
+    iosHint.style.display = "block";
+  }
 
-// iOS: voice hidden + hint
-const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-if (isIOS) {
-  voiceBtn.style.display = "none";
-  iosHint.style.display = "block";
-}
-
-// این تابع وضعیت دکمه‌های "مرحله بعد" و "مرحله قبلی" را به‌روزرسانی می‌کند.
-function updateNavState() {
-  prevBtn.disabled = (currentStep === 0); // غیرفعال کردن دکمه "مرحله قبل" در ابتدا
-  nextBtn.disabled = (inputEl.value.trim() === ""); // غیرفعال کردن دکمه "مرحله بعد" اگر ورودی خالی باشد
-}
+  function updateNavState() {
+    prevBtn.disabled = (currentStep === 0);  // Disable prev button at the first step
+    nextBtn.disabled = (inputEl.value.trim() === "");  // Disable next button if input is empty
+  }
 
   function normalizePersianNumbers(text) {
     return String(text || "")
@@ -565,9 +562,8 @@ function updateNavState() {
   }
 
   const totalSteps = form.sections.reduce((sum, s) => sum + (s.fields?.length || 0), 0);
-
   let currentStep = 0;
-   const answers = {};
+  const answers = {};
 
   function resolveStep(step) {
     let sectionIndex = 0;
@@ -587,218 +583,112 @@ function updateNavState() {
     dotsEl.innerHTML = "";
     for (let i = 0; i < totalSteps; i++) {
       const d = document.createElement("span");
-      d.className =
-        "dot" +
-        (i < currentStep ? " is-done" : "") +
-        (i === currentStep ? " is-active" : "");
+      d.className = "dot" + (i < currentStep ? " is-done" : "") + (i === currentStep ? " is-active" : "");
       dotsEl.appendChild(d);
     }
   }
-function showQuestion() {
-  if (currentStep < totalSteps) {
-    const { field } = resolveStep(currentStep);
-    const qText = field.question;
 
-    heroQuestionEl.style.display = "none";
-    inputEl.style.display = "block";
-    inputEl.placeholder = qText;
-    inputEl.value = answers[field.key] || "";
+  function showQuestion() {
+    if (currentStep < totalSteps) {
+      const { field } = resolveStep(currentStep);
+      const qText = field.question;
 
-    // نوع ورودی
-    if (field.key === "height") {
-      inputEl.type = "text";
-      inputEl.inputMode = "decimal";
-      inputEl.dir = "ltr";
+      heroQuestionEl.style.display = "none";
+      inputEl.style.display = "block";
+      inputEl.placeholder = qText;
+      inputEl.value = answers[field.key] || "";
+
+      // Input type handling
+      if (field.key === "height") {
+        inputEl.type = "text";
+        inputEl.inputMode = "decimal";
+        inputEl.dir = "ltr";
+      } else {
+        inputEl.type = "text";
+        inputEl.inputMode = "text";
+        inputEl.dir = "rtl";
+      }
+
+      prevBtn.style.display = "inline-flex";
+      nextBtn.style.display = "inline-flex";
+
+      if (currentStep === totalSteps) {
+        topDownloadLink.classList.remove("is-disabled");
+        topDownloadLink.removeAttribute("aria-disabled");
+        topDownloadLink.removeAttribute("tabindex");
+      }
+
+      downloadBtn.style.display = "none";
+      document.getElementById("wmNote").style.display = "none";
+
+      renderDots();
+      updateNavState();  // Ensure buttons' state is updated
+
+      window.requestAnimationFrame(() => {
+        inputEl.style.opacity = "1";
+        inputEl.style.transform = "translateY(0)";
+      });
+
+      inputEl.focus();  // Focus on the input field to make the cursor blink
     } else {
-      inputEl.type = "text";
-      inputEl.inputMode = "text";
-      inputEl.dir = "rtl";
+      // End of questions
+      heroQuestionEl.style.display = "block";
+      heroQuestionEl.innerHTML = `تمام شد <span class="checkmark">✔</span>`;
+
+      inputEl.style.display = "none";
+      prevBtn.style.display = "none";
+      nextBtn.style.display = "none";
+      voiceBtn.style.display = "none";
+
+      downloadBtn.style.display = "inline-flex";
+      document.getElementById("wmNote").style.display = "block";
+
+      renderDots();
+      updateNavState();  // Update buttons' state at the end
     }
-
-    prevBtn.style.display = "inline-flex";
-    nextBtn.style.display = "inline-flex";
-
-    if (currentStep === totalSteps) {
-      topDownloadLink.classList.remove("is-disabled");
-      topDownloadLink.removeAttribute("aria-disabled");
-      topDownloadLink.removeAttribute("tabindex");
-    }
-
-    downloadBtn.style.display = "none";
-    document.getElementById("wmNote").style.display = "none";
-
-    renderDots();
-    updateNavState(); // اینجا وضعیت دکمه‌ها به‌روز می‌شود
-
-    window.requestAnimationFrame(() => {
-      inputEl.style.opacity = "1";
-      inputEl.style.transform = "translateY(0)";
-    });
-
-    inputEl.focus();  // این خط ورودی را فعال می‌کند تا مستطیل چشمک بزند
-  } else {
-    // پایان مراحل
-    heroQuestionEl.style.display = "block";
-    heroQuestionEl.innerHTML = `تمام شد <span class="checkmark">✔</span>`;
-
-    inputEl.style.display = "none";
-    prevBtn.style.display = "none";
-    nextBtn.style.display = "none";
-    voiceBtn.style.display = "none";
-
-    downloadBtn.style.display = "inline-flex";
-    document.getElementById("wmNote").style.display = "block";
-    
-    renderDots();
-    updateNavState(); // وضعیت دکمه‌ها را به‌روز می‌کند
-  }
-}
-      window.requestAnimationFrame(() => {
-        inputEl.style.opacity = "1";
-        inputEl.style.transform = "translateY(0)";
-      });
-
-      inputEl.focus();  // این خط ورودی را فعال می‌کند تا مستطیل چشمک بزند
-    });
-
-    return;
   }
 
-  // پایان
-  heroQuestionEl.style.display = "block";
-  heroQuestionEl.innerHTML = `تمام شد <span class="checkmark">✔</span>`;
+  window.requestAnimationFrame(() => {
+    inputEl.style.opacity = "1";
+    inputEl.style.transform = "translateY(0)";
+  });
 
-  inputEl.style.display = "none";
-  prevBtn.style.display = "none";
-  nextBtn.style.display = "none";
-  voiceBtn.style.display = "none";
+  inputEl.focus();  // Make the input blink
 
-  downloadBtn.style.display = "inline-flex";
-  document.getElementById("wmNote").style.display = "block";
-
-  renderDots();
-  updateNavState(); // اینجا هم وضعیت دکمه‌ها را به‌روزرسانی کنید
-}
-      // fade in
-      window.requestAnimationFrame(() => {
-        inputEl.style.opacity = "1";
-        inputEl.style.transform = "translateY(0)";
-      });
-
-      inputEl.focus();  // این خط ورودی را فعال می‌کند تا مستطیل چشمک بزند
-    });
-
-    return;
-  }
-
-  // پایان
-  heroQuestionEl.style.display = "block";
-  heroQuestionEl.innerHTML = `تمام شد <span class="checkmark">✔</span>`;
-
-  inputEl.style.display = "none";
-  prevBtn.style.display = "none";
-  nextBtn.style.display = "none";
-  voiceBtn.style.display = "none";
-
-  downloadBtn.style.display = "inline-flex";
-  document.getElementById("wmNote").style.display = "block";
-
-  renderDots();
-}
-      updateNavState();
-
-      // fade in
-      window.requestAnimationFrame(() => {
-        inputEl.style.opacity = "1";
-        inputEl.style.transform = "translateY(0)";
-      });
-
-      inputEl.focus();  // این خط ورودی را فعال می‌کند تا مستطیل چشمک بزند
-    });
-
-    return;
-  }
-
-  // پایان
-  heroQuestionEl.style.display = "block";
-  heroQuestionEl.innerHTML = `تمام شد <span class="checkmark">✔</span>`;
-
-  inputEl.style.display = "none";
-  prevBtn.style.display = "none";
-  nextBtn.style.display = "none";
-  voiceBtn.style.display = "none";
-
-  downloadBtn.style.display = "inline-flex";
-  document.getElementById("wmNote").style.display = "block";
-
-  renderDots();
-}
-      updateNavState();
-
-      // fade in
-      window.requestAnimationFrame(() => {
-        inputEl.style.opacity = "1";
-        inputEl.style.transform = "translateY(0)";
-      });
-
-      inputEl.focus();  // این خط ورودی را فعال می‌کند تا مستطیل چشمک بزند
-    });
-
-    return;
-  }
-
-  // پایان
- heroQuestionEl.style.display = "block";
-
-/* متن پایان را با HTML کنترل‌شده بگذار تا هم متن باشد هم تیک */
-heroQuestionEl.innerHTML = `تمام شد <span class="checkmark">✔</span>`;
-
-  inputEl.style.display = "none";
-  prevBtn.style.display = "none";
-  nextBtn.style.display = "none";
-  voiceBtn.style.display = "none";
-
-  downloadBtn.style.display = "inline-flex";
-  document.getElementById("wmNote").style.display = "block";
-
-  renderDots();
-}
-   
   inputEl.addEventListener("input", updateNavState);
 
-  // Enter فقط next
- inputEl.addEventListener("keydown", function(e){
-  if (e.key === "Enter") {
-    e.preventDefault();
-    nextBtn.click(); // به‌جای فراخوانی مرحله بعد، دکمه مرحله بعد را شبیه‌سازی می‌کنیم
-  }
-});
+  inputEl.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      nextBtn.click();  // Simulate clicking the "Next" button
+    }
+  });
 
-nextBtn.addEventListener("click", function () {
-  const raw = inputEl.value.trim();
-  if (!raw) return; // اگر ورودی خالی است، به مرحله بعدی نمی‌رود
+  nextBtn.addEventListener("click", function () {
+    const raw = inputEl.value.trim();
+    if (!raw) return;  // If input is empty, do not proceed
 
-  const { field } = resolveStep(currentStep);
-  answers[field.key] = normalizePersianNumbers(raw);
+    const { field } = resolveStep(currentStep);
+    answers[field.key] = normalizePersianNumbers(raw);
 
-  currentStep++; // به مرحله بعدی برو
-  showQuestion();
-  updateNavState(); // وضعیت دکمه‌ها را به‌روزرسانی کن
-});
+    currentStep++;  // Go to the next step
+    showQuestion();
+    updateNavState();  // Update buttons' state
+  });
 
-prevBtn.addEventListener("click", function () {
-  if (currentStep <= 0) return; // اگر در مرحله اول هستیم، به عقب نمی‌رود
+  prevBtn.addEventListener("click", function () {
+    if (currentStep <= 0) return;  // Do not go back if at the first step
 
-  const { field } = resolveStep(currentStep);
-  const raw = inputEl.value.trim();
-  if (raw) answers[field.key] = normalizePersianNumbers(raw);
+    const { field } = resolveStep(currentStep);
+    const raw = inputEl.value.trim();
+    if (raw) answers[field.key] = normalizePersianNumbers(raw);
 
-  currentStep--; // به مرحله قبلی برو
-  showQuestion();
-  updateNavState(); // وضعیت دکمه‌ها را به‌روزرسانی کن
-});
+    currentStep--;  // Go to the previous step
+    showQuestion();
+    updateNavState();  // Update buttons' state
+  });
 
-  // Voice Input (Android/Windows)
+  // Voice Input
   voiceBtn.addEventListener("click", function () {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRecognition) {
@@ -832,53 +722,7 @@ prevBtn.addEventListener("click", function () {
     recognition.start();
   });
 
-  // ====== PNG TEXT RENDER ======
-  async function drawTextAsPngOnPdf(pdfDoc, page, text, x, y, fontSize) {
-    const t = String(text ?? "").trim();
-    if (!t) return;
-
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
-    const pad = Math.ceil(fontSize * 0.6);
-
-    ctx.font = `${fontSize}px Vazirmatn`;
-    ctx.direction = "rtl";
-    ctx.textAlign = "right";
-    ctx.textBaseline = "alphabetic";
-
-    const m = ctx.measureText(t);
-    const w = Math.ceil(m.width) + pad * 2;
-    const h = Math.ceil(fontSize * 1.6) + pad * 2;
-
-    canvas.width = w;
-    canvas.height = h;
-
-    ctx.font = `${fontSize}px Vazirmatn`;
-    ctx.direction = "rtl";
-    ctx.textAlign = "right";
-    ctx.textBaseline = "alphabetic";
-
-    ctx.clearRect(0, 0, w, h);
-    ctx.fillStyle = "#000";
-    ctx.fillText(t, w - pad, h - pad);
-
-    const dataUrl = canvas.toDataURL("image/png");
-    const pngBytes = await fetch(dataUrl).then(r => r.arrayBuffer());
-    const png = await pdfDoc.embedPng(pngBytes);
-
-    const SCALE = 0.75;
-    const imgW = w * SCALE;
-    const imgH = h * SCALE;
-
-    page.drawImage(png, {
-      x: x - imgW + 1,
-      y: y - (fontSize * SCALE),
-      width: imgW,
-      height: imgH,
-    });
-  }
-  // ====== END PNG TEXT RENDER ======
-
+  // Generate PDF
   async function generatePdf(answers) {
     const { PDFDocument } = PDFLib;
 
@@ -888,8 +732,8 @@ prevBtn.addEventListener("click", function () {
     const page0 = pdfDoc.getPages()[0];
 
     await drawTextAsPngOnPdf(pdfDoc, page0, answers.firstName, 451.25, 652.5, 11);
-    await drawTextAsPngOnPdf(pdfDoc, page0, answers.lastName,  372.5,  615.63, 11);
-    await drawTextAsPngOnPdf(pdfDoc, page0, answers.height,    326.88, 513.13, 11);
+    await drawTextAsPngOnPdf(pdfDoc, page0, answers.lastName, 372.5, 615.63, 11);
+    await drawTextAsPngOnPdf(pdfDoc, page0, answers.height, 326.88, 513.13, 11);
 
     const pdfBytes = await pdfDoc.save();
     const blob = new Blob([pdfBytes], { type: "application/pdf" });
@@ -911,7 +755,7 @@ prevBtn.addEventListener("click", function () {
     }
   });
 
-  showQuestion();
+  showQuestion();  // Initialize the form
 });
 </script>
 
