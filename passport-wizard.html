@@ -513,31 +513,60 @@ function updateNavState() {
     }
   }
 
-  function showQuestion() {
-    if (currentStep < questions.length) {
-      heroQuestionEl.innerText = questions[currentStep].question;
-      renderDots();
+ // [ANCHOR:JS1 SHOWQUESTION-REPLACE]
+function showQuestion() {
+  // داخل فرم
+  if (currentStep < questions.length) {
+    const qText = questions[currentStep].question;
+    const stepText = `سؤال ${currentStep + 1} از ${questions.length}`;
 
-      prevBtn.style.display = currentStep > 0 ? "inline-flex" : "none";
-      inputEl.value = "";
+    // سوال داخل خود input به صورت placeholder
+    heroQuestionEl.style.display = "none";
+    inputEl.style.display = "block";
+    inputEl.placeholder = `${qText} — ${stepText}`;
 
-      // تنظیم دکمه "بعدی"
-      if (inputEl.value.trim() === "") {
-        nextBtn.disabled = true;
-        nextBtn.style.backgroundColor = "rgba(15, 37, 71, 0.2)";  // خاکی
-      } else {
-        nextBtn.disabled = false;
-        nextBtn.style.backgroundColor = "linear-gradient(to bottom, #17335f, #0f2547)";  // سبز
-      }
+    // مقدار ذخیره‌شده همین مرحله را برگردان
+    inputEl.value = answers[questions[currentStep].key] || "";
 
-      inputEl.focus();
+    // نوع ورودی
+    if (questions[currentStep].key === "height") {
+      inputEl.type = "text";
+      inputEl.inputMode = "decimal";
+      inputEl.dir = "ltr";
     } else {
-      heroQuestionEl.innerText = "تمام شد ✅";
-      nextBtn.style.display = "none";
-      prevBtn.style.display = "none";
-      document.getElementById("downloadPdfButton").style.display = "inline-flex";
+      inputEl.type = "text";
+      inputEl.inputMode = "text";
+      inputEl.dir = "rtl";
     }
+
+    renderDots();
+
+    // دکمه‌ها همیشه visible
+    prevBtn.style.display = "inline-flex";
+    nextBtn.style.display = "inline-flex";
+
+    // نمایش/عدم نمایش دکمه دانلود
+    downloadBtn.style.display = "none";
+
+    updateNavState();
+    inputEl.focus();
+    return;
   }
+
+  // پایان
+  heroQuestionEl.style.display = "block";
+  heroQuestionEl.innerText = "تمام شد ✅";
+
+  inputEl.style.display = "none";
+  prevBtn.style.display = "none";
+  nextBtn.style.display = "none";
+  voiceBtn.style.display = "none";
+
+  downloadBtn.style.display = "inline-flex";
+  document.getElementById("wmNote").style.display = "block";
+
+  renderDots();
+}
 
   nextBtn.addEventListener("click", function () {
     const raw = inputEl.value.trim();
