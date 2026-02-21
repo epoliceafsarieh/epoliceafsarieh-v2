@@ -649,7 +649,9 @@ function showQuestion() {
       // دکمه‌ها همیشه visible
       prevBtn.style.display = "inline-flex";
       nextBtn.style.display = "inline-flex";
-
+topDownloadLink.classList.remove("is-disabled");
+topDownloadLink.removeAttribute("aria-disabled");
+topDownloadLink.removeAttribute("tabindex");
       // پایان/دانلود مخفی
       downloadBtn.style.display = "none";
       document.getElementById("wmNote").style.display = "none";
