@@ -493,12 +493,10 @@ const prevBtn = document.getElementById("prevButton");
     if (currentStep < questions.length) {
      heroQuestionEl.innerText = questions[currentStep].question;
 renderDots();
-
 prevBtn.style.display = currentStep > 0 ? "inline-flex" : "none";
       inputEl.value = "";
-      heroQuestionEl.innerText = questions[currentStep].question;
-renderDots();
-prevBtn.style.display = currentStep > 0 ? "inline-flex" : "none";
+     
+
 
       if (questions[currentStep].key === "height") {
         inputEl.type = "text";
