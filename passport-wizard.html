@@ -573,17 +573,6 @@ function updateNavState() {
   nextBtn.disabled = (inputEl.value.trim() === "");
 }
 
-function renderDots() {
-  dotsEl.innerHTML = "";
-  for (let i = 0; i < totalSteps; i++) {
-    const d = document.createElement("span");
-    d.className =
-      "dot" +
-      (i < currentStep ? " is-done" : "") +
-      (i === currentStep ? " is-active" : "");
-    dotsEl.appendChild(d);
-  }
-}
   function normalizePersianNumbers(text) {
     return String(text || "")
       .replace(/[۰-۹]/g, d => "۰۱۲۳۴۵۶۷۸۹".indexOf(d))
@@ -593,19 +582,7 @@ function renderDots() {
   const totalSteps = form.sections.reduce((sum, s) => sum + (s.fields?.length || 0), 0);
 
   let currentStep = 0;
-  function renderDots() {
-  dotsEl.innerHTML = "";
-  for (let i = 0; i < totalSteps; i++) {
-    const d = document.createElement("span");
-    d.className =
-      "dot" +
-      (i < currentStep ? " is-done" : "") +
-      (i === currentStep ? " is-active" : "");
-    dotsEl.appendChild(d);
-  }
-}
-  
-  const answers = {};
+   const answers = {};
 
   function resolveStep(step) {
     let sectionIndex = 0;
@@ -619,11 +596,6 @@ function renderDots() {
     const section = form.sections[sectionIndex];
     const field = section.fields[fieldIndex];
     return { sectionIndex, fieldIndex, field };
-  }
-
-  function updateNavState() {
-    prevBtn.disabled = (currentStep === 0);
-    nextBtn.disabled = (inputEl.value.trim() === "");
   }
 
   function renderDots() {
