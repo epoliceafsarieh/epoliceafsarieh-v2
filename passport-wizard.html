@@ -241,7 +241,7 @@ button{
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 
-   const questions = [
+  const questions = [
     { question: "نام شما چیست؟", key: "firstName" },
     { question: "نام خانوادگی شما چیست؟", key: "lastName" },
     { question: "قد شما چقدر است؟", key: "height" }
@@ -250,140 +250,117 @@ document.addEventListener('DOMContentLoaded', function () {
   let currentStep = 0;
   const answers = {};
 
-const questionEl = document.getElementById("question");
-const inputEl = document.getElementById("answerInput");
-const nextBtn = document.getElementById("nextButton");
-const progressEl = document.getElementById("progress");
-const voiceBtn = document.getElementById("voiceButton");
-const downloadBtn = document.getElementById("downloadPdfButton");
-const iosHint = document.getElementById("iosHint");
+  const questionEl = document.getElementById("question");
+  const inputEl = document.getElementById("answerInput");
+  const nextBtn = document.getElementById("nextButton");
+  const progressEl = document.getElementById("progress");
+  const voiceBtn = document.getElementById("voiceButton");
+  const downloadBtn = document.getElementById("downloadPdfButton");
+  const iosHint = document.getElementById("iosHint");
 
-const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+  if (isIOS) {
+    voiceBtn.style.display = "none";
+    iosHint.style.display = "block";
+  }
 
-if (isIOS) {
-  voiceBtn.style.display = "none";
-  iosHint.style.display = "block";
-}
-const downloadBtn = document.getElementById("downloadPdfButton");
-const iosHint = document.getElementById("iosHint");
-const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+  function normalizePersianNumbers(text) {
+    return String(text || "")
+      .replace(/[۰-۹]/g, d => "۰۱۲۳۴۵۶۷۸۹".indexOf(d))
+      .replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d));
+  }
 
-if (isIOS) {
-  voiceBtn.style.display = "none";
-  iosHint.style.display = "block";
-}
-  
-  // ====== PNG TEXT RENDER (بدون reshaper/bidi) ======
-async function drawTextAsPngOnPdf(pdfDoc, page, text, x, y, fontSize) {
-  const t = String(text ?? "").trim();
-  if (!t) return;
+  // ====== PNG TEXT RENDER ======
+  async function drawTextAsPngOnPdf(pdfDoc, page, text, x, y, fontSize) {
+    const t = String(text ?? "").trim();
+    if (!t) return;
 
-  const canvas = document.createElement("canvas");
-  const ctx = canvas.getContext("2d");
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    const pad = Math.ceil(fontSize * 0.6);
 
-  const pad = Math.ceil(fontSize * 0.6);
+    ctx.font = `${fontSize}px Vazirmatn`;
+    ctx.direction = "rtl";
+    ctx.textAlign = "right";
+    ctx.textBaseline = "alphabetic";
 
-  // Vazirmatn باید در CSS لود شده باشد (woff2)
-  ctx.font = `${fontSize}px Vazirmatn`;
-  ctx.direction = "rtl";
-  ctx.textAlign = "right";
-  ctx.textBaseline = "alphabetic";
+    const m = ctx.measureText(t);
+    const w = Math.ceil(m.width) + pad * 2;
+    const h = Math.ceil(fontSize * 1.6) + pad * 2;
 
-  const m = ctx.measureText(t);
-  const w = Math.ceil(m.width) + pad * 2;
-  const h = Math.ceil(fontSize * 1.6) + pad * 2;
+    canvas.width = w;
+    canvas.height = h;
 
-  canvas.width = w;
-  canvas.height = h;
+    ctx.font = `${fontSize}px Vazirmatn`;
+    ctx.direction = "rtl";
+    ctx.textAlign = "right";
+    ctx.textBaseline = "alphabetic";
 
-  // بعد از تغییر سایز باید دوباره ست شود
-  ctx.font = `${fontSize}px Vazirmatn`;
-  ctx.direction = "rtl";
-  ctx.textAlign = "right";
-  ctx.textBaseline = "alphabetic";
+    ctx.clearRect(0, 0, w, h);
+    ctx.fillStyle = "#000";
+    ctx.fillText(t, w - pad, h - pad);
 
-  ctx.clearRect(0, 0, w, h);
-  ctx.fillStyle = "#000";
+    const dataUrl = canvas.toDataURL("image/png");
+    const pngBytes = await fetch(dataUrl).then(r => r.arrayBuffer());
+    const png = await pdfDoc.embedPng(pngBytes);
 
-  // رسم متن: راست‌چین
-  ctx.fillText(t, w - pad, h - pad);
+    const SCALE = 0.75;
+    const imgW = w * SCALE;
+    const imgH = h * SCALE;
 
-  const dataUrl = canvas.toDataURL("image/png");
-  const pngBytes = await fetch(dataUrl).then(r => r.arrayBuffer());
-  const png = await pdfDoc.embedPng(pngBytes);
+    page.drawImage(png, {
+      x: x - imgW + 1,
+      y: y - (fontSize * SCALE),
+      width: imgW,
+      height: imgH,
+    });
+  }
+  // ====== END PNG TEXT RENDER ======
 
-  // تبدیل تقریبی px به PDF units
-  const SCALE = 0.75;
-
-  const imgW = w * SCALE;
-  const imgH = h * SCALE;
-
-  // x,y در map شما نزدیک baseline است؛ این تنظیم‌ها را اگر لازم شد ریز تنظیم می‌کنیم
-  page.drawImage(png, {
-    x: x - imgW + 1,              // راست‌چین
-    y: y - (fontSize * SCALE),    // baseline
-    width: imgW,
-    height: imgH,
-  });
-}
-// ====== END PNG TEXT RENDER ======
   function showQuestion() {
     if (currentStep < questions.length) {
       questionEl.innerText = questions[currentStep].question;
-      progressEl.innerText = "سؤال " + (currentStep+1) + " از " + questions.length;
+      progressEl.innerText = "سؤال " + (currentStep + 1) + " از " + questions.length;
       inputEl.value = "";
-    if (questions[currentStep].key === "height") {
-  inputEl.type = "text";
-  inputEl.inputMode = "decimal";
-  inputEl.dir = "ltr";
-} else {
-  inputEl.type = "text";
-  inputEl.inputMode = "text";
-  inputEl.dir = "rtl";
-}
+
+      if (questions[currentStep].key === "height") {
+        inputEl.type = "text";
+        inputEl.inputMode = "decimal";
+        inputEl.dir = "ltr";
+      } else {
+        inputEl.type = "text";
+        inputEl.inputMode = "text";
+        inputEl.dir = "rtl";
+      }
+
       inputEl.focus();
-   } else {
-  questionEl.innerText = "تمام شد ✅";
-  progressEl.innerText = "";
-  inputEl.style.display = "none";
-  nextBtn.style.display = "none";
-  voiceBtn.style.display = "none";
- downloadBtn.style.display = "block";
-document.getElementById("wmNote").style.display = "block";
-      
-}
+    } else {
+      questionEl.innerText = "تمام شد ✅";
+      progressEl.innerText = "";
+      inputEl.style.display = "none";
+      nextBtn.style.display = "none";
+      voiceBtn.style.display = "none";
+      downloadBtn.style.display = "block";
+      document.getElementById("wmNote").style.display = "block";
+    }
   }
 
   nextBtn.addEventListener("click", function () {
-    if (!inputEl.value.trim()) return;
-   let value = inputEl.value.trim();
-value = normalizePersianNumbers(value);
-answers[questions[currentStep].key] = value;
+    const raw = inputEl.value.trim();
+    if (!raw) return;
+    answers[questions[currentStep].key] = normalizePersianNumbers(raw);
     currentStep++;
     showQuestion();
   });
- function normalizePersianNumbers(text) {
-  return String(text || "")
-    .replace(/[۰-۹]/g, d => "۰۱۲۳۴۵۶۷۸۹".indexOf(d))
-    .replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d));
-}
- // Voice Input (Robust)
-voiceBtn.addEventListener("click", async function () {
-  try {
-    // باید HTTPS باشد
-    if (location.protocol !== "https:" && location.hostname !== "localhost") {
-      alert("ورودی صوتی فقط روی https کار می‌کند.");
-      return;
-    }
 
+  // Voice Input (Android/Windows)
+  voiceBtn.addEventListener("click", function () {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-
     if (!SpeechRecognition) {
-      alert("این مرورگر از تبدیل گفتار به متن پشتیبانی نمی‌کند (به‌خصوص Safari/iPhone). لطفاً با Chrome تست کنید یا تایپ کنید.");
+      alert("این مرورگر از ورودی صوتی پشتیبانی نمی‌کند.");
       return;
     }
 
-    // بعضی مرورگرها بدون gesture یا بدون مجوز میکروفون مشکل دارند
     const recognition = new SpeechRecognition();
     recognition.lang = "fa-IR";
     recognition.interimResults = false;
@@ -398,7 +375,6 @@ voiceBtn.addEventListener("click", async function () {
     };
 
     recognition.onerror = function (event) {
-      console.error("SpeechRecognition error:", event);
       alert("خطای ورودی صوتی: " + (event.error || "نامشخص"));
     };
 
@@ -408,52 +384,41 @@ voiceBtn.addEventListener("click", async function () {
     };
 
     recognition.start();
-  } catch (e) {
-    console.error(e);
-    voiceBtn.disabled = false;
-    voiceBtn.textContent = "🎤 ورود صوتی";
-    alert("ورودی صوتی در این دستگاه/مرورگر قابل اجرا نیست.");
+  });
+
+  downloadBtn.addEventListener("click", async function () {
+    try {
+      await generatePdf(answers);
+    } catch (e) {
+      console.error(e);
+      alert("خطا در ساخت PDF");
+    }
+  });
+
+  async function generatePdf(answers) {
+    const { PDFDocument } = PDFLib;
+
+    const templateUrl = "assets/forms/passport.pdf";
+    const existingPdfBytes = await fetch(templateUrl).then(r => r.arrayBuffer());
+    const pdfDoc = await PDFDocument.load(existingPdfBytes);
+    const page0 = pdfDoc.getPages()[0];
+
+    await drawTextAsPngOnPdf(pdfDoc, page0, answers.firstName, 451.25, 652.5, 11);
+    await drawTextAsPngOnPdf(pdfDoc, page0, answers.lastName,  372.5,  615.63, 11);
+    await drawTextAsPngOnPdf(pdfDoc, page0, answers.height,    326.88, 513.13, 11);
+
+    const pdfBytes = await pdfDoc.save();
+    const blob = new Blob([pdfBytes], { type: "application/pdf" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "passport-filled.pdf";
+    a.click();
+    URL.revokeObjectURL(url);
   }
-});
 
-downloadBtn.addEventListener("click", async function () {
-  try {
-    await generatePdf(answers);
-  } catch (e) {
-    console.error(e);
-    alert("خطا در ساخت PDF");
-  }
-});
-
-async function generatePdf(answers) {
-  const { PDFDocument } = PDFLib;
-
-  const templateUrl = "assets/forms/passport.pdf";
-  const existingPdfBytes = await fetch(templateUrl).then(r => r.arrayBuffer());
-  const pdfDoc = await PDFDocument.load(existingPdfBytes);
-
-  const page0 = pdfDoc.getPages()[0];
-
-  // ۳ فیلد با مختصات دقیق (به صورت PNG روی PDF)
-  await drawTextAsPngOnPdf(pdfDoc, page0, answers.firstName, 451.25, 652.5, 11);
-  await drawTextAsPngOnPdf(pdfDoc, page0, answers.lastName,  372.5,  615.63, 11);
-  await drawTextAsPngOnPdf(pdfDoc, page0, answers.height,    326.88, 513.13, 11);
-
-  const pdfBytes = await pdfDoc.save();
-  const blob = new Blob([pdfBytes], { type: "application/pdf" });
-  const url = URL.createObjectURL(blob);
-
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "passport-filled.pdf";
-  a.click();
-  URL.revokeObjectURL(url);
-}
-
-
-// این دو خط باید آخرین خط‌های داخل DOMContentLoaded باشند
-showQuestion();
-
+  showQuestion();
 });
 </script>
 
