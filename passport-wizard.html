@@ -627,6 +627,8 @@ function showQuestion() {
       // دکمه‌ها همیشه visible
       prevBtn.style.display = "inline-flex";
       nextBtn.style.display = "inline-flex";
+          // زمانی که تمام مراحل پر شده باشد، لینک دانلود فعال می‌شود
+    if (currentStep === totalSteps) {
 topDownloadLink.classList.remove("is-disabled");
 topDownloadLink.removeAttribute("aria-disabled");
 topDownloadLink.removeAttribute("tabindex");
