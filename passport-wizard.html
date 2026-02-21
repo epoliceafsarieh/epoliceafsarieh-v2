@@ -554,8 +554,8 @@ if (isIOS) {
 
 // این تابع وضعیت دکمه‌های "مرحله بعد" و "مرحله قبلی" را به‌روزرسانی می‌کند.
 function updateNavState() {
-  prevBtn.disabled = (currentStep === 0); // دکمه مرحله قبل غیرفعال در مرحله اول
-  nextBtn.disabled = (inputEl.value.trim() === ""); // دکمه مرحله بعد غیرفعال اگر ورودی خالی باشد
+  prevBtn.disabled = (currentStep === 0); // غیرفعال کردن دکمه "مرحله قبل" در ابتدا
+  nextBtn.disabled = (inputEl.value.trim() === ""); // غیرفعال کردن دکمه "مرحله بعد" اگر ورودی خالی باشد
 }
 
   function normalizePersianNumbers(text) {
@@ -767,12 +767,12 @@ heroQuestionEl.innerHTML = `تمام شد <span class="checkmark">✔</span>`;
   inputEl.addEventListener("input", updateNavState);
 
   // Enter فقط next
-  inputEl.addEventListener("keydown", function(e){
-    if (e.key === "Enter") {
-      e.preventDefault();
-      nextBtn.click();
-    }
-  });
+ inputEl.addEventListener("keydown", function(e){
+  if (e.key === "Enter") {
+    e.preventDefault();
+    nextBtn.click(); // به‌جای فراخوانی مرحله بعد، دکمه مرحله بعد را شبیه‌سازی می‌کنیم
+  }
+});
 
 nextBtn.addEventListener("click", function () {
   const raw = inputEl.value.trim();
