@@ -588,74 +588,68 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  function showQuestion() {
-    if (currentStep < totalSteps) {
-      const { field } = resolveStep(currentStep);
-      const qText = field.question;
+ function showQuestion() {
+  if (currentStep < totalSteps) {
+    const { field } = resolveStep(currentStep);
+    const qText = field.question;
 
-      heroQuestionEl.style.display = "none";
-      inputEl.style.display = "block";
-      inputEl.placeholder = qText;
-      inputEl.value = answers[field.key] || "";
+    heroQuestionEl.style.display = "none";
+    inputEl.style.display = "block";
+    inputEl.placeholder = qText;
+    inputEl.value = answers[field.key] || "";
 
-      // Input type handling
-      if (field.key === "height") {
-        inputEl.type = "text";
-        inputEl.inputMode = "decimal";
-        inputEl.dir = "ltr";
-      } else {
-        inputEl.type = "text";
-        inputEl.inputMode = "text";
-        inputEl.dir = "rtl";
-      }
+    // Input type handling
+    if (field.key === "height") {
+      inputEl.type = "text";
+      inputEl.inputMode = "decimal";
+      inputEl.dir = "ltr";
+    } else {
+      inputEl.type = "text";
+      inputEl.inputMode = "text";
+      inputEl.dir = "rtl";
+    }
 
-      prevBtn.style.display = "inline-flex";
-      nextBtn.style.display = "inline-flex";
+    prevBtn.style.display = "inline-flex";
+    nextBtn.style.display = "inline-flex";
 
     if (currentStep === totalSteps) {
-  topDownloadLink.classList.remove("is-disabled");
-  topDownloadLink.removeAttribute("aria-disabled");
-  topDownloadLink.removeAttribute("tabindex");
-} else {
-  topDownloadLink.classList.add("is-disabled");
-  topDownloadLink.setAttribute("aria-disabled", "true");
-  topDownloadLink.setAttribute("tabindex", "-1");
-}
-
-      downloadBtn.style.display = "none";
-      document.getElementById("wmNote").style.display = "none";
-
-      renderDots();
-      updateNavState();  // Ensure buttons' state is updated
-
-      window.requestAnimationFrame(() => {
-        inputEl.style.opacity = "1";
-        inputEl.style.transform = "translateY(0)";
-      });
-
-      inputEl.focus();  // Focus on the input field to make the cursor blink
+      topDownloadLink.classList.remove("is-disabled");
+      topDownloadLink.removeAttribute("aria-disabled");
+      topDownloadLink.removeAttribute("tabindex");
+      downloadBtn.style.display = "inline-flex";  // نمایش دکمه دانلود PDF
     } else {
-      // End of questions
-      heroQuestionEl.style.display = "block";
-      heroQuestionEl.innerHTML = `تمام شد <span class="checkmark">✔</span>`;
-
-      inputEl.style.display = "none";
-      prevBtn.style.display = "none";
-      nextBtn.style.display = "none";
-      voiceBtn.style.display = "none";
-
-      downloadBtn.style.display = "inline-flex";
-      document.getElementById("wmNote").style.display = "block";
-if (currentStep === totalSteps) {
-  downloadBtn.style.display = "inline-flex"; // نمایش دکمه دانلود PDF
-} else {
-  downloadBtn.style.display = "none"; // مخفی کردن دکمه دانلود PDF
-}
-      renderDots();
-      updateNavState();  // Update buttons' state at the end
+      topDownloadLink.classList.add("is-disabled");
+      topDownloadLink.setAttribute("aria-disabled", "true");
+      topDownloadLink.setAttribute("tabindex", "-1");
+      downloadBtn.style.display = "none";  // مخفی کردن دکمه دانلود PDF
     }
-  }
 
+    renderDots();
+    updateNavState();  // Ensure buttons' state is updated
+
+    window.requestAnimationFrame(() => {
+      inputEl.style.opacity = "1";
+      inputEl.style.transform = "translateY(0)";
+    });
+
+    inputEl.focus();  // Focus on the input field to make the cursor blink
+  } else {
+    // End of questions
+    heroQuestionEl.style.display = "block";
+    heroQuestionEl.innerHTML = `تمام شد <span class="checkmark">✔</span>`;
+
+    inputEl.style.display = "none";
+    prevBtn.style.display = "none";
+    nextBtn.style.display = "none";
+    voiceBtn.style.display = "none";
+
+    downloadBtn.style.display = "inline-flex";
+    document.getElementById("wmNote").style.display = "block";
+
+    renderDots();
+    updateNavState();  // Update buttons' state at the end
+  }
+}
   window.requestAnimationFrame(() => {
     inputEl.style.opacity = "1";
     inputEl.style.transform = "translateY(0)";
