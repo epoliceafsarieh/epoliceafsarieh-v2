@@ -569,6 +569,17 @@ document.addEventListener('DOMContentLoaded', function () {
 inputEl.addEventListener("input", updateNavState); // به محض تایپ در فیلد، این تابع اجرا می‌شود
   const prevBtn = document.getElementById("prevButton");
   const dotsEl = document.getElementById("dots");
+  function renderDots() {
+  dotsEl.innerHTML = "";
+  for (let i = 0; i < totalSteps; i++) {
+    const d = document.createElement("span");
+    d.className =
+      "dot" +
+      (i < currentStep ? " is-done" : "") +
+      (i === currentStep ? " is-active" : "");
+    dotsEl.appendChild(d);
+  }
+}
 
   const voiceBtn = document.getElementById("voiceButton");
   function updateNavState() {
@@ -583,13 +594,7 @@ if (isIOS) {
   const downloadBtn = document.getElementById("downloadPdfButton");
   const iosHint = document.getElementById("iosHint");
 
-  // iOS: voice hidden + hint
-  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-  if (isIOS) {
-    voiceBtn.style.display = "none";
-    iosHint.style.display = "block";
-  }
-
+  
   function normalizePersianNumbers(text) {
     return String(text || "")
       .replace(/[۰-۹]/g, d => "۰۱۲۳۴۵۶۷۸۹".indexOf(d))
