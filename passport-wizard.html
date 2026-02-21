@@ -612,11 +612,15 @@ document.addEventListener('DOMContentLoaded', function () {
       prevBtn.style.display = "inline-flex";
       nextBtn.style.display = "inline-flex";
 
-      if (currentStep === totalSteps) {
-        topDownloadLink.classList.remove("is-disabled");
-        topDownloadLink.removeAttribute("aria-disabled");
-        topDownloadLink.removeAttribute("tabindex");
-      }
+    if (currentStep === totalSteps) {
+  topDownloadLink.classList.remove("is-disabled");
+  topDownloadLink.removeAttribute("aria-disabled");
+  topDownloadLink.removeAttribute("tabindex");
+} else {
+  topDownloadLink.classList.add("is-disabled");
+  topDownloadLink.setAttribute("aria-disabled", "true");
+  topDownloadLink.setAttribute("tabindex", "-1");
+}
 
       downloadBtn.style.display = "none";
       document.getElementById("wmNote").style.display = "none";
