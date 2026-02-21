@@ -664,16 +664,10 @@ function showQuestion() {
   }
 
   // پایان
-  heroQuestionEl.style.display = "block";
-  if (currentStep === totalSteps) {
-    const checkmark = document.createElement('span');
-    checkmark.className = 'checkmark';
-    checkmark.innerHTML = '✔';  // تیک سبز
+ heroQuestionEl.style.display = "block";
 
-    heroQuestionEl.appendChild(checkmark);  // اضافه کردن تیک سبز
-  }
-
-  heroQuestionEl.innerText = "تمام شد ✅";
+/* متن پایان را با HTML کنترل‌شده بگذار تا هم متن باشد هم تیک */
+heroQuestionEl.innerHTML = `تمام شد <span class="checkmark">✔</span>`;
 
   inputEl.style.display = "none";
   prevBtn.style.display = "none";
