@@ -414,6 +414,17 @@ document.addEventListener('DOMContentLoaded', function () {
   const heroQuestionEl = document.getElementById("heroQuestion");
 const dotsEl = document.getElementById("dots");
 const prevBtn = document.getElementById("prevButton");
+  function renderDots() {
+  dotsEl.innerHTML = "";
+  for (let i = 0; i < questions.length; i++) {
+    const d = document.createElement("span");
+    d.className =
+      "dot" +
+      (i < currentStep ? " is-done" : "") +
+      (i === currentStep ? " is-active" : "");
+    dotsEl.appendChild(d);
+  }
+}
   const nextBtn = document.getElementById("nextButton");
   const progressEl = document.getElementById("progress");
   const voiceBtn = document.getElementById("voiceButton");
