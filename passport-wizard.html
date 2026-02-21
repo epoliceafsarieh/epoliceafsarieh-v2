@@ -449,28 +449,7 @@ button{
 @media (max-width: 480px){
   .hero-btn{ width: 72px; height: 62px; }
 }
-/* چشمک زدن عبارت */
-@keyframes blink {
-  0% { opacity: 1; }
-  50% { opacity: 0.5; }
-  100% { opacity: 1; }
-}
-
-/* فعال کردن ورودی و چشمک زدن عبارت */
-.hero-question {
-  font-size: 28px;
-  line-height: 1.5;
-  font-weight: 800;
-  text-align: center;
-  color: rgba(15,23,42,.65);
-  margin: 28px 0 14px;
-  animation: blink 1s infinite; /* افزودن انیمیشن چشمک زدن */
-}
-
-.hero-input:focus {
-  border-color: #4caf50;  /* سبز برای حالت فعال */
-  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);  /* سایه سبز روشن برای چشمک‌زن */
-}   
+  
 </style>
 </head>
 <body>
@@ -566,17 +545,27 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const inputEl = document.getElementById("answerInput");
   const heroQuestionEl = document.getElementById("heroQuestion");
-  const nextBtn = document.getElementById("nextButton");
-  function updateNavState() {
-  const inputVal = inputEl.value.trim(); // مقدار ورودی کاربر
-  prevBtn.disabled = (currentStep === 0);  // دکمه "مرحله قبلی" در ابتدای کار غیرفعال است
-  nextBtn.disabled = (inputVal === "");    // دکمه "مرحله بعد" اگر ورودی خالی باشد غیرفعال است
+ const nextBtn = document.getElementById("nextButton");
+const prevBtn = document.getElementById("prevButton");
+const dotsEl = document.getElementById("dots");
+
+const voiceBtn = document.getElementById("voiceButton");
+const downloadBtn = document.getElementById("downloadPdfButton");
+const iosHint = document.getElementById("iosHint");
+
+// iOS: voice hidden + hint
+const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+if (isIOS) {
+  voiceBtn.style.display = "none";
+  iosHint.style.display = "block";
 }
 
-inputEl.addEventListener("input", updateNavState); // به محض تایپ در فیلد، این تابع اجرا می‌شود
-  const prevBtn = document.getElementById("prevButton");
-  const dotsEl = document.getElementById("dots");
-  function renderDots() {
+function updateNavState() {
+  prevBtn.disabled = (currentStep === 0);
+  nextBtn.disabled = (inputEl.value.trim() === "");
+}
+
+function renderDots() {
   dotsEl.innerHTML = "";
   for (let i = 0; i < totalSteps; i++) {
     const d = document.createElement("span");
@@ -587,21 +576,6 @@ inputEl.addEventListener("input", updateNavState); // به محض تایپ در 
     dotsEl.appendChild(d);
   }
 }
-
-  const voiceBtn = document.getElementById("voiceButton");
-  function updateNavState() {
-  prevBtn.disabled = (currentStep === 0);  // دکمه "مرحله قبلی" در ابتدای کار غیرفعال است
-  nextBtn.disabled = (inputEl.value.trim() === ""); // دکمه "مرحله بعد" اگر ورودی خالی باشد غیرفعال است
-}
-  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-if (isIOS) {
-  voiceBtn.style.display = "none";
-  iosHint.style.display = "block";
-}
-  const downloadBtn = document.getElementById("downloadPdfButton");
-  const iosHint = document.getElementById("iosHint");
-
-  
   function normalizePersianNumbers(text) {
     return String(text || "")
       .replace(/[۰-۹]/g, d => "۰۱۲۳۴۵۶۷۸۹".indexOf(d))
@@ -731,28 +705,7 @@ function showQuestion() {
 
   renderDots();
 }
-    if (currentStep === totalSteps) {
-  // اضافه کردن تیک سبز در کنار دکمه‌ها وقتی تمام مراحل تمام شده است.
-  const checkmark = document.createElement('span');
-  checkmark.className = 'checkmark';
-  checkmark.innerHTML = '✔';  // تیک سبز
-
-  // اضافه کردن تیک به `hero-question`
-  heroQuestionEl.appendChild(checkmark);
-}
-
-    inputEl.style.display = "none";
-    prevBtn.style.display = "none";
-    nextBtn.style.display = "none";
-    voiceBtn.style.display = "none";
-
-    downloadBtn.style.display = "inline-flex";
-    document.getElementById("wmNote").style.display = "block";
-
-    renderDots();
-  }
-
-  // live enable/disable next
+   
   inputEl.addEventListener("input", updateNavState);
 
   // Enter فقط next
