@@ -366,8 +366,6 @@ answers[questions[currentStep].key] = value;
   return String(text || "")
     .replace(/[۰-۹]/g, d => "۰۱۲۳۴۵۶۷۸۹".indexOf(d))
     .replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d));
-};
-  return text.replace(/[۰-۹]/g, d => map[d]);
 }
  // Voice Input (Robust)
 voiceBtn.addEventListener("click", async function () {
