@@ -211,11 +211,31 @@ button{
   </a>
 </div>
 
-  <div class="flow-head">
-    <div class="flow-kicker">فرم مرحله‌ای</div>
-    <h1 class="flow-title">اطلاعات را مرحله‌به‌مرحله وارد کنید</h1>
-    <div class="flow-subtitle">در پایان، فایل PDF آماده چاپ دریافت می‌کنید.</div>
+ <div class="flow-head flow-head--compact">
+  <div class="hero-question" id="heroQuestion">نام خود را بنویسید</div>
+
+  <div class="hero-row">
+    <button class="hero-back" id="prevButton" type="button" aria-label="مرحله قبل" style="display:none;">◀</button>
+
+    <input
+      class="hero-input"
+      type="text"
+      id="answerInput"
+      inputmode="text"
+      autocomplete="off"
+      autocorrect="on"
+      autocapitalize="none"
+      spellcheck="true"
+      placeholder=""
+    />
   </div>
+
+  <div class="dots" id="dots"></div>
+
+  <div class="helper" id="helperText">
+    پس از تکمیل مراحل، دکمه «دریافت فرم گذرنامه» فعال می‌شود.
+  </div>
+</div>
 
   <div class="card">
     <div class="progress" id="progress"></div>
