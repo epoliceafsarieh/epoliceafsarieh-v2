@@ -594,7 +594,6 @@ function updateNavState() {
       dotsEl.appendChild(d);
     }
   }
-
 function showQuestion() {
   if (currentStep < totalSteps) {
     const { field } = resolveStep(currentStep);
@@ -602,40 +601,58 @@ function showQuestion() {
 
     heroQuestionEl.style.display = "none";
     inputEl.style.display = "block";
+    inputEl.placeholder = qText;
+    inputEl.value = answers[field.key] || "";
 
-    inputEl.style.transition = "opacity 0.22s ease, transform 0.22s ease";
-    inputEl.style.opacity = "0";
-    inputEl.style.transform = "translateY(6px)";
+    // نوع ورودی
+    if (field.key === "height") {
+      inputEl.type = "text";
+      inputEl.inputMode = "decimal";
+      inputEl.dir = "ltr";
+    } else {
+      inputEl.type = "text";
+      inputEl.inputMode = "text";
+      inputEl.dir = "rtl";
+    }
+
+    prevBtn.style.display = "inline-flex";
+    nextBtn.style.display = "inline-flex";
+
+    if (currentStep === totalSteps) {
+      topDownloadLink.classList.remove("is-disabled");
+      topDownloadLink.removeAttribute("aria-disabled");
+      topDownloadLink.removeAttribute("tabindex");
+    }
+
+    downloadBtn.style.display = "none";
+    document.getElementById("wmNote").style.display = "none";
+
+    renderDots();
+    updateNavState(); // اینجا وضعیت دکمه‌ها به‌روز می‌شود
 
     window.requestAnimationFrame(() => {
-      inputEl.placeholder = `${qText}`;
-      inputEl.value = answers[field.key] || "";
+      inputEl.style.opacity = "1";
+      inputEl.style.transform = "translateY(0)";
+    });
 
-      if (field.key === "height") {
-        inputEl.type = "text";
-        inputEl.inputMode = "decimal";
-        inputEl.dir = "ltr";
-      } else {
-        inputEl.type = "text";
-        inputEl.inputMode = "text";
-        inputEl.dir = "rtl";
-      }
+    inputEl.focus();  // این خط ورودی را فعال می‌کند تا مستطیل چشمک بزند
+  } else {
+    // پایان مراحل
+    heroQuestionEl.style.display = "block";
+    heroQuestionEl.innerHTML = `تمام شد <span class="checkmark">✔</span>`;
 
-      prevBtn.style.display = "inline-flex";
-      nextBtn.style.display = "inline-flex";
+    inputEl.style.display = "none";
+    prevBtn.style.display = "none";
+    nextBtn.style.display = "none";
+    voiceBtn.style.display = "none";
 
-      if (currentStep === totalSteps) {
-        topDownloadLink.classList.remove("is-disabled");
-        topDownloadLink.removeAttribute("aria-disabled");
-        topDownloadLink.removeAttribute("tabindex");
-      }
-
-      downloadBtn.style.display = "none";
-      document.getElementById("wmNote").style.display = "none";
-
-      renderDots();
-      updateNavState(); // اینجا باید وضعیت دکمه‌ها را به‌روزرسانی کنید
-
+    downloadBtn.style.display = "inline-flex";
+    document.getElementById("wmNote").style.display = "block";
+    
+    renderDots();
+    updateNavState(); // وضعیت دکمه‌ها را به‌روز می‌کند
+  }
+}
       window.requestAnimationFrame(() => {
         inputEl.style.opacity = "1";
         inputEl.style.transform = "translateY(0)";
