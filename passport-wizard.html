@@ -511,7 +511,7 @@ function updateNavState() {
   prevBtn.disabled = (currentStep === 0);
 
   // بعدی: وقتی input خالی است غیرفعال
-  nextBtn.disabled = (inputEl.value.trim() === "");
+nextBtn.disabled = (inputEl.value.trim() === "" || currentStep >= form.sections[currentSectionIndex].fields.length);
 }
   function renderDots() {
     dotsEl.innerHTML = "";
@@ -529,12 +529,21 @@ function updateNavState() {
 function showQuestion() {
   // داخل فرم
   if (currentStep < questions.length) {
-    const qText = questions[currentStep].question;
+   const section = form.sections[currentSectionIndex];
+const qText = section.fields[currentStepInSection].question;
     const stepText = `سؤال ${currentStep + 1} از ${questions.length}`;
 
     // سوال داخل خود input به صورت placeholder
+   heroQuestionEl.style.transition = "opacity 0.3s ease";
+heroQuestionEl.style.opacity = "0";
+
+inputEl.style.transition = "opacity 0.3s ease";
+inputEl.style.opacity = "1";
+
+setTimeout(() => {
     heroQuestionEl.style.display = "none";
     inputEl.style.display = "block";
+}, 300); // هماهنگ با زمان انیمیشن
     inputEl.placeholder = `${qText} — ${stepText}`;
 
     // مقدار ذخیره‌شده همین مرحله را برگردان
@@ -790,9 +799,9 @@ inputEl.addEventListener("keydown", function(e){
     const pdfDoc = await PDFDocument.load(existingPdfBytes);
     const page0 = pdfDoc.getPages()[0];
 
-    await drawTextAsPngOnPdf(pdfDoc, page0, answers.firstName, 451.25, 652.5, 11);
-    await drawTextAsPngOnPdf(pdfDoc, page0, answers.lastName,  372.5,  615.63, 11);
-    await drawTextAsPngOnPdf(pdfDoc, page0, answers.height,    326.88, 513.13, 11);
+   await drawTextAsPngOnPdf(pdfDoc, page0, answers[form.sections[0].fields[0].key], 451.25, 652.5, 11);
+await drawTextAsPngOnPdf(pdfDoc, page0, answers[form.sections[0].fields[1].key], 372.5, 615.63, 11);
+await drawTextAsPngOnPdf(pdfDoc, page0, answers[form.sections[1].fields[0].key], 326.88, 513.13, 11);
 
     const pdfBytes = await pdfDoc.save();
     const blob = new Blob([pdfBytes], { type: "application/pdf" });
