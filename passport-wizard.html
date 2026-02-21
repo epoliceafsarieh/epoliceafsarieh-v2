@@ -527,6 +527,16 @@ prevBtn.style.display = currentStep > 0 ? "inline-flex" : "none";
     currentStep++;
     showQuestion();
   });
+  prevBtn.addEventListener("click", function () {
+  if (currentStep <= 0) return;
+
+  currentStep--;
+
+  // برگرداندن مقدار قبلی (اگر قبلاً جواب داده شده)
+  inputEl.value = answers[questions[currentStep].key] || "";
+
+  showQuestion();
+});
 
   // Voice Input (Android/Windows)
   voiceBtn.addEventListener("click", function () {
