@@ -449,7 +449,17 @@ button{
 @media (max-width: 480px){
   .hero-btn{ width: 72px; height: 62px; }
 }
-  
+  /* چشمک زدن عبارت placeholder */
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+.hero-input::placeholder {
+  animation: blink 1s infinite; /* افزودن انیمیشن چشمک زدن */
+  color: rgba(15, 23, 42, 0.65); /* رنگ placeholder */
+}
 </style>
 </head>
 <body>
