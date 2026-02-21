@@ -683,6 +683,34 @@ function showQuestion() {
   }
 
   // پایان
+  heroQuestionEl.style.display = "block";
+  heroQuestionEl.innerHTML = `تمام شد <span class="checkmark">✔</span>`;
+
+  inputEl.style.display = "none";
+  prevBtn.style.display = "none";
+  nextBtn.style.display = "none";
+  voiceBtn.style.display = "none";
+
+  downloadBtn.style.display = "inline-flex";
+  document.getElementById("wmNote").style.display = "block";
+
+  renderDots();
+}
+      updateNavState();
+
+      // fade in
+      window.requestAnimationFrame(() => {
+        inputEl.style.opacity = "1";
+        inputEl.style.transform = "translateY(0)";
+      });
+
+      inputEl.focus();  // این خط ورودی را فعال می‌کند تا مستطیل چشمک بزند
+    });
+
+    return;
+  }
+
+  // پایان
  heroQuestionEl.style.display = "block";
 
 /* متن پایان را با HTML کنترل‌شده بگذار تا هم متن باشد هم تیک */
