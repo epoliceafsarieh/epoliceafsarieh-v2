@@ -197,6 +197,13 @@ button{
 .flow-top--service{
   padding: 14px 6px 6px;
 }
+/* [ANCHOR:C1 TOPBAR-ALIGN] */
+.flow-top--service{
+  direction: ltr; /* ترتیب بصری را چپ→راست می‌کند */
+}
+.flow-top--service *{
+  direction: rtl; /* متن‌ها همچنان RTL بمانند */
+}
 
 .brand{
   display:inline-flex;
