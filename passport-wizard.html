@@ -586,6 +586,13 @@ nextBtn.addEventListener("click", function () {
   currentStep++;
   showQuestion();
 });
+  // [ANCHOR:JS3 ENTER-TO-NEXT]
+inputEl.addEventListener("keydown", function(e){
+  if (e.key === "Enter") {
+    e.preventDefault();
+    nextBtn.click();
+  }
+});
   prevBtn.addEventListener("click", function () {
   if (currentStep <= 0) return;
 
