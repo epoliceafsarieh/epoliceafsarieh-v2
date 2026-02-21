@@ -547,6 +547,11 @@ document.addEventListener('DOMContentLoaded', function () {
   const dotsEl = document.getElementById("dots");
 
   const voiceBtn = document.getElementById("voiceButton");
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+if (isIOS) {
+  voiceBtn.style.display = "none";
+  iosHint.style.display = "block";
+}
   const downloadBtn = document.getElementById("downloadPdfButton");
   const iosHint = document.getElementById("iosHint");
 
