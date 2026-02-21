@@ -549,6 +549,18 @@ document.addEventListener('DOMContentLoaded', function () {
   const totalSteps = form.sections.reduce((sum, s) => sum + (s.fields?.length || 0), 0);
 
   let currentStep = 0;
+  function renderDots() {
+  dotsEl.innerHTML = "";
+  for (let i = 0; i < totalSteps; i++) {
+    const d = document.createElement("span");
+    d.className =
+      "dot" +
+      (i < currentStep ? " is-done" : "") +
+      (i === currentStep ? " is-active" : "");
+    dotsEl.appendChild(d);
+  }
+}
+  
   const answers = {};
 
   function resolveStep(step) {
