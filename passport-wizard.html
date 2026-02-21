@@ -493,7 +493,14 @@ document.addEventListener('DOMContentLoaded', function () {
   const nextBtn = document.getElementById("nextButton");
   const prevBtn = document.getElementById("prevButton");
   const dotsEl = document.getElementById("dots");
+// [ANCHOR:JS0 UI-STATE]
+function updateNavState() {
+  // قبلی: همیشه دیده شود، فقط در مرحله ۰ غیرفعال
+  prevBtn.disabled = (currentStep === 0);
 
+  // بعدی: وقتی input خالی است غیرفعال
+  nextBtn.disabled = (inputEl.value.trim() === "");
+}
   function renderDots() {
     dotsEl.innerHTML = "";
     for (let i = 0; i < questions.length; i++) {
