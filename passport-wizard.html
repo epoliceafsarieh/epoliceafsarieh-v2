@@ -552,9 +552,10 @@ if (isIOS) {
   iosHint.style.display = "block";
 }
 
+// بعد از هر تغییر currentStep وضعیت دکمه‌ها باید به‌روزرسانی شود
 function updateNavState() {
-  prevBtn.disabled = (currentStep === 0);
-  nextBtn.disabled = (inputEl.value.trim() === "");
+  prevBtn.disabled = (currentStep === 0); // دکمه مرحله قبل غیرفعال در مرحله اول
+  nextBtn.disabled = (inputEl.value.trim() === ""); // دکمه مرحله بعد غیرفعال اگر ورودی خالی باشد
 }
 
   function normalizePersianNumbers(text) {
