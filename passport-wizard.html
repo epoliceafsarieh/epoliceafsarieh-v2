@@ -646,7 +646,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
       downloadBtn.style.display = "inline-flex";
       document.getElementById("wmNote").style.display = "block";
-
+if (currentStep === totalSteps) {
+  downloadBtn.style.display = "inline-flex"; // نمایش دکمه دانلود PDF
+} else {
+  downloadBtn.style.display = "none"; // مخفی کردن دکمه دانلود PDF
+}
       renderDots();
       updateNavState();  // Update buttons' state at the end
     }
