@@ -193,6 +193,142 @@ button{
   .flow-head{ margin-top: 8px; }
   .card{ margin-top: 12px; }
 } 
+   /* ===== Service-like top bar ===== */
+.flow-top--service{
+  padding: 14px 6px 6px;
+}
+
+.brand{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+  border-radius: 18px;
+  padding: 10px 12px;
+  background: rgba(255,255,255,.65);
+  border: 1px solid rgba(2,8,23,.08);
+  box-shadow: 0 10px 24px rgba(2,8,23,.06);
+}
+
+.brand__logo{
+  width: 104px;
+  height: auto;
+  display:block;
+  /* اگر لوگو تیره نیست و می‌خواهی سرمه‌ای شود و SVG است، می‌توانی بعداً fill را ست کنی */
+}
+
+.cta-service{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+  padding: 12px 18px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+  color:#fff;
+  background: linear-gradient(to bottom, #17335f, #0f2547);
+  box-shadow: 0 10px 20px rgba(15, 37, 71, .22);
+}
+
+/* ===== Head becomes the main hero (question+input) ===== */
+.flow-head--compact{
+  margin: 20px 6px 10px;
+}
+
+.hero-question{
+  font-size: 28px;
+  line-height: 1.5;
+  font-weight: 800;
+  text-align: center;
+  color: rgba(15,23,42,.65);
+  margin: 28px 0 14px;
+}
+
+.hero-row{
+  display:flex;
+  align-items:center;
+  gap: 12px;
+  justify-content:center;
+}
+
+.hero-back{
+  width: 88px;
+  height: 72px;
+  border-radius: 18px;
+  border: 1px solid rgba(2,8,23,.10);
+  background: #1f6b4a; /* سبز مثل نمونه‌ات */
+  color:#fff;
+  font-size: 22px;
+  cursor:pointer;
+  box-shadow: 0 14px 30px rgba(2,8,23,.10);
+}
+
+.hero-input{
+  width: min(520px, 100%);
+  height: 72px;
+  border-radius: 22px;
+  border: 1px solid rgba(2,8,23,.10);
+  background: rgba(255,255,255,.85);
+  box-shadow: 0 14px 30px rgba(2,8,23,.08);
+  padding: 0 22px;
+  font-size: 22px;
+  font-weight: 700;
+  text-align: right;
+  direction: rtl;
+}
+
+.hero-input:focus{
+  outline:none;
+  border-color: rgba(28,61,117,.45);
+  box-shadow: 0 0 0 3px rgba(28,61,117,.08), 0 14px 30px rgba(2,8,23,.08);
+}
+
+.dots{
+  display:flex;
+  justify-content:center;
+  gap: 8px;
+  margin: 14px 0 10px;
+  flex-wrap: wrap;
+}
+
+.dot{
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: rgba(2,8,23,.10);
+  border: 1px solid rgba(2,8,23,.10);
+  box-shadow: inset 0 1px 1px rgba(255,255,255,.7);
+}
+.dot.is-active{
+  background: rgba(2,8,23,.22);
+}
+.dot.is-done{
+  background: rgba(31,107,74,.28);
+  border-color: rgba(31,107,74,.25);
+}
+
+.helper{
+  text-align:center;
+  font-size: 15px;
+  line-height: 1.9;
+  color: rgba(15,23,42,.55);
+  margin-top: 8px;
+}
+
+/* Actions card becomes minimal (just buttons) */
+.card--actions{
+  margin-top: 18px;
+  max-width: 560px;
+}
+
+/* Mobile tweaks */
+@media (max-width: 480px){
+  .hero-question{ font-size: 22px; margin-top: 18px; }
+  .hero-back{ width: 72px; height: 62px; }
+  .hero-input{ height: 62px; font-size: 18px; border-radius: 18px; }
+  .dot{ width: 12px; height: 12px; }
+}
 </style>
 </head>
 <body>
