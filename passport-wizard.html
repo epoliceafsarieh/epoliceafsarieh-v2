@@ -250,14 +250,19 @@ document.addEventListener('DOMContentLoaded', function () {
   let currentStep = 0;
   const answers = {};
 
-  const questionEl = document.getElementById("question");
-  const inputEl = document.getElementById("answerInput");
-  const nextBtn = document.getElementById("nextButton");
-  const progressEl = document.getElementById("progress");
-  const voiceBtn = document.getElementById("voiceButton");
-  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+const questionEl = document.getElementById("question");
+const inputEl = document.getElementById("answerInput");
+const nextBtn = document.getElementById("nextButton");
+const progressEl = document.getElementById("progress");
+const voiceBtn = document.getElementById("voiceButton");
+const downloadBtn = document.getElementById("downloadPdfButton");
+const iosHint = document.getElementById("iosHint");
+
+const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+
 if (isIOS) {
   voiceBtn.style.display = "none";
+  iosHint.style.display = "block";
 }
 const downloadBtn = document.getElementById("downloadPdfButton");
 const iosHint = document.getElementById("iosHint");
