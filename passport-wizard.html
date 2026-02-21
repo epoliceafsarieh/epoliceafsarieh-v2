@@ -302,6 +302,45 @@ button{
   text-align: right;
   direction: rtl;
 }
+ /* [ANCHOR:B1B HERO-BUTTONS-ATTACH] */
+.hero-row{
+  gap: 0;                 /* بچسبند */
+}
+
+.hero-btn{
+  width: 88px;
+  height: 72px;
+  border-radius: 18px;
+  border: 1px solid rgba(2,8,23,.10);
+  background: #1f6b4a;
+  color: #fff;
+  font-size: 22px;
+  cursor: pointer;
+  box-shadow: 0 14px 30px rgba(2,8,23,.10);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: opacity .18s ease, transform .18s ease, filter .18s ease;
+}
+
+.hero-btn:disabled{
+  opacity: .28;
+  cursor: not-allowed;
+  box-shadow: none;
+  filter: grayscale(.2);
+}
+
+/* اتصال به input (لبه‌های داخلی مربع‌تر شوند) */
+.hero-prev{ border-top-left-radius: 0; border-bottom-left-radius: 0; }
+.hero-next{ border-top-right-radius: 0; border-bottom-right-radius: 0; }
+
+.hero-input{
+  border-radius: 0;        /* وسط تخت شود */
+  border-left: 0;
+  border-right: 0;
+}  
   /* [ANCHOR:B2 PLACEHOLDER] */
 .hero-input::placeholder{
   color: rgba(15,23,42,.28);  /* خیلی کمرنگ */
