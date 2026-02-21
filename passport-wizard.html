@@ -189,20 +189,52 @@ button{
 </head>
 <body>
 
-<div class="card">
-  <div class="progress" id="progress"></div>
-  <h3 id="question"></h3>
-  <input 
-  type="text" 
-  id="answerInput" 
-  inputmode="text" 
-  autocomplete="off"
-  autocorrect="on"
-  autocapitalize="none"
-  spellcheck="true"
-/>
-  <div id="iosHint" style="display:none; margin: 8px 0 12px; font-size: 13px; color:#64748b;">
-  برای ورود صوتی در آیفون، روی فیلد بزنید و از میکروفونِ کیبورد استفاده کنید.
+<div class="flow-wrap">
+
+  <div class="flow-top">
+    <a class="back-link" href="passport.html">← بازگشت</a>
+    <div class="flow-service">اقدام / گذرنامه</div>
+  </div>
+
+  <div class="flow-head">
+    <div class="flow-kicker">فرم مرحله‌ای</div>
+    <h1 class="flow-title">اطلاعات را مرحله‌به‌مرحله وارد کنید</h1>
+    <div class="flow-subtitle">در پایان، فایل PDF آماده چاپ دریافت می‌کنید.</div>
+  </div>
+
+  <div class="card">
+    <div class="progress" id="progress"></div>
+    <h3 id="question"></h3>
+
+    <input
+      type="text"
+      id="answerInput"
+      inputmode="text"
+      autocomplete="off"
+      autocorrect="on"
+      autocapitalize="none"
+      spellcheck="true"
+    />
+
+    <div class="ios-hint" id="iosHint">
+      در آیفون، برای ورود صوتی از میکروفونِ کیبورد استفاده کنید.
+    </div>
+
+    <button class="voice" id="voiceButton">🎤 ورود صوتی</button>
+    <button class="primary" id="nextButton">بعدی</button>
+
+    <button class="primary" id="downloadPdfButton" style="display:none;">دانلود PDF</button>
+
+    <div class="bottom-row">
+      <a href="passport.html">خروج</a>
+      <a href="#" onclick="location.reload(); return false;">شروع مجدد</a>
+    </div>
+
+    <div class="success-note" id="wmNote" style="display:none;">
+      فایل خروجی شامل واترمارک دفتر است.
+    </div>
+  </div>
+
 </div>
   <button class="voice" id="voiceButton">🎤 ورود صوتی</button>
   <button class="primary" id="nextButton">بعدی</button>
