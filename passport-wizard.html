@@ -738,28 +738,29 @@ heroQuestionEl.innerHTML = `تمام شد <span class="checkmark">✔</span>`;
     }
   });
 
-  nextBtn.addEventListener("click", function () {
-    const raw = inputEl.value.trim();
-    if (!raw) return;
+nextBtn.addEventListener("click", function () {
+  const raw = inputEl.value.trim();
+  if (!raw) return; // اگر ورودی خالی است، به مرحله بعدی نمی‌رود
 
-    const { field } = resolveStep(currentStep);
-    answers[field.key] = normalizePersianNumbers(raw);
+  const { field } = resolveStep(currentStep);
+  answers[field.key] = normalizePersianNumbers(raw);
 
-    currentStep++;
-    showQuestion();
-  });
+  currentStep++; // به مرحله بعدی برو
+  showQuestion();
+  updateNavState(); // وضعیت دکمه‌ها را به‌روزرسانی کن
+});
 
-  prevBtn.addEventListener("click", function () {
-    if (currentStep <= 0) return;
+prevBtn.addEventListener("click", function () {
+  if (currentStep <= 0) return; // اگر در مرحله اول هستیم، به عقب نمی‌رود
 
-    // ذخیره مقدار مرحله فعلی هم انجام شود
-    const { field } = resolveStep(currentStep);
-    const raw = inputEl.value.trim();
-    if (raw) answers[field.key] = normalizePersianNumbers(raw);
+  const { field } = resolveStep(currentStep);
+  const raw = inputEl.value.trim();
+  if (raw) answers[field.key] = normalizePersianNumbers(raw);
 
-    currentStep--;
-    showQuestion();
-  });
+  currentStep--; // به مرحله قبلی برو
+  showQuestion();
+  updateNavState(); // وضعیت دکمه‌ها را به‌روزرسانی کن
+});
 
   // Voice Input (Android/Windows)
   voiceBtn.addEventListener("click", function () {
