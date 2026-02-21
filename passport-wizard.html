@@ -144,11 +144,28 @@ input:focus{
   border-color: rgba(28, 61, 117, .55);
   box-shadow: 0 0 0 3px rgba(28, 61, 117, .08);
 }
- .hero-row {
+.hero-row {
   display: flex;
-  justify-content: center; /* دکمه‌ها رو در وسط قرار می‌ده */
+  justify-content: space-between; /* دکمه‌ها در دو طرف قرار بگیرند */
   gap: 12px; /* فاصله بین دکمه‌ها */
-}  
+}
+
+.hero-btn {
+  width: 45%; /* عرض دکمه‌ها باید نصف فضای موجود باشد */
+  padding: 14px;
+  font-size: 16px;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+  min-height: 52px; /* برای نمایش بهینه */
+}
+
+.hero-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  box-shadow: none;
+}
 
 /* Buttons */
 button{
@@ -543,10 +560,21 @@ document.addEventListener('DOMContentLoaded', function () {
   const inputEl = document.getElementById("answerInput");
   const heroQuestionEl = document.getElementById("heroQuestion");
   const nextBtn = document.getElementById("nextButton");
+  function updateNavState() {
+  const inputVal = inputEl.value.trim(); // مقدار ورودی کاربر
+  prevBtn.disabled = (currentStep === 0);  // دکمه "مرحله قبلی" در ابتدای کار غیرفعال است
+  nextBtn.disabled = (inputVal === "");    // دکمه "مرحله بعد" اگر ورودی خالی باشد غیرفعال است
+}
+
+inputEl.addEventListener("input", updateNavState); // به محض تایپ در فیلد، این تابع اجرا می‌شود
   const prevBtn = document.getElementById("prevButton");
   const dotsEl = document.getElementById("dots");
 
   const voiceBtn = document.getElementById("voiceButton");
+  function updateNavState() {
+  prevBtn.disabled = (currentStep === 0);  // دکمه "مرحله قبلی" در ابتدای کار غیرفعال است
+  nextBtn.disabled = (inputEl.value.trim() === ""); // دکمه "مرحله بعد" اگر ورودی خالی باشد غیرفعال است
+}
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 if (isIOS) {
   voiceBtn.style.display = "none";
