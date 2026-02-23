@@ -174,7 +174,7 @@ button{
   width: 100%;
   border: none;
   cursor: pointer;
-
+ font-family: inherit;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -363,6 +363,20 @@ button{
   color: rgba(15,23,42,.65);
   margin: 28px 0 14px;
 }
+  .hero-shell{
+  background: rgba(255,255,255,.92);
+}
+
+.hero-btn,
+.hero-input{
+  border: none !important;
+  box-shadow: none !important;
+  background-clip: padding-box;
+}
+
+.hero-input{
+  background: transparent;     /* تا سفیدی از shell بیاید */
+} 
 
 .hero-row{
   display:flex;
@@ -390,28 +404,40 @@ button{
   .hero-btn{ width: 78px; height: 64px; }
 }
 
-/* میکروفن کنار Next */
-.voice--inline{
-  width: 56px;
-  height: 56px;
-  margin: 0 10px 0 0;     /* کمی فاصله از Next */
-  border: 1px solid rgba(2,8,23,.10);
-  box-shadow: 0 10px 20px rgba(15, 37, 71, .18);
-}
 
 /* پیش‌نمایش داخل صفحه (نه sticky) */
 .preview-bar--inline{
   position: static;
-  width: 100%;
-  border-radius: 16px;
-  margin-top: 10px;
+  width: min(520px, 100%);
+  margin: 12px auto 0;      /* وسط */
+  border-radius: 18px;
   box-shadow: 0 14px 26px rgba(2,8,23,.14);
+}
+.preview-bar--inline .preview-bar__title{
+  font-weight: 800;
 }
 
 /* bottom-row تک‌لینک */
 .bottom-row--single{
   justify-content: center;
-}   
+} 
+ .flow-head--compact{ position: relative; }
+
+.voice--float{
+  position: absolute;
+  left: 6px;              /* سمت چپ */
+  top: 104px;             /* هم‌ردیف با hero-shell */
+  width: 56px;
+  height: 56px;
+  margin: 0;
+  border: 1px solid rgba(2,8,23,.10);
+  box-shadow: 0 12px 22px rgba(2,8,23,.16);
+}
+
+/* موبایل: کمی پایین‌تر تا روی سوال نیفتد */
+@media (max-width: 480px){
+  .voice--float{ top: 88px; }
+}  
 
 .hero-next{
   width: 88px;
@@ -645,9 +671,10 @@ button{
 
     <!-- مرحله بعد (سمت چپِ صفحه RTL) -->
     <button class="hero-btn hero-next" id="nextButton" type="button" aria-label="مرحله بعد">◀</button>
-    <button class="voice voice--inline" id="voiceButton" type="button" aria-label="ورود صوتی">🎤</button>
   </div>
+  <button class="voice voice--float" id="voiceButton" type="button" aria-label="ورود صوتی">🎤</button>
 </div>
+   
 
 
 </div>
@@ -958,6 +985,56 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
  let _activeField = null;
+  // ===== Skip awareness (treat skipped fields as completed) =====
+function getSkippedKeys() {
+  const skipped = new Set();
+
+  // 1) نام قبلی
+  if ((answers["identity__hasPrevName"] || "").trim() === "خیر") {
+    skipped.add("identity__prevName");
+  }
+
+  // 2) رشته تحصیلی فقط اگر دانشگاهی باشد
+  const edu = (answers["identity__educationLevel"] || "").trim();
+  const isUni = ["فوق‌دیپلم","کارشناسی","کارشناسی ارشد","دکتری"].includes(edu);
+  if (edu && !isUni) {
+    skipped.add("identity__major");
+  }
+
+  // 3) علائم ممیزه
+  if ((answers["physical__hasMarks"] || "").trim() === "خیر") {
+    skipped.add("physical__marksDesc");
+  }
+
+  // 4) نیروهای مسلح
+  if ((answers["military__has"] || "").trim() === "خیر") {
+    skipped.add("military__job");
+    skipped.add("military__exitType");
+  }
+
+  // 5) اقامت خارج
+  if ((answers["residenceAbroad__has"] || "").trim() === "خیر") {
+    skipped.add("residenceAbroad__addressFull");
+    skipped.add("residenceAbroad__phone");
+    skipped.add("residenceAbroad__years");
+  }
+
+  // 6) گذرنامه قبلی
+  if ((answers["previousPassport__has"] || "").trim() === "خیر") {
+    skipped.add("previousPassport__number");
+    skipped.add("previousPassport__issueDate");
+    skipped.add("previousPassport__issuePlace");
+    skipped.add("previousPassport__expireDate");
+    skipped.add("previousPassport__replaceReason");
+  }
+
+  return skipped;
+}
+
+function isFieldCompleted(key, skippedKeys) {
+  if (skippedKeys && skippedKeys.has(key)) return true;
+  return ((answers[key] || "").trim() !== "");
+}
 
 function updateNavState() {
   prevBtn.disabled = (currentStep === 0);
@@ -981,16 +1058,16 @@ function updateNavState() {
   if (!sectionStepsEl) return;
 
   const safeStep = Math.min(currentStep, totalSteps - 1);
+   const skippedKeys = getSkippedKeys();
   const { sectionIndex: activeSectionIndex } = resolveStep(safeStep);
 
   const allSectionsDone = form.sections.every(sec =>
-    (sec.fields || []).every(f => (answers[f.key] || "").trim() !== "")
-  );
+  (sec.fields || []).every(f => isFieldCompleted(f.key, skippedKeys))
+);
 
   // نوار پایین: پیش‌نمایش/دانلود
   if (bottomPreviewCta) {
-    bottomPreviewCta.textContent = allSectionsDone ? "دریافت فرم گذرنامه" : "—";
-  }
+bottomPreviewCta.textContent = allSectionsDone ? "دریافت فرم گذرنامه" : "";  }
   if (bottomPreviewBar) {
     bottomPreviewBar.setAttribute("aria-label", allSectionsDone ? "دریافت فرم گذرنامه" : "پیش‌نمایش فرم گذرنامه");
   }
@@ -1019,7 +1096,7 @@ rows.forEach(rowIdxs => {
     const sec = form.sections[idx];
     if (!sec) return;
     const fields = (sec.fields || []);
-    const answeredCount = fields.filter(f => (answers[f.key] || "").trim() !== "").length;
+    const answeredCount = fields.filter(f => isFieldCompleted(f.key, skippedKeys)).length;
     const allAnswered = fields.length > 0 && answeredCount === fields.length;
     const anyAnswered = answeredCount > 0;
 
