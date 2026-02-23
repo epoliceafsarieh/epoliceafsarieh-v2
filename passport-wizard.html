@@ -5,7 +5,7 @@
   <title>فرم مرحله‌ای گذرنامه</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
+ <style>
 @font-face{
   font-family: "Vazirmatn";
   src: url("assets/fonts/vazirmatn/Vazirmatn-Regular.woff2") format("woff2");
@@ -13,7 +13,6 @@
   font-style: normal;
   font-display: swap;
 }
-
 body{
   font-family: "Vazirmatn", sans-serif;
   margin: 0;
@@ -30,38 +29,201 @@ body{
   margin: 0 auto;
 }
 
-/* ===== Service-like top bar ===== */
+/* Header (minimal, aligned) */
 .flow-top{
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+  padding: 10px 6px 6px;
+}
+
+.flow-service{
+  font-size: 12px;
+  color: rgba(15, 23, 42, .45);
+  letter-spacing: .2px;
+}
+
+.back-link{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: #0f172a;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.05);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+}
+.back-link:hover{
+  background: rgba(15, 23, 42, 0.07);
+}
+/* Head text */
+.flow-head{
+  margin: 18px 6px 14px;
+}
+.flow-kicker{
+  font-size: 12px;
+  color: rgba(15, 23, 42, .55);
+  margin-bottom: 6px;
+}
+.flow-title{
+  margin: 0 0 6px 0;
+  font-size: 18px;
+  line-height: 1.7;
+  font-weight: 700;
+  color: #0f172a;
+}
+.flow-subtitle{
+  font-size: 13px;
+  line-height: 1.8;
+  color: rgba(15, 23, 42, .65);
+}
+
+/* Main card */
+.card{
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(2, 8, 23, .06);
+  border: 1px solid rgba(2, 8, 23, .07);
+  padding: 22px;
+  margin: 14px 0 0;
+}
+
+/* Progress */
+.progress{
+  font-size: 12px;
+  color: rgba(15, 23, 42, .50);
+  margin-bottom: 6px;
+  text-align: right;
+}
+
+/* Question */
+h3{
+  margin: 0 0 14px 0;
+  font-size: 20px;
+  line-height: 1.9;
+  font-weight: 700;
+}
+
+/* Input */
+input{
+  width: 100%;
+  padding: 14px 14px;
+  font-size: 16px; /* مهم: iOS zoom نشود */
+  border-radius: 14px;
+  border: 1px solid #e5eaf3;
+  background: #f8fafc;
+  outline: none;
+
+  text-align: right;
+  direction: rtl;
+  box-sizing: border-box;
+}
+
+.voice {
+  background: #1f6b4a;
+  color: #fff;
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ios-hint {
+  font-size: 12px;
+  color: #888;
+  margin-top: 10px;
+}
+
+/* Buttons */
+button{
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+  min-height: 52px; /* Thumb-friendly */
+}
+
+.primary{
+  color: #fff;
+  background: linear-gradient(to bottom, #17335f, #0f2547);
+  box-shadow: 0 10px 20px rgba(15, 37, 71, .25);
+}
+
+.voice{
+  background: rgba(15, 23, 42, 0.06);
+  color: #0f172a;
+  border: 1px solid rgba(15, 23, 42, 0.10);
+}
+
+/* iOS hint */
+.ios-hint{
+  display:none;
+  margin-top: 10px;
+  font-size: 13px;
+  color: rgba(15, 23, 42, .60);
+  line-height: 1.8;
+}
+
+/* Bottom links */
+.bottom-row{
+  margin-top: 14px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 13px;
+  color: rgba(15, 23, 42, .60);
+}
+.bottom-row a{
+  text-decoration: none;
+  color: rgba(15, 37, 71, .95);
+  opacity: .9;
+}
+
+/* Success state polish */
+.success-note{
+  margin-top: 10px;
+  font-size: 13px;
+  color: rgba(15, 23, 42, .60);
+}
+
+/* Blink (ONLY ONCE) */
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: .35; }
+  100% { opacity: 1; }
+}
+
+/* Mobile */
+@media (max-width: 480px){
+  body{ padding: 14px; }
+  .flow-title{ font-size: 19px; }
+  .card{ padding: 20px; }
+}
+@media (min-width: 900px){
+  .flow-head{ margin-top: 8px; }
+  .card{ margin-top: 12px; }
+}
+
+/* ===== Service-like top bar ===== */
+.flow-top--service{
   padding: 14px 6px 6px;
 }
-
+/* [ANCHOR:C1 TOPBAR-ALIGN] */
 .flow-top--service{
-  direction: ltr;
+  direction: ltr; /* ترتیب بصری را چپ→راست می‌کند */
 }
 .flow-top--service *{
-  direction: rtl;
-}
-
-.brand{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  text-decoration:none;
-  border-radius: 18px;
-  padding: 10px 12px;
-  background: rgba(255,255,255,.65);
-  border: 1px solid rgba(2,8,23,.08);
-  box-shadow: 0 10px 24px rgba(2,8,23,.06);
-}
-
-.brand__logo{
-  width: 104px;
-  height: auto;
-  display:block;
+  direction: rtl; /* متن‌ها همچنان RTL بمانند */
 }
 
 .cta-service{
@@ -72,28 +234,54 @@ body{
   padding: 12px 18px;
   border-radius: 999px;
   font-size: 14px;
-  font-weight: 800;
+  font-weight: 700;
   color:#fff;
   background: linear-gradient(to bottom, #17335f, #0f2547);
   box-shadow: 0 10px 20px rgba(15, 37, 71, .22);
+}
+
+/* ===== Section steps (top small list) ===== */
+.section-steps{
+  display:flex;
+  flex-wrap:wrap;
   gap: 8px;
+  justify-content:flex-start; /* چون container LTR است، این یعنی سمت چپ بصری */
+  align-items:center;
+  max-width: 100%;
 }
 
-/* حالت غیرفعال CTA بالا */
-.cta-service[aria-disabled="true"]{
-  opacity: .45;
-  pointer-events: none;
+.section-pill{
+  display:inline-flex;
+  align-items:center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  line-height: 1;
+  background: rgba(255,255,255,.65);
+  border: 1px solid rgba(2,8,23,.10);
+  color: rgba(15,23,42,.70);
+  white-space: nowrap;
 }
 
-/* تیک سبز */
-.checkmark{
-  color: #4caf50;
-  font-size: 18px;
+.section-pill.is-active{
+  font-weight: 800;
+  color: rgba(15,23,42,.95);
+  border-color: rgba(2,8,23,.20);
+}
+
+.section-pill.is-done{
+  color: rgba(15,23,42,.85);
+}
+
+.section-pill .tick{
+  font-size: 12px;
+  color: #1f6b4a;
   line-height: 1;
 }
 
-/* ===== Head / Hero ===== */
-.flow-head{
+/* ===== Head becomes the main hero (question+input) ===== */
+.flow-head--compact{
   margin: 20px 6px 10px;
 }
 
@@ -109,10 +297,50 @@ body{
 .hero-row{
   display:flex;
   align-items:center;
+  gap: 0;                 /* بچسبند */
   justify-content:center;
-  gap: 0;
 }
 
+/* قاب واحد برای اینکه سه تکه یکپارچه دیده شود */
+.hero-shell{
+  width: min(520px, 100%);
+  margin: 0 auto;
+  border-radius: 22px;
+  border: 1px solid rgba(2,8,23,.10);
+  background: rgba(255,255,255,.85);
+  box-shadow: 0 14px 30px rgba(2,8,23,.08);
+  overflow: hidden; /* لبه‌ها یکدست */
+}
+
+.hero-next{
+  width: 88px;
+  height: 72px;
+  border-radius: 18px;
+  border: 1px solid rgba(2,8,23,.10);
+  background: #1f6b4a;
+  color:#fff;
+  font-size: 22px;
+  cursor:pointer;
+}
+
+.hero-next:disabled{
+  opacity: .35;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.hero-input{
+  width: min(520px, 100%);
+  height: 72px;
+  border-radius: 22px;
+  padding: 0 22px;
+  font-size: 22px;
+  font-weight: 700;
+  text-align: right;
+  direction: rtl;
+}
+
+/* دکمه‌ها */
 .hero-btn{
   width: 88px;
   height: 72px;
@@ -123,10 +351,11 @@ body{
   font-size: 22px;
   cursor: pointer;
   margin-top: 0;
-  box-shadow: 0 14px 30px rgba(2,8,23,.10);
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
+
   transition: opacity .18s ease, transform .18s ease, filter .18s ease;
 }
 
@@ -137,54 +366,44 @@ body{
   filter: grayscale(.2);
 }
 
-/* اتصال به input */
+/* اتصال به input (لبه‌های داخلی مربع‌تر شوند) */
 .hero-prev{ border-top-left-radius: 0; border-bottom-left-radius: 0; }
 .hero-next{ border-top-right-radius: 0; border-bottom-right-radius: 0; }
 
 .hero-input{
-  width: min(520px, 100%);
-  height: 72px;
-  border-radius: 0;
-  border: 1px solid rgba(2,8,23,.10);
+  border-radius: 0;        /* وسط تخت شود */
   border-left: 0;
   border-right: 0;
-  background: rgba(255,255,255,.85);
-  box-shadow: 0 14px 30px rgba(2,8,23,.08);
-  padding: 0 22px;
-  font-size: 22px;
-  font-weight: 700;
-  text-align: right;
-  direction: rtl;
-  outline: none;
-  box-sizing: border-box;
 }
 
-/* چشمک placeholder داخل مستطیل */
-@keyframes blink {
-  0%   { opacity: 1; }
-  50%  { opacity: .35; }
-  100% { opacity: 1; }
-}
-
+/* placeholder blink */
 .hero-input::placeholder{
   color: rgba(15,23,42,.28);
   font-weight: 800;
   animation: blink 1s infinite;
 }
 
-/* اکتیو بودن مستطیل */
 .hero-input:focus{
-  border-color: #4caf50;
-  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.20), 0 14px 30px rgba(2,8,23,.08);
+  outline:none;
+  border-color: rgba(28,61,117,.45);
+  box-shadow: 0 0 0 3px rgba(28,61,117,.08), 0 14px 30px rgba(2,8,23,.08);
 }
 
 /* dots */
 .dots{
   display:flex;
-  justify-content:center;
+  justify-content:flex-end;  /* در RTL یعنی از راست شروع شود */
   gap: 8px;
-  margin: 14px 0 10px;
+  margin: 10px 0 0;
   flex-wrap: wrap;
+}
+
+/* ظرف نقطه‌ها: عرض مثل ورودی، و با padding راست مثل شروع placeholder */
+.dots-wrap{
+  width: min(520px, 100%);
+  margin: 12px auto 0;
+  padding-right: 22px;
+  box-sizing: border-box;
 }
 
 .dot{
@@ -195,179 +414,104 @@ body{
   border: 1px solid rgba(2,8,23,.10);
   box-shadow: inset 0 1px 1px rgba(255,255,255,.7);
 }
-
 .dot.is-active{
-  background: rgba(76,175,80,.55);
-  border-color: rgba(76,175,80,.45);
+  background: rgba(2,8,23,.22);
 }
-
 .dot.is-done{
-  background: rgba(76,175,80,.90);
-  border-color: rgba(76,175,80,.70);
+  background: rgba(31,107,74,.28);
+  border-color: rgba(31,107,74,.25);
 }
 
-.helper{
-  text-align:center;
-  font-size: 15px;
-  line-height: 1.9;
-  color: rgba(15,23,42,.55);
-  margin-top: 8px;
-}
-
-/* Actions */
-.card{
-  background: #ffffff;
-  border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(2, 8, 23, .06);
-  border: 1px solid rgba(2, 8, 23, .07);
-  padding: 22px;
-  margin: 14px 0 0;
-}
-
+/* Actions card becomes minimal (just buttons) */
 .card--actions{
   margin-top: 18px;
   max-width: 560px;
 }
 
-button{
-  width: 100%;
-  padding: 14px;
-  font-size: 16px;
-  border-radius: 14px;
-  border: none;
-  cursor: pointer;
-  margin-top: 10px;
-  min-height: 52px;
-}
-
-.primary{
-  color: #fff;
-  background: linear-gradient(to bottom, #17335f, #0f2547);
-  box-shadow: 0 10px 20px rgba(15, 37, 71, .25);
-}
-
-.voice{
-  background: rgba(15, 23, 42, 0.06);
-  color: #0f172a;
-  border: 1px solid rgba(15, 23, 42, 0.10);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.ios-hint{
-  display:none;
-  margin-top: 10px;
-  font-size: 13px;
-  color: rgba(15, 23, 42, .60);
-  line-height: 1.8;
-}
-
-.bottom-row{
-  margin-top: 14px;
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  font-size: 13px;
-  color: rgba(15, 23, 42, .60);
-}
-.bottom-row a{
-  text-decoration: none;
-  color: rgba(15, 37, 71, .95);
-  opacity: .9;
-}
-
-.success-note{
-  margin-top: 10px;
-  font-size: 13px;
-  color: rgba(15, 23, 42, .60);
-}
-
-/* Mobile */
+/* Mobile tweaks */
 @media (max-width: 480px){
-  body{ padding: 14px; }
-  .card{ padding: 20px; }
-
   .hero-question{ font-size: 22px; margin-top: 18px; }
+  .hero-input{ height: 62px; font-size: 18px; border-radius: 18px; }
   .hero-btn{ width: 72px; height: 62px; }
-  .hero-input{ height: 62px; font-size: 18px; }
   .dot{ width: 12px; height: 12px; }
 }
-  </style>
+</style>
 </head>
-
 <body>
-  <div class="flow-wrap">
 
-    <div class="flow-top flow-top--service">
-      <a class="brand" href="index.html" aria-label="پلیس+۱۰ افسریه">
-        <img src="assets/img/logo/logo_white.png" class="brand__logo" alt="پلیس+۱۰ افسریه">
-      </a>
+<div class="flow-wrap">
 
-      <!-- CTA بالای صفحه: اول عنوان بخش را نشان می‌دهد و غیرفعال است؛ آخر فعال و دانلود می‌شود -->
-      <a class="cta-service" id="topCta" href="assets/forms/passport.pdf" download aria-disabled="true">
-        مشخصات هویتی
-      </a>
-    </div>
+<div class="flow-top flow-top--service">
+  <!-- لیست بخش‌ها (ریز، از راست شروع می‌شود) -->
+  <div class="section-steps" id="sectionSteps" aria-label="بخش‌های فرم"></div>
 
-    <div class="flow-head">
-      <div class="hero-question" id="heroQuestion">نام خود را بنویسید</div>
+  <!-- دکمه دانلود: فقط وقتی همه بخش‌ها کامل شد نمایش داده می‌شود -->
+  <a class="cta-service" id="topDownloadLink" href="assets/forms/passport.pdf" download style="display:none;">
+    دریافت فرم گذرنامه
+  </a>
+</div>
 
-      <div class="hero-row">
-        <button class="hero-btn hero-prev" id="prevButton" type="button" aria-label="مرحله قبل">▶</button>
+ <div class="flow-head flow-head--compact">
+  <div class="hero-question" id="heroQuestion">نام خود را بنویسید</div>
 
-        <input
-          class="hero-input"
-          type="text"
-          id="answerInput"
-          inputmode="text"
-          autocomplete="off"
-          autocorrect="on"
-          autocapitalize="none"
-          spellcheck="true"
-          placeholder=""
-        />
+<!-- [ANCHOR:A1 HERO-ROW] -->
+<div class="hero-shell">
+  <div class="hero-row">
+    <!-- مرحله قبل (سمت راستِ صفحه RTL) -->
+    <button class="hero-btn hero-prev" id="prevButton" type="button" aria-label="مرحله قبل">▶</button>
 
-        <button class="hero-btn hero-next" id="nextButton" type="button" aria-label="مرحله بعد">◀</button>
-      </div>
+    <!-- ورودی -->
+    <input
+      class="hero-input"
+      type="text"
+      id="answerInput"
+      inputmode="text"
+      autocomplete="off"
+      autocorrect="on"
+      autocapitalize="none"
+      spellcheck="true"
+      placeholder=""
+    />
 
-      <div class="dots" id="dots"></div>
+    <!-- مرحله بعد (سمت چپِ صفحه RTL) -->
+    <button class="hero-btn hero-next" id="nextButton" type="button" aria-label="مرحله بعد">◀</button>
+  </div>
+</div>
 
-      <div class="helper" id="helperText">
-        پس از تکمیل مراحل، دکمه «دریافت فرم گذرنامه» فعال می‌شود.
-      </div>
-    </div>
+<div class="dots-wrap">
+  <div class="dots" id="dots"></div>
+</div>
 
-    <div class="card card--actions">
-      <div class="ios-hint" id="iosHint">
-        در آیفون، برای ورود صوتی از میکروفونِ کیبورد استفاده کنید.
-      </div>
+</div>
 
-      <button class="voice" id="voiceButton" type="button">🎤 ورود صوتی</button>
+ <div class="card card--actions">
 
-      <button class="primary" id="downloadPdfButton" type="button" style="display:none;">دریافت فرم گذرنامه</button>
-
-      <div class="bottom-row">
-        <a href="passport.html">خروج</a>
-        <a href="#" onclick="location.reload(); return false;">شروع مجدد</a>
-      </div>
-
-      <div class="success-note" id="wmNote" style="display:none;">
-        فایل خروجی شامل واترمارک دفتر است.
-      </div>
-    </div>
-
+  <div class="ios-hint" id="iosHint">
+    در آیفون، برای ورود صوتی از میکروفونِ کیبورد استفاده کنید.
   </div>
 
-  <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
-  <script src="https://unpkg.com/@pdf-lib/fontkit@1.1.1/dist/fontkit.umd.min.js"></script>
+  <button class="voice" id="voiceButton" type="button">🎤 ورود صوتی</button>
 
-  <script>
+  <div class="bottom-row">
+    <a href="passport.html">خروج</a>
+    <a href="#" onclick="location.reload(); return false;">شروع مجدد</a>
+  </div>
+
+  <div class="success-note" id="wmNote" style="display:none;">
+    فایل خروجی شامل واترمارک دفتر است.
+  </div>
+</div>
+
+</div>
+
+<script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+<script src="https://unpkg.com/@pdf-lib/fontkit@1.1.1/dist/fontkit.umd.min.js"></script>
+<script>
 document.addEventListener('DOMContentLoaded', function () {
   const form = {
     sections: [
       {
-        title: "مشخصات هویتی",
+        title: "اطلاعات هویتی",
         fields: [
           { question: "نام شما چیست؟", key: "firstName" },
           { question: "نام خانوادگی شما چیست؟", key: "lastName" }
@@ -387,10 +531,12 @@ document.addEventListener('DOMContentLoaded', function () {
   const nextBtn = document.getElementById("nextButton");
   const prevBtn = document.getElementById("prevButton");
   const dotsEl = document.getElementById("dots");
+
   const voiceBtn = document.getElementById("voiceButton");
-  const downloadBtn = document.getElementById("downloadPdfButton");
   const iosHint = document.getElementById("iosHint");
-  const topCta = document.getElementById("topCta");
+
+  const sectionStepsEl = document.getElementById("sectionSteps");
+  const topDownloadLink = document.getElementById("topDownloadLink");
 
   // iOS: voice hidden + hint
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
@@ -420,7 +566,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const section = form.sections[sectionIndex];
     const field = section.fields[fieldIndex];
-    return { sectionIndex, fieldIndex, section, field };
+    return { sectionIndex, fieldIndex, field };
   }
 
   function updateNavState() {
@@ -440,26 +586,52 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  function setTopCtaForStep(sectionTitle) {
-    // تا قبل از پایان: عنوان بخش + غیرفعال
-    topCta.setAttribute("aria-disabled", "true");
-    topCta.innerHTML = sectionTitle;
-  }
+  function renderSectionSteps() {
+    if (!sectionStepsEl) return;
 
-  function setTopCtaComplete() {
-    // پایان: فعال + متن دانلود + تیک سبز سمت چپ
-    topCta.removeAttribute("aria-disabled");
-    topCta.innerHTML = `دریافت فرم گذرنامه <span class="checkmark">✔</span>`;
+    const safeStep = Math.min(currentStep, totalSteps - 1);
+    const { sectionIndex: activeSectionIndex } = resolveStep(safeStep);
+
+    sectionStepsEl.innerHTML = "";
+    form.sections.forEach((sec, idx) => {
+      const allAnswered = (sec.fields || []).every(f => (answers[f.key] || "").trim() !== "");
+
+      const pill = document.createElement("span");
+      pill.className =
+        "section-pill" +
+        (idx === activeSectionIndex && currentStep < totalSteps ? " is-active" : "") +
+        (allAnswered ? " is-done" : "");
+
+      pill.textContent = sec.title;
+
+      if (allAnswered) {
+        const tick = document.createElement("span");
+        tick.className = "tick";
+        tick.textContent = "✔";
+        pill.appendChild(tick);
+      }
+
+      sectionStepsEl.appendChild(pill);
+    });
+
+    const allSectionsDone = form.sections.every(sec =>
+      (sec.fields || []).every(f => (answers[f.key] || "").trim() !== "")
+    );
+
+    if (allSectionsDone) {
+      sectionStepsEl.style.display = "none";
+      topDownloadLink.style.display = "inline-flex";
+    } else {
+      sectionStepsEl.style.display = "flex";
+      topDownloadLink.style.display = "none";
+    }
   }
 
   function showQuestion() {
     if (currentStep < totalSteps) {
-      const { section, field } = resolveStep(currentStep);
+      const { field } = resolveStep(currentStep);
+      const qText = field.question;
 
-      // CTA بالا = عنوان بخش
-      setTopCtaForStep(section.title);
-
-      // سوال داخل placeholder (چشمک CSS دارد)
       heroQuestionEl.style.display = "none";
       inputEl.style.display = "block";
 
@@ -468,10 +640,9 @@ document.addEventListener('DOMContentLoaded', function () {
       inputEl.style.transform = "translateY(6px)";
 
       window.requestAnimationFrame(() => {
-        inputEl.placeholder = field.question;
+        inputEl.placeholder = `${qText}`;
         inputEl.value = answers[field.key] || "";
 
-        // نوع ورودی
         if (field.key === "height") {
           inputEl.type = "text";
           inputEl.inputMode = "decimal";
@@ -485,39 +656,35 @@ document.addEventListener('DOMContentLoaded', function () {
         prevBtn.style.display = "inline-flex";
         nextBtn.style.display = "inline-flex";
 
-        downloadBtn.style.display = "none";
         document.getElementById("wmNote").style.display = "none";
 
         renderDots();
         updateNavState();
+        renderSectionSteps();
 
         window.requestAnimationFrame(() => {
           inputEl.style.opacity = "1";
           inputEl.style.transform = "translateY(0)";
         });
 
-        // اکتیو بودن مستطیل
         inputEl.focus();
       });
 
       return;
     }
 
-    // پایان
-    setTopCtaComplete();
-
     heroQuestionEl.style.display = "block";
-    heroQuestionEl.textContent = "تمام شد ✅";
+    heroQuestionEl.innerText = "تمام شد ✅";
 
     inputEl.style.display = "none";
     prevBtn.style.display = "none";
     nextBtn.style.display = "none";
     voiceBtn.style.display = "none";
 
-    downloadBtn.style.display = "inline-flex";
     document.getElementById("wmNote").style.display = "block";
 
     renderDots();
+    renderSectionSteps();
   }
 
   // live enable/disable next
@@ -545,7 +712,6 @@ document.addEventListener('DOMContentLoaded', function () {
   prevBtn.addEventListener("click", function () {
     if (currentStep <= 0) return;
 
-    // ذخیره مقدار مرحله فعلی
     const { field } = resolveStep(currentStep);
     const raw = inputEl.value.trim();
     if (raw) answers[field.key] = normalizePersianNumbers(raw);
@@ -658,18 +824,19 @@ document.addEventListener('DOMContentLoaded', function () {
     URL.revokeObjectURL(url);
   }
 
-  downloadBtn.addEventListener("click", async function () {
+  topDownloadLink.addEventListener("click", async function (e) {
+    e.preventDefault();
     try {
       await generatePdf(answers);
-    } catch (e) {
-      console.error(e);
+    } catch (err) {
+      console.error(err);
       alert("خطا در ساخت PDF");
     }
   });
 
-  // شروع
   showQuestion();
 });
-  </script>
+</script>
+
 </body>
 </html>
