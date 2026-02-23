@@ -1064,11 +1064,26 @@ if (isNumericLike) {
     const templateUrl = "assets/forms/passport.pdf";
     const existingPdfBytes = await fetch(templateUrl).then(r => r.arrayBuffer());
     const pdfDoc = await PDFDocument.load(existingPdfBytes);
-    const page0 = pdfDoc.getPages()[0];
+           const PDF_FIELD_MAP = {
+      // ✅ اینجا JSON کپی‌شده از صفحه کالیبراسیون را paste کن
+      // نمونه:
+      // "identity__q1": { "page": 0, "x": 451.25, "y": 652.5, "size": 11 }
+    };
+    for (const [key, cfg] of Object.entries(PDF_FIELD_MAP)) {
+      const pIndex = Number(cfg.page || 0);
+      const page = pdfDoc.getPages()[pIndex];
+      if (!page) continue;
 
-       await drawTextAsPngOnPdf(pdfDoc, page0, answers["identity__q1"], 451.25, 652.5, 11);
-    await drawTextAsPngOnPdf(pdfDoc, page0, answers["identity__q2"],  372.5,  615.63, 11);
-    await drawTextAsPngOnPdf(pdfDoc, page0, answers["physical__q1"],  326.88, 513.13, 11);
+      await drawTextAsPngOnPdf(
+        pdfDoc,
+        page,
+        answers[key],
+        Number(cfg.x),
+        Number(cfg.y),
+        Number(cfg.size || 11)
+      );
+    }
+     
 
     const pdfBytes = await pdfDoc.save();
     const blob = new Blob([pdfBytes], { type: "application/pdf" });
