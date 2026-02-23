@@ -695,6 +695,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const form = normalizeSchemaToForm(formSchema);
   // ====== END NORMALIZE ======
   const heroQuestionEl = document.getElementById("heroQuestion");
+    const inputEl = document.getElementById("answerInput");
   const nextBtn = document.getElementById("nextButton");
   const prevBtn = document.getElementById("prevButton");
   const dotsEl = document.getElementById("dots");
@@ -976,9 +977,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const pdfDoc = await PDFDocument.load(existingPdfBytes);
     const page0 = pdfDoc.getPages()[0];
 
-    await drawTextAsPngOnPdf(pdfDoc, page0, answers.firstName, 451.25, 652.5, 11);
-    await drawTextAsPngOnPdf(pdfDoc, page0, answers.lastName,  372.5,  615.63, 11);
-    await drawTextAsPngOnPdf(pdfDoc, page0, answers.height,    326.88, 513.13, 11);
+       await drawTextAsPngOnPdf(pdfDoc, page0, answers["identity__q1"], 451.25, 652.5, 11);
+    await drawTextAsPngOnPdf(pdfDoc, page0, answers["identity__q2"],  372.5,  615.63, 11);
+    await drawTextAsPngOnPdf(pdfDoc, page0, answers["physical__q1"],  326.88, 513.13, 11);
 
     const pdfBytes = await pdfDoc.save();
     const blob = new Blob([pdfBytes], { type: "application/pdf" });
