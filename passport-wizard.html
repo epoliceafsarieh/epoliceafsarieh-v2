@@ -158,13 +158,6 @@ button{
   background: linear-gradient(to bottom, #17335f, #0f2547);
   box-shadow: 0 10px 20px rgba(15, 37, 71, .25);
 }
-
-.voice{
-  background: rgba(15, 23, 42, 0.06);
-  color: #0f172a;
-  border: 1px solid rgba(15, 23, 42, 0.10);
-}
-
 /* iOS hint */
 .ios-hint{
   display:none;
@@ -245,8 +238,8 @@ button{
   display:none;
 }
 .section-steps{
-  display:flex;
-  flex-wrap:wrap;
+ display:flex;
+ flex-wrap: nowrap;
   gap: 8px;
   justify-content:flex-start; /* چون container LTR است، این یعنی سمت چپ بصری */
   align-items:center;
@@ -827,15 +820,21 @@ function renderDots() {
         inputEl.placeholder = `${qText}`;
         inputEl.value = answers[field.key] || "";
 
-        if (field.key === "height") {
-          inputEl.type = "text";
-          inputEl.inputMode = "decimal";
-          inputEl.dir = "ltr";
-        } else {
-          inputEl.type = "text";
-          inputEl.inputMode = "text";
-          inputEl.dir = "rtl";
-        }
+      const q = String(field.question || "");
+
+// هر چیزی که عدد/تاریخ/شماره/تلفن/کدپستی است → LTR + کیبورد عددی
+const isNumericLike =
+  /تلفن|کد پستی|کدپستی|شماره|تاریخ|سال|قد|وزن|TELL|CITY|STREET|COUNTRY/i.test(q);
+
+if (isNumericLike) {
+  inputEl.type = "text";
+  inputEl.inputMode = "decimal";
+  inputEl.dir = "ltr";
+} else {
+  inputEl.type = "text";
+  inputEl.inputMode = "text";
+  inputEl.dir = "rtl";
+}
 
         prevBtn.style.display = "inline-flex";
         nextBtn.style.display = "inline-flex";
