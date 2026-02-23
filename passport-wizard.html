@@ -123,16 +123,19 @@ input{
   box-sizing: border-box;
 }
 
-.voice {
-  background: #1f6b4a;
-  color: #fff;
-  padding: 8px 12px;
-  font-size: 14px;
+.voice{
+  width: 52px;
+  height: 52px;
+  padding: 0;
   border-radius: 999px;
+  background: linear-gradient(to bottom, #17335f, #0f2547);
+  color: #fff;
+  font-size: 20px;
   cursor: pointer;
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
+  margin: 10px auto 0; /* وسط */
 }
 
 
@@ -244,6 +247,21 @@ button{
   max-width: 100%;
   
 }
+  /* Desktop: grouped rows for section pills */
+@media (min-width: 700px){
+  .section-steps.is-grouped{
+    display: block;
+    overflow: visible;
+    white-space: normal;
+  }
+  .section-steps.is-grouped .section-row{
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+} 
 
 .section-pill{
   display:inline-flex;
@@ -253,11 +271,10 @@ button{
   border-radius: 999px;
   font-size: 11px;
   line-height: 1;
-  background: rgba(255,255,255,.65);
- 
-  color: rgba(15,23,42,.70);
+  background: rgba(23,51,95,.08);
+  color: #0f2547;
   white-space: nowrap;
-    border: 1px solid rgba(2,8,23,.10);
+     border: 1px solid rgba(15,37,71,.22);
   cursor: pointer;
   appearance: none;
   -webkit-appearance: none;
@@ -303,6 +320,7 @@ button{
   align-items:center;
   gap: 0;                 /* بچسبند */
   justify-content:center;
+  flex-wrap: nowrap;
 }
 
 /* قاب واحد برای اینکه سه تکه یکپارچه دیده شود */
@@ -334,7 +352,9 @@ button{
 }
 
 .hero-input{
-  width: min(520px, 100%);
+  flex: 1;
+  min-width: 0;
+  width: auto;
   height: 72px;
   border-radius: 22px;
   padding: 0 22px;
@@ -350,7 +370,7 @@ button{
   height: 72px;
   border-radius: 18px;
   border: 1px solid rgba(2,8,23,.10);
-  background: #1f6b4a;
+    background: linear-gradient(to bottom, #17335f, #0f2547);
   color: #fff;
   font-size: 22px;
   cursor: pointer;
@@ -396,7 +416,7 @@ button{
 /* dots */
 .dots{
   display:flex;
-  justify-content:flex-end;  /* در RTL یعنی از راست شروع شود */
+    justify-content:center;
   gap: 8px;
   margin: 10px 0 0;
   flex-wrap: nowrap;
@@ -406,7 +426,7 @@ button{
 .dots-wrap{
   width: min(520px, 100%);
   margin: 12px auto 0;
-  padding-right: 22px;
+  padding-right: 0px;
   box-sizing: border-box;
 }
 
@@ -501,7 +521,7 @@ button{
     در آیفون، برای ورود صوتی از میکروفونِ کیبورد استفاده کنید.
   </div>
 
-  <button class="voice" id="voiceButton" type="button">🎤 ورود صوتی</button>
+<button class="voice" id="voiceButton" type="button" aria-label="ورود صوتی">🎤</button>
 
   <div class="bottom-row">
     <a href="passport.html">خروج</a>
@@ -759,24 +779,84 @@ function renderDots() {
   }
 }
 
-  function renderSectionSteps() {
-    if (!sectionStepsEl) return;
+ function renderSectionSteps() {
+  if (!sectionStepsEl) return;
 
-    const safeStep = Math.min(currentStep, totalSteps - 1);
-    const { sectionIndex: activeSectionIndex } = resolveStep(safeStep);
+  const safeStep = Math.min(currentStep, totalSteps - 1);
+  const { sectionIndex: activeSectionIndex } = resolveStep(safeStep);
 
-    sectionStepsEl.innerHTML = "";
+  const allSectionsDone = form.sections.every(sec =>
+    (sec.fields || []).every(f => (answers[f.key] || "").trim() !== "")
+  );
+
+  // CTA همیشه قابل مشاهده باشد (پیش‌نمایش/دانلود)
+  topDownloadLink.style.display = "inline-flex";
+  topDownloadLink.textContent = allSectionsDone ? "دریافت فرم گذرنامه" : "پیش‌نمایش فرم گذرنامه";
+
+  // چیدمان گروهی فقط در دسکتاپ
+  const isDesktop = window.matchMedia("(min-width: 700px)").matches;
+
+  sectionStepsEl.innerHTML = "";
+
+  if (isDesktop) {
+    sectionStepsEl.classList.add("is-grouped");
+
+    // ردیف‌ها مطابق خواسته شما
+    const rows = [
+      [0, 1, 2], // identity, physical, job
+      [3],       // military
+      [4, 5],    // residenceIran, residenceAbroad
+      [6],       // travel
+      [7],       // previousPassport
+      [8],       // declaration
+    ];
+
+    rows.forEach(rowIdxs => {
+      const row = document.createElement("div");
+      row.className = "section-row";
+
+      rowIdxs.forEach(idx => {
+        const sec = form.sections[idx];
+        if (!sec) return;
+
+        const allAnswered = (sec.fields || []).every(f => (answers[f.key] || "").trim() !== "");
+
+        const pill = document.createElement("button");
+        pill.className =
+          "section-pill" +
+          (idx === activeSectionIndex && currentStep < totalSteps ? " is-active" : "") +
+          (allAnswered ? " is-done" : "");
+        pill.type = "button";
+        pill.dataset.sectionIndex = String(idx);
+        pill.textContent = sec.title;
+
+        if (allAnswered) {
+          const tick = document.createElement("span");
+          tick.className = "tick";
+          tick.textContent = "✔";
+          pill.appendChild(tick);
+        }
+
+        row.appendChild(pill);
+      });
+
+      sectionStepsEl.appendChild(row);
+    });
+
+  } else {
+    sectionStepsEl.classList.remove("is-grouped");
+
+    // موبایل: همان یک ردیف اسکرولی
     form.sections.forEach((sec, idx) => {
       const allAnswered = (sec.fields || []).every(f => (answers[f.key] || "").trim() !== "");
 
-         const pill = document.createElement("button");
+      const pill = document.createElement("button");
       pill.className =
         "section-pill" +
         (idx === activeSectionIndex && currentStep < totalSteps ? " is-active" : "") +
         (allAnswered ? " is-done" : "");
-            pill.type = "button";
+      pill.type = "button";
       pill.dataset.sectionIndex = String(idx);
-
       pill.textContent = sec.title;
 
       if (allAnswered) {
@@ -788,19 +868,8 @@ function renderDots() {
 
       sectionStepsEl.appendChild(pill);
     });
-
-    const allSectionsDone = form.sections.every(sec =>
-      (sec.fields || []).every(f => (answers[f.key] || "").trim() !== "")
-    );
-
-    if (allSectionsDone) {
-      sectionStepsEl.style.display = "none";
-      topDownloadLink.style.display = "inline-flex";
-    } else {
-      sectionStepsEl.style.display = "flex";
-      topDownloadLink.style.display = "none";
-    }
   }
+}
 
   function showQuestion() {
     if (currentStep < totalSteps) {
