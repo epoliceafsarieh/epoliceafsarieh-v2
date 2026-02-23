@@ -823,11 +823,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const form = normalizeSchemaToForm(formSchema);
   // ====== END NORMALIZE ======
-  const heroQuestionEl = document.getElementById("heroQuestion");
-    const inputEl = document.getElementById("answerInput");
-  const nextBtn = document.getElementById("nextButton");
-  const prevBtn = document.getElementById("prevButton");
-   const heroQuestionEl = document.getElementById("heroQuestion");
+    const heroQuestionEl = document.getElementById("heroQuestion");
   const inputEl = document.getElementById("answerInput");
   const nextBtn = document.getElementById("nextButton");
   const prevBtn = document.getElementById("prevButton");
@@ -1198,135 +1194,6 @@ function updateNavState() {
     });
   }
 
-      const type = (field.type || "text");
-
-      // سؤال همیشه ست شود
-      heroQuestionEl.textContent = qText;
-
-      // اگر choice است: قبل از هر کاری با input، همین‌جا هندل کن
-      if (type === "choice") {
-        heroQuestionEl.style.display = "block";
-        inputEl.style.display = "none";
-
-        choiceWrap.style.display = "flex";
-        choiceWrap.innerHTML = "";
-
-        const chCount = (field.choices || []).length;
-        choiceWrap.classList.remove("is-binary", "is-multi");
-        if (chCount <= 2) choiceWrap.classList.add("is-binary");
-        else choiceWrap.classList.add("is-multi");
-
-        const currentVal = (answers[field.key] || "").trim();
-
-        (field.choices || []).forEach(ch => {
-          const b = document.createElement("button");
-          b.type = "button";
-          b.className = "choice-btn" + (currentVal === ch ? " is-selected" : "");
-          b.textContent = ch;
-
-          // اگر قبلاً انتخاب شده بود، رنگ yes/no را هم ست کن
-          if (currentVal === ch) {
-            if (ch === "بله") b.classList.add("is-yes");
-            if (ch === "خیر") b.classList.add("is-no");
-          }
-
-          b.addEventListener("click", () => {
-            answers[field.key] = ch;
-
-            Array.from(choiceWrap.querySelectorAll(".choice-btn")).forEach(x => {
-              x.classList.remove("is-selected", "is-yes", "is-no");
-            });
-
-            b.classList.add("is-selected");
-            if (ch === "بله") b.classList.add("is-yes");
-            if (ch === "خیر") b.classList.add("is-no");
-
-            updateNavState();
-            window.setTimeout(() => nextBtn.click(), 120);
-          });
-
-          choiceWrap.appendChild(b);
-        });
-
-        prevBtn.style.display = "inline-flex";
-        nextBtn.style.display = "inline-flex";
-        document.getElementById("wmNote").style.display = "none";
-
-        updateNavState();
-        renderSectionSteps();
-        return;
-      }
-
-      // حالت متنی: حالا transition/input را شروع کن
-      heroQuestionEl.style.display = "none";
-      choiceWrap.style.display = "none";
-      inputEl.style.display = "block";
-
-      inputEl.style.transition = "opacity 0.22s ease, transform 0.22s ease";
-      inputEl.style.opacity = "0";
-      inputEl.style.transform = "translateY(6px)";
-
-      window.requestAnimationFrame(() => {
-        inputEl.placeholder = `${qText}`;
-        inputEl.value = answers[field.key] || "";
-      
-}
-
-// --- حالت متنی (default) ---
-const q = String(field.question || "");
-
-// هر چیزی که عدد/تاریخ/شماره/تلفن/کدپستی است → LTR + کیبورد عددی
-const isNumericLike =
-  /تلفن|کد پستی|کدپستی|شماره|تاریخ|سال|قد|وزن|TELL/i.test(q);
-
-const isEnglishLike =
-  /CITY|STREET|COUNTRY/i.test(q);
-
-if (isNumericLike) {
-  inputEl.type = "text";
-  inputEl.inputMode = "decimal";
-  inputEl.dir = "ltr";
-} else if (isEnglishLike) {
-  inputEl.type = "text";
-  inputEl.inputMode = "text";
-  inputEl.dir = "ltr";
-} else {
-  inputEl.type = "text";
-  inputEl.inputMode = "text";
-  inputEl.dir = "rtl";
-}
-
-        prevBtn.style.display = "inline-flex";
-        nextBtn.style.display = "inline-flex";
-
-        document.getElementById("wmNote").style.display = "none";
-
-             updateNavState();
-        renderSectionSteps();
-
-        window.requestAnimationFrame(() => {
-          inputEl.style.opacity = "1";
-          inputEl.style.transform = "translateY(0)";
-        });
-
-        inputEl.focus();
-      });
-
-      return;
-    }
-
-    heroQuestionEl.style.display = "block";
-    heroQuestionEl.innerText = "تمام شد ✅";
-
-    inputEl.style.display = "none";
-    prevBtn.style.display = "none";
-    nextBtn.style.display = "none";
-    voiceBtn.style.display = "none";
-
-    document.getElementById("wmNote").style.display = "block";
-
-     renderSectionSteps();
-  }
 
   // live enable/disable next
   inputEl.addEventListener("input", updateNavState);
