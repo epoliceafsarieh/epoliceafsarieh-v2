@@ -17,9 +17,10 @@ body{
   font-family: "Vazirmatn", sans-serif;
   margin: 0;
   padding: 16px;
+    padding-bottom: 110px; /* جا برای نوار sticky پایین */
   padding-left: max(16px, env(safe-area-inset-left));
   padding-right: max(16px, env(safe-area-inset-right));
-  background: linear-gradient(to bottom, #eef2f8 0%, #f6f8fc 60%);
+  background: linear-gradient(to bottom, #e6ebf3 0%, #eef2f8 60%);
   color: #0f172a;
   overflow-x: hidden;
 }
@@ -164,7 +165,44 @@ button{
   color: rgba(15, 23, 42, .60);
   line-height: 1.8;
 }
+/* Bottom sticky preview bar */
+.preview-bar{
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  border: none;
+  cursor: pointer;
 
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  padding: 16px 18px;
+  background: linear-gradient(to bottom, #17335f, #0f2547);
+  color: #fff;
+
+  box-shadow: 0 -14px 30px rgba(2,8,23,.18);
+  z-index: 9999;
+}
+
+.preview-bar__title{
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.preview-bar__cta{
+  font-size: 14px;
+  font-weight: 900;
+  opacity: .95;
+}
+
+.preview-bar:disabled{
+  opacity: .55;
+  cursor: not-allowed;
+}
 /* Bottom links */
 .bottom-row{
   margin-top: 14px;
@@ -546,11 +584,7 @@ button{
   <!-- لیست بخش‌ها (ریز، از راست شروع می‌شود) -->
   <div class="section-steps" id="sectionSteps" aria-label="بخش‌های فرم"></div>
 
-  <!-- دکمه دانلود: فقط وقتی همه بخش‌ها کامل شد نمایش داده می‌شود -->
-  <a class="cta-service" id="topDownloadLink" href="assets/forms/passport.pdf" download style="display:none;">
-    دریافت فرم گذرنامه
-  </a>
-</div>
+ </div>
 
  <div class="flow-head flow-head--compact">
   <div class="hero-question" id="heroQuestion">نام خود را بنویسید</div>
@@ -603,7 +637,11 @@ button{
 </div>
 
 </div>
-
+<!-- نوار پیش‌نمایش/دانلود پایین (sticky) -->
+<button class="preview-bar" id="bottomPreviewBar" type="button" aria-label="پیش‌نمایش فرم گذرنامه">
+  <span class="preview-bar__title">پیش‌نمایش فرم گذرنامه</span>
+  <span class="preview-bar__cta" id="bottomPreviewCta">—</span>
+</button>
 <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
 <script src="https://unpkg.com/@pdf-lib/fontkit@1.1.1/dist/fontkit.umd.min.js"></script>
 <script>
@@ -792,7 +830,8 @@ document.addEventListener('DOMContentLoaded', function () {
   const iosHint = document.getElementById("iosHint");
 
   const sectionStepsEl = document.getElementById("sectionSteps");
-  const topDownloadLink = document.getElementById("topDownloadLink");
+    const bottomPreviewBar = document.getElementById("bottomPreviewBar");
+  const bottomPreviewCta = document.getElementById("bottomPreviewCta");
     if (sectionStepsEl) {
     sectionStepsEl.addEventListener("click", function (e) {
       const btn = e.target.closest(".section-pill");
@@ -874,9 +913,13 @@ function updateNavState() {
     (sec.fields || []).every(f => (answers[f.key] || "").trim() !== "")
   );
 
-  // CTA همیشه قابل مشاهده باشد (پیش‌نمایش/دانلود)
-  topDownloadLink.style.display = "inline-flex";
-  topDownloadLink.textContent = allSectionsDone ? "دریافت فرم گذرنامه" : "پیش‌نمایش فرم گذرنامه";
+  // نوار پایین: پیش‌نمایش/دانلود
+  if (bottomPreviewCta) {
+    bottomPreviewCta.textContent = allSectionsDone ? "دریافت فرم گذرنامه" : "—";
+  }
+  if (bottomPreviewBar) {
+    bottomPreviewBar.setAttribute("aria-label", allSectionsDone ? "دریافت فرم گذرنامه" : "پیش‌نمایش فرم گذرنامه");
+  }
 
   // چیدمان گروهی فقط در دسکتاپ
   const isDesktop = window.matchMedia("(min-width: 700px)").matches;
@@ -1195,48 +1238,6 @@ if (field.key === "previousPassport__has") {
 }
 
 // ===== end skip =====
-    
-// Skip logic: نیروهای مسلح
-if (field.key === "military__q1") {
-  const v = (answers[field.key] || "").trim();
-  if (v === "خیر" || v === "نه" || v.toLowerCase() === "no") {
-    // رد کردن q2 و q3
-    currentStep += 3;
-    showQuestion();
-    return;
-  }
-}
-
-// Skip logic: نیروهای مسلح
-if (field.key === "military__q1") {
-  const v = (answers[field.key] || "").trim();
-  if (v === "خیر") {
-    currentStep += 3;
-    showQuestion();
-    return;
-  }
-}
-
-// Skip logic: گذرنامه قبلی
-if (field.key === "previousPassport__q1") {
-  const v = (answers[field.key] || "").trim();
-  if (v === "خیر") {
-    currentStep += 6;
-    showQuestion();
-    return;
-  }
-}
-
-// Skip logic: اقامت خارج
-if (field.key === "residenceAbroad__has") {
-  const v = (answers[field.key] || "").trim();
-  if (v === "خیر") {
-    currentStep += 6;
-    showQuestion();
-    return;
-  }
-}
-
 currentStep++;
 showQuestion();
   });
@@ -1328,50 +1329,59 @@ showQuestion();
     const templateUrl = "assets/forms/passport.pdf";
     const existingPdfBytes = await fetch(templateUrl).then(r => r.arrayBuffer());
     const pdfDoc = await PDFDocument.load(existingPdfBytes);
-         const PDF_FIELD_MAP = {
-      "identity__q1": { "page": 0, "x": 390, "y": 651.88, "size": 11 },
-      "identity__q2": { "page": 0, "x": 397.5, "y": 611.88, "size": 11 },
-      "identity__q3": { "page": 0, "x": 275.63, "y": 632.5, "size": 11 },
-      "identity__q4": { "page": 0, "x": 278.13, "y": 595.63, "size": 11 },
-      "identity__q5": { "page": 0, "x": 181.88, "y": 652.5, "size": 11 },
-      "identity__q6": { "page": 0, "x": 66.88, "y": 645.63, "size": 11 },
-      "identity__q7": { "page": 0, "x": 183.75, "y": 614.38, "size": 11 },
-      "identity__q8": { "page": 0, "x": 452.5, "y": 573.75, "size": 11 },
-      "identity__q9": { "page": 0, "x": 186.25, "y": 594.38, "size": 11 },
-      "identity__q10": { "page": 0, "x": 70.63, "y": 573.75, "size": 11 },
-      "identity__q11": { "page": 0, "x": 188.75, "y": 573.75, "size": 11 },
-      "identity__q12": { "page": 0, "x": 460.63, "y": 543.13, "size": 11 },
-      "identity__q13": { "page": 0, "x": 322.5, "y": 545, "size": 11 },
-      "identity__q14": { "page": 0, "x": 94.38, "y": 541.25, "size": 11 },
-      "identity__q15": { "page": 0, "x": 214.38, "y": 543.13, "size": 11 },
-      "identity__q16": { "page": 0, "x": 42.5, "y": 543.13, "size": 11 },
-      "identity__q17": { "page": 0, "x": 76.25, "y": 512.5, "size": 11 },
-      "identity__q18": { "page": 0, "x": 52.5, "y": 510.63, "size": 11 },
+           const PDF_FIELD_MAP = {
+      // ===== identity (v2 keys -> old coords) =====
+      "identity__firstName":        { "page": 0, "x": 390,   "y": 651.88, "size": 11 }, // identity__q1
+      "identity__lastName":         { "page": 0, "x": 397.5, "y": 611.88, "size": 11 }, // identity__q2
+      "identity__nationalId":       { "page": 0, "x": 275.63,"y": 632.5,  "size": 11 }, // identity__q3
+      "identity__enFullName":       { "page": 0, "x": 278.13,"y": 595.63, "size": 11 }, // identity__q4
+      "identity__hasPrevName":      { "page": 0, "x": 181.88,"y": 652.5,  "size": 11 }, // identity__q5 (تقریبی: همان جای بله/خیر قبلی)
+      "identity__prevName":         { "page": 0, "x": 66.88, "y": 645.63, "size": 11 }, // identity__q6
+      "identity__birthDateShamsi":  { "page": 0, "x": 183.75,"y": 614.38, "size": 11 }, // identity__q7
+      "identity__birthPlace":       { "page": 0, "x": 452.5, "y": 573.75, "size": 11 }, // identity__q8
+      "identity__fatherName":       { "page": 0, "x": 186.25,"y": 594.38, "size": 11 }, // identity__q9
+      "identity__idNumber":         { "page": 0, "x": 70.63, "y": 573.75, "size": 11 }, // identity__q10
+      "identity__idIssuePlace":     { "page": 0, "x": 188.75,"y": 573.75, "size": 11 }, // identity__q11
+      "identity__idIssueDate":      { "page": 0, "x": 460.63,"y": 543.13, "size": 11 }, // identity__q12
+      "identity__idSerialCombo":    { "page": 0, "x": 322.5, "y": 545,    "size": 11 }, // identity__q13
+      "identity__gender":           { "page": 0, "x": 94.38, "y": 541.25, "size": 11 }, // identity__q14
+      "identity__religion":         { "page": 0, "x": 214.38,"y": 543.13, "size": 11 }, // identity__q15
+      "identity__marital":          { "page": 0, "x": 42.5,  "y": 543.13, "size": 11 }, // identity__q16
+      "identity__educationLevel":   { "page": 0, "x": 76.25, "y": 512.5,  "size": 11 }, // identity__q17
+      "identity__major":            { "page": 0, "x": 52.5,  "y": 510.63, "size": 11 }, // identity__q18
 
-      "physical__q1": { "page": 0, "x": 325.63, "y": 511.25, "size": 11 },
-      "physical__q2": { "page": 0, "x": 274.38, "y": 511.88, "size": 11 },
-      "physical__q3": { "page": 0, "x": 488.75, "y": 491.25, "size": 11 },
-      "physical__q4": { "page": 0, "x": 286.25, "y": 490.63, "size": 11 },
-      "physical__q5": { "page": 0, "x": 182.5, "y": 515, "size": 11 },
+      // ===== physical =====
+      "physical__heightCm":         { "page": 0, "x": 325.63,"y": 511.25, "size": 11 }, // physical__q1
+      "physical__weightKg":         { "page": 0, "x": 274.38,"y": 511.88, "size": 11 }, // physical__q2
+      "physical__faceColor":        { "page": 0, "x": 488.75,"y": 491.25, "size": 11 }, // physical__q3
+      "physical__eyeColor":         { "page": 0, "x": 286.25,"y": 490.63, "size": 11 }, // physical__q4
+      "physical__hasMarks":         { "page": 0, "x": 182.5, "y": 515,    "size": 11 }, // physical__q5
+      // physical__marksDesc: مختصات ندارد (فعلاً رندر نمی‌شود)
 
-      "job__q1": { "page": 0, "x": 483.13, "y": 452.5, "size": 11 },
-      "job__q2": { "page": 0, "x": 380.63, "y": 450.63, "size": 11 },
-      "job__q4": { "page": 0, "x": 214.38, "y": 452.5, "size": 11 },
-      "job__q5": { "page": 0, "x": 86.88, "y": 452.5, "size": 11 },
-      "job__q6": { "page": 0, "x": 475.75, "y": 438.75, "size": 11 },
+      // ===== job =====
+      "job__title":                 { "page": 0, "x": 483.13,"y": 452.5,  "size": 11 }, // job__q1
+      "job__org":                   { "page": 0, "x": 380.63,"y": 450.63, "size": 11 }, // job__q2
+      "job__addressFull":           { "page": 0, "x": 475.75,"y": 438.75, "size": 11 }, // job__q6
 
-      "military__q2": { "page": 0, "x": 441, "y": 405, "size": 11 },
-      "military__q3": { "page": 0, "x": 198.19, "y": 404.44, "size": 11 },
+      // ===== military =====
+      // military__has: مختصات ندارد
+      "military__job":              { "page": 0, "x": 441,   "y": 405,    "size": 11 }, // military__q2
+      "military__exitType":         { "page": 0, "x": 198.19,"y": 404.44, "size": 11 }, // military__q3
 
-      "travel__q1": { "page": 0, "x": 429.38, "y": 294.1, "size": 11 },
-      "travel__q2": { "page": 0, "x": 408.75, "y": 274.38, "size": 11 },
+      // ===== travel =====
+      "travel__country":            { "page": 0, "x": 429.38,"y": 294.1,  "size": 11 }, // travel__q1
+      "travel__purpose":            { "page": 0, "x": 408.75,"y": 274.38, "size": 11 }, // travel__q2
 
-      "previousPassport__q2": { "page": 0, "x": 202.5, "y": 188.13, "size": 11 },
-      "previousPassport__q3": { "page": 0, "x": 92.5, "y": 190.63, "size": 11 },
-      "previousPassport__q5": { "page": 0, "x": 461.63, "y": 175.37, "size": 11 },
-      "previousPassport__q6": { "page": 0, "x": 209.75, "y": 173.62, "size": 11 }
- };     
+      // ===== previousPassport =====
+      // previousPassport__has: مختصات ندارد
+      "previousPassport__number":        { "page": 0, "x": 202.5, "y": 188.13, "size": 11 }, // previousPassport__q2
+      "previousPassport__issueDate":     { "page": 0, "x": 92.5,  "y": 190.63, "size": 11 }, // previousPassport__q3
+      "previousPassport__issuePlace":    { "page": 0, "x": 461.63,"y": 175.37, "size": 11 }, // previousPassport__q5
+      "previousPassport__expireDate":    { "page": 0, "x": 209.75,"y": 173.62, "size": 11 }, // previousPassport__q6
+      // previousPassport__replaceReason: مختصات ندارد
 
+      // residenceIran / residenceAbroad / relatives: هنوز مختصات ندارند (در PDF template فعلی صفحه/فیلدشان تعریف نشده)
+    };
     for (const [key, cfg] of Object.entries(PDF_FIELD_MAP)) {
       const pIndex = Number(cfg.page || 0);
       const page = pdfDoc.getPages()[pIndex];
@@ -1399,15 +1409,16 @@ showQuestion();
     URL.revokeObjectURL(url);
   }
 
-  topDownloadLink.addEventListener("click", async function (e) {
-    e.preventDefault();
-    try {
-      await generatePdf(answers);
-    } catch (err) {
-      console.error(err);
-      alert("خطا در ساخت PDF");
-    }
-  });
+   if (bottomPreviewBar) {
+    bottomPreviewBar.addEventListener("click", async function () {
+      try {
+        await generatePdf(answers);
+      } catch (err) {
+        console.error(err);
+        alert("خطا در ساخت PDF");
+      }
+    });
+  }
 
   showQuestion();
 });
