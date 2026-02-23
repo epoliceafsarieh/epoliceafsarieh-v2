@@ -1151,7 +1151,11 @@ if (isNumericLike) {
       nextBtn.click();
     }
   });
-
+  prevBtn.addEventListener("click", function () {
+    if (currentStep <= 0) return;
+    currentStep--;
+    showQuestion();
+  });
   nextBtn.addEventListener("click", function () {
    const { field } = resolveStep(currentStep);
 
@@ -1413,6 +1417,8 @@ showQuestion();
   }
 
   showQuestion();
+    renderSectionSteps();
+  updateNavState();
 });
 </script>
 
