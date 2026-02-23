@@ -411,7 +411,32 @@ button{
   border-color: rgba(28,61,117,.45);
   box-shadow: 0 0 0 3px rgba(28,61,117,.08), 0 14px 30px rgba(2,8,23,.08);
 }
+/* Choices (radio-like pills) */
+.choice-wrap{
+  width: min(520px, 100%);
+  margin: 10px auto 0;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
 
+.choice-btn{
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(15,37,71,.22);
+  background: rgba(23,51,95,.08);
+  color: #0f2547;
+  font-family: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.choice-btn.is-selected{
+  border-color: rgba(15,37,71,.55);
+  background: rgba(23,51,95,.16);
+  font-weight: 800;
+}
 /* dots */
 .dots{
   display:flex;
@@ -507,6 +532,7 @@ button{
     <button class="hero-btn hero-next" id="nextButton" type="button" aria-label="مرحله بعد">◀</button>
   </div>
 </div>
+ <div class="choice-wrap" id="choiceWrap" style="display:none;"></div>  
 
 <div class="dots-wrap">
   <div class="dots" id="dots"></div>
@@ -664,11 +690,25 @@ document.addEventListener('DOMContentLoaded', function () {
   function normalizeSchemaToForm(schema) {
       const sections = (schema.sections || []).filter(sec => sec.id !== "instructions").map((sec) => {
       const qs = Array.isArray(sec.questions) ? sec.questions : [];
-      const fields = qs.map((q, idx) => ({
-        question: q,
-        // کلید یکتا: تکرار سوال‌ها مشکلی ایجاد نمی‌کند
-        key: `${sec.id}__q${idx + 1}`
-      }));
+     const fields = qs.map((q, idx) => {
+  // پشتیبانی از سوال آبجکت‌دار
+  if (q && typeof q === "object") {
+    return {
+      question: q.text || "",
+      key: q.key || `${sec.id}__q${idx + 1}`,
+      type: q.type || "text",
+      choices: Array.isArray(q.choices) ? q.choices : []
+    };
+  }
+
+  // حالت قدیمی (string)
+  return {
+    question: String(q || ""),
+    key: `${sec.id}__q${idx + 1}`,
+    type: "text",
+    choices: []
+  };
+});
 
       return {
         id: sec.id,
@@ -691,6 +731,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const nextBtn = document.getElementById("nextButton");
   const prevBtn = document.getElementById("prevButton");
   const dotsEl = document.getElementById("dots");
+  const choiceWrap = document.getElementById("choiceWrap");
 
   const voiceBtn = document.getElementById("voiceButton");
   const iosHint = document.getElementById("iosHint");
@@ -748,10 +789,25 @@ document.addEventListener('DOMContentLoaded', function () {
     return { sectionIndex, fieldIndex, field };
   }
 
-  function updateNavState() {
-    prevBtn.disabled = (currentStep === 0);
+ let _activeField = null;
+
+function updateNavState() {
+  prevBtn.disabled = (currentStep === 0);
+
+  if (!_activeField) {
+    nextBtn.disabled = true;
+    return;
+  }
+
+  const key = _activeField.key;
+  const type = _activeField.type || "text";
+
+  if (type === "choice") {
+    nextBtn.disabled = ((answers[key] || "").trim() === "");
+  } else {
     nextBtn.disabled = (inputEl.value.trim() === "");
   }
+}
 
 function renderDots() {
   dotsEl.innerHTML = "";
@@ -873,6 +929,7 @@ function renderDots() {
   function showQuestion() {
     if (currentStep < totalSteps) {
       const { field } = resolveStep(currentStep);
+      _activeField = field;
       const qText = field.question;
 
       heroQuestionEl.style.display = "none";
