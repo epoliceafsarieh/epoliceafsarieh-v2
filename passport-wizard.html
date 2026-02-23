@@ -701,8 +701,8 @@ document.addEventListener('DOMContentLoaded', function () {
   {
     "id": "residenceAbroad",
     "title": "نشانی محل اقامت خارج از کشور",
-   "questions": [
-  { "key":"residenceAbroad__q0", "text":"آیا محل اقامت خارج از کشور دارید؟", "type":"choice", "choices":["بله","خیر"] },
+  "questions": [
+  { "key":"residenceAbroad__has", "text":"آیا اقامت خارج از کشور دارید؟", "type":"choice", "choices":["بله","خیر"] },
   "نشانی (STREET) محل اقامت خارج چیست؟",
   "شهر (CITY) محل اقامت خارج چیست؟",
   "کشور (COUNTRY) محل اقامت خارج چیست؟",
@@ -1175,6 +1175,16 @@ if (field.key === "residenceAbroad__q0") {
   }
 } 
 }
+  // Skip logic: اقامت خارج
+if (field.key === "residenceAbroad__has") {
+  const v = (answers[field.key] || "").trim();
+  if (v === "خیر") {
+    // رد کردن 5 سوال بعدی (STREET,CITY,COUNTRY,TELL,مدت)
+    currentStep += 6; // has + پنج سوال = 6 استپ
+    showQuestion();
+    return;
+  }
+}  
     currentStep++;
     showQuestion();
   });
