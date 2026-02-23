@@ -625,7 +625,7 @@ document.addEventListener('DOMContentLoaded', function () {
     "id": "military",
     "title": "سوابق نیروهای مسلح",
     "questions": [
-      "آیا سابقه اشتغال در نیروهای مسلح داشته‌اید؟",
+    { "key":"military__q1", "text":"آیا سابقه اشتغال در نیروهای مسلح داشته‌اید؟", "type":"choice", "choices":["بله","خیر"] },
       "شغل پیشین شما در نیروهای مسلح چه بوده است؟",
       "نوع انفصال شما از خدمت چه بوده است؟"
     ]
@@ -668,7 +668,7 @@ document.addEventListener('DOMContentLoaded', function () {
     "id": "previousPassport",
     "title": "اطلاعات گذرنامه قبلی",
     "questions": [
-      "آیا تاکنون گذرنامه داشته‌اید؟",
+    { "key":"previousPassport__q1", "text":"آیا تاکنون گذرنامه داشته‌اید؟", "type":"choice", "choices":["بله","خیر"] },
       "شماره گذرنامه قبلی چیست؟",
       "تاریخ صدور گذرنامه قبلی چیست؟",
       "محل صدور گذرنامه قبلی کجاست؟",
@@ -1071,10 +1071,18 @@ if (isNumericLike) {
   });
 
   nextBtn.addEventListener("click", function () {
-    const raw = inputEl.value.trim();
-    if (!raw) return;
+   const { field } = resolveStep(currentStep);
 
-    const { field } = resolveStep(currentStep);
+// مقدار پاسخ بر اساس نوع سوال
+let raw = "";
+if ((field.type || "text") === "choice") {
+  raw = (answers[field.key] || "").trim();
+} else {
+  raw = inputEl.value.trim();
+}
+
+if (!raw) return;
+  
     answers[field.key] = normalizePersianNumbers(raw);
 // Skip logic: نیروهای مسلح
 if (field.key === "military__q1") {
