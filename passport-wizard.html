@@ -561,6 +561,13 @@ button{
 .card--actions{
   margin-top: 18px;
   max-width: 560px;
+
+  /* حذف ظاهر کارت، ولی محتوا باقی بماند */
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
 }
 
 /* Mobile tweaks */
@@ -1008,16 +1015,70 @@ function updateNavState() {
   }
 }
 
-  function showQuestion() {
-    if (currentStep < totalSteps) {
-      const { field } = resolveStep(currentStep);
-      _activeField = field;
-     const qText = field.question;
+      const type = (field.type || "text");
 
-// سؤال همیشه ست شود؛ نمایش/عدم‌نمایش را پایین‌تر بر اساس type تعیین می‌کنیم
-heroQuestionEl.textContent = qText;
-heroQuestionEl.style.display = "none";
-inputEl.style.display = "block";
+      // سؤال همیشه ست شود
+      heroQuestionEl.textContent = qText;
+
+      // اگر choice است: قبل از هر کاری با input، همین‌جا هندل کن
+      if (type === "choice") {
+        heroQuestionEl.style.display = "block";
+        inputEl.style.display = "none";
+
+        choiceWrap.style.display = "flex";
+        choiceWrap.innerHTML = "";
+
+        const chCount = (field.choices || []).length;
+        choiceWrap.classList.remove("is-binary", "is-multi");
+        if (chCount <= 2) choiceWrap.classList.add("is-binary");
+        else choiceWrap.classList.add("is-multi");
+
+        const currentVal = (answers[field.key] || "").trim();
+
+        (field.choices || []).forEach(ch => {
+          const b = document.createElement("button");
+          b.type = "button";
+          b.className = "choice-btn" + (currentVal === ch ? " is-selected" : "");
+          b.textContent = ch;
+
+          // اگر قبلاً انتخاب شده بود، رنگ yes/no را هم ست کن
+          if (currentVal === ch) {
+            if (ch === "بله") b.classList.add("is-yes");
+            if (ch === "خیر") b.classList.add("is-no");
+          }
+
+          b.addEventListener("click", () => {
+            answers[field.key] = ch;
+
+            Array.from(choiceWrap.querySelectorAll(".choice-btn")).forEach(x => {
+              x.classList.remove("is-selected", "is-yes", "is-no");
+            });
+
+            b.classList.add("is-selected");
+            if (ch === "بله") b.classList.add("is-yes");
+            if (ch === "خیر") b.classList.add("is-no");
+
+            updateNavState();
+            window.setTimeout(() => nextBtn.click(), 120);
+          });
+
+          choiceWrap.appendChild(b);
+        });
+
+        prevBtn.style.display = "inline-flex";
+        nextBtn.style.display = "inline-flex";
+        document.getElementById("wmNote").style.display = "none";
+
+        updateNavState();
+        renderSectionSteps();
+        return;
+      }
+
+      // حالت متنی: حالا transition/input را شروع کن
+      heroQuestionEl.style.display = "none";
+      choiceWrap.style.display = "none";
+      inputEl.style.display = "block";
+
       inputEl.style.transition = "opacity 0.22s ease, transform 0.22s ease";
       inputEl.style.opacity = "0";
       inputEl.style.transform = "translateY(6px)";
@@ -1025,68 +1086,11 @@ inputEl.style.display = "block";
       window.requestAnimationFrame(() => {
         inputEl.placeholder = `${qText}`;
         inputEl.value = answers[field.key] || "";
-        // --- اگر سوال انتخابی است (radio-like) ---
-if ((field.type || "text") === "choice") {
-    // در سوالات گزینه‌ای، سؤال باید دیده شود (نه اینکه فقط بله/خیر بیاید)
-  heroQuestionEl.style.display = "block";
-  inputEl.style.display = "none";
-  choiceWrap.style.display = "flex";
-  choiceWrap.innerHTML = "";
-    // حالت باینری (مثل بله/خیر) vs چندگزینه‌ای (مثل رنگ چشم)
-  const chCount = (field.choices || []).length;
-  choiceWrap.classList.remove("is-binary", "is-multi");
-  if (chCount <= 2) choiceWrap.classList.add("is-binary");
-  else choiceWrap.classList.add("is-multi");
-
-  const currentVal = (answers[field.key] || "").trim();
-
-  (field.choices || []).forEach(ch => {
-    const b = document.createElement("button");
-    b.type = "button";
-    b.className = "choice-btn" + (currentVal === ch ? " is-selected" : "");
-    b.textContent = ch;
-
-b.addEventListener("click", () => {
-  answers[field.key] = ch;
-
-  // پاک کردن انتخاب‌های قبلی + کلاس‌های رنگی
-  Array.from(choiceWrap.querySelectorAll(".choice-btn")).forEach(x => {
-    x.classList.remove("is-selected", "is-yes", "is-no");
-  });
-
-  // انتخاب جدید
-  b.classList.add("is-selected");
-
-  // رنگ برای بله/خیر (فقط اگر گزینه‌ها همین‌ها باشند)
-  if (ch === "بله") b.classList.add("is-yes");
-  if (ch === "خیر") b.classList.add("is-no");
-
-  updateNavState();
-
-  // اتومات برو سوال بعدی
-  window.setTimeout(() => nextBtn.click(), 120);
-});
-
-    choiceWrap.appendChild(b);
-  });
-
-  // برای choice: LTR/RTL ورودی مطرح نیست
-  prevBtn.style.display = "inline-flex";
-  nextBtn.style.display = "inline-flex";
-
-  document.getElementById("wmNote").style.display = "none";
-
-  updateNavState();
-  renderSectionSteps();
-
-  return; // مهم: ادامه‌ی منطق input را اجرا نکن
+      
 }
 
 // --- حالت متنی (default) ---
-choiceWrap.style.display = "none";
-inputEl.style.display = "block";
-heroQuestionEl.style.display = "none";
-      const q = String(field.question || "");
+const q = String(field.question || "");
 
 // هر چیزی که عدد/تاریخ/شماره/تلفن/کدپستی است → LTR + کیبورد عددی
 const isNumericLike =
