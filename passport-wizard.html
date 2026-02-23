@@ -743,17 +743,8 @@ document.addEventListener('DOMContentLoaded', function () {
       "بستگان ۲: نشانی چیست؟",
       "بستگان ۲: تلفن چیست؟"
     ]
-  },
-  {
-    "id": "declaration",
-    "title": "تعهد متقاضی",
-    "questions": [
-      { "key":"declaration__q1", "text":"تعهد متقاضی را تأیید می‌کنید؟", "type":"choice", "choices":["تأیید می‌کنم","تأیید نمی‌کنم"] },
-      { "key":"declaration__q2", "text":"نام شما چیست؟" },
-      { "key":"declaration__q3", "text":"نام خانوادگی شما چیست؟" }
-    ]
   }
-]
+    ]
   };
   // ====== END FORM SCHEMA ======
 
@@ -935,8 +926,7 @@ function renderDots() {
   [6],       // travel
   [7],       // previousPassport
   [8],       // relatives
-  [9],       // declaration
-];
+ ];
 
     rows.forEach(rowIdxs => {
       const row = document.createElement("div");
@@ -1328,11 +1318,8 @@ if (field.key === "residenceAbroad__q0") {
       "previousPassport__q2": { "page": 0, "x": 202.5, "y": 188.13, "size": 11 },
       "previousPassport__q3": { "page": 0, "x": 92.5, "y": 190.63, "size": 11 },
       "previousPassport__q5": { "page": 0, "x": 461.63, "y": 175.37, "size": 11 },
-      "previousPassport__q6": { "page": 0, "x": 209.75, "y": 173.62, "size": 11 },
-
-      "declaration__q1": { "page": 0, "x": 460.38, "y": 33.13, "size": 11 },
-      "declaration__q3": { "page": 0, "x": 313.5, "y": 31.25, "size": 11 }
-    };     
+      "previousPassport__q6": { "page": 0, "x": 209.75, "y": 173.62, "size": 11 }
+ };     
 
     for (const [key, cfg] of Object.entries(PDF_FIELD_MAP)) {
       const pIndex = Number(cfg.page || 0);
