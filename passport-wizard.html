@@ -571,26 +571,29 @@ document.addEventListener('DOMContentLoaded', function () {
   {
     "id": "identity",
     "title": "اطلاعات هویتی",
-    "questions": [
-      "نام شما چیست؟",
-      "نام خانوادگی شما چیست؟",
-      "نام شما به انگلیسی (با حروف بزرگ) چیست؟",
-      "نام خانوادگی شما به انگلیسی (با حروف بزرگ) چیست؟",
-      "نام قبلی شما چیست؟",
-      "تاریخ تولد شما به سال شمسی چیست؟",
-      "محل تولد شما کجاست؟",
-      "نام پدر شما چیست؟",
-      "شماره شناسنامه شما چیست؟",
-      "محل صدور شناسنامه شما کجاست؟",
-      "تاریخ صدور شناسنامه شما چیست؟",
-      "سریال شناسنامه شما چیست؟",
-      "شماره سری شناسنامه شما چیست؟",
-      "جنسیت شما چیست؟",
-      "دین شما چیست؟",
-      "وضعیت تأهل شما چیست؟",
-      "میزان تحصیلات شما چیست؟",
-      "رشته تحصیلی شما چیست؟"
-    ]
+  "questions": [
+  { "key":"identity__q1", "text":"نام شما چیست؟" },
+  { "key":"identity__q2", "text":"نام خانوادگی شما چیست؟" },
+
+  { "key":"identity__nationalId", "text":"کد ملی شما چیست؟" },
+
+  { "key":"identity__q3", "text":"نام شما به انگلیسی (با حروف بزرگ) چیست؟" },
+  { "key":"identity__q4", "text":"نام خانوادگی شما به انگلیسی (با حروف بزرگ) چیست؟" },
+  { "key":"identity__q5", "text":"نام قبلی شما چیست؟" },
+  { "key":"identity__q6", "text":"تاریخ تولد شما به سال شمسی چیست؟" },
+  { "key":"identity__q7", "text":"محل تولد شما کجاست؟" },
+  { "key":"identity__q8", "text":"نام پدر شما چیست؟" },
+  { "key":"identity__q9", "text":"شماره شناسنامه شما چیست؟" },
+  { "key":"identity__q10", "text":"محل صدور شناسنامه شما کجاست؟" },
+  { "key":"identity__q11", "text":"تاریخ صدور شناسنامه شما چیست؟" },
+  { "key":"identity__q12", "text":"سریال شناسنامه شما چیست؟" },
+  { "key":"identity__q13", "text":"شماره سری شناسنامه شما چیست؟" },
+  { "key":"identity__q14", "text":"جنسیت شما چیست؟" },
+  { "key":"identity__q15", "text":"دین شما چیست؟" },
+  { "key":"identity__q16", "text":"وضعیت تأهل شما چیست؟" },
+  { "key":"identity__q17", "text":"میزان تحصیلات شما چیست؟" },
+  { "key":"identity__q18", "text":"رشته تحصیلی شما چیست؟" }
+]
   },
   {
     "id": "physical",
@@ -598,8 +601,8 @@ document.addEventListener('DOMContentLoaded', function () {
     "questions": [
       "قد شما چند سانتی‌متر است؟",
       "وزن شما چند کیلوگرم است؟",
-      "رنگ چهره شما چیست؟ (سفید / گندمگون / سبز / تیره / سایر)",
-      "رنگ چشم شما چیست؟ (مشکی / میشی / سبز / آبی / قهوه‌ای / عسلی / سایر)",
+     { "key":"physical__q3", "text":"رنگ چهره شما چیست؟", "type":"choice", "choices":["سفید","گندمگون","سبز","تیره","سایر"] },
+{ "key":"physical__q4", "text":"رنگ چشم شما چیست؟", "type":"choice", "choices":["مشکی","میشی","سبز","آبی","قهوه‌ای","عسلی","سایر"] },
       "آیا دارای علائم ممیزه هستید؟ در صورت وجود توضیح دهید."
     ]
   },
@@ -637,9 +640,9 @@ document.addEventListener('DOMContentLoaded', function () {
       "کوچه محل سکونت شما چیست؟",
       "پلاک محل سکونت شما چیست؟",
       "طبقه محل سکونت شما چیست؟",
-      "تلفن ثابت منزل شما چیست؟",
-      "تلفن همراه شما چیست؟",
-      "کد پستی شما چیست؟"
+    "کد پستی شما چیست؟",
+"تلفن ثابت منزل شما چیست؟",
+"تلفن همراه شما چیست؟"
     ]
   },
   {
@@ -674,6 +677,20 @@ document.addEventListener('DOMContentLoaded', function () {
     ]
   },
   {
+      {
+    "id": "relatives",
+    "title": "مشخصات بستگان",
+    "questions": [
+      "بستگان ۱: نام و نام خانوادگی چیست؟",
+      "بستگان ۱: شغل و محل کار چیست؟",
+      "بستگان ۱: نشانی چیست؟",
+      "بستگان ۱: تلفن چیست؟",
+      "بستگان ۲: نام و نام خانوادگی چیست؟",
+      "بستگان ۲: شغل و محل کار چیست؟",
+      "بستگان ۲: نشانی چیست؟",
+      "بستگان ۲: تلفن چیست؟"
+    ]
+  },
     "id": "declaration",
     "title": "تعهد متقاضی",
     "questions": [
@@ -857,14 +874,15 @@ function renderDots() {
     sectionStepsEl.classList.add("is-grouped");
 
     // ردیف‌ها مطابق خواسته شما
-    const rows = [
-      [0, 1, 2], // identity, physical, job
-      [3],       // military
-      [4, 5],    // residenceIran, residenceAbroad
-      [6],       // travel
-      [7],       // previousPassport
-      [8],       // declaration
-    ];
+  const rows = [
+  [0, 1, 2], // identity, physical, job
+  [3],       // military
+  [4, 5],    // residenceIran, residenceAbroad
+  [6],       // travel
+  [7],       // previousPassport
+  [8],       // relatives
+  [9],       // declaration
+];
 
     rows.forEach(rowIdxs => {
       const row = document.createElement("div");
@@ -1058,7 +1076,27 @@ if (isNumericLike) {
 
     const { field } = resolveStep(currentStep);
     answers[field.key] = normalizePersianNumbers(raw);
+// Skip logic: نیروهای مسلح
+if (field.key === "military__q1") {
+  const v = (answers[field.key] || "").trim();
+  if (v === "خیر" || v === "نه" || v.toLowerCase() === "no") {
+    // رد کردن q2 و q3
+    currentStep += 3;
+    showQuestion();
+    return;
+  }
+}
 
+// Skip logic: گذرنامه قبلی
+if (field.key === "previousPassport__q1") {
+  const v = (answers[field.key] || "").trim();
+  if (v === "خیر" || v === "نه" || v.toLowerCase() === "no") {
+    // رد کردن q2..q6
+    currentStep += 6;
+    showQuestion();
+    return;
+  }
+}
     currentStep++;
     showQuestion();
   });
