@@ -411,29 +411,42 @@ button{
   border-color: rgba(28,61,117,.45);
   box-shadow: 0 0 0 3px rgba(28,61,117,.08), 0 14px 30px rgba(2,8,23,.08);
 }
-/* Choices (radio-like pills) */
+/* Choices (compact, inside the same field) */
 .choice-wrap{
   flex: 1;
   min-width: 0;
   height: 72px;
   display: flex;
-  gap: 12px;
+  gap: 10px;
   align-items: center;
   justify-content: center;
-  padding: 0 18px;
+  padding: 0 14px;
   box-sizing: border-box;
 }
 
+/* حالت باینری (بله/خیر) — دقیقاً داخل همان فیلد */
+.choice-wrap.is-binary{
+  flex-wrap: nowrap;
+}
+
+/* حالت چندگزینه‌ای (مثل رنگ چشم/چهره) — اجازه wrap، ولی کنترل شده */
+.choice-wrap.is-multi{
+  flex-wrap: wrap;
+  height: auto;                 /* چند ردیف شود */
+  padding: 10px 12px;
+  justify-content: center;
+}
+
+/* دکمه انتخاب */
 .choice-btn{
-  height: 48px;
-  min-width: 120px;
-  padding: 0 16px;
+  height: 46px;
+  padding: 0 14px;
   border-radius: 14px;
   border: 1px solid rgba(2,8,23,.16);
   background: rgba(255,255,255,.95);
   color: #0f2547;
   font-family: inherit;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 800;
   cursor: pointer;
 
@@ -441,12 +454,18 @@ button{
   align-items: center;
   justify-content: center;
   gap: 10px;
+
+  width: auto;
+  min-width: 0;                 /* مهم: روی موبایل بیرون نزند */
+  max-width: 100%;
+  white-space: nowrap;
 }
 
+/* مربع چک‌باکس کوچک */
 .choice-btn::before{
   content: "";
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   border-radius: 6px;
   border: 2px solid rgba(15,37,71,.45);
   background: transparent;
@@ -455,7 +474,7 @@ button{
 
 .choice-btn.is-selected{
   border-color: rgba(15,37,71,.65);
-  background: rgba(23,51,95,.10);
+  background: rgba(23,51,95,.08);
 }
 
 .choice-btn.is-selected::before{
@@ -463,7 +482,8 @@ button{
   border-color: #1f6b4a;
   box-shadow: inset 0 0 0 3px rgba(255,255,255,.95);
 }
-  /* رنگ انتخاب بر اساس بله/خیر */
+
+/* رنگ انتخاب بر اساس بله/خیر */
 .choice-btn.is-selected.is-yes{
   border-color: rgba(31,107,74,.75);
   background: rgba(31,107,74,.08);
@@ -480,12 +500,13 @@ button{
 .choice-btn.is-selected.is-no::before{
   background: #b91c1c;
   border-color: #b91c1c;
-} 
+}
 
-.choice-btn.is-selected{
-  border-color: rgba(15,37,71,.55);
-  background: rgba(23,51,95,.16);
-  font-weight: 800;
+/* Mobile tweaks */
+@media (max-width: 480px){
+  .choice-wrap{ height: 62px; padding: 0 10px; gap: 8px; }
+  .choice-wrap.is-multi{ height: auto; padding: 10px 10px; }
+  .choice-btn{ height: 42px; font-size: 14px; padding: 0 12px; }
 }
 /* dots */
 .dots{
@@ -618,134 +639,137 @@ button{
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     // ====== FORM SCHEMA (FROM YOU) ======
-  const formSchema = {
-    "formTitle": "پرسشنامه درخواست صدور گذرنامه",
-   "sections": [
-  {
-    "id": "identity",
-    "title": "اطلاعات هویتی",
-  "questions": [
-  { "key":"identity__q1", "text":"نام شما چیست؟" },
-  { "key":"identity__q2", "text":"نام خانوادگی شما چیست؟" },
+ const formSchema = {
+  "formTitle": "پرسشنامه درخواست صدور گذرنامه",
+  "sections": [
+    {
+      "id": "identity",
+      "title": "اطلاعات هویتی",
+      "questions": [
+        { "key":"identity__firstName", "text":"نام شما چیست؟" },
+        { "key":"identity__lastName", "text":"نام خانوادگی شما چیست؟" },
+        { "key":"identity__nationalId", "text":"کد ملی شما چیست؟" },
 
-  { "key":"identity__nationalId", "text":"کد ملی شما چیست؟" },
+        { "key":"identity__enFullName", "text":"نام و نام خانوادگی شما به انگلیسی (با حروف بزرگ) چیست؟" },
 
-  { "key":"identity__q3", "text":"نام شما به انگلیسی (با حروف بزرگ) چیست؟" },
-  { "key":"identity__q4", "text":"نام خانوادگی شما به انگلیسی (با حروف بزرگ) چیست؟" },
-  { "key":"identity__q5", "text":"نام قبلی شما چیست؟" },
-  { "key":"identity__q6", "text":"تاریخ تولد شما به سال شمسی چیست؟" },
-  { "key":"identity__q7", "text":"محل تولد شما کجاست؟" },
-  { "key":"identity__q8", "text":"نام پدر شما چیست؟" },
-  { "key":"identity__q9", "text":"شماره شناسنامه شما چیست؟" },
-  { "key":"identity__q10", "text":"محل صدور شناسنامه شما کجاست؟" },
-  { "key":"identity__q11", "text":"تاریخ صدور شناسنامه شما چیست؟" },
-  { "key":"identity__q12", "text":"سریال شناسنامه شما چیست؟" },
-  { "key":"identity__q13", "text":"شماره سری شناسنامه شما چیست؟" },
-  { "key":"identity__q14", "text":"جنسیت شما چیست؟" },
-  { "key":"identity__q15", "text":"دین شما چیست؟" },
-  { "key":"identity__q16", "text":"وضعیت تأهل شما چیست؟" },
-  { "key":"identity__q17", "text":"میزان تحصیلات شما چیست؟" },
-  { "key":"identity__q18", "text":"رشته تحصیلی شما چیست؟" }
-]
-  },
-  {
-    "id": "physical",
-    "title": "مشخصات ظاهری",
-    "questions": [
-      "قد شما چند سانتی‌متر است؟",
-      "وزن شما چند کیلوگرم است؟",
-     { "key":"physical__q3", "text":"رنگ چهره شما چیست؟", "type":"choice", "choices":["سفید","گندمگون","سبز","تیره","سایر"] },
-{ "key":"physical__q4", "text":"رنگ چشم شما چیست؟", "type":"choice", "choices":["مشکی","میشی","سبز","آبی","قهوه‌ای","عسلی","سایر"] },
-      "آیا دارای علائم ممیزه هستید؟ در صورت وجود توضیح دهید."
-    ]
-  },
-  {
-    "id": "job",
-    "title": "اطلاعات شغلی",
-    "questions": [
-      "شغل فعلی شما چیست؟",
-      "نام مؤسسه یا محل کار شما چیست؟",
-      "نشانی محل کار شما چیست؟",
-      "شهر محل کار شما چیست؟",
-      "خیابان محل کار شما چیست؟",
-      "کوچه محل کار شما چیست؟",
-      "پلاک محل کار شما چیست؟",
-      "تلفن ثابت محل کار شما چیست؟",
-      "تلفن همراه محل کار شما چیست؟"
-    ]
-  },
-  {
-    "id": "military",
-    "title": "سوابق نیروهای مسلح",
-    "questions": [
-    { "key":"military__q1", "text":"آیا سابقه اشتغال در نیروهای مسلح داشته‌اید؟", "type":"choice", "choices":["بله","خیر"] },
-      "شغل پیشین شما در نیروهای مسلح چه بوده است؟",
-      "نوع انفصال شما از خدمت چه بوده است؟"
-    ]
-  },
-  {
-    "id": "residenceIran",
-    "title": "نشانی محل سکونت در ایران",
-    "questions": [
-      "استان محل سکونت شما چیست؟",
-      "شهر محل سکونت شما چیست؟",
-      "خیابان محل سکونت شما چیست؟",
-      "کوچه محل سکونت شما چیست؟",
-      "پلاک محل سکونت شما چیست؟",
-      "طبقه محل سکونت شما چیست؟",
-    "کد پستی شما چیست؟",
-"تلفن ثابت منزل شما چیست؟",
-"تلفن همراه شما چیست؟"
-    ]
-  },
-  {
-    "id": "residenceAbroad",
-    "title": "نشانی محل اقامت خارج از کشور",
-  "questions": [
-  { "key":"residenceAbroad__has", "text":"آیا اقامت خارج از کشور دارید؟", "type":"choice", "choices":["بله","خیر"] },
-  "نشانی (STREET) محل اقامت خارج چیست؟",
-  "شهر (CITY) محل اقامت خارج چیست؟",
-  "کشور (COUNTRY) محل اقامت خارج چیست؟",
-  "شماره تلفن (TELL) محل اقامت خارج چیست؟",
-  "مدت اقامت شما در خارج از کشور چند سال است؟"
-]
-  },
-  {
-    "id": "travel",
-    "title": "اطلاعات سفر",
-    "questions": [
-      "کشور مقصد شما چیست؟",
-      "منظور از مسافرت چیست؟"
-    ]
-  },
-  {
-    "id": "previousPassport",
-    "title": "اطلاعات گذرنامه قبلی",
-    "questions": [
-    { "key":"previousPassport__q1", "text":"آیا تاکنون گذرنامه داشته‌اید؟", "type":"choice", "choices":["بله","خیر"] },
-      "شماره گذرنامه قبلی چیست؟",
-      "تاریخ صدور گذرنامه قبلی چیست؟",
-      "محل صدور گذرنامه قبلی کجاست؟",
-      "تاریخ انقضای گذرنامه قبلی چیست؟",
-      "علت تعویض گذرنامه چیست؟"
-    ]
-  },
-     {
-    "id": "relatives",
-    "title": "مشخصات بستگان",
-    "questions": [
-      "بستگان ۱: نام و نام خانوادگی چیست؟",
-      "بستگان ۱: شغل و محل کار چیست؟",
-      "بستگان ۱: نشانی چیست؟",
-      "بستگان ۱: تلفن چیست؟",
-      "بستگان ۲: نام و نام خانوادگی چیست؟",
-      "بستگان ۲: شغل و محل کار چیست؟",
-      "بستگان ۲: نشانی چیست؟",
-      "بستگان ۲: تلفن چیست؟"
-    ]
-  }
-    ]
-  };
+        { "key":"identity__hasPrevName", "text":"آیا نام/نام‌خانوادگی قبلی داشته‌اید؟", "type":"choice", "choices":["بله","خیر"] },
+        { "key":"identity__prevName", "text":"نام/نام‌خانوادگی قبلی شما چیست؟" },
+
+        { "key":"identity__birthDateShamsi", "text":"تاریخ تولد شما (شمسی) چیست؟ مثال: ۱۳۷۲/۰۵/۲۱" },
+        { "key":"identity__birthPlace", "text":"محل تولد شما کجاست؟" },
+        { "key":"identity__fatherName", "text":"نام پدر شما چیست؟" },
+
+        { "key":"identity__idNumber", "text":"شماره شناسنامه شما چیست؟" },
+        { "key":"identity__idIssuePlace", "text":"محل صدور شناسنامه شما کجاست؟" },
+        { "key":"identity__idIssueDate", "text":"تاریخ صدور شناسنامه (شمسی) چیست؟ مثال: ۱۳۸۵/۰۲/۱۰" },
+
+        { "key":"identity__idSerialCombo", "text":"سری/سریال شناسنامه چیست؟ (راهنما: مثل «الف ۱۲۳۴۵۶» یا «سری ۲ - ۱۲۳۴۵۶۷»)" },
+
+        { "key":"identity__gender", "text":"جنسیت شما چیست؟", "type":"choice", "choices":["مرد","زن"] },
+        { "key":"identity__religion", "text":"دین شما چیست؟" },
+        { "key":"identity__marital", "text":"وضعیت تأهل شما چیست؟", "type":"choice", "choices":["مجرد","متأهل","سایر"] },
+
+        { "key":"identity__educationLevel", "text":"میزان تحصیلات شما چیست؟", "type":"choice", "choices":["زیر دیپلم","دیپلم","فوق‌دیپلم","کارشناسی","کارشناسی ارشد","دکتری","سایر"] },
+        { "key":"identity__major", "text":"رشته تحصیلی شما چیست؟" }
+      ]
+    },
+
+    {
+      "id": "physical",
+      "title": "مشخصات ظاهری",
+      "questions": [
+        { "key":"physical__heightCm", "text":"قد شما چند سانتی‌متر است؟" },
+        { "key":"physical__weightKg", "text":"وزن شما چند کیلوگرم است؟" },
+
+        { "key":"physical__faceColor", "text":"رنگ چهره شما چیست؟", "type":"choice", "choices":["سفید","گندمگون","سبزه","تیره","سایر"] },
+        { "key":"physical__eyeColor", "text":"رنگ چشم شما چیست؟", "type":"choice", "choices":["مشکی","قهوه‌ای","عسلی","آبی","سبز","میشی","سایر"] },
+
+        { "key":"physical__hasMarks", "text":"آیا علائم ممیزه دارید؟ (مثلاً عمل بینی، جای زخم، خال مشخص...)", "type":"choice", "choices":["بله","خیر"] },
+        { "key":"physical__marksDesc", "text":"علائم ممیزه را توضیح دهید." }
+      ]
+    },
+
+    {
+      "id": "job",
+      "title": "اطلاعات شغلی",
+      "questions": [
+        { "key":"job__title", "text":"شغل فعلی شما چیست؟" },
+        { "key":"job__org", "text":"نام مؤسسه یا محل کار شما چیست؟" },
+        { "key":"job__addressFull", "text":"نشانی کامل محل کار شما چیست؟" }
+      ]
+    },
+
+    {
+      "id": "military",
+      "title": "سوابق نیروهای مسلح",
+      "questions": [
+        { "key":"military__has", "text":"آیا سابقه اشتغال در نیروهای مسلح داشته‌اید؟", "type":"choice", "choices":["بله","خیر"] },
+        { "key":"military__job", "text":"شغل پیشین شما در نیروهای مسلح چه بوده است؟" },
+        { "key":"military__exitType", "text":"نوع انفصال شما از خدمت چه بوده است؟" }
+      ]
+    },
+
+    {
+      "id": "residenceIran",
+      "title": "نشانی محل سکونت در ایران",
+      "questions": [
+        { "key":"residenceIran__addressFull", "text":"نشانی کامل محل سکونت شما چیست؟" },
+        { "key":"residenceIran__postalCode", "text":"کد پستی شما چیست؟" },
+        { "key":"residenceIran__phoneLandline", "text":"تلفن ثابت منزل شما چیست؟" },
+        { "key":"residenceIran__phoneMobile", "text":"تلفن همراه شما چیست؟" }
+      ]
+    },
+
+    {
+      "id": "residenceAbroad",
+      "title": "نشانی محل اقامت خارج از کشور",
+      "questions": [
+        { "key":"residenceAbroad__has", "text":"آیا اقامت خارج از کشور دارید؟", "type":"choice", "choices":["بله","خیر"] },
+        { "key":"residenceAbroad__addressFull", "text":"نشانی کامل محل اقامت خارج چیست؟ (STREET/CITY/COUNTRY)" },
+        { "key":"residenceAbroad__phone", "text":"شماره تلفن محل اقامت خارج چیست؟ (TELL)" },
+        { "key":"residenceAbroad__years", "text":"مدت اقامت شما در خارج از کشور چند سال است؟" }
+      ]
+    },
+
+    {
+      "id": "travel",
+      "title": "اطلاعات سفر",
+      "questions": [
+        { "key":"travel__country", "text":"کشور مقصد شما چیست؟" },
+        { "key":"travel__purpose", "text":"منظور از مسافرت چیست؟" }
+      ]
+    },
+
+    {
+      "id": "previousPassport",
+      "title": "اطلاعات گذرنامه قبلی",
+      "questions": [
+        { "key":"previousPassport__has", "text":"آیا تاکنون گذرنامه داشته‌اید؟", "type":"choice", "choices":["بله","خیر"] },
+        { "key":"previousPassport__number", "text":"شماره گذرنامه قبلی چیست؟" },
+        { "key":"previousPassport__issueDate", "text":"تاریخ صدور گذرنامه قبلی چیست؟" },
+        { "key":"previousPassport__issuePlace", "text":"محل صدور گذرنامه قبلی کجاست؟" },
+        { "key":"previousPassport__expireDate", "text":"تاریخ انقضای گذرنامه قبلی چیست؟" },
+        { "key":"previousPassport__replaceReason", "text":"علت تعویض گذرنامه چیست؟" }
+      ]
+    },
+
+    {
+      "id": "relatives",
+      "title": "مشخصات بستگان",
+      "questions": [
+        { "key":"rel1__fullName", "text":"بستگان ۱: نام و نام خانوادگی چیست؟" },
+        { "key":"rel1__job", "text":"بستگان ۱: شغل چیست؟" },
+        { "key":"rel1__address", "text":"بستگان ۱: نشانی چیست؟" },
+        { "key":"rel1__phone", "text":"بستگان ۱: تلفن چیست؟" },
+
+        { "key":"rel2__fullName", "text":"بستگان ۲: نام و نام خانوادگی چیست؟" },
+        { "key":"rel2__job", "text":"بستگان ۲: شغل چیست؟" },
+        { "key":"rel2__address", "text":"بستگان ۲: نشانی چیست؟" },
+        { "key":"rel2__phone", "text":"بستگان ۲: تلفن چیست؟" }
+      ]
+    }
+  ]
+};
   // ====== END FORM SCHEMA ======
 
   // ====== NORMALIZE TO CURRENT ENGINE FORMAT (sections[].fields[]) ======
@@ -1012,6 +1036,11 @@ if ((field.type || "text") === "choice") {
   inputEl.style.display = "none";
   choiceWrap.style.display = "flex";
   choiceWrap.innerHTML = "";
+    // حالت باینری (مثل بله/خیر) vs چندگزینه‌ای (مثل رنگ چشم)
+  const chCount = (field.choices || []).length;
+  choiceWrap.classList.remove("is-binary", "is-multi");
+  if (chCount <= 2) choiceWrap.classList.add("is-binary");
+  else choiceWrap.classList.add("is-multi");
 
   const currentVal = (answers[field.key] || "").trim();
 
@@ -1144,6 +1173,71 @@ if ((field.type || "text") === "choice") {
 if (!raw) return;
   
     answers[field.key] = normalizePersianNumbers(raw);
+    // ===== Skip Logic (v2, robust with choice) =====
+
+// 1) نام قبلی
+if (field.key === "identity__hasPrevName") {
+  const v = (answers[field.key] || "").trim();
+  if (v === "خیر") {
+    currentStep += 2; // hasPrevName + prevName
+    showQuestion();
+    return;
+  }
+}
+
+// 2) رشته تحصیلی فقط اگر دانشگاهی باشد
+if (field.key === "identity__educationLevel") {
+  const v = (answers[field.key] || "").trim();
+  const isUni = ["فوق‌دیپلم","کارشناسی","کارشناسی ارشد","دکتری"].includes(v);
+  if (!isUni) {
+    currentStep += 2; // educationLevel + major
+    showQuestion();
+    return;
+  }
+}
+
+// 3) علائم ممیزه
+if (field.key === "physical__hasMarks") {
+  const v = (answers[field.key] || "").trim();
+  if (v === "خیر") {
+    currentStep += 2; // hasMarks + marksDesc
+    showQuestion();
+    return;
+  }
+}
+
+// 4) نیروهای مسلح
+if (field.key === "military__has") {
+  const v = (answers[field.key] || "").trim();
+  if (v === "خیر") {
+    currentStep += 3; // has + 2 سوال
+    showQuestion();
+    return;
+  }
+}
+
+// 5) اقامت خارج
+if (field.key === "residenceAbroad__has") {
+  const v = (answers[field.key] || "").trim();
+  if (v === "خیر") {
+    currentStep += 4; // has + 3 سوال
+    showQuestion();
+    return;
+  }
+}
+
+// 6) گذرنامه قبلی
+if (field.key === "previousPassport__has") {
+  const v = (answers[field.key] || "").trim();
+  if (v === "خیر") {
+    currentStep += 6; // has + 5 سوال
+    showQuestion();
+    return;
+  }
+}
+
+// ===== end skip =====
+    
 // Skip logic: نیروهای مسلح
 if (field.key === "military__q1") {
   const v = (answers[field.key] || "").trim();
