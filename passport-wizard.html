@@ -829,14 +829,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const nextBtn = document.getElementById("nextButton");
   const prevBtn = document.getElementById("prevButton");
   const choiceWrap = document.getElementById("choiceWrap");
-
-  const voiceBtn = document.getElementById("voiceButton");
-  const iosHint = document.getElementById("iosHint");
-
-  const sectionStepsEl = document.getElementById("sectionSteps");
-    const bottomPreviewBar = document.getElementById("bottomPreviewBar");
-  const bottomPreviewCta = document.getElementById("bottomPreviewCta");
-    if (sectionStepsEl) {
+   if (sectionStepsEl) {
     sectionStepsEl.addEventListener("click", function (e) {
       const btn = e.target.closest(".section-pill");
       if (!btn) return;
@@ -844,11 +837,22 @@ document.addEventListener('DOMContentLoaded', function () {
       const idx = Number(btn.dataset.sectionIndex);
       if (Number.isNaN(idx)) return;
 
-      // پرش به اولین سوال آن بخش
-      currentStep = sectionStartSteps[idx] ?? 0;
-      showQuestion();
+      // پرش به اولین سوال آن بخش (ناوبری)
+      goToStep(sectionStartSteps[idx] ?? 0, "pill");
     });
   }
+
+  // Prev: برگشت history-aware
+  prevBtn.addEventListener("click", function () {
+    goBack();
+  });
+  const voiceBtn = document.getElementById("voiceButton");
+  const iosHint = document.getElementById("iosHint");
+
+  const sectionStepsEl = document.getElementById("sectionSteps");
+    const bottomPreviewBar = document.getElementById("bottomPreviewBar");
+  const bottomPreviewCta = document.getElementById("bottomPreviewCta");
+  
 
   // iOS: voice hidden + hint
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
@@ -872,6 +876,46 @@ document.addEventListener('DOMContentLoaded', function () {
   }
   let currentStep = 0;
   const answers = {};
+  // ===== Router مرکزی (Step Navigation) =====
+  const stepHistory = [];
+
+  function clampStep(s) {
+    const n = Number(s);
+    if (Number.isNaN(n)) return 0;
+    // totalSteps مجاز است (حالت "تمام شد")
+    return Math.max(0, Math.min(n, totalSteps));
+  }
+
+  // reason: "next" | "auto" | "pill" | "init"
+  function goToStep(nextStep, reason) {
+    const target = clampStep(nextStep);
+
+    if (reason === "pill") {
+      // پرش ناوبری: تاریخچه را ریست کن تا Prev گیج نشود
+      stepHistory.length = 0;
+    } else if (reason === "next" || reason === "auto") {
+      // حرکت عادی/اتومات: قدم فعلی را ذخیره کن (اگر داخل فرم هستیم)
+      if (currentStep < totalSteps) stepHistory.push(currentStep);
+    }
+    // init: هیچ
+
+    currentStep = target;
+    showQuestion();
+  }
+
+  function goBack() {
+    if (stepHistory.length > 0) {
+      currentStep = stepHistory.pop();
+      showQuestion();
+      return;
+    }
+    // fallback (اگر history خالی بود)
+    if (currentStep <= 0) return;
+    currentStep--;
+    showQuestion();
+  }
+  // ===== End Router =====
+  
 
   function resolveStep(step) {
     let sectionIndex = 0;
@@ -1160,86 +1204,77 @@ if (isNumericLike) {
     currentStep--;
     showQuestion();
   });
-  nextBtn.addEventListener("click", function () {
-   const { field } = resolveStep(currentStep);
+   nextBtn.addEventListener("click", function () {
+    const { field } = resolveStep(currentStep);
 
-// مقدار پاسخ بر اساس نوع سوال
-let raw = "";
-if ((field.type || "text") === "choice") {
-  raw = (answers[field.key] || "").trim();
-} else {
-  raw = inputEl.value.trim();
-}
+    // مقدار پاسخ بر اساس نوع سوال
+    let raw = "";
+    if ((field.type || "text") === "choice") {
+      raw = (answers[field.key] || "").trim();
+    } else {
+      raw = inputEl.value.trim();
+    }
 
-if (!raw) return;
-  
+    if (!raw) return;
+
     answers[field.key] = normalizePersianNumbers(raw);
-    // ===== Skip Logic (v2, robust with choice) =====
 
-// 1) نام قبلی
-if (field.key === "identity__hasPrevName") {
-  const v = (answers[field.key] || "").trim();
-  if (v === "خیر") {
-    currentStep += 2; // hasPrevName + prevName
-    showQuestion();
-    return;
-  }
-}
+    // پیش‌فرض: یک قدم جلو
+    let targetStep = currentStep + 1;
 
-// 2) رشته تحصیلی فقط اگر دانشگاهی باشد
-if (field.key === "identity__educationLevel") {
-  const v = (answers[field.key] || "").trim();
-  const isUni = ["فوق‌دیپلم","کارشناسی","کارشناسی ارشد","دکتری"].includes(v);
-  if (!isUni) {
-    currentStep += 2; // educationLevel + major
-    showQuestion();
-    return;
-  }
-}
+    // ===== Skip Logic (v2) — فقط targetStep را تغییر بده =====
 
-// 3) علائم ممیزه
-if (field.key === "physical__hasMarks") {
-  const v = (answers[field.key] || "").trim();
-  if (v === "خیر") {
-    currentStep += 2; // hasMarks + marksDesc
-    showQuestion();
-    return;
-  }
-}
+    // 1) نام قبلی
+    if (field.key === "identity__hasPrevName") {
+      const v = (answers[field.key] || "").trim();
+      if (v === "خیر") {
+        targetStep = currentStep + 2; // hasPrevName + prevName
+      }
+    }
 
-// 4) نیروهای مسلح
-if (field.key === "military__has") {
-  const v = (answers[field.key] || "").trim();
-  if (v === "خیر") {
-    currentStep += 3; // has + 2 سوال
-    showQuestion();
-    return;
-  }
-}
+    // 2) رشته تحصیلی فقط اگر دانشگاهی باشد
+    if (field.key === "identity__educationLevel") {
+      const v = (answers[field.key] || "").trim();
+      const isUni = ["فوق‌دیپلم","کارشناسی","کارشناسی ارشد","دکتری"].includes(v);
+      if (!isUni) {
+        targetStep = currentStep + 2; // educationLevel + major
+      }
+    }
 
-// 5) اقامت خارج
-if (field.key === "residenceAbroad__has") {
-  const v = (answers[field.key] || "").trim();
-  if (v === "خیر") {
-    currentStep += 4; // has + 3 سوال
-    showQuestion();
-    return;
-  }
-}
+    // 3) علائم ممیزه
+    if (field.key === "physical__hasMarks") {
+      const v = (answers[field.key] || "").trim();
+      if (v === "خیر") {
+        targetStep = currentStep + 2; // hasMarks + marksDesc
+      }
+    }
 
-// 6) گذرنامه قبلی
-if (field.key === "previousPassport__has") {
-  const v = (answers[field.key] || "").trim();
-  if (v === "خیر") {
-    currentStep += 6; // has + 5 سوال
-    showQuestion();
-    return;
-  }
-}
+    // 4) نیروهای مسلح
+    if (field.key === "military__has") {
+      const v = (answers[field.key] || "").trim();
+      if (v === "خیر") {
+        targetStep = currentStep + 3; // has + 2 سوال
+      }
+    }
 
-// ===== end skip =====
-currentStep++;
-showQuestion();
+    // 5) اقامت خارج
+    if (field.key === "residenceAbroad__has") {
+      const v = (answers[field.key] || "").trim();
+      if (v === "خیر") {
+        targetStep = currentStep + 4; // has + 3 سوال
+      }
+    }
+
+    // 6) گذرنامه قبلی
+    if (field.key === "previousPassport__has") {
+      const v = (answers[field.key] || "").trim();
+      if (v === "خیر") {
+        targetStep = currentStep + 6; // has + 5 سوال
+      }
+    }
+
+    // ===== حرکت نهایی فقط از Router =====
+    goToStep(targetStep, "next");
   });
 
   // Voice Input (Android/Windows)
