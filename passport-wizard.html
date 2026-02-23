@@ -135,11 +135,6 @@ input{
   justify-content: center;
 }
 
-.ios-hint {
-  font-size: 12px;
-  color: #888;
-  margin-top: 10px;
-}
 
 /* Buttons */
 button{
@@ -268,6 +263,9 @@ button{
   -webkit-appearance: none;
   outline: none;
   font-family: inherit;
+   width: auto;
+  margin-top: 0;
+  min-height: 0;
  }
 
 .section-pill.is-active{
@@ -401,7 +399,7 @@ button{
   justify-content:flex-end;  /* در RTL یعنی از راست شروع شود */
   gap: 8px;
   margin: 10px 0 0;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 
 /* ظرف نقطه‌ها: عرض مثل ورودی، و با padding راست مثل شروع placeholder */
