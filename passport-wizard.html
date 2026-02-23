@@ -942,6 +942,47 @@ function renderDots() {
       window.requestAnimationFrame(() => {
         inputEl.placeholder = `${qText}`;
         inputEl.value = answers[field.key] || "";
+        // --- اگر سوال انتخابی است (radio-like) ---
+if ((field.type || "text") === "choice") {
+  inputEl.style.display = "none";
+  choiceWrap.style.display = "flex";
+  choiceWrap.innerHTML = "";
+
+  const currentVal = (answers[field.key] || "").trim();
+
+  (field.choices || []).forEach(ch => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "choice-btn" + (currentVal === ch ? " is-selected" : "");
+    b.textContent = ch;
+
+    b.addEventListener("click", () => {
+      answers[field.key] = ch;
+      // رفرش حالت انتخاب
+      Array.from(choiceWrap.querySelectorAll(".choice-btn")).forEach(x => x.classList.remove("is-selected"));
+      b.classList.add("is-selected");
+      updateNavState();
+    });
+
+    choiceWrap.appendChild(b);
+  });
+
+  // برای choice: LTR/RTL ورودی مطرح نیست
+  prevBtn.style.display = "inline-flex";
+  nextBtn.style.display = "inline-flex";
+
+  document.getElementById("wmNote").style.display = "none";
+
+  renderDots();
+  updateNavState();
+  renderSectionSteps();
+
+  return; // مهم: ادامه‌ی منطق input را اجرا نکن
+}
+
+// --- حالت متنی (default) ---
+choiceWrap.style.display = "none";
+inputEl.style.display = "block";
 
       const q = String(field.question || "");
 
