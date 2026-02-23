@@ -463,6 +463,24 @@ button{
   border-color: #1f6b4a;
   box-shadow: inset 0 0 0 3px rgba(255,255,255,.95);
 }
+  /* رنگ انتخاب بر اساس بله/خیر */
+.choice-btn.is-selected.is-yes{
+  border-color: rgba(31,107,74,.75);
+  background: rgba(31,107,74,.08);
+}
+.choice-btn.is-selected.is-yes::before{
+  background: #1f6b4a;
+  border-color: #1f6b4a;
+}
+
+.choice-btn.is-selected.is-no{
+  border-color: rgba(185,28,28,.75);
+  background: rgba(185,28,28,.06);
+}
+.choice-btn.is-selected.is-no::before{
+  background: #b91c1c;
+  border-color: #b91c1c;
+} 
 
 .choice-btn.is-selected{
   border-color: rgba(15,37,71,.55);
@@ -683,13 +701,14 @@ document.addEventListener('DOMContentLoaded', function () {
   {
     "id": "residenceAbroad",
     "title": "نشانی محل اقامت خارج از کشور",
-    "questions": [
-      "نشانی (STREET) محل اقامت خارج چیست؟",
-      "شهر (CITY) محل اقامت خارج چیست؟",
-      "کشور (COUNTRY) محل اقامت خارج چیست؟",
-      "شماره تلفن (TELL) محل اقامت خارج چیست؟",
-      "مدت اقامت شما در خارج از کشور چند سال است؟"
-    ]
+   "questions": [
+  { "key":"residenceAbroad__q0", "text":"آیا محل اقامت خارج از کشور دارید؟", "type":"choice", "choices":["بله","خیر"] },
+  "نشانی (STREET) محل اقامت خارج چیست؟",
+  "شهر (CITY) محل اقامت خارج چیست؟",
+  "کشور (COUNTRY) محل اقامت خارج چیست؟",
+  "شماره تلفن (TELL) محل اقامت خارج چیست؟",
+  "مدت اقامت شما در خارج از کشور چند سال است؟"
+]
   },
   {
     "id": "travel",
@@ -983,11 +1002,12 @@ function renderDots() {
     if (currentStep < totalSteps) {
       const { field } = resolveStep(currentStep);
       _activeField = field;
-      const qText = field.question;
+     const qText = field.question;
 
-      heroQuestionEl.style.display = "none";
-      inputEl.style.display = "block";
-
+// سؤال همیشه ست شود؛ نمایش/عدم‌نمایش را پایین‌تر بر اساس type تعیین می‌کنیم
+heroQuestionEl.textContent = qText;
+heroQuestionEl.style.display = "none";
+inputEl.style.display = "block";
       inputEl.style.transition = "opacity 0.22s ease, transform 0.22s ease";
       inputEl.style.opacity = "0";
       inputEl.style.transform = "translateY(6px)";
@@ -997,6 +1017,8 @@ function renderDots() {
         inputEl.value = answers[field.key] || "";
         // --- اگر سوال انتخابی است (radio-like) ---
 if ((field.type || "text") === "choice") {
+    // در سوالات گزینه‌ای، سؤال باید دیده شود (نه اینکه فقط بله/خیر بیاید)
+  heroQuestionEl.style.display = "block";
   inputEl.style.display = "none";
   choiceWrap.style.display = "flex";
   choiceWrap.innerHTML = "";
@@ -1009,15 +1031,24 @@ if ((field.type || "text") === "choice") {
     b.className = "choice-btn" + (currentVal === ch ? " is-selected" : "");
     b.textContent = ch;
 
-   b.addEventListener("click", () => {
+b.addEventListener("click", () => {
   answers[field.key] = ch;
 
-  Array.from(choiceWrap.querySelectorAll(".choice-btn")).forEach(x => x.classList.remove("is-selected"));
+  // پاک کردن انتخاب‌های قبلی + کلاس‌های رنگی
+  Array.from(choiceWrap.querySelectorAll(".choice-btn")).forEach(x => {
+    x.classList.remove("is-selected", "is-yes", "is-no");
+  });
+
+  // انتخاب جدید
   b.classList.add("is-selected");
+
+  // رنگ برای بله/خیر (فقط اگر گزینه‌ها همین‌ها باشند)
+  if (ch === "بله") b.classList.add("is-yes");
+  if (ch === "خیر") b.classList.add("is-no");
 
   updateNavState();
 
-  // اتومات برو سوال بعدی (بدون نیاز به next)
+  // اتومات برو سوال بعدی
   window.setTimeout(() => nextBtn.click(), 120);
 });
 
@@ -1040,7 +1071,7 @@ if ((field.type || "text") === "choice") {
 // --- حالت متنی (default) ---
 choiceWrap.style.display = "none";
 inputEl.style.display = "block";
-
+heroQuestionEl.style.display = "none";
       const q = String(field.question || "");
 
 // هر چیزی که عدد/تاریخ/شماره/تلفن/کدپستی است → LTR + کیبورد عددی
@@ -1143,6 +1174,16 @@ if (field.key === "previousPassport__q1") {
     showQuestion();
     return;
   }
+ // Skip logic: اقامت خارج از کشور
+if (field.key === "residenceAbroad__q0") {
+  const v = (answers[field.key] || "").trim();
+  if (v === "خیر") {
+    // residenceAbroad__q1..q5 را رد کن (5 سؤال)
+    currentStep += 6; // q0 + پنج سؤال = 6
+    showQuestion();
+    return;
+  }
+} 
 }
     currentStep++;
     showQuestion();
