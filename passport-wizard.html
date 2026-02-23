@@ -568,7 +568,6 @@ button{
   box-shadow: none;
   padding: 0;
 }
-}
 
 /* Mobile tweaks */
 @media (max-width: 480px){
@@ -828,31 +827,18 @@ document.addEventListener('DOMContentLoaded', function () {
     const inputEl = document.getElementById("answerInput");
   const nextBtn = document.getElementById("nextButton");
   const prevBtn = document.getElementById("prevButton");
+   const heroQuestionEl = document.getElementById("heroQuestion");
+  const inputEl = document.getElementById("answerInput");
+  const nextBtn = document.getElementById("nextButton");
+  const prevBtn = document.getElementById("prevButton");
   const choiceWrap = document.getElementById("choiceWrap");
-   if (sectionStepsEl) {
-    sectionStepsEl.addEventListener("click", function (e) {
-      const btn = e.target.closest(".section-pill");
-      if (!btn) return;
 
-      const idx = Number(btn.dataset.sectionIndex);
-      if (Number.isNaN(idx)) return;
-
-      // پرش به اولین سوال آن بخش (ناوبری)
-      goToStep(sectionStartSteps[idx] ?? 0, "pill");
-    });
-  }
-
-  // Prev: برگشت history-aware
-  prevBtn.addEventListener("click", function () {
-    goBack();
-  });
   const voiceBtn = document.getElementById("voiceButton");
   const iosHint = document.getElementById("iosHint");
 
   const sectionStepsEl = document.getElementById("sectionSteps");
-    const bottomPreviewBar = document.getElementById("bottomPreviewBar");
+  const bottomPreviewBar = document.getElementById("bottomPreviewBar");
   const bottomPreviewCta = document.getElementById("bottomPreviewCta");
-  
 
   // iOS: voice hidden + hint
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
@@ -915,6 +901,23 @@ document.addEventListener('DOMContentLoaded', function () {
     showQuestion();
   }
   // ===== End Router =====
+    // Section pills (ناوبری)
+  if (sectionStepsEl) {
+    sectionStepsEl.addEventListener("click", function (e) {
+      const btn = e.target.closest(".section-pill");
+      if (!btn) return;
+
+      const idx = Number(btn.dataset.sectionIndex);
+      if (Number.isNaN(idx)) return;
+
+      goToStep(sectionStartSteps[idx] ?? 0, "pill");
+    });
+  }
+
+  // Prev: history-aware
+  prevBtn.addEventListener("click", function () {
+    goBack();
+  });
   
 
   function resolveStep(step) {
@@ -1058,6 +1061,142 @@ function updateNavState() {
     });
   }
 }
+    function showQuestion() {
+    // تمام شد
+    if (currentStep >= totalSteps) {
+      heroQuestionEl.style.display = "block";
+      heroQuestionEl.innerText = "تمام شد ✅";
+
+      inputEl.style.display = "none";
+      choiceWrap.style.display = "none";
+
+      prevBtn.style.display = "none";
+      nextBtn.style.display = "none";
+      voiceBtn.style.display = "none";
+
+      document.getElementById("wmNote").style.display = "block";
+
+      renderSectionSteps();
+      updateNavState();
+      return;
+    }
+
+    const { field } = resolveStep(currentStep);
+    _activeField = field;
+
+    const qText = String(field.question || "");
+    const type = (field.type || "text");
+
+    // سوال همیشه ست شود
+    heroQuestionEl.textContent = qText;
+
+    // ===== type-first: اگر choice است، اصلاً وارد transition input نشو =====
+    if (type === "choice") {
+      heroQuestionEl.style.display = "block";
+      inputEl.style.display = "none";
+
+      choiceWrap.style.display = "flex";
+      choiceWrap.innerHTML = "";
+
+      const chCount = (field.choices || []).length;
+      choiceWrap.classList.remove("is-binary", "is-multi");
+      if (chCount <= 2) choiceWrap.classList.add("is-binary");
+      else choiceWrap.classList.add("is-multi");
+
+      const currentVal = (answers[field.key] || "").trim();
+
+      (field.choices || []).forEach(ch => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "choice-btn" + (currentVal === ch ? " is-selected" : "");
+        b.textContent = ch;
+
+        if (currentVal === ch) {
+          if (ch === "بله") b.classList.add("is-yes");
+          if (ch === "خیر") b.classList.add("is-no");
+        }
+
+        b.addEventListener("click", () => {
+          answers[field.key] = ch;
+
+          Array.from(choiceWrap.querySelectorAll(".choice-btn")).forEach(x => {
+            x.classList.remove("is-selected", "is-yes", "is-no");
+          });
+
+          b.classList.add("is-selected");
+          if (ch === "بله") b.classList.add("is-yes");
+          if (ch === "خیر") b.classList.add("is-no");
+
+          updateNavState();
+
+          // اتومات برو سوال بعدی
+          window.setTimeout(() => nextBtn.click(), 120);
+        });
+
+        choiceWrap.appendChild(b);
+      });
+
+      prevBtn.style.display = "inline-flex";
+      nextBtn.style.display = "inline-flex";
+
+      document.getElementById("wmNote").style.display = "none";
+
+      renderSectionSteps();
+      updateNavState();
+      return;
+    }
+
+    // ===== حالت متنی: حالا transition/input =====
+    heroQuestionEl.style.display = "none";
+    choiceWrap.style.display = "none";
+    inputEl.style.display = "block";
+
+    inputEl.style.transition = "opacity 0.22s ease, transform 0.22s ease";
+    inputEl.style.opacity = "0";
+    inputEl.style.transform = "translateY(6px)";
+
+    window.requestAnimationFrame(() => {
+      inputEl.placeholder = qText;
+      inputEl.value = answers[field.key] || "";
+
+      const q = qText;
+
+      const isNumericLike =
+        /تلفن|کد پستی|کدپستی|شماره|تاریخ|سال|قد|وزن|TELL/i.test(q);
+
+      const isEnglishLike =
+        /CITY|STREET|COUNTRY/i.test(q);
+
+      if (isNumericLike) {
+        inputEl.type = "text";
+        inputEl.inputMode = "decimal";
+        inputEl.dir = "ltr";
+      } else if (isEnglishLike) {
+        inputEl.type = "text";
+        inputEl.inputMode = "text";
+        inputEl.dir = "ltr";
+      } else {
+        inputEl.type = "text";
+        inputEl.inputMode = "text";
+        inputEl.dir = "rtl";
+      }
+
+      prevBtn.style.display = "inline-flex";
+      nextBtn.style.display = "inline-flex";
+
+      document.getElementById("wmNote").style.display = "none";
+
+      renderSectionSteps();
+      updateNavState();
+
+      window.requestAnimationFrame(() => {
+        inputEl.style.opacity = "1";
+        inputEl.style.transform = "translateY(0)";
+      });
+
+      inputEl.focus();
+    });
+  }
 
       const type = (field.type || "text");
 
@@ -1199,12 +1338,7 @@ if (isNumericLike) {
       nextBtn.click();
     }
   });
-  prevBtn.addEventListener("click", function () {
-    if (currentStep <= 0) return;
-    currentStep--;
-    showQuestion();
-  });
-   nextBtn.addEventListener("click", function () {
+    nextBtn.addEventListener("click", function () {
     const { field } = resolveStep(currentStep);
 
     // مقدار پاسخ بر اساس نوع سوال
@@ -1455,8 +1589,8 @@ if (isNumericLike) {
     });
   }
 
-  showQuestion();
-    renderSectionSteps();
+   showQuestion();
+  renderSectionSteps();
   updateNavState();
 });
 </script>
