@@ -1155,49 +1155,38 @@ if (field.key === "military__q1") {
   }
 }
 
+// Skip logic: نیروهای مسلح
+if (field.key === "military__q1") {
+  const v = (answers[field.key] || "").trim();
+  if (v === "خیر") {
+    currentStep += 3;
+    showQuestion();
+    return;
+  }
+}
+
 // Skip logic: گذرنامه قبلی
 if (field.key === "previousPassport__q1") {
   const v = (answers[field.key] || "").trim();
-  if (v === "خیر" || v === "نه" || v.toLowerCase() === "no") {
-    // رد کردن q2..q6
+  if (v === "خیر") {
     currentStep += 6;
     showQuestion();
     return;
   }
- // Skip logic: اقامت خارج از کشور
-if (field.key === "residenceAbroad__q0") {
-  const v = (answers[field.key] || "").trim();
-  if (v === "خیر") {
-    // residenceAbroad__q1..q5 را رد کن (5 سؤال)
-    currentStep += 6; // q0 + پنج سؤال = 6
-    showQuestion();
-    return;
-  }
-} 
 }
-  // Skip logic: اقامت خارج
+
+// Skip logic: اقامت خارج
 if (field.key === "residenceAbroad__has") {
   const v = (answers[field.key] || "").trim();
   if (v === "خیر") {
-    // رد کردن 5 سوال بعدی (STREET,CITY,COUNTRY,TELL,مدت)
-    currentStep += 6; // has + پنج سوال = 6 استپ
+    currentStep += 6;
     showQuestion();
     return;
   }
-}  
-    currentStep++;
-    showQuestion();
-  });
+}
 
-  prevBtn.addEventListener("click", function () {
-    if (currentStep <= 0) return;
-
-    const { field } = resolveStep(currentStep);
-    const raw = inputEl.value.trim();
-    if (raw) answers[field.key] = normalizePersianNumbers(raw);
-
-    currentStep--;
-    showQuestion();
+currentStep++;
+showQuestion();
   });
 
   // Voice Input (Android/Windows)
