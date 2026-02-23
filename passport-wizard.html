@@ -822,11 +822,18 @@ function renderDots() {
 
 // هر چیزی که عدد/تاریخ/شماره/تلفن/کدپستی است → LTR + کیبورد عددی
 const isNumericLike =
-  /تلفن|کد پستی|کدپستی|شماره|تاریخ|سال|قد|وزن|TELL|CITY|STREET|COUNTRY/i.test(q);
+  /تلفن|کد پستی|کدپستی|شماره|تاریخ|سال|قد|وزن|TELL/i.test(q);
+
+const isEnglishLike =
+  /CITY|STREET|COUNTRY/i.test(q);
 
 if (isNumericLike) {
   inputEl.type = "text";
   inputEl.inputMode = "decimal";
+  inputEl.dir = "ltr";
+} else if (isEnglishLike) {
+  inputEl.type = "text";
+  inputEl.inputMode = "text";
   inputEl.dir = "ltr";
 } else {
   inputEl.type = "text";
