@@ -20,49 +20,7 @@
 <div class="bar">
   <div class="row">
     <div>فیلد:</div>
-    <select id="fieldKey">
-      <option value="firstName">firstName (نام)</option>
-      <option value="lastName">lastName (نام خانوادگی)</option>
-      <option value="height">height (قد)</option>
-      <option value="nationalId">کد ملی</option>
-<option value="birthDateShamsi">تاریخ تولد (شمسی)</option>
-<option value="birthDateMiladi">تاریخ تولد (میلادی)</option>
-<option value="birthPlace">محل تولد</option>
-<option value="fatherName">نام پدر</option>
-<option value="idNumber">شماره شناسنامه</option>
-<option value="idSerial">سریال شناسنامه</option>
-<option value="idIssuePlace">محل صدور شناسنامه</option>
-<option value="idIssueDate">تاریخ صدور شناسنامه</option>
-<option value="gender">جنسیت</option>
-<option value="religion">دین</option>
-<option value="bloodType">گروه خون</option>
-<option value="eyeColor">رنگ چشم</option>
-<option value="hairColor">رنگ مو</option>
-<option value="skinColor">رنگ پوست</option>
-<option value="weight">وزن</option>
-<option value="education">میزان تحصیلات</option>
-
-<option value="job">شغل</option>
-<option value="employerName">نام موسسه</option>
-<option value="workAddress">نشانی محل کار</option>
-<option value="workCity">شهر محل کار</option>
-<option value="workStreet">خیابان (کار)</option>
-<option value="workAlley">کوچه (کار)</option>
-<option value="workPlaque">پلاک (کار)</option>
-<option value="workPhone">تلفن ثابت (کار)</option>
-<option value="mobile">تلفن همراه</option>
-
-<option value="resProvince">استان محل اقامت</option>
-<option value="resCity">شهر</option>
-<option value="resStreet">خیابان (اقامت)</option>
-<option value="resAlley">کوچه (اقامت)</option>
-<option value="resPlaque">پلاک (اقامت)</option>
-<option value="postalCode">کد پستی</option>
-<option value="homePhone">تلفن ثابت (اقامت)</option>
-
-<option value="travelPurpose">منظور از مسافرت</option>
-<option value="destCountry">کشور مقصد</option>
-      <!-- هر فیلدی می‌خوای اضافه کن -->
+   <select id="fieldKey">
     </select>
 
     <div>سایز فونت:</div>
@@ -90,11 +48,167 @@
 
 <script>
 (async function () {
+    // === همان Schema پروژه اصلی (کپی از فایل فرم مرحله‌ای) ===
+  const formSchema = {
+    "formTitle": "پرسشنامه درخواست صدور گذرنامه",
+    "sections": [
+      {
+        "id": "identity",
+        "title": "اطلاعات هویتی",
+        "questions": [
+          "نام شما چیست؟",
+          "نام خانوادگی شما چیست؟",
+          "نام شما به انگلیسی (با حروف بزرگ) چیست؟",
+          "نام خانوادگی شما به انگلیسی (با حروف بزرگ) چیست؟",
+          "نام قبلی شما چیست؟",
+          "تاریخ تولد شما به سال شمسی چیست؟",
+          "محل تولد شما کجاست؟",
+          "نام پدر شما چیست؟",
+          "شماره شناسنامه شما چیست؟",
+          "محل صدور شناسنامه شما کجاست؟",
+          "تاریخ صدور شناسنامه شما چیست؟",
+          "سریال شناسنامه شما چیست؟",
+          "شماره سری شناسنامه شما چیست؟",
+          "جنسیت شما چیست؟",
+          "دین شما چیست؟",
+          "وضعیت تأهل شما چیست؟",
+          "میزان تحصیلات شما چیست؟",
+          "رشته تحصیلی شما چیست؟"
+        ]
+      },
+      {
+        "id": "physical",
+        "title": "مشخصات ظاهری",
+        "questions": [
+          "قد شما چند سانتی‌متر است؟",
+          "وزن شما چند کیلوگرم است؟",
+          "رنگ چهره شما چیست؟ (سفید / گندمگون / سبز / تیره / سایر)",
+          "رنگ چشم شما چیست؟ (مشکی / میشی / سبز / آبی / قهوه‌ای / عسلی / سایر)",
+          "آیا دارای علائم ممیزه هستید؟ در صورت وجود توضیح دهید."
+        ]
+      },
+      {
+        "id": "job",
+        "title": "اطلاعات شغلی",
+        "questions": [
+          "شغل فعلی شما چیست؟",
+          "نام مؤسسه یا محل کار شما چیست؟",
+          "نشانی محل کار شما چیست؟",
+          "شهر محل کار شما چیست؟",
+          "خیابان محل کار شما چیست؟",
+          "کوچه محل کار شما چیست؟",
+          "پلاک محل کار شما چیست؟",
+          "تلفن ثابت محل کار شما چیست؟",
+          "تلفن همراه محل کار شما چیست؟"
+        ]
+      },
+      {
+        "id": "military",
+        "title": "سوابق نیروهای مسلح",
+        "questions": [
+          "آیا سابقه اشتغال در نیروهای مسلح داشته‌اید؟",
+          "شغل پیشین شما در نیروهای مسلح چه بوده است؟",
+          "نوع انفصال شما از خدمت چه بوده است؟"
+        ]
+      },
+      {
+        "id": "residenceIran",
+        "title": "نشانی محل سکونت در ایران",
+        "questions": [
+          "استان محل سکونت شما چیست؟",
+          "شهر محل سکونت شما چیست؟",
+          "خیابان محل سکونت شما چیست؟",
+          "کوچه محل سکونت شما چیست؟",
+          "پلاک محل سکونت شما چیست؟",
+          "طبقه محل سکونت شما چیست؟",
+          "تلفن ثابت منزل شما چیست؟",
+          "تلفن همراه شما چیست؟",
+          "کد پستی شما چیست؟"
+        ]
+      },
+      {
+        "id": "residenceAbroad",
+        "title": "نشانی محل اقامت خارج از کشور",
+        "questions": [
+          "نشانی (STREET) محل اقامت خارج چیست؟",
+          "شهر (CITY) محل اقامت خارج چیست؟",
+          "کشور (COUNTRY) محل اقامت خارج چیست؟",
+          "شماره تلفن (TELL) محل اقامت خارج چیست؟",
+          "مدت اقامت شما در خارج از کشور چند سال است؟"
+        ]
+      },
+      {
+        "id": "travel",
+        "title": "اطلاعات سفر",
+        "questions": [
+          "کشور مقصد شما چیست؟",
+          "منظور از مسافرت چیست؟"
+        ]
+      },
+      {
+        "id": "previousPassport",
+        "title": "اطلاعات گذرنامه قبلی",
+        "questions": [
+          "آیا تاکنون گذرنامه داشته‌اید؟",
+          "شماره گذرنامه قبلی چیست؟",
+          "تاریخ صدور گذرنامه قبلی چیست؟",
+          "محل صدور گذرنامه قبلی کجاست؟",
+          "تاریخ انقضای گذرنامه قبلی چیست؟",
+          "علت تعویض گذرنامه چیست؟"
+        ]
+      },
+      {
+        "id": "declaration",
+        "title": "تعهد متقاضی",
+        "questions": [
+          "آیا صحت مطالب فوق را تأیید می‌کنید؟",
+          "نام شما چیست؟",
+          "نام خانوادگی شما چیست؟"
+        ]
+      }
+    ]
+  };
+
+  // کلیدها را مثل پروژه اصلی بساز: sectionId__qN
+  function normalizeSchemaToForm(schema) {
+    const sections = (schema.sections || []).map(sec => {
+      const qs = Array.isArray(sec.questions) ? sec.questions : [];
+      const fields = qs.map((q, idx) => ({
+        question: q,
+        key: `${sec.id}__q${idx + 1}`
+      }));
+      return { id: sec.id, title: sec.title, fields };
+    });
+
+    return { formTitle: schema.formTitle || "", sections };
+  }
+
+  const form = normalizeSchemaToForm(formSchema);
+
+  // select را اتومات پر کن (9 بخش + همه سوال‌ها)
+  function populateFieldSelect(selectEl) {
+    selectEl.innerHTML = "";
+
+    form.sections.forEach(sec => {
+      const og = document.createElement("optgroup");
+      og.label = sec.title;
+
+      sec.fields.forEach(f => {
+        const opt = document.createElement("option");
+        opt.value = f.key;                         // ✅ key واقعی
+        opt.textContent = `${f.key} — ${f.question}`; // خوانا
+        og.appendChild(opt);
+      });
+
+      selectEl.appendChild(og);
+    });
+  }
   const templateUrl = "assets/forms/passport.pdf"; // ✅ PDF واقعی ریپو تو
   const canvas = document.getElementById("c");
   const ctx = canvas.getContext("2d");
 
   const fieldKeyEl = document.getElementById("fieldKey");
+    populateFieldSelect(fieldKeyEl);
   const fontSizeEl = document.getElementById("fontSize");
   const pageIndexEl = document.getElementById("pageIndex");
   const outEl = document.getElementById("out");
