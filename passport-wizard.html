@@ -262,6 +262,13 @@ button{
   border: 1px solid rgba(2,8,23,.10);
   color: rgba(15,23,42,.70);
   white-space: nowrap;
+    border: 1px solid rgba(2,8,23,.10);
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+    outline: none;
+  font-family: inherit;
+  background: rgba(255,255,255,.65);
 }
 
 .section-pill.is-active{
@@ -670,7 +677,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // ====== NORMALIZE TO CURRENT ENGINE FORMAT (sections[].fields[]) ======
   function normalizeSchemaToForm(schema) {
-    const sections = (schema.sections || []).map((sec) => {
+      const sections = (schema.sections || []).filter(sec => sec.id !== "instructions").map((sec) => {
       const qs = Array.isArray(sec.questions) ? sec.questions : [];
       const fields = qs.map((q, idx) => ({
         question: q,
@@ -705,6 +712,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const sectionStepsEl = document.getElementById("sectionSteps");
   const topDownloadLink = document.getElementById("topDownloadLink");
+    if (sectionStepsEl) {
+    sectionStepsEl.addEventListener("click", function (e) {
+      const btn = e.target.closest(".section-pill");
+      if (!btn) return;
+
+      const idx = Number(btn.dataset.sectionIndex);
+      if (Number.isNaN(idx)) return;
+
+      // پرش به اولین سوال آن بخش
+      currentStep = sectionStartSteps[idx] ?? 0;
+      showQuestion();
+    });
+  }
 
   // iOS: voice hidden + hint
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
@@ -720,6 +740,12 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   const totalSteps = form.sections.reduce((sum, s) => sum + (s.fields?.length || 0), 0);
+    const sectionStartSteps = [];
+  let _acc = 0;
+  for (let i = 0; i < form.sections.length; i++) {
+    sectionStartSteps.push(_acc);
+    _acc += (form.sections[i].fields?.length || 0);
+  }
   let currentStep = 0;
   const answers = {};
 
@@ -764,11 +790,13 @@ document.addEventListener('DOMContentLoaded', function () {
     form.sections.forEach((sec, idx) => {
       const allAnswered = (sec.fields || []).every(f => (answers[f.key] || "").trim() !== "");
 
-      const pill = document.createElement("span");
+         const pill = document.createElement("button");
       pill.className =
         "section-pill" +
         (idx === activeSectionIndex && currentStep < totalSteps ? " is-active" : "") +
         (allAnswered ? " is-done" : "");
+            pill.type = "button";
+      pill.dataset.sectionIndex = String(idx);
 
       pill.textContent = sec.title;
 
