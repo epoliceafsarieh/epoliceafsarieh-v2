@@ -919,6 +919,7 @@ const wizardSchema = {
   const bottomPreviewCta = document.getElementById("bottomPreviewCta");
 
   const wizardTitleEl = document.getElementById("wizardTitle");
+  const heroQuestionEl = document.getElementById("heroQuestion");
   const wizardFieldsEl = document.getElementById("wizardFields");
   const wizardProgressEl = document.getElementById("wizardProgress");
 
@@ -961,6 +962,35 @@ const wizardSchema = {
     "previousPassport__has"
   ].includes(String(key || ""));
 }
+ function clearDependentFields(driverKey, driverValue) {
+  const k = String(driverKey || "").trim();
+  const v = String(driverValue || "").trim();
+
+  // تحصیلات: اگر دانشگاهی نیست، رشته را پاک کن
+  if (k === "identity__educationLevel") {
+    const uniLevels = ["فوق‌دیپلم","کارشناسی","کارشناسی ارشد","دکتری"];
+    if (!uniLevels.includes(v)) {
+      answers["identity__major"] = "";
+    }
+    return;
+  }
+
+  // بله/خیرها: اگر "بله" نیست، بلاک جزئیات پاک شود
+  if (k === "military__has" && v !== "بله") {
+    answers["military__detailBlock"] = "";
+    return;
+  }
+
+  if (k === "residenceAbroad__has" && v !== "بله") {
+    answers["residenceAbroad__block"] = "";
+    return;
+  }
+
+  if (k === "previousPassport__has" && v !== "بله") {
+    answers["previousPassport__block"] = "";
+    return;
+  }
+} 
 
   function isFieldFilled(key) {
     return ((answers[key] || "").trim() !== "");
@@ -1079,6 +1109,8 @@ const wizardSchema = {
 
       b.addEventListener("click", () => {
         answers[field.key] = ch;
+        // جلوگیری از باقی ماندن داده‌های پنهان (طبق منطق شرطی)
+clearDependentFields(field.key, ch);
         updateNav();
         // شرطی‌ها را بلافاصله اعمال کن
         renderPage();
@@ -1097,6 +1129,9 @@ const wizardSchema = {
     const visible = getVisibleFields(page);
 
     wizardTitleEl.textContent = page.title;
+    if (heroQuestionEl) {
+  heroQuestionEl.textContent = page.title;
+}
     wizardProgressEl.textContent = `صفحه ${currentPage + 1} از ${wizardSchema.pages.length}`;
 
     wizardFieldsEl.innerHTML = "";
