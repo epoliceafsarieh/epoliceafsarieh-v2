@@ -792,107 +792,121 @@ document.addEventListener('DOMContentLoaded', function () {
   // ====== Wizard Schema (6 pages balanced) ======
   // نکته: نام و نام خانوادگی یکجا گرفته می‌شود (identity__fullName)
   // و در generatePdf برای mapping قدیمی split می‌شود.
-  const wizardSchema = {
-    formTitle: "پرسشنامه درخواست صدور گذرنامه",
-    pages: [
-      {
-        id: "p1_identity",
-        title: "هویت",
-        fields: [
-          { key: "identity__fullName", label: "نام و نام خانوادگی" },
-          { key: "identity__nationalId", label: "کد ملی", inputMode: "numeric", dir: "ltr" },
-          { key: "identity__hasPrevName", label: "آیا نام/نام‌خانوادگی قبلی داشته‌اید؟", type: "choice", choices: ["بله","خیر"] },
-          { key: "identity__prevName", label: "نام/نام‌خانوادگی قبلی", when: { key: "identity__hasPrevName", equals: "بله" } },
-          { key: "identity__birthDateShamsi", label: "تاریخ تولد (شمسی) مثال: ۱۳۷۲/۰۵/۲۱", inputMode: "numeric", dir: "ltr" },
-          { key: "identity__birthPlace", label: "محل تولد" },
-          { key: "identity__fatherName", label: "نام پدر" },
-        ],
-      },
-      {
-        id: "p2_idcard",
-        title: "شناسنامه و وضعیت",
-        fields: [
-          { key: "identity__idNumber", label: "شماره شناسنامه", inputMode: "numeric", dir: "ltr" },
-          { key: "identity__idIssuePlace", label: "محل صدور شناسنامه" },
-          { key: "identity__idIssueDate", label: "تاریخ صدور شناسنامه (شمسی)", inputMode: "numeric", dir: "ltr" },
-          { key: "identity__idSerialCombo", label: "سری/سریال شناسنامه (مثل «الف ۱۲۳۴۵۶» یا «سری ۲ - ۱۲۳۴۵۶۷»)" },
-          { key: "identity__gender", label: "جنسیت", type: "choice", choices: ["مرد","زن"] },
-          { key: "identity__religion", label: "دین" },
-          { key: "identity__marital", label: "وضعیت تأهل", type: "choice", choices: ["مجرد","متأهل","سایر"] },
-        ],
-      },
-      {
-        id: "p3_edu_physical",
-        title: "تحصیلات و مشخصات ظاهری",
-        fields: [
-          { key: "identity__educationLevel", label: "میزان تحصیلات", type: "choice", choices: ["زیر دیپلم","دیپلم","فوق‌دیپلم","کارشناسی","کارشناسی ارشد","دکتری","سایر"] },
-          { key: "identity__major", label: "رشته تحصیلی (فقط اگر دانشگاهی بود)", when: { key: "identity__educationLevel", in: ["فوق‌دیپلم","کارشناسی","کارشناسی ارشد","دکتری"] } },
+const wizardSchema = {
+  formTitle: "پرسشنامه درخواست صدور گذرنامه",
+  pages: [
+    {
+      id: "p1_identity",
+      title: "اطلاعات هویتی",
+      fields: [
+        { key: "identity__fullName", label: "نام و نام خانوادگی" },
+        { key: "identity__nationalId", label: "کد ملی", inputMode: "numeric", dir: "ltr" },
+        { key: "identity__birthDateShamsi", label: "تاریخ تولد (شمسی) مثال: ۱۳۷۲/۰۵/۲۱", inputMode: "numeric", dir: "ltr" },
+        { key: "identity__birthPlace", label: "محل تولد" },
+        { key: "identity__fatherName", label: "نام پدر" },
 
-          { key: "physical__heightCm", label: "قد (سانتی‌متر)", inputMode: "numeric", dir: "ltr" },
-          { key: "physical__weightKg", label: "وزن (کیلوگرم)", inputMode: "numeric", dir: "ltr" },
+        {
+          key: "identity__idCardCombo",
+          label: "مشخصات شناسنامه (شماره، محل صدور، تاریخ صدور، سری/سریال) — مثال: «۱۲۳۴۵ | تهران | ۱۳۸۵/۰۲/۱۰ | الف ۱۲۳۴۵۶»",
+          multiline: true
+        },
 
-          { key: "physical__faceColor", label: "رنگ چهره", type: "choice", choices: ["سفید","گندمگون","سبزه","تیره","سایر"] },
-          { key: "physical__eyeColor", label: "رنگ چشم", type: "choice", choices: ["مشکی","قهوه‌ای","عسلی","آبی","سبز","میشی","سایر"] },
+        {
+          key: "identity__statusBlock",
+          label: "وضعیت فردی (جنسیت + تأهل + دین) — مثال: «مرد | متأهل | اسلام»",
+          multiline: false
+        },
 
-          { key: "physical__hasMarks", label: "آیا علائم ممیزه دارید؟", type: "choice", choices: ["بله","خیر"] },
-          { key: "physical__marksDesc", label: "توضیح علائم ممیزه (مثلاً عمل بینی/جای زخم/خال مشخص...)", when: { key: "physical__hasMarks", equals: "بله" }, multiline: true },
-        ],
-      },
-      {
-        id: "p4_job_iran",
-        title: "شغل و نشانی ایران",
-        fields: [
-          { key: "job__title", label: "شغل فعلی" },
-          { key: "job__org", label: "نام مؤسسه/محل کار" },
-          { key: "job__addressFull", label: "نشانی کامل محل کار", multiline: true },
+        {
+          key: "identity__educationLevel",
+          label: "میزان تحصیلات",
+          type: "choice",
+          choices: ["زیر دیپلم","دیپلم","فوق‌دیپلم","کارشناسی","کارشناسی ارشد","دکتری","سایر"]
+        },
+        {
+          key: "identity__major",
+          label: "رشته تحصیلی (فقط اگر دانشگاهی بود)",
+          when: { key: "identity__educationLevel", in: ["فوق‌دیپلم","کارشناسی","کارشناسی ارشد","دکتری"] }
+        }
+      ]
+    },
 
-          { key: "residenceIran__addressFull", label: "نشانی کامل محل سکونت در ایران", multiline: true },
-          { key: "residenceIran__postalCode", label: "کد پستی", inputMode: "numeric", dir: "ltr" },
-          { key: "residenceIran__phoneLandline", label: "تلفن ثابت", inputMode: "numeric", dir: "ltr" },
-          { key: "residenceIran__phoneMobile", label: "تلفن همراه", inputMode: "numeric", dir: "ltr" },
-        ],
-      },
-      {
-        id: "p5_abroad_travel_passport",
-        title: "خارج از کشور، سفر، گذرنامه قبلی",
-        fields: [
-          { key: "military__has", label: "سابقه نیروهای مسلح داشته‌اید؟", type: "choice", choices: ["بله","خیر"] },
-          { key: "military__job", label: "شغل پیشین در نیروهای مسلح", when: { key: "military__has", equals: "بله" } },
-          { key: "military__exitType", label: "نوع انفصال از خدمت", when: { key: "military__has", equals: "بله" } },
+    {
+      id: "p2_personal_job",
+      title: "مشخصات فردی و شغلی",
+      fields: [
+        { key: "physical__heightCm", label: "قد (سانتی‌متر)", inputMode: "numeric", dir: "ltr" },
+        { key: "physical__weightKg", label: "وزن (کیلوگرم)", inputMode: "numeric", dir: "ltr" },
 
-          { key: "residenceAbroad__has", label: "اقامت خارج از کشور دارید؟", type: "choice", choices: ["بله","خیر"] },
-          { key: "residenceAbroad__addressFull", label: "نشانی کامل خارج (STREET/CITY/COUNTRY)", when: { key: "residenceAbroad__has", equals: "بله" }, dir: "ltr" },
-          { key: "residenceAbroad__phone", label: "تلفن خارج (TELL)", when: { key: "residenceAbroad__has", equals: "بله" }, inputMode: "numeric", dir: "ltr" },
-          { key: "residenceAbroad__years", label: "مدت اقامت (سال)", when: { key: "residenceAbroad__has", equals: "بله" }, inputMode: "numeric", dir: "ltr" },
+        { key: "physical__faceColor", label: "رنگ چهره", type: "choice", choices: ["سفید","گندمگون","سبزه","تیره","سایر"] },
+        { key: "physical__eyeColor", label: "رنگ چشم", type: "choice", choices: ["مشکی","قهوه‌ای","عسلی","آبی","سبز","میشی","سایر"] },
 
-          { key: "travel__country", label: "کشور مقصد" },
-          { key: "travel__purpose", label: "منظور از سفر" },
+        { key: "physical__marksShort", label: "علائم ممیزه (اختیاری) — مثال: «جای زخم گونه چپ»", optional: true },
 
-          { key: "previousPassport__has", label: "قبلاً گذرنامه داشته‌اید؟", type: "choice", choices: ["بله","خیر"] },
-          { key: "previousPassport__number", label: "شماره گذرنامه قبلی", when: { key: "previousPassport__has", equals: "بله" } },
-          { key: "previousPassport__issueDate", label: "تاریخ صدور گذرنامه قبلی", when: { key: "previousPassport__has", equals: "بله" }, inputMode: "numeric", dir: "ltr" },
-          { key: "previousPassport__issuePlace", label: "محل صدور گذرنامه قبلی", when: { key: "previousPassport__has", equals: "بله" } },
-          { key: "previousPassport__expireDate", label: "تاریخ انقضای گذرنامه قبلی", when: { key: "previousPassport__has", equals: "بله" }, inputMode: "numeric", dir: "ltr" },
-          { key: "previousPassport__replaceReason", label: "علت تعویض گذرنامه", when: { key: "previousPassport__has", equals: "بله" }, multiline: true },
-        ],
-      },
-      {
-        id: "p6_relatives",
-        title: "بستگان",
-        fields: [
-          { key: "rel1__fullName", label: "بستگان ۱: نام و نام خانوادگی" },
-          { key: "rel1__job", label: "بستگان ۱: شغل" },
-          { key: "rel1__address", label: "بستگان ۱: نشانی", multiline: true },
-          { key: "rel1__phone", label: "بستگان ۱: تلفن", inputMode: "numeric", dir: "ltr" },
+        {
+          key: "job__block",
+          label: "اطلاعات شغلی (شغل + نام مؤسسه + نشانی محل کار) — مثال: «کارمند | شرکت X | تهران، ...»",
+          multiline: true
+        },
 
-          { key: "rel2__fullName", label: "بستگان ۲: نام و نام خانوادگی" },
-          { key: "rel2__job", label: "بستگان ۲: شغل" },
-          { key: "rel2__address", label: "بستگان ۲: نشانی", multiline: true },
-          { key: "rel2__phone", label: "بستگان ۲: تلفن", inputMode: "numeric", dir: "ltr" },
-        ],
-      },
-    ],
-  };
+        { key: "military__has", label: "سابقه نیروهای مسلح داشته‌اید؟", type: "choice", choices: ["بله","خیر"] },
+        {
+          key: "military__detailBlock",
+          label: "اگر بله: شغل پیشین + نوع انفصال — مثال: «راننده | پایان خدمت»",
+          when: { key: "military__has", equals: "بله" },
+          multiline: true
+        }
+      ]
+    },
+
+    {
+      id: "p3_address",
+      title: "نشانی و اقامت",
+      fields: [
+        { key: "residenceIran__addressFull", label: "نشانی کامل محل سکونت در ایران", multiline: true },
+        { key: "residenceIran__postalCode", label: "کد پستی", inputMode: "numeric", dir: "ltr" },
+        { key: "residenceIran__phoneMobile", label: "تلفن همراه", inputMode: "numeric", dir: "ltr" },
+
+        { key: "residenceAbroad__has", label: "اقامت خارج از کشور دارید؟", type: "choice", choices: ["بله","خیر"] },
+        {
+          key: "residenceAbroad__block",
+          label: "اگر بله: نشانی + تلفن + مدت اقامت — مثال: «Street… | +49… | 3 سال»",
+          when: { key: "residenceAbroad__has", equals: "بله" },
+          multiline: true,
+          dir: "ltr"
+        }
+      ]
+    },
+
+    {
+      id: "p4_travel_extra",
+      title: "سفر و تکمیلی",
+      fields: [
+        { key: "travel__country", label: "کشور مقصد" },
+        { key: "travel__purpose", label: "منظور از سفر" },
+
+        { key: "previousPassport__has", label: "قبلاً گذرنامه داشته‌اید؟", type: "choice", choices: ["بله","خیر"] },
+        {
+          key: "previousPassport__block",
+          label: "اگر بله: شماره گذرنامه + علت تعویض — مثال: «A1234567 | انقضا/مفقودی»",
+          when: { key: "previousPassport__has", equals: "بله" },
+          multiline: true
+        },
+
+        {
+          key: "rel1__block",
+          label: "بستگان ۱ (نام + شغل + نشانی + تلفن) — مثال: «علی رضایی | آزاد | تهران... | 0912...»",
+          multiline: true
+        },
+        {
+          key: "rel2__block",
+          label: "بستگان ۲ (نام + شغل + نشانی + تلفن) — مثال: «مریم محمدی | کارمند | تهران... | 0912...»",
+          multiline: true
+        }
+      ]
+    }
+  ]
+};
 
   // ===== DOM refs =====
   const prevBtn = document.getElementById("prevButton");
@@ -944,11 +958,13 @@ document.addEventListener('DOMContentLoaded', function () {
     return ((answers[key] || "").trim() !== "");
   }
 
-  function isPageComplete(page) {
-    const visible = getVisibleFields(page);
-    return visible.every(f => isFieldFilled(f.key));
-  }
-
+ function isPageComplete(page) {
+  const visible = getVisibleFields(page);
+  return visible.every(f => {
+    if (f.optional) return true;
+    return isFieldFilled(f.key);
+  });
+}
   function isAllComplete() {
     return wizardSchema.pages.every(p => isPageComplete(p));
   }
