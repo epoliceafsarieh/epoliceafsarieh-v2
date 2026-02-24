@@ -354,6 +354,116 @@ button{
 .flow-head--compact{
   margin: 20px 6px 10px;
 }
+ /* ===== Wizard (multi-field per page) ===== */
+.wizard-shell{
+  width: min(520px, 100%);
+  margin: 0 auto;
+  border-radius: 22px;
+  border: 1px solid rgba(2,8,23,.10);
+  background: rgba(255,255,255,.92);
+  box-shadow: 0 14px 30px rgba(2,8,23,.08);
+  overflow: hidden;
+}
+
+.wizard-nav{
+  display:flex;
+  align-items:center;
+  gap: 10px;
+  padding: 10px;
+  border-bottom: 1px solid rgba(2,8,23,.08);
+}
+
+.wizard-progress{
+  flex: 1;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 800;
+  color: rgba(15,23,42,.65);
+  white-space: nowrap;
+}
+
+.voice--inline{
+  width: 52px;
+  height: 52px;
+  margin: 0;
+  border-radius: 999px;
+  border: 1px solid rgba(2,8,23,.10);
+  box-shadow: 0 12px 22px rgba(2,8,23,.14);
+  padding: 0;
+  background: linear-gradient(to bottom, #17335f, #0f2547);
+  color: #fff;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.wizard-body{
+  padding: 14px 14px 16px;
+}
+
+.wizard-title{
+  font-size: 18px;
+  font-weight: 900;
+  color: rgba(15,23,42,.78);
+  text-align: center;
+  margin: 8px 0 12px;
+}
+
+.wizard-fields{
+  display:flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.field{
+  display:flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field-label{
+  font-size: 13px;
+  font-weight: 800;
+  color: rgba(15,23,42,.70);
+}
+
+.field input,
+.field textarea{
+  width: 100%;
+  border-radius: 14px;
+  border: 1px solid rgba(2,8,23,.12);
+  background: rgba(248,250,252,.92);
+  padding: 12px 12px;
+  font-size: 16px;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.field textarea{
+  min-height: 64px;
+  resize: vertical;
+}
+
+/* choice inside wizard */
+.choice-row{
+  display:flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.choice-row .choice-btn{
+  height: 40px;
+  font-size: 14px;
+  padding: 0 12px;
+}
+
+/* Desktop: کمی فشرده‌تر */
+@media (min-width: 700px){
+  .wizard-shell{ width: min(460px, 100%); }
+  .wizard-title{ font-size: 16px; margin: 6px 0 10px; }
+  .wizard-body{ padding: 12px 14px 14px; }
+  .voice--inline{ width: 48px; height: 48px; }
+}  
 
 .hero-question{
   font-size: 28px;
@@ -423,21 +533,6 @@ button{
 } 
  .flow-head--compact{ position: relative; }
 
-.voice--float{
-  position: absolute;
-  left: 6px;              /* سمت چپ */
-  top: 104px;             /* هم‌ردیف با hero-shell */
-  width: 56px;
-  height: 56px;
-  margin: 0;
-  border: 1px solid rgba(2,8,23,.10);
-  box-shadow: 0 12px 22px rgba(2,8,23,.16);
-}
-
-/* موبایل: کمی پایین‌تر تا روی سوال نیفتد */
-@media (max-width: 480px){
-  .voice--float{ top: 88px; }
-}  
 
 .hero-next{
   width: 88px;
@@ -649,30 +744,21 @@ button{
   <div class="hero-question" id="heroQuestion">نام خود را بنویسید</div>
 
 <!-- [ANCHOR:A1 HERO-ROW] -->
-<div class="hero-shell">
-  <div class="hero-row">
-    <!-- مرحله قبل (سمت راستِ صفحه RTL) -->
-    <button class="hero-btn hero-prev" id="prevButton" type="button" aria-label="مرحله قبل">▶</button>
+<div class="wizard-shell" id="wizardShell">
+  <div class="wizard-nav">
+    <button class="hero-btn hero-prev" id="prevButton" type="button" aria-label="صفحه قبل">▶</button>
 
-    <!-- ورودی -->
-    <input
-      class="hero-input"
-      type="text"
-      id="answerInput"
-      inputmode="text"
-      autocomplete="off"
-      autocorrect="on"
-      autocapitalize="none"
-      spellcheck="true"
-      placeholder=""
-    
-    />
-        <div class="choice-wrap hero-choice" id="choiceWrap" style="display:none;"></div>
+    <div class="wizard-progress" id="wizardProgress">—</div>
 
-    <!-- مرحله بعد (سمت چپِ صفحه RTL) -->
-    <button class="hero-btn hero-next" id="nextButton" type="button" aria-label="مرحله بعد">◀</button>
+    <button class="hero-btn hero-next" id="nextButton" type="button" aria-label="صفحه بعد">◀</button>
+
+    <button class="voice voice--inline" id="voiceButton" type="button" aria-label="ورود صوتی">🎤</button>
   </div>
-  <button class="voice voice--float" id="voiceButton" type="button" aria-label="ورود صوتی">🎤</button>
+
+  <div class="wizard-body">
+    <div class="wizard-title" id="wizardTitle">—</div>
+    <div class="wizard-fields" id="wizardFields"></div>
+  </div>
 </div>
    
 
@@ -703,192 +789,126 @@ button{
 <script src="https://unpkg.com/@pdf-lib/fontkit@1.1.1/dist/fontkit.umd.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    // ====== FORM SCHEMA (FROM YOU) ======
- const formSchema = {
-  "formTitle": "پرسشنامه درخواست صدور گذرنامه",
-  "sections": [
-    {
-      "id": "identity",
-      "title": "اطلاعات هویتی",
-      "questions": [
-        { "key":"identity__firstName", "text":"نام شما چیست؟" },
-        { "key":"identity__lastName", "text":"نام خانوادگی شما چیست؟" },
-        { "key":"identity__nationalId", "text":"کد ملی شما چیست؟" },
+  // ====== Wizard Schema (6 pages balanced) ======
+  // نکته: نام و نام خانوادگی یکجا گرفته می‌شود (identity__fullName)
+  // و در generatePdf برای mapping قدیمی split می‌شود.
+  const wizardSchema = {
+    formTitle: "پرسشنامه درخواست صدور گذرنامه",
+    pages: [
+      {
+        id: "p1_identity",
+        title: "هویت",
+        fields: [
+          { key: "identity__fullName", label: "نام و نام خانوادگی" },
+          { key: "identity__nationalId", label: "کد ملی", inputMode: "numeric", dir: "ltr" },
+          { key: "identity__hasPrevName", label: "آیا نام/نام‌خانوادگی قبلی داشته‌اید؟", type: "choice", choices: ["بله","خیر"] },
+          { key: "identity__prevName", label: "نام/نام‌خانوادگی قبلی", when: { key: "identity__hasPrevName", equals: "بله" } },
+          { key: "identity__birthDateShamsi", label: "تاریخ تولد (شمسی) مثال: ۱۳۷۲/۰۵/۲۱", inputMode: "numeric", dir: "ltr" },
+          { key: "identity__birthPlace", label: "محل تولد" },
+          { key: "identity__fatherName", label: "نام پدر" },
+        ],
+      },
+      {
+        id: "p2_idcard",
+        title: "شناسنامه و وضعیت",
+        fields: [
+          { key: "identity__idNumber", label: "شماره شناسنامه", inputMode: "numeric", dir: "ltr" },
+          { key: "identity__idIssuePlace", label: "محل صدور شناسنامه" },
+          { key: "identity__idIssueDate", label: "تاریخ صدور شناسنامه (شمسی)", inputMode: "numeric", dir: "ltr" },
+          { key: "identity__idSerialCombo", label: "سری/سریال شناسنامه (مثل «الف ۱۲۳۴۵۶» یا «سری ۲ - ۱۲۳۴۵۶۷»)" },
+          { key: "identity__gender", label: "جنسیت", type: "choice", choices: ["مرد","زن"] },
+          { key: "identity__religion", label: "دین" },
+          { key: "identity__marital", label: "وضعیت تأهل", type: "choice", choices: ["مجرد","متأهل","سایر"] },
+        ],
+      },
+      {
+        id: "p3_edu_physical",
+        title: "تحصیلات و مشخصات ظاهری",
+        fields: [
+          { key: "identity__educationLevel", label: "میزان تحصیلات", type: "choice", choices: ["زیر دیپلم","دیپلم","فوق‌دیپلم","کارشناسی","کارشناسی ارشد","دکتری","سایر"] },
+          { key: "identity__major", label: "رشته تحصیلی (فقط اگر دانشگاهی بود)", when: { key: "identity__educationLevel", in: ["فوق‌دیپلم","کارشناسی","کارشناسی ارشد","دکتری"] } },
 
-        { "key":"identity__enFullName", "text":"نام و نام خانوادگی شما به انگلیسی (با حروف بزرگ) چیست؟" },
+          { key: "physical__heightCm", label: "قد (سانتی‌متر)", inputMode: "numeric", dir: "ltr" },
+          { key: "physical__weightKg", label: "وزن (کیلوگرم)", inputMode: "numeric", dir: "ltr" },
 
-        { "key":"identity__hasPrevName", "text":"آیا نام/نام‌خانوادگی قبلی داشته‌اید؟", "type":"choice", "choices":["بله","خیر"] },
-        { "key":"identity__prevName", "text":"نام/نام‌خانوادگی قبلی شما چیست؟" },
+          { key: "physical__faceColor", label: "رنگ چهره", type: "choice", choices: ["سفید","گندمگون","سبزه","تیره","سایر"] },
+          { key: "physical__eyeColor", label: "رنگ چشم", type: "choice", choices: ["مشکی","قهوه‌ای","عسلی","آبی","سبز","میشی","سایر"] },
 
-        { "key":"identity__birthDateShamsi", "text":"تاریخ تولد شما (شمسی) چیست؟ مثال: ۱۳۷۲/۰۵/۲۱" },
-        { "key":"identity__birthPlace", "text":"محل تولد شما کجاست؟" },
-        { "key":"identity__fatherName", "text":"نام پدر شما چیست؟" },
+          { key: "physical__hasMarks", label: "آیا علائم ممیزه دارید؟", type: "choice", choices: ["بله","خیر"] },
+          { key: "physical__marksDesc", label: "توضیح علائم ممیزه (مثلاً عمل بینی/جای زخم/خال مشخص...)", when: { key: "physical__hasMarks", equals: "بله" }, multiline: true },
+        ],
+      },
+      {
+        id: "p4_job_iran",
+        title: "شغل و نشانی ایران",
+        fields: [
+          { key: "job__title", label: "شغل فعلی" },
+          { key: "job__org", label: "نام مؤسسه/محل کار" },
+          { key: "job__addressFull", label: "نشانی کامل محل کار", multiline: true },
 
-        { "key":"identity__idNumber", "text":"شماره شناسنامه شما چیست؟" },
-        { "key":"identity__idIssuePlace", "text":"محل صدور شناسنامه شما کجاست؟" },
-        { "key":"identity__idIssueDate", "text":"تاریخ صدور شناسنامه (شمسی) چیست؟ مثال: ۱۳۸۵/۰۲/۱۰" },
+          { key: "residenceIran__addressFull", label: "نشانی کامل محل سکونت در ایران", multiline: true },
+          { key: "residenceIran__postalCode", label: "کد پستی", inputMode: "numeric", dir: "ltr" },
+          { key: "residenceIran__phoneLandline", label: "تلفن ثابت", inputMode: "numeric", dir: "ltr" },
+          { key: "residenceIran__phoneMobile", label: "تلفن همراه", inputMode: "numeric", dir: "ltr" },
+        ],
+      },
+      {
+        id: "p5_abroad_travel_passport",
+        title: "خارج از کشور، سفر، گذرنامه قبلی",
+        fields: [
+          { key: "military__has", label: "سابقه نیروهای مسلح داشته‌اید؟", type: "choice", choices: ["بله","خیر"] },
+          { key: "military__job", label: "شغل پیشین در نیروهای مسلح", when: { key: "military__has", equals: "بله" } },
+          { key: "military__exitType", label: "نوع انفصال از خدمت", when: { key: "military__has", equals: "بله" } },
 
-        { "key":"identity__idSerialCombo", "text":"سری/سریال شناسنامه چیست؟ (راهنما: مثل «الف ۱۲۳۴۵۶» یا «سری ۲ - ۱۲۳۴۵۶۷»)" },
+          { key: "residenceAbroad__has", label: "اقامت خارج از کشور دارید؟", type: "choice", choices: ["بله","خیر"] },
+          { key: "residenceAbroad__addressFull", label: "نشانی کامل خارج (STREET/CITY/COUNTRY)", when: { key: "residenceAbroad__has", equals: "بله" }, dir: "ltr" },
+          { key: "residenceAbroad__phone", label: "تلفن خارج (TELL)", when: { key: "residenceAbroad__has", equals: "بله" }, inputMode: "numeric", dir: "ltr" },
+          { key: "residenceAbroad__years", label: "مدت اقامت (سال)", when: { key: "residenceAbroad__has", equals: "بله" }, inputMode: "numeric", dir: "ltr" },
 
-        { "key":"identity__gender", "text":"جنسیت شما چیست؟", "type":"choice", "choices":["مرد","زن"] },
-        { "key":"identity__religion", "text":"دین شما چیست؟" },
-        { "key":"identity__marital", "text":"وضعیت تأهل شما چیست؟", "type":"choice", "choices":["مجرد","متأهل","سایر"] },
+          { key: "travel__country", label: "کشور مقصد" },
+          { key: "travel__purpose", label: "منظور از سفر" },
 
-        { "key":"identity__educationLevel", "text":"میزان تحصیلات شما چیست؟", "type":"choice", "choices":["زیر دیپلم","دیپلم","فوق‌دیپلم","کارشناسی","کارشناسی ارشد","دکتری","سایر"] },
-        { "key":"identity__major", "text":"رشته تحصیلی شما چیست؟" }
-      ]
-    },
+          { key: "previousPassport__has", label: "قبلاً گذرنامه داشته‌اید؟", type: "choice", choices: ["بله","خیر"] },
+          { key: "previousPassport__number", label: "شماره گذرنامه قبلی", when: { key: "previousPassport__has", equals: "بله" } },
+          { key: "previousPassport__issueDate", label: "تاریخ صدور گذرنامه قبلی", when: { key: "previousPassport__has", equals: "بله" }, inputMode: "numeric", dir: "ltr" },
+          { key: "previousPassport__issuePlace", label: "محل صدور گذرنامه قبلی", when: { key: "previousPassport__has", equals: "بله" } },
+          { key: "previousPassport__expireDate", label: "تاریخ انقضای گذرنامه قبلی", when: { key: "previousPassport__has", equals: "بله" }, inputMode: "numeric", dir: "ltr" },
+          { key: "previousPassport__replaceReason", label: "علت تعویض گذرنامه", when: { key: "previousPassport__has", equals: "بله" }, multiline: true },
+        ],
+      },
+      {
+        id: "p6_relatives",
+        title: "بستگان",
+        fields: [
+          { key: "rel1__fullName", label: "بستگان ۱: نام و نام خانوادگی" },
+          { key: "rel1__job", label: "بستگان ۱: شغل" },
+          { key: "rel1__address", label: "بستگان ۱: نشانی", multiline: true },
+          { key: "rel1__phone", label: "بستگان ۱: تلفن", inputMode: "numeric", dir: "ltr" },
 
-    {
-      "id": "physical",
-      "title": "مشخصات ظاهری",
-      "questions": [
-        { "key":"physical__heightCm", "text":"قد شما چند سانتی‌متر است؟" },
-        { "key":"physical__weightKg", "text":"وزن شما چند کیلوگرم است؟" },
-
-        { "key":"physical__faceColor", "text":"رنگ چهره شما چیست؟", "type":"choice", "choices":["سفید","گندمگون","سبزه","تیره","سایر"] },
-        { "key":"physical__eyeColor", "text":"رنگ چشم شما چیست؟", "type":"choice", "choices":["مشکی","قهوه‌ای","عسلی","آبی","سبز","میشی","سایر"] },
-
-        { "key":"physical__hasMarks", "text":"آیا علائم ممیزه دارید؟ (مثلاً عمل بینی، جای زخم، خال مشخص...)", "type":"choice", "choices":["بله","خیر"] },
-        { "key":"physical__marksDesc", "text":"علائم ممیزه را توضیح دهید." }
-      ]
-    },
-
-    {
-      "id": "job",
-      "title": "اطلاعات شغلی",
-      "questions": [
-        { "key":"job__title", "text":"شغل فعلی شما چیست؟" },
-        { "key":"job__org", "text":"نام مؤسسه یا محل کار شما چیست؟" },
-        { "key":"job__addressFull", "text":"نشانی کامل محل کار شما چیست؟" }
-      ]
-    },
-
-    {
-      "id": "military",
-      "title": "سوابق نیروهای مسلح",
-      "questions": [
-        { "key":"military__has", "text":"آیا سابقه اشتغال در نیروهای مسلح داشته‌اید؟", "type":"choice", "choices":["بله","خیر"] },
-        { "key":"military__job", "text":"شغل پیشین شما در نیروهای مسلح چه بوده است؟" },
-        { "key":"military__exitType", "text":"نوع انفصال شما از خدمت چه بوده است؟" }
-      ]
-    },
-
-    {
-      "id": "residenceIran",
-      "title": "نشانی محل سکونت در ایران",
-      "questions": [
-        { "key":"residenceIran__addressFull", "text":"نشانی کامل محل سکونت شما چیست؟" },
-        { "key":"residenceIran__postalCode", "text":"کد پستی شما چیست؟" },
-        { "key":"residenceIran__phoneLandline", "text":"تلفن ثابت منزل شما چیست؟" },
-        { "key":"residenceIran__phoneMobile", "text":"تلفن همراه شما چیست؟" }
-      ]
-    },
-
-    {
-      "id": "residenceAbroad",
-      "title": "نشانی محل اقامت خارج از کشور",
-      "questions": [
-        { "key":"residenceAbroad__has", "text":"آیا اقامت خارج از کشور دارید؟", "type":"choice", "choices":["بله","خیر"] },
-        { "key":"residenceAbroad__addressFull", "text":"نشانی کامل محل اقامت خارج چیست؟ (STREET/CITY/COUNTRY)" },
-        { "key":"residenceAbroad__phone", "text":"شماره تلفن محل اقامت خارج چیست؟ (TELL)" },
-        { "key":"residenceAbroad__years", "text":"مدت اقامت شما در خارج از کشور چند سال است؟" }
-      ]
-    },
-
-    {
-      "id": "travel",
-      "title": "اطلاعات سفر",
-      "questions": [
-        { "key":"travel__country", "text":"کشور مقصد شما چیست؟" },
-        { "key":"travel__purpose", "text":"منظور از مسافرت چیست؟" }
-      ]
-    },
-
-    {
-      "id": "previousPassport",
-      "title": "اطلاعات گذرنامه قبلی",
-      "questions": [
-        { "key":"previousPassport__has", "text":"آیا تاکنون گذرنامه داشته‌اید؟", "type":"choice", "choices":["بله","خیر"] },
-        { "key":"previousPassport__number", "text":"شماره گذرنامه قبلی چیست؟" },
-        { "key":"previousPassport__issueDate", "text":"تاریخ صدور گذرنامه قبلی چیست؟" },
-        { "key":"previousPassport__issuePlace", "text":"محل صدور گذرنامه قبلی کجاست؟" },
-        { "key":"previousPassport__expireDate", "text":"تاریخ انقضای گذرنامه قبلی چیست؟" },
-        { "key":"previousPassport__replaceReason", "text":"علت تعویض گذرنامه چیست؟" }
-      ]
-    },
-
-    {
-      "id": "relatives",
-      "title": "مشخصات بستگان",
-      "questions": [
-        { "key":"rel1__fullName", "text":"بستگان ۱: نام و نام خانوادگی چیست؟" },
-        { "key":"rel1__job", "text":"بستگان ۱: شغل چیست؟" },
-        { "key":"rel1__address", "text":"بستگان ۱: نشانی چیست؟" },
-        { "key":"rel1__phone", "text":"بستگان ۱: تلفن چیست؟" },
-
-        { "key":"rel2__fullName", "text":"بستگان ۲: نام و نام خانوادگی چیست؟" },
-        { "key":"rel2__job", "text":"بستگان ۲: شغل چیست؟" },
-        { "key":"rel2__address", "text":"بستگان ۲: نشانی چیست؟" },
-        { "key":"rel2__phone", "text":"بستگان ۲: تلفن چیست؟" }
-      ]
-    }
-  ]
-};
-  // ====== END FORM SCHEMA ======
-
-  // ====== NORMALIZE TO CURRENT ENGINE FORMAT (sections[].fields[]) ======
-  function normalizeSchemaToForm(schema) {
-      const sections = (schema.sections || []).filter(sec => sec.id !== "instructions").map((sec) => {
-      const qs = Array.isArray(sec.questions) ? sec.questions : [];
-     const fields = qs.map((q, idx) => {
-  // پشتیبانی از سوال آبجکت‌دار
-  if (q && typeof q === "object") {
-    return {
-      question: q.text || "",
-      key: q.key || `${sec.id}__q${idx + 1}`,
-      type: q.type || "text",
-      choices: Array.isArray(q.choices) ? q.choices : []
-    };
-  }
-
-  // حالت قدیمی (string)
-  return {
-    question: String(q || ""),
-    key: `${sec.id}__q${idx + 1}`,
-    type: "text",
-    choices: []
+          { key: "rel2__fullName", label: "بستگان ۲: نام و نام خانوادگی" },
+          { key: "rel2__job", label: "بستگان ۲: شغل" },
+          { key: "rel2__address", label: "بستگان ۲: نشانی", multiline: true },
+          { key: "rel2__phone", label: "بستگان ۲: تلفن", inputMode: "numeric", dir: "ltr" },
+        ],
+      },
+    ],
   };
-});
 
-      return {
-        id: sec.id,
-        title: sec.title,
-        intro: sec.intro || "",
-        fields
-      };
-    });
-
-    return {
-      formTitle: schema.formTitle || "",
-      sections
-    };
-  }
-
-  const form = normalizeSchemaToForm(formSchema);
-  // ====== END NORMALIZE ======
-    const heroQuestionEl = document.getElementById("heroQuestion");
-  const inputEl = document.getElementById("answerInput");
-  const nextBtn = document.getElementById("nextButton");
+  // ===== DOM refs =====
   const prevBtn = document.getElementById("prevButton");
-  const choiceWrap = document.getElementById("choiceWrap");
-
+  const nextBtn = document.getElementById("nextButton");
   const voiceBtn = document.getElementById("voiceButton");
   const iosHint = document.getElementById("iosHint");
 
   const sectionStepsEl = document.getElementById("sectionSteps");
   const bottomPreviewBar = document.getElementById("bottomPreviewBar");
   const bottomPreviewCta = document.getElementById("bottomPreviewCta");
+
+  const wizardTitleEl = document.getElementById("wizardTitle");
+  const wizardFieldsEl = document.getElementById("wizardFields");
+  const wizardProgressEl = document.getElementById("wizardProgress");
+
+  const wmNote = document.getElementById("wmNote");
 
   // iOS: voice hidden + hint
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
@@ -897,460 +917,217 @@ document.addEventListener('DOMContentLoaded', function () {
     iosHint.style.display = "block";
   }
 
+  const answers = {};
+  let currentPage = 0;
+
   function normalizePersianNumbers(text) {
     return String(text || "")
       .replace(/[۰-۹]/g, d => "۰۱۲۳۴۵۶۷۸۹".indexOf(d))
       .replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d));
   }
 
-  const totalSteps = form.sections.reduce((sum, s) => sum + (s.fields?.length || 0), 0);
-    const sectionStartSteps = [];
-  let _acc = 0;
-  for (let i = 0; i < form.sections.length; i++) {
-    sectionStartSteps.push(_acc);
-    _acc += (form.sections[i].fields?.length || 0);
-  }
-  let currentStep = 0;
-  const answers = {};
-  // ===== Router مرکزی (Step Navigation) =====
-  const stepHistory = [];
+  function shouldShowField(field) {
+    const w = field.when;
+    if (!w) return true;
+    const v = (answers[w.key] || "").trim();
 
-  function clampStep(s) {
-    const n = Number(s);
-    if (Number.isNaN(n)) return 0;
-    // totalSteps مجاز است (حالت "تمام شد")
-    return Math.max(0, Math.min(n, totalSteps));
+    if (typeof w.equals !== "undefined") return v === w.equals;
+    if (Array.isArray(w.in)) return w.in.includes(v);
+    return true;
   }
 
-  // reason: "next" | "auto" | "pill" | "init"
-  function goToStep(nextStep, reason) {
-    const target = clampStep(nextStep);
-
-    if (reason === "pill") {
-      // پرش ناوبری: تاریخچه را ریست کن تا Prev گیج نشود
-      stepHistory.length = 0;
-    } else if (reason === "next" || reason === "auto") {
-      // حرکت عادی/اتومات: قدم فعلی را ذخیره کن (اگر داخل فرم هستیم)
-      if (currentStep < totalSteps) stepHistory.push(currentStep);
-    }
-    // init: هیچ
-
-    currentStep = target;
-    showQuestion();
+  function getVisibleFields(page) {
+    return (page.fields || []).filter(shouldShowField);
   }
 
-  function goBack() {
-    if (stepHistory.length > 0) {
-      currentStep = stepHistory.pop();
-      showQuestion();
-      return;
-    }
-    // fallback (اگر history خالی بود)
-    if (currentStep <= 0) return;
-    currentStep--;
-    showQuestion();
-  }
-  // ===== End Router =====
-    // Section pills (ناوبری)
-  if (sectionStepsEl) {
-    sectionStepsEl.addEventListener("click", function (e) {
-      const btn = e.target.closest(".section-pill");
-      if (!btn) return;
-
-      const idx = Number(btn.dataset.sectionIndex);
-      if (Number.isNaN(idx)) return;
-
-      goToStep(sectionStartSteps[idx] ?? 0, "pill");
-    });
+  function isFieldFilled(key) {
+    return ((answers[key] || "").trim() !== "");
   }
 
-  // Prev: history-aware
-  prevBtn.addEventListener("click", function () {
-    goBack();
-  });
-  
-
-  function resolveStep(step) {
-    let sectionIndex = 0;
-    let fieldIndex = step;
-
-    while (sectionIndex < form.sections.length && fieldIndex >= form.sections[sectionIndex].fields.length) {
-      fieldIndex -= form.sections[sectionIndex].fields.length;
-      sectionIndex++;
-    }
-
-    const section = form.sections[sectionIndex];
-    const field = section.fields[fieldIndex];
-    return { sectionIndex, fieldIndex, field };
+  function isPageComplete(page) {
+    const visible = getVisibleFields(page);
+    return visible.every(f => isFieldFilled(f.key));
   }
 
- let _activeField = null;
-  // ===== Skip awareness (treat skipped fields as completed) =====
-function getSkippedKeys() {
-  const skipped = new Set();
-
-  // 1) نام قبلی
-  if ((answers["identity__hasPrevName"] || "").trim() === "خیر") {
-    skipped.add("identity__prevName");
+  function isAllComplete() {
+    return wizardSchema.pages.every(p => isPageComplete(p));
   }
 
-  // 2) رشته تحصیلی فقط اگر دانشگاهی باشد
-  const edu = (answers["identity__educationLevel"] || "").trim();
-  const isUni = ["فوق‌دیپلم","کارشناسی","کارشناسی ارشد","دکتری"].includes(edu);
-  if (edu && !isUni) {
-    skipped.add("identity__major");
-  }
+  // ===== Pills (page-level) =====
+  function renderPills() {
+    if (!sectionStepsEl) return;
+    sectionStepsEl.innerHTML = "";
 
-  // 3) علائم ممیزه
-  if ((answers["physical__hasMarks"] || "").trim() === "خیر") {
-    skipped.add("physical__marksDesc");
-  }
+    wizardSchema.pages.forEach((p, idx) => {
+      const visible = getVisibleFields(p);
+      const filledCount = visible.filter(f => isFieldFilled(f.key)).length;
+      const allAnswered = visible.length > 0 && filledCount === visible.length;
+      const anyAnswered = filledCount > 0;
 
-  // 4) نیروهای مسلح
-  if ((answers["military__has"] || "").trim() === "خیر") {
-    skipped.add("military__job");
-    skipped.add("military__exitType");
-  }
+      const pill = document.createElement("button");
+      const stateClass = allAnswered ? " is-done" : (anyAnswered ? " is-warn" : " is-empty");
 
-  // 5) اقامت خارج
-  if ((answers["residenceAbroad__has"] || "").trim() === "خیر") {
-    skipped.add("residenceAbroad__addressFull");
-    skipped.add("residenceAbroad__phone");
-    skipped.add("residenceAbroad__years");
-  }
+      pill.className = "section-pill" + (idx === currentPage ? " is-active" : "") + stateClass;
+      pill.type = "button";
+      pill.textContent = p.title;
 
-  // 6) گذرنامه قبلی
-  if ((answers["previousPassport__has"] || "").trim() === "خیر") {
-    skipped.add("previousPassport__number");
-    skipped.add("previousPassport__issueDate");
-    skipped.add("previousPassport__issuePlace");
-    skipped.add("previousPassport__expireDate");
-    skipped.add("previousPassport__replaceReason");
-  }
-
-  return skipped;
-}
-
-function isFieldCompleted(key, skippedKeys) {
-  if (skippedKeys && skippedKeys.has(key)) return true;
-  return ((answers[key] || "").trim() !== "");
-}
-
-function updateNavState() {
-  prevBtn.disabled = (currentStep === 0);
-
-  if (!_activeField) {
-    nextBtn.disabled = true;
-    return;
-  }
-
-  const key = _activeField.key;
-  const type = _activeField.type || "text";
-
-  if (type === "choice") {
-    nextBtn.disabled = ((answers[key] || "").trim() === "");
-  } else {
-    nextBtn.disabled = (inputEl.value.trim() === "");
-  }
-}
-
- function renderSectionSteps() {
-  if (!sectionStepsEl) return;
-
-  const safeStep = Math.min(currentStep, totalSteps - 1);
-   const skippedKeys = getSkippedKeys();
-  const { sectionIndex: activeSectionIndex } = resolveStep(safeStep);
-
-  const allSectionsDone = form.sections.every(sec =>
-  (sec.fields || []).every(f => isFieldCompleted(f.key, skippedKeys))
-);
-
-  // نوار پایین: پیش‌نمایش/دانلود
-  if (bottomPreviewCta) {
-bottomPreviewCta.textContent = allSectionsDone ? "دریافت فرم گذرنامه" : "";  }
-  if (bottomPreviewBar) {
-    bottomPreviewBar.setAttribute("aria-label", allSectionsDone ? "دریافت فرم گذرنامه" : "پیش‌نمایش فرم گذرنامه");
-  }
-
-  // چیدمان گروهی فقط در دسکتاپ
-  const isDesktop = window.matchMedia("(min-width: 700px)").matches;
-
- sectionStepsEl.innerHTML = "";
-sectionStepsEl.classList.add("is-grouped");
-
-// ردیف‌ها مطابق خواسته شما (هم دسکتاپ، هم موبایل)
-const rows = [
-  [0, 1, 2], // identity, physical, job
-  [3],       // military
-  [4, 5],    // residenceIran, residenceAbroad
-  [6],       // travel
-  [7],       // previousPassport
-  [8],       // relatives
-];
-
-rows.forEach(rowIdxs => {
-  const row = document.createElement("div");
-  row.className = "section-row";
-
-  rowIdxs.forEach(idx => {
-    const sec = form.sections[idx];
-    if (!sec) return;
-    const fields = (sec.fields || []);
-    const answeredCount = fields.filter(f => isFieldCompleted(f.key, skippedKeys)).length;
-    const allAnswered = fields.length > 0 && answeredCount === fields.length;
-    const anyAnswered = answeredCount > 0;
-
-    const pill = document.createElement("button");
-    const stateClass = allAnswered ? " is-done" : (anyAnswered ? " is-warn" : " is-empty");
-
-    pill.className =
-      "section-pill" +
-      (idx === activeSectionIndex && currentStep < totalSteps ? " is-active" : "") +
-      stateClass;
-
-    pill.type = "button";
-    pill.dataset.sectionIndex = String(idx);
-    pill.textContent = sec.title;
-
-    if (allAnswered) {
-      const tick = document.createElement("span");
-      tick.className = "tick";
-      tick.textContent = "✔";
-      pill.appendChild(tick);
-    }
-
-    row.appendChild(pill);
-  });
-
-  sectionStepsEl.appendChild(row);
-});
-}
-    function showQuestion() {
-    // تمام شد
-    if (currentStep >= totalSteps) {
-      heroQuestionEl.style.display = "block";
-      heroQuestionEl.innerText = "تمام شد ✅";
-
-      inputEl.style.display = "none";
-      choiceWrap.style.display = "none";
-
-      prevBtn.style.display = "none";
-      nextBtn.style.display = "none";
-      voiceBtn.style.display = "none";
-
-      document.getElementById("wmNote").style.display = "block";
-
-      renderSectionSteps();
-      updateNavState();
-      return;
-    }
-
-    const { field } = resolveStep(currentStep);
-    _activeField = field;
-
-    const qText = String(field.question || "");
-    const type = (field.type || "text");
-
-    // سوال همیشه ست شود
-    heroQuestionEl.textContent = qText;
-
-    // ===== type-first: اگر choice است، اصلاً وارد transition input نشو =====
-    if (type === "choice") {
-      heroQuestionEl.style.display = "block";
-      inputEl.style.display = "none";
-
-      choiceWrap.style.display = "flex";
-      choiceWrap.innerHTML = "";
-
-      const chCount = (field.choices || []).length;
-      choiceWrap.classList.remove("is-binary", "is-multi");
-      if (chCount <= 2) choiceWrap.classList.add("is-binary");
-      else choiceWrap.classList.add("is-multi");
-
-      const currentVal = (answers[field.key] || "").trim();
-
-      (field.choices || []).forEach(ch => {
-        const b = document.createElement("button");
-        b.type = "button";
-        b.className = "choice-btn" + (currentVal === ch ? " is-selected" : "");
-        b.textContent = ch;
-
-        if (currentVal === ch) {
-          if (ch === "بله") b.classList.add("is-yes");
-          if (ch === "خیر") b.classList.add("is-no");
-        }
-
-        b.addEventListener("click", () => {
-          answers[field.key] = ch;
-
-          Array.from(choiceWrap.querySelectorAll(".choice-btn")).forEach(x => {
-            x.classList.remove("is-selected", "is-yes", "is-no");
-          });
-
-          b.classList.add("is-selected");
-          if (ch === "بله") b.classList.add("is-yes");
-          if (ch === "خیر") b.classList.add("is-no");
-
-          updateNavState();
-
-          // اتومات برو سوال بعدی
-          window.setTimeout(() => nextBtn.click(), 120);
-        });
-
-        choiceWrap.appendChild(b);
+      pill.addEventListener("click", () => {
+        currentPage = idx;
+        renderPage();
       });
 
-      prevBtn.style.display = "inline-flex";
-      nextBtn.style.display = "inline-flex";
-
-      document.getElementById("wmNote").style.display = "none";
-
-      renderSectionSteps();
-      updateNavState();
-      return;
-    }
-
-    // ===== حالت متنی: حالا transition/input =====
-    heroQuestionEl.style.display = "none";
-    choiceWrap.style.display = "none";
-    inputEl.style.display = "block";
-
-    inputEl.style.transition = "opacity 0.22s ease, transform 0.22s ease";
-    inputEl.style.opacity = "0";
-    inputEl.style.transform = "translateY(6px)";
-
-    window.requestAnimationFrame(() => {
-      inputEl.placeholder = qText;
-      inputEl.value = answers[field.key] || "";
-
-      const q = qText;
-
-      const isNumericLike =
-        /تلفن|کد پستی|کدپستی|شماره|تاریخ|سال|قد|وزن|TELL/i.test(q);
-
-      const isEnglishLike =
-        /CITY|STREET|COUNTRY/i.test(q);
-
-      if (isNumericLike) {
-        inputEl.type = "text";
-        inputEl.inputMode = "decimal";
-        inputEl.dir = "ltr";
-      } else if (isEnglishLike) {
-        inputEl.type = "text";
-        inputEl.inputMode = "text";
-        inputEl.dir = "ltr";
-      } else {
-        inputEl.type = "text";
-        inputEl.inputMode = "text";
-        inputEl.dir = "rtl";
+      if (allAnswered) {
+        const tick = document.createElement("span");
+        tick.className = "tick";
+        tick.textContent = "✔";
+        pill.appendChild(tick);
       }
 
-      prevBtn.style.display = "inline-flex";
-      nextBtn.style.display = "inline-flex";
-
-      document.getElementById("wmNote").style.display = "none";
-
-      renderSectionSteps();
-      updateNavState();
-
-      window.requestAnimationFrame(() => {
-        inputEl.style.opacity = "1";
-        inputEl.style.transform = "translateY(0)";
-      });
-
-      inputEl.focus();
+      sectionStepsEl.appendChild(pill);
     });
   }
 
+  // ===== Build field UI =====
+  function buildTextField(field) {
+    const wrap = document.createElement("div");
+    wrap.className = "field";
 
-  // live enable/disable next
-  inputEl.addEventListener("input", updateNavState);
+    const label = document.createElement("div");
+    label.className = "field-label";
+    label.textContent = field.label || field.key;
 
-  // Enter فقط next
-  inputEl.addEventListener("keydown", function(e){
-    if (e.key === "Enter") {
-      e.preventDefault();
-      nextBtn.click();
-    }
-  });
-    nextBtn.addEventListener("click", function () {
-    const { field } = resolveStep(currentStep);
-
-    // مقدار پاسخ بر اساس نوع سوال
-    let raw = "";
-    if ((field.type || "text") === "choice") {
-      raw = (answers[field.key] || "").trim();
+    let input;
+    if (field.multiline) {
+      input = document.createElement("textarea");
     } else {
-      raw = inputEl.value.trim();
+      input = document.createElement("input");
+      input.type = "text";
     }
 
-    if (!raw) return;
+    input.value = answers[field.key] || "";
+    input.setAttribute("data-key", field.key);
+    input.inputMode = field.inputMode || "text";
 
-    answers[field.key] = normalizePersianNumbers(raw);
+    if (field.dir) input.dir = field.dir;
+    else input.dir = "rtl";
 
-    // پیش‌فرض: یک قدم جلو
-    let targetStep = currentStep + 1;
+    input.addEventListener("input", (e) => {
+      answers[field.key] = normalizePersianNumbers(e.target.value || "");
+      updateNav();
+      // ممکن است با پاسخ این فیلد، فیلدهای شرطی صفحه تغییر کنند
+      renderPage({ preserveFocusKey: field.key });
+    });
 
-    // ===== Skip Logic (v2) — فقط targetStep را تغییر بده =====
+    wrap.appendChild(label);
+    wrap.appendChild(input);
+    return wrap;
+  }
 
-    // 1) نام قبلی
-    if (field.key === "identity__hasPrevName") {
-      const v = (answers[field.key] || "").trim();
-      if (v === "خیر") {
-        targetStep = currentStep + 2; // hasPrevName + prevName
+  function buildChoiceField(field) {
+    const wrap = document.createElement("div");
+    wrap.className = "field";
+
+    const label = document.createElement("div");
+    label.className = "field-label";
+    label.textContent = field.label || field.key;
+
+    const row = document.createElement("div");
+    row.className = "choice-row";
+
+    const currentVal = (answers[field.key] || "").trim();
+
+    (field.choices || []).forEach(ch => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "choice-btn" + (currentVal === ch ? " is-selected" : "");
+      b.textContent = ch;
+
+      if (currentVal === ch) {
+        if (ch === "بله") b.classList.add("is-yes");
+        if (ch === "خیر") b.classList.add("is-no");
       }
-    }
 
-    // 2) رشته تحصیلی فقط اگر دانشگاهی باشد
-    if (field.key === "identity__educationLevel") {
-      const v = (answers[field.key] || "").trim();
-      const isUni = ["فوق‌دیپلم","کارشناسی","کارشناسی ارشد","دکتری"].includes(v);
-      if (!isUni) {
-        targetStep = currentStep + 2; // educationLevel + major
-      }
-    }
+      b.addEventListener("click", () => {
+        answers[field.key] = ch;
+        updateNav();
+        // شرطی‌ها را بلافاصله اعمال کن
+        renderPage();
+      });
 
-    // 3) علائم ممیزه
-    if (field.key === "physical__hasMarks") {
-      const v = (answers[field.key] || "").trim();
-      if (v === "خیر") {
-        targetStep = currentStep + 2; // hasMarks + marksDesc
-      }
-    }
+      row.appendChild(b);
+    });
 
-    // 4) نیروهای مسلح
-    if (field.key === "military__has") {
-      const v = (answers[field.key] || "").trim();
-      if (v === "خیر") {
-        targetStep = currentStep + 3; // has + 2 سوال
-      }
-    }
+    wrap.appendChild(label);
+    wrap.appendChild(row);
+    return wrap;
+  }
 
-    // 5) اقامت خارج
-    if (field.key === "residenceAbroad__has") {
-      const v = (answers[field.key] || "").trim();
-      if (v === "خیر") {
-        targetStep = currentStep + 4; // has + 3 سوال
-      }
-    }
+  function renderPage(opts) {
+    const page = wizardSchema.pages[currentPage];
+    const visible = getVisibleFields(page);
 
-    // 6) گذرنامه قبلی
-    if (field.key === "previousPassport__has") {
-      const v = (answers[field.key] || "").trim();
-      if (v === "خیر") {
-        targetStep = currentStep + 6; // has + 5 سوال
-      }
-    }
+    wizardTitleEl.textContent = page.title;
+    wizardProgressEl.textContent = `صفحه ${currentPage + 1} از ${wizardSchema.pages.length}`;
 
-    // ===== حرکت نهایی فقط از Router =====
-    goToStep(targetStep, "next");
+    wizardFieldsEl.innerHTML = "";
+    visible.forEach(f => {
+      if (f.type === "choice") wizardFieldsEl.appendChild(buildChoiceField(f));
+      else wizardFieldsEl.appendChild(buildTextField(f));
+    });
+
+    renderPills();
+    updateNav();
+
+    wmNote.style.display = "none";
+
+    // Restore focus (optional)
+    if (opts && opts.preserveFocusKey) {
+      const el = wizardFieldsEl.querySelector(`[data-key="${opts.preserveFocusKey}"]`);
+      if (el) el.focus();
+    }
+  }
+
+  function updateNav() {
+    prevBtn.disabled = (currentPage === 0);
+    nextBtn.disabled = !isPageComplete(wizardSchema.pages[currentPage]);
+
+    const allDone = isAllComplete();
+    if (bottomPreviewCta) bottomPreviewCta.textContent = allDone ? "دریافت فرم گذرنامه" : "";
+    if (bottomPreviewBar) bottomPreviewBar.disabled = !allDone;
+  }
+
+  prevBtn.addEventListener("click", () => {
+    if (currentPage <= 0) return;
+    currentPage--;
+    renderPage();
   });
 
-  // Voice Input (Android/Windows)
+  nextBtn.addEventListener("click", () => {
+    if (!isPageComplete(wizardSchema.pages[currentPage])) return;
+    if (currentPage >= wizardSchema.pages.length - 1) {
+      // تمام شد
+      wmNote.style.display = "block";
+      renderPills();
+      updateNav();
+      return;
+    }
+    currentPage++;
+    renderPage();
+  });
+
+  // ===== Voice input: put transcript into focused input =====
   voiceBtn.addEventListener("click", function () {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRecognition) {
       alert("این مرورگر از ورودی صوتی پشتیبانی نمی‌کند.");
+      return;
+    }
+
+    const active = document.activeElement;
+    const key = active && active.getAttribute && active.getAttribute("data-key");
+
+    if (!key) {
+      alert("اول روی یکی از فیلدهای متنی کلیک کنید.");
       return;
     }
 
@@ -1360,12 +1137,18 @@ rows.forEach(rowIdxs => {
     recognition.maxAlternatives = 1;
 
     voiceBtn.disabled = true;
-    voiceBtn.textContent = "🎙️ در حال گوش دادن...";
+    voiceBtn.textContent = "🎙️";
 
     recognition.onresult = function (event) {
       const text = event.results?.[0]?.[0]?.transcript || "";
-      inputEl.value = normalizePersianNumbers(text);
-      updateNavState();
+      answers[key] = normalizePersianNumbers(text);
+
+      // مقدار را در input بگذار
+      const el = wizardFieldsEl.querySelector(`[data-key="${key}"]`);
+      if (el) el.value = answers[key];
+
+      updateNav();
+      renderPage({ preserveFocusKey: key });
     };
 
     recognition.onerror = function (event) {
@@ -1374,13 +1157,13 @@ rows.forEach(rowIdxs => {
 
     recognition.onend = function () {
       voiceBtn.disabled = false;
-      voiceBtn.textContent = "🎤 ورود صوتی";
+      voiceBtn.textContent = "🎤";
     };
 
     recognition.start();
   });
 
-  // ====== PNG TEXT RENDER ======
+  // ====== PNG TEXT RENDER (unchanged) ======
   async function drawTextAsPngOnPdf(pdfDoc, page, text, x, y, fontSize) {
     const t = String(text ?? "").trim();
     if (!t) return;
@@ -1425,67 +1208,77 @@ rows.forEach(rowIdxs => {
       height: imgH,
     });
   }
-  // ====== END PNG TEXT RENDER ======
 
-  async function generatePdf(answers) {
+  function splitFullName(fullName) {
+    const t = String(fullName || "").trim().replace(/\s+/g, " ");
+    if (!t) return { firstName: "", lastName: "" };
+    const parts = t.split(" ");
+    if (parts.length === 1) return { firstName: t, lastName: "" };
+    return { firstName: parts[0], lastName: parts.slice(1).join(" ") };
+  }
+
+  async function generatePdf(answersObj) {
     const { PDFDocument } = PDFLib;
+
+    // clone answers to avoid mutation surprises
+    const a = Object.assign({}, answersObj);
+
+    // UI key -> old mapping keys
+    if (!a["identity__firstName"] && !a["identity__lastName"] && a["identity__fullName"]) {
+      const s = splitFullName(a["identity__fullName"]);
+      a["identity__firstName"] = s.firstName;
+      a["identity__lastName"] = s.lastName;
+    }
+
+    // حذف enFullName از UI: خالی می‌ماند
+    if (!a["identity__enFullName"]) a["identity__enFullName"] = "";
 
     const templateUrl = "assets/forms/passport.pdf";
     const existingPdfBytes = await fetch(templateUrl).then(r => r.arrayBuffer());
     const pdfDoc = await PDFDocument.load(existingPdfBytes);
-           const PDF_FIELD_MAP = {
-      // ===== identity (v2 keys -> old coords) =====
-      "identity__firstName":        { "page": 0, "x": 390,   "y": 651.88, "size": 11 }, // identity__q1
-      "identity__lastName":         { "page": 0, "x": 397.5, "y": 611.88, "size": 11 }, // identity__q2
-      "identity__nationalId":       { "page": 0, "x": 275.63,"y": 632.5,  "size": 11 }, // identity__q3
-      "identity__enFullName":       { "page": 0, "x": 278.13,"y": 595.63, "size": 11 }, // identity__q4
-      "identity__hasPrevName":      { "page": 0, "x": 181.88,"y": 652.5,  "size": 11 }, // identity__q5 (تقریبی: همان جای بله/خیر قبلی)
-      "identity__prevName":         { "page": 0, "x": 66.88, "y": 645.63, "size": 11 }, // identity__q6
-      "identity__birthDateShamsi":  { "page": 0, "x": 183.75,"y": 614.38, "size": 11 }, // identity__q7
-      "identity__birthPlace":       { "page": 0, "x": 452.5, "y": 573.75, "size": 11 }, // identity__q8
-      "identity__fatherName":       { "page": 0, "x": 186.25,"y": 594.38, "size": 11 }, // identity__q9
-      "identity__idNumber":         { "page": 0, "x": 70.63, "y": 573.75, "size": 11 }, // identity__q10
-      "identity__idIssuePlace":     { "page": 0, "x": 188.75,"y": 573.75, "size": 11 }, // identity__q11
-      "identity__idIssueDate":      { "page": 0, "x": 460.63,"y": 543.13, "size": 11 }, // identity__q12
-      "identity__idSerialCombo":    { "page": 0, "x": 322.5, "y": 545,    "size": 11 }, // identity__q13
-      "identity__gender":           { "page": 0, "x": 94.38, "y": 541.25, "size": 11 }, // identity__q14
-      "identity__religion":         { "page": 0, "x": 214.38,"y": 543.13, "size": 11 }, // identity__q15
-      "identity__marital":          { "page": 0, "x": 42.5,  "y": 543.13, "size": 11 }, // identity__q16
-      "identity__educationLevel":   { "page": 0, "x": 76.25, "y": 512.5,  "size": 11 }, // identity__q17
-      "identity__major":            { "page": 0, "x": 52.5,  "y": 510.63, "size": 11 }, // identity__q18
 
-      // ===== physical =====
-      "physical__heightCm":         { "page": 0, "x": 325.63,"y": 511.25, "size": 11 }, // physical__q1
-      "physical__weightKg":         { "page": 0, "x": 274.38,"y": 511.88, "size": 11 }, // physical__q2
-      "physical__faceColor":        { "page": 0, "x": 488.75,"y": 491.25, "size": 11 }, // physical__q3
-      "physical__eyeColor":         { "page": 0, "x": 286.25,"y": 490.63, "size": 11 }, // physical__q4
-      "physical__hasMarks":         { "page": 0, "x": 182.5, "y": 515,    "size": 11 }, // physical__q5
-      // physical__marksDesc: مختصات ندارد (فعلاً رندر نمی‌شود)
+    const PDF_FIELD_MAP = {
+      "identity__firstName":        { "page": 0, "x": 390,   "y": 651.88, "size": 11 },
+      "identity__lastName":         { "page": 0, "x": 397.5, "y": 611.88, "size": 11 },
+      "identity__nationalId":       { "page": 0, "x": 275.63,"y": 632.5,  "size": 11 },
+      "identity__enFullName":       { "page": 0, "x": 278.13,"y": 595.63, "size": 11 },
+      "identity__hasPrevName":      { "page": 0, "x": 181.88,"y": 652.5,  "size": 11 },
+      "identity__prevName":         { "page": 0, "x": 66.88, "y": 645.63, "size": 11 },
+      "identity__birthDateShamsi":  { "page": 0, "x": 183.75,"y": 614.38, "size": 11 },
+      "identity__birthPlace":       { "page": 0, "x": 452.5, "y": 573.75, "size": 11 },
+      "identity__fatherName":       { "page": 0, "x": 186.25,"y": 594.38, "size": 11 },
+      "identity__idNumber":         { "page": 0, "x": 70.63, "y": 573.75, "size": 11 },
+      "identity__idIssuePlace":     { "page": 0, "x": 188.75,"y": 573.75, "size": 11 },
+      "identity__idIssueDate":      { "page": 0, "x": 460.63,"y": 543.13, "size": 11 },
+      "identity__idSerialCombo":    { "page": 0, "x": 322.5, "y": 545,    "size": 11 },
+      "identity__gender":           { "page": 0, "x": 94.38, "y": 541.25, "size": 11 },
+      "identity__religion":         { "page": 0, "x": 214.38,"y": 543.13, "size": 11 },
+      "identity__marital":          { "page": 0, "x": 42.5,  "y": 543.13, "size": 11 },
+      "identity__educationLevel":   { "page": 0, "x": 76.25, "y": 512.5,  "size": 11 },
+      "identity__major":            { "page": 0, "x": 52.5,  "y": 510.63, "size": 11 },
 
-      // ===== job =====
-      "job__title":                 { "page": 0, "x": 483.13,"y": 452.5,  "size": 11 }, // job__q1
-      "job__org":                   { "page": 0, "x": 380.63,"y": 450.63, "size": 11 }, // job__q2
-      "job__addressFull":           { "page": 0, "x": 475.75,"y": 438.75, "size": 11 }, // job__q6
+      "physical__heightCm":         { "page": 0, "x": 325.63,"y": 511.25, "size": 11 },
+      "physical__weightKg":         { "page": 0, "x": 274.38,"y": 511.88, "size": 11 },
+      "physical__faceColor":        { "page": 0, "x": 488.75,"y": 491.25, "size": 11 },
+      "physical__eyeColor":         { "page": 0, "x": 286.25,"y": 490.63, "size": 11 },
+      "physical__hasMarks":         { "page": 0, "x": 182.5, "y": 515,    "size": 11 },
 
-      // ===== military =====
-      // military__has: مختصات ندارد
-      "military__job":              { "page": 0, "x": 441,   "y": 405,    "size": 11 }, // military__q2
-      "military__exitType":         { "page": 0, "x": 198.19,"y": 404.44, "size": 11 }, // military__q3
+      "job__title":                 { "page": 0, "x": 483.13,"y": 452.5,  "size": 11 },
+      "job__org":                   { "page": 0, "x": 380.63,"y": 450.63, "size": 11 },
+      "job__addressFull":           { "page": 0, "x": 475.75,"y": 438.75, "size": 11 },
 
-      // ===== travel =====
-      "travel__country":            { "page": 0, "x": 429.38,"y": 294.1,  "size": 11 }, // travel__q1
-      "travel__purpose":            { "page": 0, "x": 408.75,"y": 274.38, "size": 11 }, // travel__q2
+      "military__job":              { "page": 0, "x": 441,   "y": 405,    "size": 11 },
+      "military__exitType":         { "page": 0, "x": 198.19,"y": 404.44, "size": 11 },
 
-      // ===== previousPassport =====
-      // previousPassport__has: مختصات ندارد
-      "previousPassport__number":        { "page": 0, "x": 202.5, "y": 188.13, "size": 11 }, // previousPassport__q2
-      "previousPassport__issueDate":     { "page": 0, "x": 92.5,  "y": 190.63, "size": 11 }, // previousPassport__q3
-      "previousPassport__issuePlace":    { "page": 0, "x": 461.63,"y": 175.37, "size": 11 }, // previousPassport__q5
-      "previousPassport__expireDate":    { "page": 0, "x": 209.75,"y": 173.62, "size": 11 }, // previousPassport__q6
-      // previousPassport__replaceReason: مختصات ندارد
+      "travel__country":            { "page": 0, "x": 429.38,"y": 294.1,  "size": 11 },
+      "travel__purpose":            { "page": 0, "x": 408.75,"y": 274.38, "size": 11 },
 
-      // residenceIran / residenceAbroad / relatives: هنوز مختصات ندارند (در PDF template فعلی صفحه/فیلدشان تعریف نشده)
+      "previousPassport__number":        { "page": 0, "x": 202.5, "y": 188.13, "size": 11 },
+      "previousPassport__issueDate":     { "page": 0, "x": 92.5,  "y": 190.63, "size": 11 },
+      "previousPassport__issuePlace":    { "page": 0, "x": 461.63,"y": 175.37, "size": 11 },
+      "previousPassport__expireDate":    { "page": 0, "x": 209.75,"y": 173.62, "size": 11 },
     };
+
     for (const [key, cfg] of Object.entries(PDF_FIELD_MAP)) {
       const pIndex = Number(cfg.page || 0);
       const page = pdfDoc.getPages()[pIndex];
@@ -1494,27 +1287,27 @@ rows.forEach(rowIdxs => {
       await drawTextAsPngOnPdf(
         pdfDoc,
         page,
-        answers[key],
+        a[key],
         Number(cfg.x),
         Number(cfg.y),
         Number(cfg.size || 11)
       );
     }
-     
 
     const pdfBytes = await pdfDoc.save();
     const blob = new Blob([pdfBytes], { type: "application/pdf" });
     const url = URL.createObjectURL(blob);
 
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "passport-filled.pdf";
-    a.click();
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "passport-filled.pdf";
+    link.click();
     URL.revokeObjectURL(url);
   }
 
-   if (bottomPreviewBar) {
+  if (bottomPreviewBar) {
     bottomPreviewBar.addEventListener("click", async function () {
+      if (!isAllComplete()) return;
       try {
         await generatePdf(answers);
       } catch (err) {
@@ -1524,11 +1317,11 @@ rows.forEach(rowIdxs => {
     });
   }
 
-   showQuestion();
-  renderSectionSteps();
-  updateNavState();
+  // init
+  renderPage();
 });
 </script>
+
 
 </body>
 </html>
