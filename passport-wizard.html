@@ -413,6 +413,12 @@ white-space: nowrap;
   flex-direction: column;
   gap: 10px;
 }
+   .field{
+  position: relative;
+  display:flex;
+  flex-direction: column;
+  gap: 6px;
+}
 
 .field-label{
   position: absolute;
@@ -426,12 +432,6 @@ white-space: nowrap;
   background: rgba(248,250,252,.92);
   padding: 0 6px;
   border-radius: 8px;
-}
-
-.field-label{
-  font-size: 13px;
-  font-weight: 800;
-  color: rgba(15,23,42,.70);
 }
 
 .field input,
@@ -833,43 +833,43 @@ const wizardSchema = {
       id: "p1_identity",
 title: "هویت فردی",
       fields: [
-        { key: "identity__fullName", label: "نام و نام خانوادگی" },
-        { key: "identity__nationalId", label: "کد ملی", inputMode: "numeric", dir: "ltr" },
-      label: "مشخصات شناسنامه",
-placeholder: "مثال: ۱۲۳۴۵ | تهران | ۱۳۸۵/۰۲/۱۰ | الف ۱۲۳۴۵۶",
-        { key: "identity__birthPlace", label: "محل تولد" },
-        { key: "identity__fatherName", label: "نام پدر" },
+  { key: "identity__fullName", label: "نام و نام خانوادگی" },
+  { key: "identity__nationalId", label: "کد ملی", inputMode: "numeric", dir: "ltr" },
+  { key: "identity__birthDateShamsi", label: "تاریخ تولد (شمسی)", placeholder: "مثال: ۱۳۷۲/۰۵/۲۱", inputMode: "numeric", dir: "ltr" },
+  { key: "identity__birthPlace", label: "محل تولد" },
+  { key: "identity__fatherName", label: "نام پدر" },
 
-        {
-          key: "identity__idCardCombo",
-          label: "مشخصات شناسنامه (شماره، محل صدور، تاریخ صدور، سری/سریال) — مثال: «۱۲۳۴۵ | تهران | ۱۳۸۵/۰۲/۱۰ | الف ۱۲۳۴۵۶»",
-          multiline: true
-        },
+  {
+    key: "identity__idCardCombo",
+    label: "مشخصات شناسنامه",
+    placeholder: "مثال: ۱۲۳۴۵ | تهران | ۱۳۸۵/۰۲/۱۰ | الف ۱۲۳۴۵۶",
+    multiline: true
+  },
 
-        {
-          key: "identity__statusBlock",
-         label: "وضعیت فردی",
-placeholder: "مثال: مرد | متأهل | اسلام",
-          multiline: false
-        },
+  {
+    key: "identity__statusBlock",
+    label: "وضعیت فردی",
+    placeholder: "مثال: مرد | متأهل | اسلام"
+  },
 
-        {
-          key: "identity__educationLevel",
-          label: "میزان تحصیلات",
-          type: "choice",
-          choices: ["زیر دیپلم","دیپلم","فوق‌دیپلم","کارشناسی","کارشناسی ارشد","دکتری","سایر"]
-        },
-        {
-          key: "identity__major",
-          label: "رشته تحصیلی (فقط اگر دانشگاهی بود)",
-          when: { key: "identity__educationLevel", in: ["فوق‌دیپلم","کارشناسی","کارشناسی ارشد","دکتری"] }
-        }
-      ]
+  {
+    key: "identity__educationLevel",
+    label: "تحصیلات",
+    type: "choice",
+    choices: ["زیر دیپلم","دیپلم","فوق‌دیپلم","کارشناسی","کارشناسی ارشد","دکتری","سایر"]
+  },
+  {
+    key: "identity__major",
+    label: "رشته",
+    placeholder: "مثال: حقوق / کامپیوتر",
+    when: { key: "identity__educationLevel", in: ["فوق‌دیپلم","کارشناسی","کارشناسی ارشد","دکتری"] }
+  }
+]
     },
 
     {
       id: "p2_personal_job",
-title: "فردی و شغلی",
+title: "چهره شغل",
       fields: [
         { key: "physical__heightCm", label: "قد (سانتی‌متر)", inputMode: "numeric", dir: "ltr" },
         { key: "physical__weightKg", label: "وزن (کیلوگرم)", inputMode: "numeric", dir: "ltr" },
@@ -954,7 +954,7 @@ title: "فردی و شغلی",
   const previewFill = document.getElementById("previewFill");
 
   const wizardTitleEl = document.getElementById("wizardTitle");
-  const heroQuestionEl = document.getElementById("heroQuestion");
+ 
   const wizardFieldsEl = document.getElementById("wizardFields");
   const wmNote = document.getElementById("wmNote");
 
@@ -1084,7 +1084,7 @@ title: "فردی و شغلی",
 
     const label = document.createElement("div");
     label.className = "field-label";
-    label.textContent = field.label || field.key;
+  label.textContent = (field.label || field.key) + (field.optional ? " (اختیاری)" : "");
 
     let input;
     if (field.multiline) {
@@ -1164,10 +1164,7 @@ clearDependentFields(field.key, ch);
     const visible = getVisibleFields(page);
 
     wizardTitleEl.textContent = page.title;
-    if (heroQuestionEl) {
-  heroQuestionEl.textContent = page.title;
-}
-    wizardFieldsEl.innerHTML = "";
+      wizardFieldsEl.innerHTML = "";
     visible.forEach(f => {
       if (f.type === "choice") wizardFieldsEl.appendChild(buildChoiceField(f));
       else wizardFieldsEl.appendChild(buildTextField(f));
@@ -1555,8 +1552,7 @@ const a = buildExpandedAnswers(answersObj);
 
   if (bottomPreviewBar) {
     bottomPreviewBar.addEventListener("click", async function () {
-      if (!isAllComplete()) return;
-      try {
+          try {
         await generatePdf(answers);
       } catch (err) {
         console.error(err);
