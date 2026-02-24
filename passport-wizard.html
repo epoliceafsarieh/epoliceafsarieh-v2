@@ -982,33 +982,36 @@ const wizardSchema = {
     if (!sectionStepsEl) return;
     sectionStepsEl.innerHTML = "";
 
-    wizardSchema.pages.forEach((p, idx) => {
-      const visible = getVisibleFields(p);
-      const filledCount = visible.filter(f => isFieldFilled(f.key)).length;
-      const allAnswered = visible.length > 0 && filledCount === visible.length;
-      const anyAnswered = filledCount > 0;
+ wizardSchema.pages.forEach((p, idx) => {
+  const visible = getVisibleFields(p);
 
-      const pill = document.createElement("button");
-      const stateClass = allAnswered ? " is-done" : (anyAnswered ? " is-warn" : " is-empty");
+  // همسو با منطق واقعی ویزارد (optional را رعایت می‌کند)
+  const pageDone = isPageComplete(p);
 
-      pill.className = "section-pill" + (idx === currentPage ? " is-active" : "") + stateClass;
-      pill.type = "button";
-      pill.textContent = p.title;
+  // برای حالت warn فقط کافی است حداقل یک فیلد پر شده باشد
+  const anyAnswered = visible.some(f => isFieldFilled(f.key));
 
-      pill.addEventListener("click", () => {
-        currentPage = idx;
-        renderPage();
-      });
+  const pill = document.createElement("button");
+  const stateClass = pageDone ? " is-done" : (anyAnswered ? " is-warn" : " is-empty");
 
-      if (allAnswered) {
-        const tick = document.createElement("span");
-        tick.className = "tick";
-        tick.textContent = "✔";
-        pill.appendChild(tick);
-      }
+  pill.className = "section-pill" + (idx === currentPage ? " is-active" : "") + stateClass;
+  pill.type = "button";
+  pill.textContent = p.title;
 
-      sectionStepsEl.appendChild(pill);
-    });
+  pill.addEventListener("click", () => {
+    currentPage = idx;
+    renderPage();
+  });
+
+  if (pageDone) {
+    const tick = document.createElement("span");
+    tick.className = "tick";
+    tick.textContent = "✔";
+    pill.appendChild(tick);
+  }
+
+  sectionStepsEl.appendChild(pill);
+});
   }
 
   // ===== Build field UI =====
