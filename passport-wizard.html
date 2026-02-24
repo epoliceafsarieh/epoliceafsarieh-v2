@@ -741,18 +741,11 @@ button{
 </div>
 
  <div class="flow-head flow-head--compact">
-  <div class="hero-question" id="heroQuestion">نام خود را بنویسید</div>
 
 <!-- [ANCHOR:A1 HERO-ROW] -->
 <div class="wizard-shell" id="wizardShell">
   <div class="wizard-nav">
-    <button class="hero-btn hero-prev" id="prevButton" type="button" aria-label="صفحه قبل">▶</button>
-
-    <div class="wizard-progress" id="wizardProgress">—</div>
-
-    <button class="hero-btn hero-next" id="nextButton" type="button" aria-label="صفحه بعد">◀</button>
-
-    <button class="voice voice--inline" id="voiceButton" type="button" aria-label="ورود صوتی">🎤</button>
+       <button class="voice voice--inline" id="voiceButton" type="button" aria-label="ورود صوتی">🎤</button>
   </div>
 
   <div class="wizard-body">
@@ -909,8 +902,6 @@ const wizardSchema = {
 };
 
   // ===== DOM refs =====
-  const prevBtn = document.getElementById("prevButton");
-  const nextBtn = document.getElementById("nextButton");
   const voiceBtn = document.getElementById("voiceButton");
   const iosHint = document.getElementById("iosHint");
 
@@ -921,8 +912,6 @@ const wizardSchema = {
   const wizardTitleEl = document.getElementById("wizardTitle");
   const heroQuestionEl = document.getElementById("heroQuestion");
   const wizardFieldsEl = document.getElementById("wizardFields");
-  const wizardProgressEl = document.getElementById("wizardProgress");
-
   const wmNote = document.getElementById("wmNote");
 
   // iOS: voice hidden + hint
@@ -1132,8 +1121,6 @@ clearDependentFields(field.key, ch);
     if (heroQuestionEl) {
   heroQuestionEl.textContent = page.title;
 }
-    wizardProgressEl.textContent = `صفحه ${currentPage + 1} از ${wizardSchema.pages.length}`;
-
     wizardFieldsEl.innerHTML = "";
     visible.forEach(f => {
       if (f.type === "choice") wizardFieldsEl.appendChild(buildChoiceField(f));
@@ -1153,34 +1140,12 @@ clearDependentFields(field.key, ch);
   }
 
   function updateNav() {
-    prevBtn.disabled = (currentPage === 0);
-    nextBtn.disabled = !isPageComplete(wizardSchema.pages[currentPage]);
-
     const allDone = isAllComplete();
     if (bottomPreviewCta) bottomPreviewCta.textContent = allDone ? "دریافت فرم گذرنامه" : "";
     if (bottomPreviewBar) bottomPreviewBar.disabled = !allDone;
   }
 
-  prevBtn.addEventListener("click", () => {
-    if (currentPage <= 0) return;
-    currentPage--;
-    renderPage();
-  });
-
-  nextBtn.addEventListener("click", () => {
-    if (!isPageComplete(wizardSchema.pages[currentPage])) return;
-    if (currentPage >= wizardSchema.pages.length - 1) {
-      // تمام شد
-      wmNote.style.display = "block";
-      renderPills();
-      updateNav();
-      return;
-    }
-    currentPage++;
-    renderPage();
-  });
-
-  // ===== Voice input: put transcript into focused input =====
+ // ===== Voice input: put transcript into focused input =====
   voiceBtn.addEventListener("click", function () {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRecognition) {
