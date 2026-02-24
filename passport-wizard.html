@@ -463,14 +463,17 @@ white-space: nowrap;
 /* choice inside wizard */
 .choice-row{
   display:flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
 }
-
+.choice-row::-webkit-scrollbar{ display:none; }
 .choice-row .choice-btn{
-  height: 40px;
-  font-size: 14px;
-  padding: 0 12px;
+  height: 36px;
+  font-size: 13px;
+  padding: 0 10px;
+  white-space: nowrap;
 }
 
 /* Desktop: کمی فشرده‌تر */
@@ -1085,8 +1088,11 @@ title: "فردی و شغلی",
   }
 });
 
-    wrap.appendChild(label);
-    wrap.appendChild(input);
+  // placeholder: اگر نداشتیم یک space می‌گذاریم تا placeholder-shown کار کند
+input.placeholder = field.placeholder ? String(field.placeholder) : " ";
+
+wrap.appendChild(input);
+wrap.appendChild(label);
     return wrap;
   }
 
@@ -1096,8 +1102,7 @@ title: "فردی و شغلی",
 
     const label = document.createElement("div");
     label.className = "field-label";
-    label.textContent = field.label || field.key;
-
+label.textContent = (field.label || field.key) + (field.optional ? " (اختیاری)" : "");
     const row = document.createElement("div");
     row.className = "choice-row";
 
