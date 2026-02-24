@@ -274,16 +274,13 @@ button{
   display:none;
 }
 .section-steps{
- display:flex;
- flex-wrap: nowrap;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 8px;
-  justify-content:flex-start; /* چون container LTR است، این یعنی سمت چپ بصری */
-  align-items:center;
-    overflow-x: auto;
-  white-space: nowrap;
-  scrollbar-width: none;
+  align-items: stretch;
+
+  width: min(380px, 100%);
   max-width: 100%;
-  
 }
   /* Desktop: grouped rows for section pills */
 @media (min-width: 700px){
