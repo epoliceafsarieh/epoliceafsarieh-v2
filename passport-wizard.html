@@ -279,8 +279,14 @@ button{
   gap: 8px;
   align-items: stretch;
 
-  width: min(380px, 100%);
-  max-width: 100%;
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+}
+   .section-steps--nav{
+  flex: 1;
+  display: grid;
+  place-content: center;
 }
   /* Desktop: grouped rows for section pills */
 @media (min-width: 700px){
@@ -367,8 +373,9 @@ white-space: nowrap;
 .wizard-nav{
   display:flex;
   align-items:center;
+  justify-content: space-between;
   gap: 10px;
-  padding: 10px;
+  padding: 10px 12px;
   border-bottom: 1px solid rgba(2,8,23,.08);
 }
 
@@ -777,14 +784,14 @@ white-space: nowrap;
   <a class="back-link" href="passport.html" aria-label="بازگشت">بازگشت</a>
 
   <!-- لیست بخش‌ها (بالا-راست) -->
-  <div class="section-steps" id="sectionSteps" aria-label="بخش‌های فرم"></div>
-</div>
+ </div>
 
  <div class="flow-head flow-head--compact">
 
 <!-- [ANCHOR:A1 HERO-ROW] -->
 <div class="wizard-shell" id="wizardShell">
   <div class="wizard-nav">
+    <div class="section-steps section-steps--nav" id="sectionSteps" aria-label="بخش‌های فرم"></div>
        <button class="voice voice--inline" id="voiceButton" type="button" aria-label="ورود صوتی">🎤</button>
   </div>
 
