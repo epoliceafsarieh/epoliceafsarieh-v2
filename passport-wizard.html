@@ -953,6 +953,14 @@ const wizardSchema = {
   function getVisibleFields(page) {
     return (page.fields || []).filter(shouldShowField);
   }
+  function isConditionalDriverKey(key) {
+  return [
+    "identity__educationLevel",
+    "military__has",
+    "residenceAbroad__has",
+    "previousPassport__has"
+  ].includes(String(key || ""));
+}
 
   function isFieldFilled(key) {
     return ((answers[key] || "").trim() !== "");
@@ -1027,12 +1035,15 @@ const wizardSchema = {
     if (field.dir) input.dir = field.dir;
     else input.dir = "rtl";
 
-    input.addEventListener("input", (e) => {
-      answers[field.key] = normalizePersianNumbers(e.target.value || "");
-      updateNav();
-      // ممکن است با پاسخ این فیلد، فیلدهای شرطی صفحه تغییر کنند
-      renderPage({ preserveFocusKey: field.key });
-    });
+   input.addEventListener("input", (e) => {
+  answers[field.key] = normalizePersianNumbers(e.target.value || "");
+  updateNav();
+
+  // فقط اگر این فیلد driver شرطی‌هاست، صفحه را دوباره بساز
+  if (isConditionalDriverKey(field.key)) {
+    renderPage({ preserveFocusKey: field.key });
+  }
+});
 
     wrap.appendChild(label);
     wrap.appendChild(input);
@@ -1232,24 +1243,188 @@ const wizardSchema = {
     if (parts.length === 1) return { firstName: t, lastName: "" };
     return { firstName: parts[0], lastName: parts.slice(1).join(" ") };
   }
+function splitByPipeOrComma(text) {
+  const t = String(text || "").trim();
+  if (!t) return [];
+  // جداکننده‌های رایج: | ، , ؛ ;
+  return t
+    .split(/[\|،,؛;]+/g)
+    .map(s => s.trim())
+    .filter(Boolean);
+}
 
+function parseIdCardCombo(text) {
+  // انتظار: شماره | محل صدور | تاریخ صدور | سری/سریال
+  const parts = splitByPipeOrComma(text);
+  return {
+    idNumber: parts[0] || "",
+    idIssuePlace: parts[1] || "",
+    idIssueDate: parts[2] || "",
+    idSerialCombo: parts[3] || (String(text || "").trim())
+  };
+}
+
+function parseStatusBlock(text) {
+  // انتظار: جنسیت | تأهل | دین
+  const parts = splitByPipeOrComma(text);
+
+  const p0 = parts[0] || "";
+  const p1 = parts[1] || "";
+  const p2 = parts[2] || "";
+
+  const gender = (p0.includes("زن") ? "زن" : (p0.includes("مرد") ? "مرد" : p0));
+  // تأهل را normalize
+  let marital = p1;
+  if (p1.includes("مجرد")) marital = "مجرد";
+  else if (p1.includes("متأهل") || p1.includes("متاهل")) marital = "متأهل";
+
+  const religion = p2 || "";
+
+  return { gender: String(gender || "").trim(), marital: String(marital || "").trim(), religion: String(religion || "").trim() };
+}
+
+function parseJobBlock(text) {
+  // انتظار: شغل | نام موسسه | نشانی
+  const parts = splitByPipeOrComma(text);
+  return {
+    title: parts[0] || "",
+    org: parts[1] || "",
+    addressFull: parts.slice(2).join(" | ") || ""
+  };
+}
+
+function parseMilitaryDetailBlock(text) {
+  // انتظار: شغل پیشین | نوع انفصال
+  const parts = splitByPipeOrComma(text);
+  return {
+    job: parts[0] || "",
+    exitType: parts[1] || ""
+  };
+}
+
+function parseAbroadBlock(text) {
+  // انتظار: نشانی | تلفن | مدت (سال)
+  const parts = splitByPipeOrComma(text);
+  return {
+    addressFull: parts[0] || "",
+    phone: parts[1] || "",
+    years: parts[2] || ""
+  };
+}
+
+function parsePreviousPassportBlock(text) {
+  // انتظار: شماره | علت
+  const parts = splitByPipeOrComma(text);
+  return {
+    number: parts[0] || "",
+    replaceReason: parts.slice(1).join(" | ") || ""
+  };
+}
+
+function parseRelativeBlock(text) {
+  // انتظار: نام | شغل | نشانی | تلفن
+  const parts = splitByPipeOrComma(text);
+  return {
+    fullName: parts[0] || "",
+    job: parts[1] || "",
+    address: parts[2] || "",
+    phone: parts[3] || ""
+  };
+}
+
+function buildExpandedAnswers(answersObj) {
+  const a = Object.assign({}, answersObj);
+
+  // 1) Full name -> first/last
+  if (a["identity__fullName"]) {
+    const s = splitFullName(a["identity__fullName"]);
+    a["identity__firstName"] = s.firstName;
+    a["identity__lastName"] = s.lastName;
+  }
+
+  // 2) idCard combo -> detailed fields
+  if (a["identity__idCardCombo"]) {
+    const p = parseIdCardCombo(a["identity__idCardCombo"]);
+    a["identity__idNumber"] = p.idNumber;
+    a["identity__idIssuePlace"] = p.idIssuePlace;
+    a["identity__idIssueDate"] = p.idIssueDate;
+    a["identity__idSerialCombo"] = p.idSerialCombo;
+  }
+
+  // 3) status block -> gender/marital/religion
+  if (a["identity__statusBlock"]) {
+    const p = parseStatusBlock(a["identity__statusBlock"]);
+    if (p.gender) a["identity__gender"] = p.gender;
+    if (p.marital) a["identity__marital"] = p.marital;
+    if (p.religion) a["identity__religion"] = p.religion;
+  }
+
+  // 4) job block -> job__title/org/addressFull
+  if (a["job__block"]) {
+    const p = parseJobBlock(a["job__block"]);
+    a["job__title"] = p.title;
+    a["job__org"] = p.org;
+    a["job__addressFull"] = p.addressFull;
+  }
+
+  // 5) marksShort -> old hasMarks
+  const ms = String(a["physical__marksShort"] || "").trim();
+  a["physical__hasMarks"] = ms ? "بله" : "خیر";
+  // فعلاً PDF مختصات marksDesc ندارد، پس فقط hasMarks را پر می‌کنیم.
+
+  // 6) military detail -> old keys (اگر has=بله)
+  if ((String(a["military__has"] || "").trim() === "بله") && a["military__detailBlock"]) {
+    const p = parseMilitaryDetailBlock(a["military__detailBlock"]);
+    a["military__job"] = p.job;
+    a["military__exitType"] = p.exitType;
+  } else {
+    a["military__job"] = a["military__job"] || "";
+    a["military__exitType"] = a["military__exitType"] || "";
+  }
+
+  // 7) abroad block -> detailed (اگر has=بله)
+  if ((String(a["residenceAbroad__has"] || "").trim() === "بله") && a["residenceAbroad__block"]) {
+    const p = parseAbroadBlock(a["residenceAbroad__block"]);
+    a["residenceAbroad__addressFull"] = p.addressFull;
+    a["residenceAbroad__phone"] = p.phone;
+    a["residenceAbroad__years"] = p.years;
+  }
+
+  // 8) previous passport block -> number/reason (اگر has=بله)
+  if ((String(a["previousPassport__has"] || "").trim() === "بله") && a["previousPassport__block"]) {
+    const p = parsePreviousPassportBlock(a["previousPassport__block"]);
+    a["previousPassport__number"] = p.number;
+    a["previousPassport__replaceReason"] = p.replaceReason;
+  } else {
+    a["previousPassport__number"] = a["previousPassport__number"] || "";
+    a["previousPassport__replaceReason"] = a["previousPassport__replaceReason"] || "";
+  }
+
+  // 9) relatives blocks -> detailed keys (برای آینده PDF)
+  if (a["rel1__block"]) {
+    const p = parseRelativeBlock(a["rel1__block"]);
+    a["rel1__fullName"] = p.fullName;
+    a["rel1__job"] = p.job;
+    a["rel1__address"] = p.address;
+    a["rel1__phone"] = p.phone;
+  }
+  if (a["rel2__block"]) {
+    const p = parseRelativeBlock(a["rel2__block"]);
+    a["rel2__fullName"] = p.fullName;
+    a["rel2__job"] = p.job;
+    a["rel2__address"] = p.address;
+    a["rel2__phone"] = p.phone;
+  }
+
+  // این فیلد در UI حذف است؛ برای سازگاری map خالی نگه می‌داریم
+  a["identity__enFullName"] = "";
+
+  return a;
+}
   async function generatePdf(answersObj) {
     const { PDFDocument } = PDFLib;
-
-    // clone answers to avoid mutation surprises
-    const a = Object.assign({}, answersObj);
-
-    // UI key -> old mapping keys
-    if (!a["identity__firstName"] && !a["identity__lastName"] && a["identity__fullName"]) {
-      const s = splitFullName(a["identity__fullName"]);
-      a["identity__firstName"] = s.firstName;
-      a["identity__lastName"] = s.lastName;
-    }
-
-    // حذف enFullName از UI: خالی می‌ماند
-    if (!a["identity__enFullName"]) a["identity__enFullName"] = "";
-
-    const templateUrl = "assets/forms/passport.pdf";
+const a = buildExpandedAnswers(answersObj);
+  const templateUrl = "assets/forms/passport.pdf";
     const existingPdfBytes = await fetch(templateUrl).then(r => r.arrayBuffer());
     const pdfDoc = await PDFDocument.load(existingPdfBytes);
 
