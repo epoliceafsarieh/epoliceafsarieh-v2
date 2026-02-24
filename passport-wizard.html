@@ -414,10 +414,18 @@ white-space: nowrap;
   gap: 10px;
 }
 
-.field{
-  display:flex;
-  flex-direction: column;
-  gap: 6px;
+.field-label{
+  position: absolute;
+  right: 14px;
+  top: 12px;
+  font-size: 12px;
+  font-weight: 800;
+  color: rgba(15,23,42,.55);
+  pointer-events: none;
+  transition: transform .16s ease, opacity .16s ease, font-size .16s ease;
+  background: rgba(248,250,252,.92);
+  padding: 0 6px;
+  border-radius: 8px;
 }
 
 .field-label{
@@ -432,11 +440,20 @@ white-space: nowrap;
   border-radius: 14px;
   border: 1px solid rgba(2,8,23,.12);
   background: rgba(248,250,252,.92);
-  padding: 12px 12px;
+ padding: 26px 12px 12px;
   font-size: 16px;
   box-sizing: border-box;
   font-family: inherit;
 }
+   .field input:focus + .field-label,
+.field textarea:focus + .field-label,
+.field input:not(:placeholder-shown) + .field-label,
+.field textarea:not(:placeholder-shown) + .field-label{
+  transform: translateY(-10px);
+  font-size: 11px;
+  opacity: .85;
+}
+   
 
 .field textarea{
   min-height: 64px;
@@ -793,7 +810,8 @@ title: "هویت فردی",
       fields: [
         { key: "identity__fullName", label: "نام و نام خانوادگی" },
         { key: "identity__nationalId", label: "کد ملی", inputMode: "numeric", dir: "ltr" },
-        { key: "identity__birthDateShamsi", label: "تاریخ تولد (شمسی) مثال: ۱۳۷۲/۰۵/۲۱", inputMode: "numeric", dir: "ltr" },
+      label: "مشخصات شناسنامه",
+placeholder: "مثال: ۱۲۳۴۵ | تهران | ۱۳۸۵/۰۲/۱۰ | الف ۱۲۳۴۵۶",
         { key: "identity__birthPlace", label: "محل تولد" },
         { key: "identity__fatherName", label: "نام پدر" },
 
@@ -805,7 +823,8 @@ title: "هویت فردی",
 
         {
           key: "identity__statusBlock",
-          label: "وضعیت فردی (جنسیت + تأهل + دین) — مثال: «مرد | متأهل | اسلام»",
+         label: "وضعیت فردی",
+placeholder: "مثال: مرد | متأهل | اسلام",
           multiline: false
         },
 
@@ -833,7 +852,7 @@ title: "فردی و شغلی",
         { key: "physical__faceColor", label: "رنگ چهره", type: "choice", choices: ["سفید","گندمگون","سبزه","تیره","سایر"] },
         { key: "physical__eyeColor", label: "رنگ چشم", type: "choice", choices: ["مشکی","قهوه‌ای","عسلی","آبی","سبز","میشی","سایر"] },
 
-        { key: "physical__marksShort", label: "علائم ممیزه (اختیاری) — مثال: «جای زخم گونه چپ»", optional: true },
+      { key: "physical__marksShort", label: "علائم ممیزه", placeholder: "مثال: جای زخم گونه چپ", optional: true },
 
         {
           key: "job__block",
