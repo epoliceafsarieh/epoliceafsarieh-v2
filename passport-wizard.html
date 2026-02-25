@@ -167,10 +167,7 @@ button{
 }
 /* Bottom sticky preview bar */
 .preview-bar{
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
+ position: static;
   width: 100%;
   border: none;
   cursor: pointer;
@@ -184,8 +181,7 @@ button{
   background: linear-gradient(to bottom, #17335f, #0f2547);
   color: #fff;
 
-  box-shadow: 0 -14px 30px rgba(2,8,23,.18);
-  z-index: 9999;
+box-shadow: 0 14px 26px rgba(2,8,23,.14);
 }
 
 .preview-bar__title{
@@ -275,18 +271,16 @@ button{
 }
 .section-steps{
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
-  align-items: stretch;
-
-  width: 100%;
-  max-width: 420px;
-  margin: 0 auto;
+  width: min(420px, 100%);
+  margin: 0;
 }
-   .section-steps--nav{
+  .section-steps--nav{
   flex: 1;
-  display: grid;
-  place-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
   /* Desktop: grouped rows for section pills */
 @media (min-width: 700px){
@@ -470,10 +464,9 @@ white-space: nowrap;
 /* choice inside wizard */
 .choice-row{
   display:flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   gap: 8px;
-  overflow-x: auto;
-  scrollbar-width: none;
+  overflow: hidden;
 }
 .choice-row::-webkit-scrollbar{ display:none; }
 .choice-row .choice-btn{
@@ -482,6 +475,23 @@ white-space: nowrap;
   padding: 0 10px;
   white-space: nowrap;
 }
+ /* [FIX:CHOICE-BTN-OVERRIDE] */
+.choice-btn{
+  width: auto !important;     /* مهم: ضدِ button{width:100%} */
+  min-height: 0 !important;   /* ضدِ button{min-height:52px} */
+  margin-top: 0 !important;   /* ضدِ button{margin-top:10px} */
+
+  padding: 0 12px !important;
+  border-radius: 14px !important;
+
+  border: 1px solid rgba(2,8,23,.16);
+  background: rgba(255,255,255,.95);
+  color: #0f2547;
+
+  font-family: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}  
 
 /* Desktop: کمی فشرده‌تر */
 @media (min-width: 700px){
@@ -490,55 +500,6 @@ white-space: nowrap;
   .wizard-body{ padding: 12px 14px 14px; }
   .voice--inline{ width: 48px; height: 48px; }
 }  
-
-.hero-question{
-  font-size: 28px;
-  line-height: 1.5;
-  font-weight: 800;
-  text-align: center;
-  color: rgba(15,23,42,.65);
-  margin: 28px 0 14px;
-}
-  .hero-shell{
-  background: rgba(255,255,255,.92);
-}
-
-.hero-btn,
-.hero-input{
-  border: none !important;
-  box-shadow: none !important;
-  background-clip: padding-box;
-}
-
-.hero-input{
-  background: transparent;     /* تا سفیدی از shell بیاید */
-} 
-
-.hero-row{
-  display:flex;
-  align-items:center;
-  gap: 0;                 /* بچسبند */
-  justify-content:center;
-  flex-wrap: nowrap;
-}
-
-/* قاب واحد برای اینکه سه تکه یکپارچه دیده شود */
-.hero-shell{
-  width: min(520px, 100%);
-  margin: 0 auto;
-  border-radius: 22px;
-  border: 1px solid rgba(2,8,23,.10);
-  background: rgba(255,255,255,.85);
-  box-shadow: 0 14px 30px rgba(2,8,23,.08);
-  overflow: hidden; /* لبه‌ها یکدست */
-}
-/* دسکتاپ: hero کمی باریک‌تر */
-@media (min-width: 700px){
-  .hero-shell{ width: min(460px, 100%); }
-  .hero-question{ font-size: 22px; margin: 18px 0 12px; }
-  .hero-input{ height: 64px; font-size: 20px; }
-  .hero-btn{ width: 78px; height: 64px; }
-}
 
 
 /* پیش‌نمایش داخل صفحه (نه sticky) */
@@ -656,18 +617,6 @@ white-space: nowrap;
   border-color: rgba(28,61,117,.45);
   box-shadow: 0 0 0 3px rgba(28,61,117,.08), 0 14px 30px rgba(2,8,23,.08);
 }
-/* Choices (compact, inside the same field) */
-.choice-wrap{
-  flex: 1;
-  min-width: 0;
-  height: 72px;
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  justify-content: center;
-  padding: 0 14px;
-  box-sizing: border-box;
-}
 
 /* حالت باینری (بله/خیر) — دقیقاً داخل همان فیلد */
 .choice-wrap.is-binary{
@@ -682,29 +631,8 @@ white-space: nowrap;
   justify-content: center;
 }
 
-/* دکمه انتخاب */
-.choice-btn{
-  height: 46px;
-  padding: 0 14px;
-  border-radius: 14px;
-  border: 1px solid rgba(2,8,23,.16);
-  background: rgba(255,255,255,.95);
-  color: #0f2547;
-  font-family: inherit;
-  font-size: 15px;
-  font-weight: 800;
-  cursor: pointer;
 
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
 
-  width: auto;
-  min-width: 0;                 /* مهم: روی موبایل بیرون نزند */
-  max-width: 100%;
-  white-space: nowrap;
-}
 
 /* مربع چک‌باکس کوچک */
 .choice-btn::before{
@@ -747,12 +675,7 @@ white-space: nowrap;
   border-color: #b91c1c;
 }
 
-/* Mobile tweaks */
-@media (max-width: 480px){
-  .choice-wrap{ height: 62px; padding: 0 10px; gap: 8px; }
-  .choice-wrap.is-multi{ height: auto; padding: 10px 10px; }
-  .choice-btn{ height: 42px; font-size: 14px; padding: 0 12px; }
-}
+
 /* Actions card becomes minimal (just buttons) */
 .card--actions{
   margin-top: 18px;
@@ -765,13 +688,13 @@ white-space: nowrap;
   padding: 0;
 }
 
-/* Mobile tweaks */
+/* Mobile tweaks (choices only) */
 @media (max-width: 480px){
-  .hero-question{ font-size: 22px; margin-top: 18px; }
-  .hero-input{ height: 62px; font-size: 18px; border-radius: 18px; }
-  .hero-btn{ width: 72px; height: 62px; }
-     .choice-wrap{ height: 62px; }
-  .choice-btn{ height: 44px; min-width: 110px; font-size: 15px; }
+  .choice-row .choice-btn{
+    height: 34px;
+    font-size: 12px;
+    padding: 0 10px;
+  }
 }
 </style>
 </head>
@@ -876,7 +799,7 @@ title: "هویت فردی",
 
     {
       id: "p2_personal_job",
-title: "چهره شغل",
+title: "فعالیت شغلی",
       fields: [
         { key: "physical__heightCm", label: "قد (سانتی‌متر)", inputMode: "numeric", dir: "ltr" },
         { key: "physical__weightKg", label: "وزن (کیلوگرم)", inputMode: "numeric", dir: "ltr" },
@@ -888,14 +811,16 @@ title: "چهره شغل",
 
         {
           key: "job__block",
-          label: "اطلاعات شغلی (شغل + نام مؤسسه + نشانی محل کار) — مثال: «کارمند | شرکت X | تهران، ...»",
+label: "اطلاعات شغلی",
+placeholder: "مثال: کارمند | شرکت X | تهران، ...",
           multiline: true
         },
 
         { key: "military__has", label: "سابقه نیروهای مسلح داشته‌اید؟", type: "choice", choices: ["بله","خیر"] },
         {
           key: "military__detailBlock",
-          label: "اگر بله: شغل پیشین + نوع انفصال — مثال: «راننده | پایان خدمت»",
+        label: "جزئیات سابقه",
+placeholder: "مثال: راننده | پایان خدمت",
           when: { key: "military__has", equals: "بله" },
           multiline: true
         }
@@ -904,7 +829,7 @@ title: "چهره شغل",
 
     {
       id: "p3_address",
-      title: "نشانی و اقامت",
+     title: "نشانی اقامت",
       fields: [
         { key: "residenceIran__addressFull", label: "نشانی کامل محل سکونت در ایران", multiline: true },
         { key: "residenceIran__postalCode", label: "کد پستی", inputMode: "numeric", dir: "ltr" },
@@ -931,20 +856,22 @@ title: "چهره شغل",
         { key: "previousPassport__has", label: "قبلاً گذرنامه داشته‌اید؟", type: "choice", choices: ["بله","خیر"] },
         {
           key: "previousPassport__block",
-          label: "اگر بله: شماره گذرنامه + علت تعویض — مثال: «A1234567 | انقضا/مفقودی»",
+         label: "جزئیات گذرنامه قبلی",
+placeholder: "مثال: A1234567 | انقضا/مفقودی",
           when: { key: "previousPassport__has", equals: "بله" },
           multiline: true
         },
 
         {
           key: "rel1__block",
-          label: "بستگان ۱ (نام + شغل + نشانی + تلفن) — مثال: «علی رضایی | آزاد | تهران... | 0912...»",
+        label: "بستگان ۱",
+placeholder: "مثال: علی رضایی | آزاد | تهران... | 0912...",
           multiline: true
         },
         {
           key: "rel2__block",
-          label: "بستگان ۲ (نام + شغل + نشانی + تلفن) — مثال: «مریم محمدی | کارمند | تهران... | 0912...»",
-          multiline: true
+label: "بستگان ۲",
+placeholder: "مثال: مریم محمدی | کارمند | تهران... | 0912...",          multiline: true
         }
       ]
     }
@@ -1091,7 +1018,7 @@ title: "چهره شغل",
 
     const label = document.createElement("div");
     label.className = "field-label";
-  label.textContent = (field.label || field.key) + (field.optional ? " (اختیاری)" : "");
+label.textContent = (field.label || field.key);
 
     let input;
     if (field.multiline) {
@@ -1132,7 +1059,7 @@ wrap.appendChild(label);
 
     const label = document.createElement("div");
     label.className = "field-label";
-label.textContent = (field.label || field.key) + (field.optional ? " (اختیاری)" : "");
+label.textContent = (field.label || field.key);
     const row = document.createElement("div");
     row.className = "choice-row";
 
