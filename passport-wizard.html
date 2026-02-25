@@ -445,7 +445,8 @@ white-space: nowrap;
 }
 
 .field input,
-.field textarea{
+.field textarea,
+.field select{
   width: 100%;
   border-radius: 14px;
   border: 1px solid rgba(2,8,23,.12);
@@ -460,6 +461,15 @@ white-space: nowrap;
   min-height: 64px;
   resize: vertical;
 }
+ .field select{
+  height: 52px;
+  padding: 14px 12px;
+  background: rgba(248,250,252,.92);
+  border: 1px solid rgba(2,8,23,.12);
+  border-radius: 14px;
+  font-size: 16px;
+  font-family: inherit;
+}  
  /* ===== Floating example (placeholder که حذف نمی‌شود) ===== */
 .field-example{
   position: absolute;
@@ -922,6 +932,45 @@ placeholder: "مثال: مریم محمدی | کارمند | تهران... | 091
   }
 
   // ===== Build field UI =====
+  function buildSelectField(field) {
+  const wrap = document.createElement("div");
+  wrap.className = "field";
+
+  const label = document.createElement("div");
+  label.className = "field-label";
+  label.textContent = (field.label || field.key);
+
+  const sel = document.createElement("select");
+  sel.setAttribute("data-key", field.key);
+
+  const ph = document.createElement("option");
+  ph.value = "";
+  ph.textContent = "انتخاب کنید";
+  sel.appendChild(ph);
+
+  const currentVal = (answers[field.key] || "").trim();
+  (field.choices || []).forEach(ch => {
+    const opt = document.createElement("option");
+    opt.value = ch;
+    opt.textContent = ch;
+    if (currentVal === ch) opt.selected = true;
+    sel.appendChild(opt);
+  });
+
+  sel.addEventListener("change", (e) => {
+    answers[field.key] = String(e.target.value || "");
+    clearDependentFields(field.key, answers[field.key]);
+    updateNav();
+
+    if (isConditionalDriverKey(field.key)) {
+      renderPage({ preserveFocusKey: field.key });
+    }
+  });
+
+  wrap.appendChild(label);
+  wrap.appendChild(sel);
+  return wrap;
+}
   function buildTextField(field) {
     const wrap = document.createElement("div");
     wrap.className = "field";
@@ -1036,10 +1085,20 @@ clearDependentFields(field.key, ch);
 
     wizardTitleEl.textContent = page.title;
       wizardFieldsEl.innerHTML = "";
-    visible.forEach(f => {
-      if (f.type === "choice") wizardFieldsEl.appendChild(buildChoiceField(f));
-      else wizardFieldsEl.appendChild(buildTextField(f));
-    });
+  visible.forEach(f => {
+  if (f.type === "choice") {
+    const key = String(f.key || "");
+
+    const useSelect =
+      key === "identity__educationLevel" ||
+      key === "physical__faceColor" ||
+      key === "physical__eyeColor";
+
+    wizardFieldsEl.appendChild(useSelect ? buildSelectField(f) : buildChoiceField(f));
+  } else {
+    wizardFieldsEl.appendChild(buildTextField(f));
+  }
+});
 
     renderPills();
     updateNav();
