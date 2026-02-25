@@ -417,14 +417,30 @@ white-space: nowrap;
   flex-direction: column;
   gap: 6px;
 }
+   /* کنترلِ داخل کادر: مثال باید داخل همین محدوده حبس شود */
+.field-control{
+  position: relative;
+  overflow: hidden;         /* مهم: مثال بیرون نزند */
+  border-radius: 14px;      /* هم‌گردی مثل input */
+}
  /* ===== Inline Yes/No: سوال + بله/خیر در یک خط ===== */
 .field--yn{
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;   /* مهم */
   gap: 10px;
 }
 
+.field--yn .field-label{
+  margin: 0;
+  flex: 1 1 auto;               /* سوال فضا را بگیرد */
+  min-width: 0;
+}
+
+.field--yn .choice-row{
+  flex: 0 0 auto;               /* مهم: دیگر کش نیاید */
+  justify-content: flex-end;
+}
 .field--yn .field-label{
   margin: 0;
   white-space: nowrap;
@@ -451,7 +467,7 @@ white-space: nowrap;
   border-radius: 14px;
   border: 1px solid rgba(2,8,23,.12);
   background: rgba(248,250,252,.92);
-   padding: 22px 12px 12px; /* بالا جا برای مثالِ کوچک */
+   padding: 28px 12px 12px; /* بالا جا برای مثالِ کوچک */
   font-size: 16px;
   box-sizing: border-box;
   font-family: inherit;
@@ -461,31 +477,69 @@ white-space: nowrap;
   min-height: 64px;
   resize: vertical;
 }
- .field select{
+.field select{
   height: 52px;
-  padding: 14px 12px;
+  padding: 14px 42px 14px 12px;   /* جا برای فلش */
   background: rgba(248,250,252,.92);
   border: 1px solid rgba(2,8,23,.12);
   border-radius: 14px;
   font-size: 16px;
   font-family: inherit;
-}  
+  color: rgba(15,23,42,.88);
+
+  appearance: none;
+  -webkit-appearance: none;
+
+  /* فلش سبک و تمیز */
+  background-image:
+    linear-gradient(45deg, transparent 50%, rgba(15,23,42,.55) 50%),
+    linear-gradient(135deg, rgba(15,23,42,.55) 50%, transparent 50%);
+  background-position:
+    16px 22px,
+    22px 22px;
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+}
+.field select:focus{
+  outline: none;
+  border-color: rgba(15,37,71,.35);
+  box-shadow: 0 0 0 3px rgba(15,37,71,.10);
+}
  /* ===== Floating example (placeholder که حذف نمی‌شود) ===== */
 .field-example{
   position: absolute;
-  right: 14px;
-  top: 44px;               /* داخل کادر، جایی که قبلاً placeholder دیده می‌شد */
-  font-size: 13px;
+  right: 12px;
+  top: 16px;                 /* داخل کادر */
+  font-size: 12px;
   font-weight: 700;
-  color: rgba(15,23,42,.28);
+  color: rgba(15,23,42,.22); /* کم‌رنگ‌تر */
+  opacity: .95;
   pointer-events: none;
 
-  max-width: calc(100% - 28px);
+  max-width: calc(100% - 24px);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 
-  transition: transform .16s ease, font-size .16s ease, opacity .16s ease, top .16s ease;
+  transition: top .14s ease, font-size .14s ease, opacity .14s ease;
+}
+
+/* وقتی تایپ شد یا فوکوس: خیلی کوچک و گوشه بالا-راست */
+.field.has-value .field-example,
+.field:focus-within .field-example{
+  top: 8px;
+  font-size: 10px;           
+  opacity: .70;
+  color: rgba(15,23,42,.30);
+}
+
+/* برای textarea هم داخل کادر بماند */
+.field textarea ~ .field-example{
+  top: 16px;
+}
+.field.has-value textarea ~ .field-example,
+.field:focus-within textarea ~ .field-example{
+  top: 8px;
 }
 
 /* وقتی فیلد فوکوس شد یا مقدار داشت: مثال کوچک شود و بالا-راست بچسبد */
@@ -708,6 +762,12 @@ title: "هویت فردی",
     type: "choice",
     choices: ["زیر دیپلم","دیپلم","فوق‌دیپلم","کارشناسی","کارشناسی ارشد","دکتری","سایر"]
   },
+   {
+  key: "identity__educationOther",
+  label: "اگر «سایر»: توضیح تحصیلات",
+  placeholder: "مثال: دوره تخصصی… / سطح…",
+  when: { key: "identity__educationLevel", equals: "سایر" }
+},     
   {
     key: "identity__major",
     label: "رشته",
@@ -854,13 +914,16 @@ placeholder: "مثال: مریم محمدی | کارمند | تهران... | 091
   const v = String(driverValue || "").trim();
 
   // تحصیلات: اگر دانشگاهی نیست، رشته را پاک کن
-  if (k === "identity__educationLevel") {
-    const uniLevels = ["فوق‌دیپلم","کارشناسی","کارشناسی ارشد","دکتری"];
-    if (!uniLevels.includes(v)) {
-      answers["identity__major"] = "";
-    }
-    return;
+if (k === "identity__educationLevel") {
+  const uniLevels = ["فوق‌دیپلم","کارشناسی","کارشناسی ارشد","دکتری"];
+  if (!uniLevels.includes(v)) {
+    answers["identity__major"] = "";
   }
+  if (v !== "سایر") {
+    answers["identity__educationOther"] = "";
+  }
+  return;
+}
 
   // بله/خیرها: اگر "بله" نیست، بلاک جزئیات پاک شود
   if (k === "military__has" && v !== "بله") {
@@ -958,14 +1021,18 @@ placeholder: "مثال: مریم محمدی | کارمند | تهران... | 091
   });
 
   sel.addEventListener("change", (e) => {
-    answers[field.key] = String(e.target.value || "");
-    clearDependentFields(field.key, answers[field.key]);
-    updateNav();
+  answers[field.key] = String(e.target.value || "");
+  clearDependentFields(field.key, answers[field.key]);
+  updateNav();
 
-    if (isConditionalDriverKey(field.key)) {
-      renderPage({ preserveFocusKey: field.key });
-    }
-  });
+  // جلوگیری از دوبار باز شدن منو در موبایل: قبل از رندر blur + رندر با تاخیر
+  if (isConditionalDriverKey(field.key)) {
+    try { sel.blur(); } catch(e) {}
+    setTimeout(() => {
+      renderPage(); // بدون preserveFocusKey تا دوباره منو باز نشود
+    }, 0);
+  }
+});
 
   wrap.appendChild(label);
   wrap.appendChild(sel);
@@ -1004,18 +1071,24 @@ label.textContent = (field.label || field.key);
   }
 });
 
-// placeholder واقعی را خالی می‌گذاریم (چون نباید با تایپ حذف شود)
+// placeholder واقعی را خالی می‌گذاریم
 input.placeholder = "";
 
-// مثالِ ثابت (که با تایپ حذف نمی‌شود)
+// کنترل‌ورپ: input + example باید داخل این باشد تا بیرون نزند
+const control = document.createElement("div");
+control.className = "field-control";
+
+// مثالِ ثابت
 if (field.placeholder) {
   const ex = document.createElement("div");
   ex.className = "field-example";
   ex.textContent = String(field.placeholder);
-  wrap.appendChild(ex);
+  control.appendChild(ex);
 }
 
-// کلاس has-value را بر اساس مقدار کنترل کن (برای کوچک شدن مثال)
+control.appendChild(input);
+
+// کلاس has-value برای کوچک شدن مثال
 function syncHasValue() {
   wrap.classList.toggle("has-value", String(input.value || "").trim() !== "");
 }
@@ -1026,7 +1099,7 @@ input.addEventListener("input", () => {
 });
 
 wrap.appendChild(label);
-wrap.appendChild(input);
+wrap.appendChild(control);
 
 return wrap;
   }
