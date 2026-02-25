@@ -417,6 +417,24 @@ white-space: nowrap;
   flex-direction: column;
   gap: 6px;
 }
+ /* ===== Inline Yes/No: سوال + بله/خیر در یک خط ===== */
+.field--yn{
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.field--yn .field-label{
+  margin: 0;
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+
+.field--yn .choice-row{
+  flex: 1 1 auto;
+  justify-content: flex-end;
+}  
 
 .field-label{
   position: static;
@@ -432,7 +450,7 @@ white-space: nowrap;
   border-radius: 14px;
   border: 1px solid rgba(2,8,23,.12);
   background: rgba(248,250,252,.92);
-  padding: 14px 12px;
+   padding: 22px 12px 12px; /* بالا جا برای مثالِ کوچک */
   font-size: 16px;
   box-sizing: border-box;
   font-family: inherit;
@@ -442,10 +460,37 @@ white-space: nowrap;
   min-height: 64px;
   resize: vertical;
 }
-.field input::placeholder,
-.field textarea::placeholder{
-  color: rgba(15,23,42,.32);
-}   
+ /* ===== Floating example (placeholder که حذف نمی‌شود) ===== */
+.field-example{
+  position: absolute;
+  right: 14px;
+  top: 44px;               /* داخل کادر، جایی که قبلاً placeholder دیده می‌شد */
+  font-size: 13px;
+  font-weight: 700;
+  color: rgba(15,23,42,.28);
+  pointer-events: none;
+
+  max-width: calc(100% - 28px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  transition: transform .16s ease, font-size .16s ease, opacity .16s ease, top .16s ease;
+}
+
+/* وقتی فیلد فوکوس شد یا مقدار داشت: مثال کوچک شود و بالا-راست بچسبد */
+.field.has-value .field-example,
+.field:focus-within .field-example{
+  top: 10px;
+  font-size: 11px;
+  opacity: .85;
+  color: rgba(15,23,42,.38);
+}
+
+/* برای textarea کمی بهتر بنشیند */
+.field textarea + .field-example{
+  top: 46px;
+}  
 
 /* choice inside wizard */
 .choice-row{
@@ -910,17 +955,44 @@ label.textContent = (field.label || field.key);
   }
 });
 
-  // placeholder: اگر نداشتیم یک space می‌گذاریم تا placeholder-shown کار کند
-input.placeholder = field.placeholder ? String(field.placeholder) : "";
-    wrap.appendChild(label);
+// placeholder واقعی را خالی می‌گذاریم (چون نباید با تایپ حذف شود)
+input.placeholder = "";
+
+// مثالِ ثابت (که با تایپ حذف نمی‌شود)
+if (field.placeholder) {
+  const ex = document.createElement("div");
+  ex.className = "field-example";
+  ex.textContent = String(field.placeholder);
+  wrap.appendChild(ex);
+}
+
+// کلاس has-value را بر اساس مقدار کنترل کن (برای کوچک شدن مثال)
+function syncHasValue() {
+  wrap.classList.toggle("has-value", String(input.value || "").trim() !== "");
+}
+syncHasValue();
+
+input.addEventListener("input", () => {
+  syncHasValue();
+});
+
+wrap.appendChild(label);
 wrap.appendChild(input);
 
-    return wrap;
+return wrap;
   }
 
   function buildChoiceField(field) {
     const wrap = document.createElement("div");
     wrap.className = "field";
+    const isYesNo = Array.isArray(field.choices) &&
+  field.choices.length === 2 &&
+  field.choices.includes("بله") &&
+  field.choices.includes("خیر");
+
+if (isYesNo) {
+  wrap.classList.add("field--yn");
+}
 
     const label = document.createElement("div");
     label.className = "field-label";
