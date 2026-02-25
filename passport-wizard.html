@@ -26,7 +26,7 @@ background: #0f2547; /* سرمه‌ای */
 }
 
 .flow-wrap{
-  max-width: 560px;
+  max-width: 520px;
   margin: 0 auto;
 }
 
@@ -368,7 +368,17 @@ white-space: nowrap;
   justify-content: space-between;
   gap: 10px;
   padding: 10px 12px;
-  border-bottom: none;}
+  border-bottom: none;
+    background: rgba(255,255,255,.92);
+  z-index: 5;
+}
+  @media (max-width: 480px){
+  .wizard-nav{
+    position: sticky;
+    top: 0;
+    backdrop-filter: blur(8px);
+  }
+} 
 
 .wizard-progress{
   flex: 1;
@@ -399,11 +409,7 @@ white-space: nowrap;
 }
 
 .wizard-title{
-  font-size: 18px;
-  font-weight: 900;
-  color: rgba(15,23,42,.78);
-  text-align: center;
-  margin: 8px 0 12px;
+  display: none;
 }
 
 .wizard-fields{
@@ -441,6 +447,14 @@ white-space: nowrap;
   flex: 0 0 auto;               /* مهم: دیگر کش نیاید */
   justify-content: flex-end;
 }
+ .field--yn .choice-row{
+  gap: 8px;
+}
+
+.field--yn .choice-btn{
+  height: 34px;
+  font-size: 13px;
+}  
 .field--yn .field-label{
   margin: 0;
   white-space: nowrap;
@@ -456,8 +470,20 @@ white-space: nowrap;
   position: static;
   font-size: 12px;
   font-weight: 800;
-  color: rgba(15,23,42,.70);
-  margin: 0 2px 6px 0;
+  color: rgba(15,23,42,.72);
+  margin: 0 2px 4px 0;     /* به کادر نزدیک‌تر */
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* بولت خیلی کوچک و کم‌رنگ */
+.field-label::before{
+  content: "•";
+  font-size: 14px;
+  line-height: 1;
+  color: rgba(15,23,42,.28);
+  transform: translateY(-1px);
 }
 
 .field input,
@@ -467,10 +493,24 @@ white-space: nowrap;
   border-radius: 14px;
   border: 1px solid rgba(2,8,23,.12);
   background: rgba(248,250,252,.92);
-   padding: 28px 12px 12px; /* بالا جا برای مثالِ کوچک */
   font-size: 16px;
   box-sizing: border-box;
   font-family: inherit;
+}
+
+/* تک‌خطی: جمع‌وجور + متن وسط‌تر */
+.field input,
+.field select{
+  height: 48px;
+  padding: 18px 12px 10px;     /* بالا جا برای مثال / متن وسط‌تر */
+  line-height: 1.2;
+}
+
+/* چندخطی: اجازه رشد داشته باشد */
+.field textarea{
+  min-height: 72px;
+  padding: 22px 12px 12px;     /* مثال بالا + متن طبیعی */
+  resize: vertical;
 }
  
 .field textarea{
@@ -478,8 +518,8 @@ white-space: nowrap;
   resize: vertical;
 }
 .field select{
-  height: 52px;
-  padding: 14px 42px 14px 12px;   /* جا برای فلش */
+  height: 48px;
+  padding: 18px 42px 10px 12px;   /* جا برای فلش */
   background: rgba(248,250,252,.92);
   border: 1px solid rgba(2,8,23,.12);
   border-radius: 14px;
@@ -509,11 +549,11 @@ white-space: nowrap;
 .field-example{
   position: absolute;
   right: 12px;
-  top: 16px;                 /* داخل کادر */
-  font-size: 12px;
+  top: 18px;                 
+  font-size: 11px;
   font-weight: 700;
-  color: rgba(15,23,42,.22); /* کم‌رنگ‌تر */
-  opacity: .95;
+  color: rgba(15,23,42,.18);
+  opacity: .90;
   pointer-events: none;
 
   max-width: calc(100% - 24px);
@@ -524,13 +564,13 @@ white-space: nowrap;
   transition: top .14s ease, font-size .14s ease, opacity .14s ease;
 }
 
-/* وقتی تایپ شد یا فوکوس: خیلی کوچک و گوشه بالا-راست */
+/* فقط «کوچک‌تر» می‌شود؛ رنگ همچنان خاکستری می‌ماند (نه مشکی) */
 .field.has-value .field-example,
 .field:focus-within .field-example{
   top: 8px;
-  font-size: 10px;           
-  opacity: .70;
-  color: rgba(15,23,42,.30);
+  font-size: 9px;
+  opacity: .75;
+  color: rgba(15,23,42,.22);
 }
 
 /* برای textarea هم داخل کادر بماند */
@@ -669,6 +709,15 @@ white-space: nowrap;
     font-size: 12px;
     padding: 0 10px;
   }
+  @media (max-width: 480px){
+  .wizard-shell{
+    width: 92vw;      /* کمتر از تمام عرض */
+    margin: 0 auto;
+  }
+  .preview-bar--inline{
+    width: 92vw;
+  }
+}
 }
 </style>
 </head>
@@ -1107,6 +1156,12 @@ return wrap;
   function buildChoiceField(field) {
     const wrap = document.createElement("div");
     wrap.className = "field";
+    const isYesNo = Array.isArray(field.choices)
+  && field.choices.length === 2
+  && field.choices.includes("بله")
+  && field.choices.includes("خیر");
+
+if (isYesNo) wrap.classList.add("field--yn");
     const isYesNo = Array.isArray(field.choices) &&
   field.choices.length === 2 &&
   field.choices.includes("بله") &&
