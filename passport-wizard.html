@@ -307,7 +307,80 @@ box-shadow: 0 14px 26px rgba(2,8,23,.14);
 } 
 
 .section-pill{
+  display:inline-flex;
+  align-items:center;
+  gap: 8px;
+  justify-content: space-between;
 
+  min-height: 36px;
+  padding: 8px 10px;
+  font-size: 12px;
+  white-space: nowrap;
+
+  border-radius: 999px;
+  line-height: 1;
+
+  background: rgba(15,23,42,.06);
+  color: rgba(15,23,42,.75);
+  border: 1px solid rgba(15,23,42,.14);
+
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  outline: none;
+  font-family: inherit;
+  width: auto;
+  margin-top: 0;
+}
+
+/* states */
+.section-pill.is-empty{
+  background: rgba(15,23,42,.06);
+  border-color: rgba(15,23,42,.14);
+  color: rgba(15,23,42,.70);
+}
+.section-pill.is-warn{
+  background: rgba(245,158,11,.16);
+  border-color: rgba(245,158,11,.30);
+  color: rgba(15,23,42,.82);
+}
+.section-pill.is-done{
+  background: rgba(31,107,74,.14);
+  border-color: rgba(31,107,74,.28);
+  color: rgba(15,23,42,.88);
+}
+
+/* active emphasis */
+.section-pill.is-active{
+  font-weight: 900;
+  border-color: rgba(15,37,71,.55);
+  background: rgba(15,37,71,.10);
+  box-shadow: 0 10px 18px rgba(2,8,23,.10);
+  transform: translateY(-1px);
+}
+
+/* title + meta */
+.section-pill .pill-title{
+  font-weight: 800;
+}
+.section-pill .pill-meta{
+  font-weight: 900;
+  font-size: 11px;
+  color: rgba(15,23,42,.72);
+  background: rgba(15,23,42,.06);
+  border: 1px solid rgba(15,23,42,.12);
+  padding: 4px 8px;
+  border-radius: 999px;
+  line-height: 1;
+}
+
+.section-pill .tick{
+  font-size: 12px;
+  color: #1f6b4a;
+  line-height: 1;
+}
+
+/* ===== Head becomes the main hero (question+input) ===== */
 /* ===== Head becomes the main hero (question+input) ===== */
 .flow-head--compact{
   margin: 20px 6px 10px;
@@ -862,7 +935,53 @@ if (k === "identity__educationLevel") {
   function isAllComplete() {
     return wizardSchema.pages.every(p => isPageComplete(p));
   }
+// ===== Pills (page-level) =====
+function renderPills() {
+  if (!sectionStepsEl) return;
+  sectionStepsEl.innerHTML = "";
 
+  wizardSchema.pages.forEach((p, idx) => {
+    const visible = getVisibleFields(p);
+
+    const pageDone = isPageComplete(p);
+    const anyAnswered = visible.some(f => isFieldFilled(f.key));
+
+    const pill = document.createElement("button");
+    const stateClass = pageDone ? " is-done" : (anyAnswered ? " is-warn" : " is-empty");
+
+    pill.className = "section-pill" + (idx === currentPage ? " is-active" : "") + stateClass;
+    pill.type = "button";
+
+    // required/answered فقط برای visible و غیر-optional
+    const required = visible.filter(f => !f.optional);
+    const answered = required.filter(f => isFieldFilled(f.key)).length;
+
+    const titleSpan = document.createElement("span");
+    titleSpan.className = "pill-title";
+    titleSpan.textContent = `${idx + 1}) ${p.title}`;
+
+    const metaSpan = document.createElement("span");
+    metaSpan.className = "pill-meta";
+    metaSpan.textContent = `${answered}/${required.length}`;
+
+    pill.appendChild(titleSpan);
+    pill.appendChild(metaSpan);
+
+    pill.addEventListener("click", () => {
+      currentPage = idx;
+      renderPage();
+    });
+
+    if (pageDone) {
+      const tick = document.createElement("span");
+      tick.className = "tick";
+      tick.textContent = "✔";
+      pill.appendChild(tick);
+    }
+
+    sectionStepsEl.appendChild(pill);
+  });
+}
 
   // ===== Build field UI =====
   function buildSelectField(field) {
