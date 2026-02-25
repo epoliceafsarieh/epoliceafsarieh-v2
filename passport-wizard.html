@@ -948,6 +948,9 @@ input.placeholder = "";
 const control = document.createElement("div");
 control.className = "field-control";
 
+// برای textarea: استایل مثال متفاوت
+if (field.multiline) control.classList.add("is-textarea");
+
 // مثالِ ثابت
 if (field.placeholder) {
   const ex = document.createElement("div");
@@ -972,61 +975,56 @@ wrap.appendChild(label);
 wrap.appendChild(control);
 
 return wrap;
+wrap.appendChild(control);
+
+return wrap;
   }
 
-  function buildChoiceField(field) {
-    const wrap = document.createElement("div");
-    wrap.className = "field";
-    const isYesNo = Array.isArray(field.choices)
-  && field.choices.length === 2
-  && field.choices.includes("بله")
-  && field.choices.includes("خیر");
+function buildChoiceField(field) {
+  const wrap = document.createElement("div");
+  wrap.className = "field";
 
-if (isYesNo) wrap.classList.add("field--yn");
-    const isYesNo = Array.isArray(field.choices) &&
-  field.choices.length === 2 &&
-  field.choices.includes("بله") &&
-  field.choices.includes("خیر");
+  const isYesNo = Array.isArray(field.choices) &&
+    field.choices.length === 2 &&
+    field.choices.includes("بله") &&
+    field.choices.includes("خیر");
 
-if (isYesNo) {
-  wrap.classList.add("field--yn");
-}
+  if (isYesNo) wrap.classList.add("field--yn");
 
-    const label = document.createElement("div");
-    label.className = "field-label";
-label.textContent = (field.label || field.key);
-    const row = document.createElement("div");
-    row.className = "choice-row";
+  const label = document.createElement("div");
+  label.className = "field-label";
+  label.textContent = (field.label || field.key);
 
-    const currentVal = (answers[field.key] || "").trim();
+  const row = document.createElement("div");
+  row.className = "choice-row";
 
-    (field.choices || []).forEach(ch => {
-      const b = document.createElement("button");
-      b.type = "button";
-      b.className = "choice-btn" + (currentVal === ch ? " is-selected" : "");
-      b.textContent = ch;
+  const currentVal = (answers[field.key] || "").trim();
 
-      if (currentVal === ch) {
-        if (ch === "بله") b.classList.add("is-yes");
-        if (ch === "خیر") b.classList.add("is-no");
-      }
+  (field.choices || []).forEach(ch => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "choice-btn" + (currentVal === ch ? " is-selected" : "");
+    b.textContent = ch;
 
-      b.addEventListener("click", () => {
-        answers[field.key] = ch;
-        // جلوگیری از باقی ماندن داده‌های پنهان (طبق منطق شرطی)
-clearDependentFields(field.key, ch);
-        updateNav();
-        // شرطی‌ها را بلافاصله اعمال کن
-        renderPage();
-      });
+    if (currentVal === ch) {
+      if (ch === "بله") b.classList.add("is-yes");
+      if (ch === "خیر") b.classList.add("is-no");
+    }
 
-      row.appendChild(b);
+    b.addEventListener("click", () => {
+      answers[field.key] = ch;
+      clearDependentFields(field.key, ch);
+      updateNav();
+      renderPage();
     });
 
-    wrap.appendChild(label);
-    wrap.appendChild(row);
-    return wrap;
-  }
+    row.appendChild(b);
+  });
+
+  wrap.appendChild(label);
+  wrap.appendChild(row);
+  return wrap;
+}
 
   function renderPage(opts) {
     const page = wizardSchema.pages[currentPage];
