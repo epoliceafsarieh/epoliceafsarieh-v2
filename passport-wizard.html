@@ -392,7 +392,28 @@ box-shadow: 0 14px 26px rgba(2,8,23,.14);
   overflow: hidden;
   border-radius: 14px;
 }
-
+/* ===== Inline Yes/No (final) ===== */
+.field--yn{
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+.field--yn .field-label{
+  margin: 0;
+  flex: 1 1 auto;
+  min-width: 0;
+  white-space: nowrap;
+}
+.field--yn .choice-row{
+  flex: 0 0 auto;
+  justify-content: flex-end;
+  gap: 8px;
+  flex-wrap: nowrap; /* یک خط */
+}
+.field--yn .choice-btn{
+  height: 34px;
+  font-size: 13px;
+}
 /* textarea: مثال کمی پایین‌تر شروع شود */
 .field-control.is-textarea .field-example{
   top: 16px;
@@ -842,42 +863,6 @@ if (k === "identity__educationLevel") {
     return wizardSchema.pages.every(p => isPageComplete(p));
   }
 
-  // ===== Pills (page-level) =====
-  function renderPills() {
-    if (!sectionStepsEl) return;
-    sectionStepsEl.innerHTML = "";
-
- wizardSchema.pages.forEach((p, idx) => {
-  const visible = getVisibleFields(p);
-
-  // همسو با منطق واقعی ویزارد (optional را رعایت می‌کند)
-  const pageDone = isPageComplete(p);
-
-  // برای حالت warn فقط کافی است حداقل یک فیلد پر شده باشد
-  const anyAnswered = visible.some(f => isFieldFilled(f.key));
-
-  const pill = document.createElement("button");
-  const stateClass = pageDone ? " is-done" : (anyAnswered ? " is-warn" : " is-empty");
-
-  pill.className = "section-pill" + (idx === currentPage ? " is-active" : "") + stateClass;
-  pill.type = "button";
-  pill.textContent = p.title;
-
-  pill.addEventListener("click", () => {
-    currentPage = idx;
-    renderPage();
-  });
-
-  if (pageDone) {
-    const tick = document.createElement("span");
-    tick.className = "tick";
-    tick.textContent = "✔";
-    pill.appendChild(tick);
-  }
-
-  sectionStepsEl.appendChild(pill);
-});
-  }
 
   // ===== Build field UI =====
   function buildSelectField(field) {
