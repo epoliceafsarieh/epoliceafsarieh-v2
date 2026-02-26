@@ -1182,7 +1182,7 @@ function buildSelectField(field) {
 
   const ph = document.createElement("option");
   ph.value = "";
-  ph.textContent = "انتخاب کنید";
+ ph.textContent = (field.label || "انتخاب");
   sel.appendChild(ph);
 
   const currentVal = (answers[field.key] || "").trim();
