@@ -709,56 +709,70 @@ document.addEventListener('DOMContentLoaded', function () {
   // ====== Wizard Schema (6 pages balanced) ======
   // نکته: نام و نام خانوادگی یکجا گرفته می‌شود (identity__fullName)
   // و در generatePdf برای mapping قدیمی split می‌شود.
+
 const wizardSchema = {
   formTitle: "پرسشنامه درخواست صدور گذرنامه",
   pages: [
     {
       id: "p1_identity",
-title: "هویت فردی",
+      title: "هویت فردی",
       fields: [
-  { key: "identity__fullName", label: "نام و نام خانوادگی" },
-  { key: "identity__nationalId", label: "کد ملی", inputMode: "numeric", dir: "ltr" },
-  { key: "identity__birthDateShamsi", label: "تاریخ تولد (شمسی)", placeholder: "مثال: ۱۳۷۲/۰۵/۲۱", inputMode: "numeric", dir: "ltr" },
-  { key: "identity__birthPlace", label: "محل تولد" },
-  { key: "identity__fatherName", label: "نام پدر" },
+        { key: "identity__fullName", label: "نام و نام خانوادگی" },
+        { key: "identity__nationalId", label: "کد ملی", inputMode: "numeric", dir: "ltr" },
+        { key: "identity__birthDateShamsi", label: "تاریخ تولد (شمسی)", placeholder: "مثال: ۱۳۷۲/۰۵/۲۱", inputMode: "numeric", dir: "ltr" },
+        { key: "identity__birthPlace", label: "محل تولد" },
+        { key: "identity__fatherName", label: "نام پدر" },
 
-  {
-    key: "identity__idCardCombo",
-    label: "مشخصات شناسنامه",
-    placeholder: "مثال: ۱۲۳۴۵ | تهران | ۱۳۸۵/۰۲/۱۰ | الف ۱۲۳۴۵۶",
-    multiline: true
-  },
+        // --- شناسنامه (۴ فیلد جدا) ---
+        { key: "identity__idNumber", label: "شماره شناسنامه", placeholder: "مثال: ۱۲۳۴۵", inputMode: "numeric", dir: "ltr" },
+        { key: "identity__idIssuePlace", label: "محل صدور شناسنامه", placeholder: "مثال: تهران" },
+        { key: "identity__idIssueDate", label: "تاریخ صدور شناسنامه", placeholder: "مثال: ۱۳۸۵/۰۲/۱۰", inputMode: "numeric", dir: "ltr" },
+        { key: "identity__idSerialCombo", label: "سری و سریال شناسنامه", placeholder: "مثال: الف ۱۲۳۴۵۶" },
 
-  {
-    key: "identity__statusBlock",
-    label: "وضعیت فردی",
-    placeholder: "مثال: مرد | متأهل | اسلام"
-  },
+        // --- وضعیت فردی (همان بلاک فعلی) ---
+        {
+          key: "identity__statusBlock",
+          label: "وضعیت فردی",
+          placeholder: "مثال: مرد | متأهل | اسلام"
+        },
 
-  {
-    key: "identity__educationLevel",
-    label: "تحصیلات",
-    type: "choice",
-    choices: ["زیر دیپلم","دیپلم","فوق‌دیپلم","کارشناسی","کارشناسی ارشد","دکتری","سایر"]
-  },
-   {
-  key: "identity__educationOther",
-  label: "اگر «سایر»: توضیح تحصیلات",
-  placeholder: "مثال: دوره تخصصی… / سطح…",
-  when: { key: "identity__educationLevel", equals: "سایر" }
-},     
-  {
-    key: "identity__major",
-    label: "رشته",
-    placeholder: "مثال: حقوق / کامپیوتر",
-    when: { key: "identity__educationLevel", in: ["فوق‌دیپلم","کارشناسی","کارشناسی ارشد","دکتری"] }
-  }
-]
+        // --- تغییر نام قبلی (شرطی) ---
+        { key: "identity__hasPrevName", label: "آیا قبلاً تغییر نام داشته‌اید؟", type: "choice", choices: ["بله","خیر"] },
+        {
+          key: "identity__prevName",
+          label: "اگر بله: نام قبلی",
+          placeholder: "مثال: نام و نام خانوادگی قبلی",
+          when: { key: "identity__hasPrevName", equals: "بله" }
+        },
+
+        // --- تحصیلات ---
+        {
+          key: "identity__educationLevel",
+          label: "تحصیلات",
+          type: "choice",
+          choices: ["زیر دیپلم","دیپلم","فوق‌دیپلم","کارشناسی","کارشناسی ارشد","دکتری","سایر"]
+        },
+        {
+          key: "identity__educationOther",
+          label: "اگر «سایر»: توضیح تحصیلات",
+          placeholder: "مثال: دوره تخصصی… / سطح…",
+          when: { key: "identity__educationLevel", equals: "سایر" }
+        },
+        {
+          key: "identity__major",
+          label: "رشته",
+          placeholder: "مثال: حقوق / کامپیوتر",
+          when: { key: "identity__educationLevel", in: ["فوق‌دیپلم","کارشناسی","کارشناسی ارشد","دکتری"] }
+        },
+
+        // (اگر هنوز «نام انگلیسی» را می‌خواهی، این را از کامنت خارج کن)
+        // { key: "identity__enFullName", label: "نام و نام خانوادگی به انگلیسی", placeholder: "Example: ALI REZAEI", dir:"ltr" },
+      ]
     },
 
     {
       id: "p2_personal_job",
-title: "فعالیت شغلی",
+      title: "فعالیت شغلی",
       fields: [
         { key: "physical__heightCm", label: "قد (سانتی‌متر)", inputMode: "numeric", dir: "ltr" },
         { key: "physical__weightKg", label: "وزن (کیلوگرم)", inputMode: "numeric", dir: "ltr" },
@@ -766,20 +780,20 @@ title: "فعالیت شغلی",
         { key: "physical__faceColor", label: "رنگ چهره", type: "choice", choices: ["سفید","گندمگون","سبزه","تیره","سایر"] },
         { key: "physical__eyeColor", label: "رنگ چشم", type: "choice", choices: ["مشکی","قهوه‌ای","عسلی","آبی","سبز","میشی","سایر"] },
 
-      { key: "physical__marksShort", label: "علائم ممیزه", placeholder: "مثال: جای زخم گونه چپ", optional: true },
+        { key: "physical__marksShort", label: "علائم ممیزه", placeholder: "مثال: جای زخم گونه چپ", optional: true },
 
         {
           key: "job__block",
-label: "اطلاعات شغلی",
-placeholder: "مثال: کارمند | شرکت X | تهران، ...",
+          label: "اطلاعات شغلی",
+          placeholder: "مثال: کارمند | شرکت X | تهران، ...",
           multiline: true
         },
 
         { key: "military__has", label: "سابقه نیروهای مسلح داشته‌اید؟", type: "choice", choices: ["بله","خیر"] },
         {
           key: "military__detailBlock",
-        label: "جزئیات سابقه",
-placeholder: "مثال: راننده | پایان خدمت",
+          label: "جزئیات سابقه",
+          placeholder: "مثال: راننده | پایان خدمت",
           when: { key: "military__has", equals: "بله" },
           multiline: true
         }
@@ -788,18 +802,36 @@ placeholder: "مثال: راننده | پایان خدمت",
 
     {
       id: "p3_address",
-     title: "نشانی اقامت",
+      title: "نشانی اقامت",
       fields: [
         { key: "residenceIran__addressFull", label: "نشانی کامل محل سکونت در ایران", multiline: true },
         { key: "residenceIran__postalCode", label: "کد پستی", inputMode: "numeric", dir: "ltr" },
         { key: "residenceIran__phoneMobile", label: "تلفن همراه", inputMode: "numeric", dir: "ltr" },
 
         { key: "residenceAbroad__has", label: "اقامت خارج از کشور دارید؟", type: "choice", choices: ["بله","خیر"] },
+
+        // اقامت خارج: فیلدهای جدا
         {
-          key: "residenceAbroad__block",
-          label: "اگر بله: نشانی + تلفن + مدت اقامت — مثال: «Street… | +49… | 3 سال»",
+          key: "residenceAbroad__addressFull",
+          label: "اگر بله: نشانی محل اقامت خارج",
+          placeholder: "Example: Street... City...",
           when: { key: "residenceAbroad__has", equals: "بله" },
           multiline: true,
+          dir: "ltr"
+        },
+        {
+          key: "residenceAbroad__phone",
+          label: "اگر بله: تلفن خارج از کشور",
+          placeholder: "Example: +49...",
+          when: { key: "residenceAbroad__has", equals: "بله" },
+          dir: "ltr"
+        },
+        {
+          key: "residenceAbroad__years",
+          label: "اگر بله: مدت اقامت (سال)",
+          placeholder: "مثال: 3",
+          when: { key: "residenceAbroad__has", equals: "بله" },
+          inputMode: "numeric",
           dir: "ltr"
         }
       ]
@@ -813,29 +845,63 @@ placeholder: "مثال: راننده | پایان خدمت",
         { key: "travel__purpose", label: "منظور از سفر" },
 
         { key: "previousPassport__has", label: "قبلاً گذرنامه داشته‌اید؟", type: "choice", choices: ["بله","خیر"] },
+
+        // گذرنامه قبلی: ۴ فیلد جدا
         {
-          key: "previousPassport__block",
-         label: "جزئیات گذرنامه قبلی",
-placeholder: "مثال: A1234567 | انقضا/مفقودی",
+          key: "previousPassport__number",
+          label: "اگر بله: شماره گذرنامه قبلی",
+          placeholder: "Example: A1234567",
           when: { key: "previousPassport__has", equals: "بله" },
-          multiline: true
+          dir: "ltr"
+        },
+        {
+          key: "previousPassport__issueDate",
+          label: "اگر بله: تاریخ صدور گذرنامه قبلی",
+          placeholder: "مثال: ۱۴۰۰/۰۳/۲۰",
+          when: { key: "previousPassport__has", equals: "بله" },
+          inputMode: "numeric",
+          dir: "ltr"
+        },
+        {
+          key: "previousPassport__issuePlace",
+          label: "اگر بله: محل صدور گذرنامه قبلی",
+          placeholder: "مثال: تهران",
+          when: { key: "previousPassport__has", equals: "بله" }
+        },
+        {
+          key: "previousPassport__expireDate",
+          label: "اگر بله: تاریخ انقضای گذرنامه قبلی",
+          placeholder: "مثال: ۱۴۰۵/۰۳/۲۰",
+          when: { key: "previousPassport__has", equals: "بله" },
+          inputMode: "numeric",
+          dir: "ltr"
+        },
+
+        // (اختیاری) علت/توضیح
+        {
+          key: "previousPassport__replaceReason",
+          label: "اگر بله: توضیح (مفقودی/تعویض/...)",
+          placeholder: "مثال: مفقودی / تعویض به علت پایان اعتبار",
+          when: { key: "previousPassport__has", equals: "بله" }
         },
 
         {
           key: "rel1__block",
-        label: "بستگان ۱",
-placeholder: "مثال: علی رضایی | آزاد | تهران... | 0912...",
+          label: "بستگان ۱",
+          placeholder: "مثال: علی رضایی | آزاد | تهران... | 0912...",
           multiline: true
         },
         {
           key: "rel2__block",
-label: "بستگان ۲",
-placeholder: "مثال: مریم محمدی | کارمند | تهران... | 0912...",          multiline: true
+          label: "بستگان ۲",
+          placeholder: "مثال: مریم محمدی | کارمند | تهران... | 0912...",
+          multiline: true
         }
       ]
     }
   ]
 };
+  
 
   // ===== DOM refs =====
   const voiceBtn = document.getElementById("voiceButton");
