@@ -61,8 +61,8 @@ input, textarea, select{
   padding: 12px 14px;
   font-size: 16px;            /* iOS zoom نشود */
   border-radius: 14px;
-  border: 1px solid #e5eaf3;
-  background: #f8fafc;
+  border: 1px solid rgba(15,23,42,.10);
+  background: #ffffff;
   outline: none;
   text-align: right;
   direction: rtl;
@@ -91,8 +91,8 @@ select{
 }
 
 input:focus, textarea:focus, select:focus{
-  border-color: rgba(15,37,71,.45);
-  box-shadow: 0 0 0 4px rgba(15,37,71,.10);
+  border-color: rgba(245,158,11,.65);
+  box-shadow: 0 0 0 4px rgba(245,158,11,.14);
 }
 
 /* Buttons (global) */
@@ -196,7 +196,7 @@ button{
   background: rgba(255,255,255,.92);
 }
 .wizard-intro__title{
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 800;
   color: rgba(15,23,42,.92);
   line-height: 1.25;
@@ -256,6 +256,31 @@ button{
   z-index: 5;
   border-bottom: 1px solid rgba(2,8,23,.08);
 }
+ /* دسکتاپ: هدر دو ردیف (رفع فشردگی) */
+@media (min-width: 700px){
+  .wizard-nav{
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .progress-top{
+    flex: 1 1 100%;
+    order: 1;
+  }
+
+  .section-steps--nav{
+    flex: 1 1 100%;
+    order: 2;
+    width: 100%;
+    margin: 0;
+  }
+
+  .voice--inline{
+    order: 3;
+    margin-right: auto; /* در RTL می‌بردش سمت چپ */
+  }
+}   
 @media (max-width: 480px){
   .wizard-nav{
     position: sticky;
@@ -367,12 +392,23 @@ button{
 @media (min-width: 700px){
   .section-steps{
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
     overflow: visible;
+    width: 100%;
   }
+
   .section-pill{
     width: 100%;
     justify-content: center;
+    min-height: 44px;
+    padding: 10px 12px;
+    white-space: normal;      /* اجازه چندخطی */
+    line-height: 1.2;
+  }
+
+  .section-pill .pill-title{
+    font-size: 12px;
   }
 }
 .section-steps--nav{
@@ -462,13 +498,13 @@ button{
   position: relative;
   display:flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
 }
 
 .field-label{
-  font-size: 13px;
-  font-weight: 800;
-  color: rgba(15,23,42,.82);
+  font-size: 14px;
+  font-weight: 700;
+  color: rgba(15,23,42,.86);
   display: inline-flex;
   align-items: baseline;
   gap: 6px;
@@ -698,7 +734,7 @@ button{
       <div class="wizard-shell" id="wizardShell">
                 <div class="wizard-intro" aria-label="راهنمای تکمیل فرم">
           <div class="wizard-intro__title">ساخت فرم گذرنامه</div>
-          <div class="wizard-intro__desc">  لطفاً اطلاعات را مرحله‌به‌مرحله تکمیل کنید. در پایان می‌توانید فرم نهایی را مشاهده و چاپ کنید وسپس تحویل کانتر گذرنامه دهید.  )</div>
+          <div class="wizard-intro__desc">  لطفاً اطلاعات را مرحله‌به‌مرحله تکمیل کنید. در پایان می‌توانید فرم نهایی را مشاهده و چاپ نمایید و سپس تحویل کانتر گذرنامه دهید.  )</div>
         </div>
         <div class="wizard-nav">
           <div class="progress-top" aria-label="پیشرفت کلی">
