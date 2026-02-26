@@ -266,24 +266,6 @@ button{
   top: 0;
   backdrop-filter: blur(8px);
 }
-
-  .progress-top{
-    flex: 1 1 100%;
-    order: 1;
-  }
-
-  .section-steps--nav{
-    flex: 1 1 100%;
-    order: 2;
-    width: 100%;
-    margin: 0;
-  }
-
-  .voice--inline{
-    order: 3;
-    margin-right: auto; /* در RTL می‌بردش سمت چپ */
-  }
-}   
 @media (max-width: 480px){
   .wizard-nav{
     position: sticky;
@@ -1023,8 +1005,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // iOS: voice hidden + hint
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
   if (isIOS) {
-    voiceBtn.style.display = "none";
-    iosHint.style.display = "block";
+       iosHint.style.display = "block";
   }
 
   const answers = {};
@@ -1576,16 +1557,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Next/Prev
     if (prevStepBtn) prevStepBtn.disabled = (currentPage === 0);
-
-    const isLast = (currentPage === wizardSchema.pages.length - 1);
-    const page = wizardSchema.pages[currentPage];
+   const page = wizardSchema.pages[currentPage];
 
     if (nextStepBtn) {
       if (!isLast) {
         nextStepBtn.textContent = `ادامه به: ${wizardSchema.pages[currentPage + 1].title}`;
         nextStepBtn.disabled = DEV_MODE ? false : !isPageComplete(page);
       } else {
-        nextStepBtn.textContent = "ننمایش و بررسی فرم نهایی;
+         nextStepBtn.textContent = "نمایش و بررسی فرم نهایی";
         nextStepBtn.disabled = DEV_MODE ? false : !isAllComplete();
       }
     }
