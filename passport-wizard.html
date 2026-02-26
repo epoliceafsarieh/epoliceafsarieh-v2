@@ -946,46 +946,60 @@ const wizardSchema = {
   function getVisibleFields(page) {
     return (page.fields || []).filter(shouldShowField);
   }
-  function isConditionalDriverKey(key) {
+
+function isConditionalDriverKey(key) {
   return [
     "identity__educationLevel",
+    "identity__hasPrevName",
     "military__has",
     "residenceAbroad__has",
     "previousPassport__has"
   ].includes(String(key || ""));
 }
- function clearDependentFields(driverKey, driverValue) {
+
+function clearDependentFields(driverKey, driverValue) {
   const k = String(driverKey || "").trim();
   const v = String(driverValue || "").trim();
 
-  // تحصیلات: اگر دانشگاهی نیست، رشته را پاک کن
-if (k === "identity__educationLevel") {
-  const uniLevels = ["فوق‌دیپلم","کارشناسی","کارشناسی ارشد","دکتری"];
-  if (!uniLevels.includes(v)) {
-    answers["identity__major"] = "";
+  // تحصیلات
+  if (k === "identity__educationLevel") {
+    const uniLevels = ["فوق‌دیپلم","کارشناسی","کارشناسی ارشد","دکتری"];
+    if (!uniLevels.includes(v)) answers["identity__major"] = "";
+    if (v !== "سایر") answers["identity__educationOther"] = "";
+    return;
   }
-  if (v !== "سایر") {
-    answers["identity__educationOther"] = "";
-  }
-  return;
-}
 
-  // بله/خیرها: اگر "بله" نیست، بلاک جزئیات پاک شود
+  // تغییر نام
+  if (k === "identity__hasPrevName" && v !== "بله") {
+    answers["identity__prevName"] = "";
+    return;
+  }
+
+  // سابقه نظامی
   if (k === "military__has" && v !== "بله") {
     answers["military__detailBlock"] = "";
     return;
   }
 
+  // اقامت خارج (فیلدهای جدا)
   if (k === "residenceAbroad__has" && v !== "بله") {
-    answers["residenceAbroad__block"] = "";
+    answers["residenceAbroad__addressFull"] = "";
+    answers["residenceAbroad__phone"] = "";
+    answers["residenceAbroad__years"] = "";
     return;
   }
 
+  // گذرنامه قبلی (۴ فیلد جدا)
   if (k === "previousPassport__has" && v !== "بله") {
-    answers["previousPassport__block"] = "";
+    answers["previousPassport__number"] = "";
+    answers["previousPassport__issueDate"] = "";
+    answers["previousPassport__issuePlace"] = "";
+    answers["previousPassport__expireDate"] = "";
+    answers["previousPassport__replaceReason"] = "";
     return;
   }
-} 
+}
+  
 
   function isFieldFilled(key) {
     return ((answers[key] || "").trim() !== "");
