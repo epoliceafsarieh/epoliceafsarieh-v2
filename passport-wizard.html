@@ -403,13 +403,8 @@ button{
   margin-bottom: 0;
 }
 .field-label::before{
-  content: "•";
-  font-weight: 900;
-  font-size: 16px;
-  line-height: 1;
-  color: rgba(15,37,71,.85);
-  margin: 0;
-  transform: translateY(-1px);
+  content: "";
+  display: none;
 }
 
 .field-control{
@@ -1000,12 +995,7 @@ document.addEventListener("DOMContentLoaded", function () {
       titleSpan.className = "pill-title";
       titleSpan.textContent = `(${idx + 1}) ${p.title}`;
 
-      const metaSpan = document.createElement("span");
-      metaSpan.className = "pill-meta";
-      metaSpan.textContent = `${answered}/${required.length}`;
-
       pill.appendChild(titleSpan);
-      pill.appendChild(metaSpan);
 
       if (pageDone) {
         const tick = document.createElement("span");
@@ -1280,9 +1270,8 @@ document.addEventListener("DOMContentLoaded", function () {
     if (topProgressFill) topProgressFill.style.width = `${percent}%`;
     if (topProgressText) topProgressText.textContent = `${percent}% تکمیل شده`;
 
-    if (bottomPreviewCta) {
-      bottomPreviewCta.textContent =
-        (answeredAll >= requiredAll.length) ? "نمایش فرم نهایی" : `تکمیل: ${answeredAll}/${requiredAll.length}`;
+        if (bottomPreviewCta) {
+      bottomPreviewCta.textContent = "نمایش و بررسی فرم نهایی";
     }
 
     if (bottomPreviewBar) {
