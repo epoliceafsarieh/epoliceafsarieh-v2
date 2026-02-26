@@ -208,6 +208,12 @@ button{
   color: rgba(15,23,42,.70);
   line-height: 1.7;
 }
+  .wizard-intro__trust{
+  margin-top: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(15,23,42,.60);
+}  
 .wizard-shell{
   width: min(520px, 100%);
   margin: 0 auto;
@@ -251,18 +257,15 @@ button{
   align-items:center;
   justify-content: space-between;
   gap: 10px;
-  padding: 10px 12px 14px;
+  padding: 10px 12px 12px;
   background: rgba(255,255,255,.92);
-  z-index: 5;
+  z-index: 20;
   border-bottom: 1px solid rgba(2,8,23,.08);
+
+  position: sticky;
+  top: 0;
+  backdrop-filter: blur(8px);
 }
- /* دسکتاپ: هدر دو ردیف (رفع فشردگی) */
-@media (min-width: 700px){
-  .wizard-nav{
-    flex-wrap: wrap;
-    gap: 10px;
-    align-items: flex-start;
-  }
 
   .progress-top{
     flex: 1 1 100%;
@@ -341,10 +344,39 @@ button{
 .wizard-footer{
   display:flex;
   gap: 10px;
-  padding: 12px 14px 16px;
+  padding: 12px 14px calc(16px + env(safe-area-inset-bottom));
   background: rgba(255,255,255,.92);
   border-top: 1px solid rgba(2,8,23,.08);
 }
+ /* داخل کارت: پیش‌نمایش موقت (فقط مراحل 1-3) */
+.wizard-preview{
+  padding: 10px 14px calc(12px + env(safe-area-inset-bottom));
+  background: rgba(255,255,255,.92);
+  border-top: 1px solid rgba(2,8,23,.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.preview-mini{
+  width: auto;
+  margin-top: 0;
+  min-height: 44px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(2,8,23,.14);
+  background: rgba(15,23,42,.06);
+  color: rgba(15,23,42,.88);
+  font-weight: 800;
+  cursor: pointer;
+}
+.preview-mini:active{ transform: translateY(1px); }
+.preview-mini__hint{
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(15,23,42,.62);
+  white-space: nowrap;
+}   
 .nav-btn{
   width: 100%;
   margin-top: 0;
@@ -471,9 +503,9 @@ button{
 }
 .section-pill.is-active{
   font-weight: 900;
-  border: 3px solid rgba(245,158,11,.85);
-  background: rgba(245,158,11,.18);
-  box-shadow: 0 14px 22px rgba(2,8,23,.14);
+  border: 2px solid rgba(15,23,42,.28);
+  background: rgba(15,23,42,.04);
+  box-shadow: 0 12px 20px rgba(2,8,23,.12);
   transform: translateY(-1px);
 }
 .section-pill .pill-title{ font-weight: 800; }
@@ -500,6 +532,24 @@ button{
   flex-direction: column;
   gap: 6px;
 }
+ .field.is-error input,
+.field.is-error textarea,
+.field.is-error select{
+  border-color: rgba(185,28,28,.55) !important;
+  box-shadow: 0 0 0 4px rgba(185,28,28,.10) !important;
+}
+.field-error{
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(185,28,28,.92);
+  margin-top: 6px;
+}
+.req-star{
+  font-size: 12px;
+  font-weight: 900;
+  color: rgba(185,28,28,.85);
+  transform: translateY(-1px);
+}   
 
 .field-label{
   font-size: 14px;
@@ -547,6 +597,28 @@ button{
 .field-control.is-textarea .field-example{ top: 16px; }
 .field.has-value .field-control.is-textarea .field-example,
 .field:focus-within .field-control.is-textarea .field-example{ top: 8px; }
+ .field-voice{
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  border: 1px solid rgba(2,8,23,.12);
+  background: rgba(15,23,42,.06);
+  color: rgba(15,23,42,.82);
+  font-size: 16px;
+  display: none; /* فقط روی فیلد فعال */
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.field-control{ position: relative; }
+.field-control.has-voice input,
+.field-control.has-voice textarea{
+  padding-left: 54px; /* جا برای میکروفون */
+}   
 
 /* Choice buttons */
 .choice-row{
@@ -631,6 +703,22 @@ button{
   border: none;
   font-family: inherit;
 }
+  .fg-sub{
+  display:block;
+  margin-top: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(15,23,42,.56);
+}
+.fg-status{
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  font-weight: 900;
+  color: rgba(31,107,74,.92);
+}  
 .field-group__head .fg-title{
   width: 100%;
   text-align: center;
@@ -649,42 +737,12 @@ button{
   opacity: .85;
 }
 .field-group__body{
-  padding: 0 12px 12px;
+  padding: 12px 12px 14px;
   display: none;
+  background: rgba(15,23,42,.03);
+  border-top: 1px solid rgba(2,8,23,.08);
 }
 .field-group.is-open .field-group__body{ display: block; }
-
-/* Preview inline meter */
-.preview-bar--inline{
-  position: static;
-  width: min(520px, 100%);
-  margin: 12px auto 0;
-  border-radius: 18px;
-  box-shadow: 0 14px 26px rgba(2,8,23,.14);
-  background: linear-gradient(to bottom, #111827, #0b1220);
-  position: relative;
-  overflow: hidden;
-}
-.preview-meter{
-  position:absolute;
-  inset:0;
-  background: rgba(255,255,255,.08);
-  z-index: 0;
-}
-.preview-meter__fill{
-  position:absolute;
-  top:0;
-  bottom:0;
-  right:0;
-  width: 0%;
-  background: rgba(34,197,94,.40);
-}
-.preview-bar--inline > *{
-  position: relative;
-  z-index: 1;
-}
-.preview-bar--inline .preview-bar__title{ font-weight: 800; }
-
 /* Actions card minimal */
 .card--actions{
   margin-top: 18px;
@@ -746,8 +804,7 @@ button{
 
           <div class="section-steps section-steps--nav" id="sectionSteps" aria-label="بخش‌های فرم"></div>
 
-          <button class="voice voice--inline" id="voiceButton" type="button" aria-label="ورود صوتی">🎤</button>
-        </div>
+         </div>
 
         <div class="wizard-body">
           <div class="wizard-title" id="wizardTitle">—</div>
@@ -758,25 +815,23 @@ button{
           <button class="nav-btn nav-btn--ghost" id="prevStepBtn" type="button">مرحله قبل</button>
           <button class="nav-btn nav-btn--primary" id="nextStepBtn" type="button">ادامه</button>
         </div>
+                <div class="wizard-preview" id="wizardPreview" aria-label="پیش‌نمایش">
+          <button class="preview-mini" id="bottomPreviewBar" type="button">
+            پیش‌نمایش موقت
+          </button>
+          <div class="preview-mini__hint" id="bottomPreviewCta">برای بررسی اولیه</div>
+        </div>
+
+        <div class="ios-hint" id="iosHint">در آیفون، برای ورود صوتی از میکروفونِ کیبورد استفاده کنید.</div>
+
+        <div class="bottom-row bottom-row--single">
+          <a href="#" onclick="location.reload(); return false;">شروع مجدد</a>
+        </div>
+
+        <div class="success-note" id="wmNote" style="display:none;">فایل خروجی شامل واترمارک دفتر است.</div>
       </div>
     </div>
-
-    <div class="card card--actions">
-      <button class="preview-bar preview-bar--inline" id="bottomPreviewBar" type="button" aria-label="پیش‌نمایش فرم گذرنامه">
-        <span class="preview-meter" aria-hidden="true"><span class="preview-meter__fill" id="previewFill"></span></span>
-        <span class="preview-bar__title">پیش‌نمایش فرم گذرنامه</span>
-        <span class="preview-bar__cta" id="bottomPreviewCta">—</span>
-      </button>
-
-      <div class="ios-hint" id="iosHint">در آیفون، برای ورود صوتی از میکروفونِ کیبورد استفاده کنید.</div>
-
-      <div class="bottom-row bottom-row--single">
-        <a href="#" onclick="location.reload(); return false;">شروع مجدد</a>
-      </div>
-
-      <div class="success-note" id="wmNote" style="display:none;">فایل خروجی شامل واترمارک دفتر است.</div>
-    </div>
-  </div>
+ </div>
 
   <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
   <script src="https://unpkg.com/@pdf-lib/fontkit@1.1.1/dist/fontkit.umd.min.js"></script>
@@ -950,14 +1005,10 @@ document.addEventListener("DOMContentLoaded", function () {
   };
 
   // ===== DOM refs =====
-  const voiceBtn = document.getElementById("voiceButton");
   const iosHint = document.getElementById("iosHint");
-
   const sectionStepsEl = document.getElementById("sectionSteps");
   const bottomPreviewBar = document.getElementById("bottomPreviewBar");
   const bottomPreviewCta = document.getElementById("bottomPreviewCta");
-  const previewFill = document.getElementById("previewFill");
-
   const topProgressFill = document.getElementById("topProgressFill");
   const topProgressText = document.getElementById("topProgressText");
 
@@ -968,7 +1019,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const wizardFieldsEl = document.getElementById("wizardFields");
 
   const wmNote = document.getElementById("wmNote");
-
+  const wizardPreview = document.getElementById("wizardPreview");
   // iOS: voice hidden + hint
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
   if (isIOS) {
@@ -984,12 +1035,44 @@ document.addEventListener("DOMContentLoaded", function () {
     const el = e.target;
     const k = el && el.getAttribute && el.getAttribute("data-key");
     if (k) lastFocusedKey = k;
+        // نمایش میکروفون فقط برای همین فیلد
+    wizardFieldsEl.querySelectorAll(".field-voice").forEach(btn => btn.style.display = "none");
+    const wrap = el && el.closest ? el.closest(".field-control") : null;
+    if (wrap) {
+      const vb = wrap.querySelector(".field-voice");
+      if (vb) vb.style.display = "inline-flex";
+    }
   });
 
   function normalizePersianNumbers(text) {
     return String(text || "")
       .replace(/[۰-۹]/g, d => "۰۱۲۳۴۵۶۷۸۹".indexOf(d))
       .replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d));
+  }
+    function startVoiceForKey(key, onDone){
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      alert("این مرورگر از ورودی صوتی پشتیبانی نمی‌کند.");
+      return;
+    }
+    const recognition = new SpeechRecognition();
+    recognition.lang = "fa-IR";
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    recognition.onresult = function (event) {
+      const text = event.results?.[0]?.[0]?.transcript || "";
+      answers[key] = normalizePersianNumbers(text);
+      if (typeof onDone === "function") onDone(answers[key]);
+      updateNav();
+      renderPage({ preserveFocusKey: key });
+    };
+
+    recognition.onerror = function (event) {
+      alert("خطای ورودی صوتی: " + (event.error || "نامشخص"));
+    };
+
+    recognition.start();
   }
 
   function shouldShowField(field) {
@@ -1076,6 +1159,34 @@ document.addEventListener("DOMContentLoaded", function () {
   function isFieldFilled(key) {
     return ((answers[key] || "").trim() !== "");
   }
+    function clearAllFieldErrors(){
+    wizardFieldsEl.querySelectorAll(".field.is-error").forEach(el => el.classList.remove("is-error"));
+    wizardFieldsEl.querySelectorAll(".field-error").forEach(el => el.remove());
+  }
+
+  function showFieldError(key, msg){
+    const input = wizardFieldsEl.querySelector(`[data-key="${key}"]`);
+    if (!input) return;
+    const fieldWrap = input.closest(".field");
+    if (!fieldWrap) return;
+
+    fieldWrap.classList.add("is-error");
+
+    // اگر قبلاً خطا دارد، دوباره نساز
+    if (fieldWrap.querySelector(".field-error")) return;
+
+    const e = document.createElement("div");
+    e.className = "field-error";
+    e.textContent = msg || "این مورد الزامی است.";
+    fieldWrap.appendChild(e);
+  }
+
+  function scrollToField(key){
+    const input = wizardFieldsEl.querySelector(`[data-key="${key}"]`);
+    if (!input) return;
+    input.scrollIntoView({ behavior: "smooth", block: "center" });
+    try { input.focus(); } catch(e) {}
+  }
 
   function isPageComplete(page) {
     if (DEV_MODE) return true;
@@ -1142,7 +1253,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const label = document.createElement("div");
     label.className = "field-label";
     label.textContent = (field.label || field.key);
-
+       if (!field.optional) {
+      const star = document.createElement("span");
+      star.className = "req-star";
+      star.textContent = "*";
+      label.appendChild(star);
+    }
     const control = document.createElement("div");
     control.className = "field-control";
 
@@ -1186,7 +1302,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const label = document.createElement("div");
     label.className = "field-label";
-    label.textContent = (field.label || field.key);
+       label.textContent = (field.label || field.key);
+    if (!field.optional) {
+      const star = document.createElement("span");
+      star.className = "req-star";
+      star.textContent = "*";
+      label.appendChild(star);
+    }
+    
 
     let input;
     const isTextarea = !!field.multiline;
@@ -1215,7 +1338,27 @@ document.addEventListener("DOMContentLoaded", function () {
       ex.textContent = String(field.placeholder);
       control.appendChild(ex);
     }
+    // میکروفون فقط در غیر iOS
+    if (!isIOS) {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (SpeechRecognition) {
+        control.classList.add("has-voice");
 
+        const vb = document.createElement("button");
+        vb.type = "button";
+        vb.className = "field-voice";
+        vb.textContent = "🎤";
+        vb.setAttribute("data-voice-for", field.key);
+
+        vb.addEventListener("click", () => {
+          startVoiceForKey(field.key, (val) => {
+            input.value = val;
+          });
+        });
+
+        control.appendChild(vb);
+      }
+    }
     control.appendChild(input);
 
     function syncHasValue() {
@@ -1233,6 +1376,10 @@ document.addEventListener("DOMContentLoaded", function () {
     autoGrow();
 
     input.addEventListener("input", (e) => {
+      const wrap = input.closest(".field");
+      if (wrap) wrap.classList.remove("is-error");
+      const err = wrap ? wrap.querySelector(".field-error") : null;
+      if (err) err.remove();
       answers[field.key] = normalizePersianNumbers(e.target.value || "");
       syncHasValue();
       autoGrow();
@@ -1266,10 +1413,19 @@ document.addEventListener("DOMContentLoaded", function () {
     const chev = document.createElement("span");
     chev.className = "fg-chev";
     chev.textContent = "+";
-
+    // میکروکپی
+    const sub = document.createElement("span");
+    sub.className = "fg-sub";
+    sub.textContent = "در صورت نیاز تکمیل کنید";
     head.appendChild(t);
+    
     head.appendChild(chev);
+    t.appendChild(sub);
 
+    const status = document.createElement("span");
+    status.className = "fg-status";
+    status.textContent = "";
+    head.appendChild(status);
     const body = document.createElement("div");
     body.className = "field-group__body";
 
@@ -1294,6 +1450,10 @@ document.addEventListener("DOMContentLoaded", function () {
     box.appendChild(body);
 
     wrap.appendChild(box);
+        // وضعیت تکمیل گروه: اگر همه فیلدهای لازمِ قابل‌نمایش پر است
+    const groupLeaf = (groupField.fields || []).filter(ch => shouldShowField(ch) && !ch.optional);
+    const groupDone = groupLeaf.length > 0 && groupLeaf.every(ch => isFieldFilled(ch.key));
+    status.textContent = groupDone ? "✔ تکمیل شد" : "";
     return wrap;
   }
 
@@ -1310,7 +1470,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const label = document.createElement("div");
     label.className = "field-label";
-    label.textContent = (field.label || field.key);
+          label.textContent = (field.label || field.key);
+    if (!field.optional) {
+      const star = document.createElement("span");
+      star.className = "req-star";
+      star.textContent = "*";
+      label.appendChild(star);
+    }
 
     const row = document.createElement("div");
     row.className = "choice-row";
@@ -1349,6 +1515,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     wizardTitleEl.textContent = page.title;
     wizardFieldsEl.innerHTML = "";
+        // پاکسازی خطاهای صفحه
+    clearAllFieldErrors();
 
     visible.forEach(f => {
       if (f.type === "group") {
@@ -1386,17 +1554,24 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const denom = Math.max(1, requiredAll.length);
     const percent = Math.round((answeredAll / denom) * 100);
-
-    if (previewFill) previewFill.style.width = `${percent}%`;
     if (topProgressFill) topProgressFill.style.width = `${percent}%`;
     if (topProgressText) topProgressText.textContent = `${percent}% تکمیل شده`;
 
-        if (bottomPreviewCta) {
-      bottomPreviewCta.textContent = "نمایش و بررسی فرم نهایی";
+           // پیش‌نمایش فقط مراحل 1-3 (صفحه 0 تا 2). در صفحه 4 حذف می‌شود.
+    const isLast = (currentPage === wizardSchema.pages.length - 1);
+
+    if (wizardPreview) {
+      wizardPreview.style.display = isLast ? "none" : "flex";
     }
 
     if (bottomPreviewBar) {
-      bottomPreviewBar.disabled = DEV_MODE ? false : !(answeredAll >= requiredAll.length);
+      bottomPreviewBar.textContent = isLast ? "نمایش و بررسی فرم نهایی" : "پیش‌نمایش موقت";
+      // پیش‌نمایش در مراحل 1-3 همیشه در دسترس است (حتی اگر ناقص باشد)
+      bottomPreviewBar.disabled = false;
+    }
+
+    if (bottomPreviewCta) {
+      bottomPreviewCta.textContent = isLast ? "" : "برای بررسی اولیه";
     }
 
     // Next/Prev
@@ -1410,7 +1585,7 @@ document.addEventListener("DOMContentLoaded", function () {
         nextStepBtn.textContent = `ادامه به: ${wizardSchema.pages[currentPage + 1].title}`;
         nextStepBtn.disabled = DEV_MODE ? false : !isPageComplete(page);
       } else {
-        nextStepBtn.textContent = "نمایش فرم نهایی";
+        nextStepBtn.textContent = "ننمایش و بررسی فرم نهایی;
         nextStepBtn.disabled = DEV_MODE ? false : !isAllComplete();
       }
     }
@@ -1435,8 +1610,13 @@ document.addEventListener("DOMContentLoaded", function () {
       const page = wizardSchema.pages[currentPage];
 
       if (!isLast) {
-        if (!DEV_MODE && !isPageComplete(page)) {
-          alert("اول این مرحله را کامل کنید، سپس وارد مرحله بعد شوید.");
+              if (!DEV_MODE && !isPageComplete(page)) {
+          const leaf = getVisibleLeafFields(page).filter(f => !f.optional);
+          const firstMissing = leaf.find(f => !isFieldFilled(f.key));
+          if (firstMissing) {
+            showFieldError(firstMissing.key, "این مورد الزامی است.");
+            scrollToField(firstMissing.key);
+          }
           return;
         }
         currentPage += 1;
@@ -1444,8 +1624,13 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
 
-      if (!DEV_MODE && !isAllComplete()) {
-        alert("برای نمایش فرم نهایی، همه مراحل باید کامل شوند.");
+           if (!DEV_MODE && !isAllComplete()) {
+        // برو به اولین صفحه ناقص
+        const idx = wizardSchema.pages.findIndex(p => !isPageComplete(p));
+        if (idx >= 0) {
+          currentPage = idx;
+          renderPage();
+        }
         return;
       }
 
@@ -1453,52 +1638,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // ===== Voice input =====
-  voiceBtn.addEventListener("click", function () {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SpeechRecognition) {
-      alert("این مرورگر از ورودی صوتی پشتیبانی نمی‌کند.");
-      return;
-    }
-
-    const active = document.activeElement;
-    const key = (active && active.getAttribute && active.getAttribute("data-key")) || lastFocusedKey;
-
-    if (!key) {
-      alert("اول روی یکی از فیلدهای متنی کلیک کنید.");
-      return;
-    }
-
-    const recognition = new SpeechRecognition();
-    recognition.lang = "fa-IR";
-    recognition.interimResults = false;
-    recognition.maxAlternatives = 1;
-
-    voiceBtn.disabled = true;
-    voiceBtn.textContent = "🎙️";
-
-    recognition.onresult = function (event) {
-      const text = event.results?.[0]?.[0]?.transcript || "";
-      answers[key] = normalizePersianNumbers(text);
-
-      const el = wizardFieldsEl.querySelector(`[data-key="${key}"]`);
-      if (el) el.value = answers[key];
-
-      updateNav();
-      renderPage({ preserveFocusKey: key });
-    };
-
-    recognition.onerror = function (event) {
-      alert("خطای ورودی صوتی: " + (event.error || "نامشخص"));
-    };
-
-    recognition.onend = function () {
-      voiceBtn.disabled = false;
-      voiceBtn.textContent = "🎤";
-    };
-
-    recognition.start();
-  });
 
   // ====== PNG TEXT RENDER ======
   async function drawTextAsPngOnPdf(pdfDoc, page, text, x, y, fontSize) {
