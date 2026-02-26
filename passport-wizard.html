@@ -110,10 +110,9 @@ h3{
 }
 
 /* ===== Unified Controls (input / textarea / select) ===== */
-/* ===== Unified controls (input/textarea/select) ===== */
 input, textarea, select{
   width: 100%;
-  padding: 14px 14px;
+  padding: 12px 14px;         /* کمتر شد */
   font-size: 16px;            /* iOS zoom نشود */
   border-radius: 14px;
   border: 1px solid #e5eaf3;
@@ -122,9 +121,12 @@ input, textarea, select{
   text-align: right;
   direction: rtl;
   box-sizing: border-box;
-  min-height: 52px;           /* همه یک‌قد */
-  line-height: 1.6;
+  min-height: 48px;           /* کمتر شد */
+  line-height: 1.5;
 }
+
+
+   
 
 /* textarea behavior: auto-grow friendly */
 textarea{
@@ -513,24 +515,22 @@ box-shadow: 0 14px 26px rgba(2,8,23,.14);
   font-size: 13px;
   font-weight: 800;
   color: rgba(15,23,42,.82);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 2px;       /* نزدیک‌تر به مستطیل */
+  display: inline-flex;       /* مهم */
+  align-items: baseline;      /* هم‌خط با متن */
+  gap: 6px;                   /* نزدیک‌تر */
+  margin-bottom: 0;           /* چسبیده‌تر به کنترل */
 }
-
-
 
 .field-label::before{
   content: "•";
-  display: inline-block;
-  margin-left: 8px; /* RTL */
   font-weight: 900;
- font-size: 18px;
+  font-size: 16px;
   line-height: 1;
   color: rgba(15,37,71,.85);
+  margin: 0;                 /* مهم: حذف فاصله پرت */
+  transform: translateY(-1px);
 }
-  
+
  /* کنترلِ داخل کادر: مثال باید داخل همین محدوده حبس شود */
 .field-control{
   position: relative;
@@ -1239,10 +1239,6 @@ function buildSelectField(field) {
   const wrap = document.createElement("div");
   wrap.className = "field";
 
-  const label = document.createElement("div");
-  label.className = "field-label";
-  label.textContent = (field.label || field.key);
-
   const control = document.createElement("div");
   control.className = "field-control";
 
@@ -1251,7 +1247,7 @@ function buildSelectField(field) {
 
   const ph = document.createElement("option");
   ph.value = "";
- ph.textContent = (field.label || "انتخاب");
+   ph.textContent = (field.label || "");
   sel.appendChild(ph);
 
   const currentVal = (answers[field.key] || "").trim();
@@ -1293,7 +1289,7 @@ function buildTextField(field) {
 
   if (isTextarea) {
     input = document.createElement("textarea");
-    input.rows = 2; // شروع هم‌قد بقیه
+    input.rows = 1; // شروع هم‌قد بقیه
   } else {
     input = document.createElement("input");
     input.type = "text";
@@ -1349,7 +1345,7 @@ function buildTextField(field) {
     }
   });
 
-  wrap.appendChild(label);
+
   wrap.appendChild(control);
   return wrap;
 }
@@ -1358,11 +1354,7 @@ function buildGroupField(groupField) {
   const wrap = document.createElement("div");
   wrap.className = "field";
 
-  const label = document.createElement("div");
-  label.className = "field-label";
-  label.textContent = (groupField.label || groupField.key);
-
-  const box = document.createElement("div");
+   const box = document.createElement("div");
   box.className = "field-group";
 
   const head = document.createElement("button");
@@ -1371,7 +1363,7 @@ function buildGroupField(groupField) {
 
   const t = document.createElement("span");
   t.className = "fg-title";
-  t.textContent = (groupField.label || "گروه");
+   t.textContent = (groupField.label ? `${groupField.label} (برای باز کردن بزنید)` : "گروه");
 
   const chev = document.createElement("span");
   chev.className = "fg-chev";
@@ -1403,8 +1395,7 @@ function buildGroupField(groupField) {
   box.appendChild(head);
   box.appendChild(body);
 
-  wrap.appendChild(label);
-  wrap.appendChild(box);
+   wrap.appendChild(box);
   return wrap;
 }
   
