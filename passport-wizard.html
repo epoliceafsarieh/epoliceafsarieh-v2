@@ -5,7 +5,7 @@
   <title>فرم مرحله‌ای گذرنامه</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
- <style>
+  <style>
 @font-face{
   font-family: "Vazirmatn";
   src: url("assets/fonts/vazirmatn/Vazirmatn-Regular.woff2") format("woff2");
@@ -17,11 +17,10 @@ body{
   font-family: "Vazirmatn", sans-serif;
   margin: 0;
   padding: 16px;
-    padding-bottom: 24px; 
+  padding-bottom: 24px;
   padding-left: max(16px, env(safe-area-inset-left));
   padding-right: max(16px, env(safe-area-inset-right));
-background: #0f2547; /* سرمه‌ای */
-  
+  background: #0f2547; /* سرمه‌ای */
   overflow-x: hidden;
 }
 
@@ -30,7 +29,7 @@ background: #0f2547; /* سرمه‌ای */
   margin: 0 auto;
 }
 
-/* Header (minimal, aligned) */
+/* Header */
 .flow-top{
   display: flex;
   align-items: center;
@@ -39,80 +38,27 @@ background: #0f2547; /* سرمه‌ای */
   padding: 10px 6px 6px;
 }
 
-.flow-service{
-  font-size: 12px;
-  color: rgba(15, 23, 42, .45);
-  letter-spacing: .2px;
-}
-
 .back-link{
   display: inline-flex;
   align-items: center;
   justify-content: center;
   text-decoration: none;
-   font-size: 13px;
+  font-size: 13px;
   font-weight: 500;
   padding: 8px 12px;
   border-radius: 999px;
   color: #fff;
-background: rgba(255,255,255,.12);
-border: 1px solid rgba(255,255,255,.18);
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.18);
 }
 .back-link:hover{
- background: rgba(255,255,255,.16);
-}
-/* Head text */
-.flow-head{
-  margin: 18px 6px 14px;
-}
-.flow-kicker{
-  font-size: 12px;
-  color: rgba(15, 23, 42, .55);
-  margin-bottom: 6px;
-}
-.flow-title{
-  margin: 0 0 6px 0;
-  font-size: 18px;
-  line-height: 1.7;
-  font-weight: 700;
-  
-}
-.flow-subtitle{
-  font-size: 13px;
-  line-height: 1.8;
-  color: rgba(15, 23, 42, .65);
+  background: rgba(255,255,255,.16);
 }
 
-/* Main card */
-.card{
-  background: #ffffff;
-  border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(2, 8, 23, .06);
-  border: 1px solid rgba(2, 8, 23, .07);
-  padding: 22px;
-  margin: 14px 0 0;
-}
-
-/* Progress */
-.progress{
-  font-size: 12px;
-  color: rgba(15, 23, 42, .50);
-  margin-bottom: 6px;
-  text-align: right;
-}
-
-/* Question */
-h3{
-  margin: 0 0 14px 0;
-  font-size: 20px;
-  line-height: 1.9;
-  font-weight: 700;
-}
-
-/* ===== Unified Controls (input / textarea / select) ===== */
+/* ===== Unified Controls ===== */
 input, textarea, select{
   width: 100%;
-  padding: 12px 14px;         /* کمتر شد */
+  padding: 12px 14px;
   font-size: 16px;            /* iOS zoom نشود */
   border-radius: 14px;
   border: 1px solid #e5eaf3;
@@ -121,20 +67,15 @@ input, textarea, select{
   text-align: right;
   direction: rtl;
   box-sizing: border-box;
-  min-height: 48px;           /* کمتر شد */
+  min-height: 48px;
   line-height: 1.5;
 }
 
-
-   
-
-/* textarea behavior: auto-grow friendly */
 textarea{
-  resize: none;               /* با auto-grow */
+  resize: none;
   overflow: hidden;
 }
 
-/* select polish */
 select{
   appearance: none;
   -webkit-appearance: none;
@@ -146,15 +87,24 @@ select{
     calc(9px)  calc(50% - 3px);
   background-size: 6px 6px, 6px 6px;
   background-repeat: no-repeat;
-  padding-left: 34px;         /* جا برای فلش */
+  padding-left: 34px;
 }
 
-   
-
-/* focus polish */
 input:focus, textarea:focus, select:focus{
   border-color: rgba(15,37,71,.45);
   box-shadow: 0 0 0 4px rgba(15,37,71,.10);
+}
+
+/* Buttons (global) */
+button{
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+  min-height: 52px;
 }
 
 .voice{
@@ -169,27 +119,9 @@ input:focus, textarea:focus, select:focus{
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 10px auto 0; /* وسط */
+  margin: 10px auto 0;
 }
 
-
-/* Buttons */
-button{
-  width: 100%;
-  padding: 14px;
-  font-size: 16px;
-  border-radius: 14px;
-  border: none;
-  cursor: pointer;
-  margin-top: 10px;
-  min-height: 52px; /* Thumb-friendly */
-}
-
-.primary{
-  color: #fff;
-  background: linear-gradient(to bottom, #17335f, #0f2547);
-  box-shadow: 0 10px 20px rgba(15, 37, 71, .25);
-}
 /* iOS hint */
 .ios-hint{
   display:none;
@@ -198,40 +130,32 @@ button{
   color: rgba(15, 23, 42, .60);
   line-height: 1.8;
 }
-/* Bottom sticky preview bar */
+
+/* Preview bar */
 .preview-bar{
- position: static;
+  position: static;
   width: 100%;
   border: none;
   cursor: pointer;
- font-family: inherit;
+  font-family: inherit;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-
   padding: 16px 18px;
   background: linear-gradient(to bottom, #17335f, #0f2547);
   color: #fff;
-
-box-shadow: 0 14px 26px rgba(2,8,23,.14);
+  box-shadow: 0 14px 26px rgba(2,8,23,.14);
 }
 
-.preview-bar__title{
-  font-size: 14px;
-  font-weight: 800;
-}
-
-.preview-bar__cta{
-  font-size: 14px;
-  font-weight: 900;
-  opacity: .95;
-}
+.preview-bar__title{ font-size: 14px; font-weight: 800; }
+.preview-bar__cta{ font-size: 14px; font-weight: 900; opacity: .95; }
 
 .preview-bar:disabled{
   opacity: .55;
   cursor: not-allowed;
 }
+
 /* Bottom links */
 .bottom-row{
   margin-top: 14px;
@@ -247,204 +171,26 @@ box-shadow: 0 14px 26px rgba(2,8,23,.14);
   opacity: .9;
 }
 
-/* Success state polish */
 .success-note{
   margin-top: 10px;
   font-size: 13px;
   color: rgba(15, 23, 42, .60);
 }
 
-/* Blink (ONLY ONCE) */
-@keyframes blink {
-  0% { opacity: 1; }
-  50% { opacity: .35; }
-  100% { opacity: 1; }
-}
-
-/* Mobile */
-@media (max-width: 480px){
-  body{ padding: 14px; }
-  .flow-title{ font-size: 19px; }
-  .card{ padding: 20px; }
-}
-   @media (max-width: 480px){
-  .wizard-shell{
-    width: 86vw;      /* کمتر از تمام عرض */
-    margin: 0 auto;
-  }
-  .preview-bar--inline{
-    width: 86vw;
-  }
-}
-@media (min-width: 900px){
-  .flow-head{ margin-top: 8px; }
-  .card{ margin-top: 12px; }
-}
-
-  /* ===== Service-like top bar ===== */
-/* [ANCHOR:C1 TOPBAR-ALIGN] */
+/* ===== Service-like top bar ===== */
 .flow-top--service{
   padding: 14px 6px 6px;
-  direction: ltr; /* ترتیب بصری را چپ→راست می‌کند */
+  direction: ltr;
 }
 .flow-top--service *{
-  direction: rtl; /* متن‌ها همچنان RTL بمانند */
-} 
-   
-   
-   
-   
-   .cta-service{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  text-decoration:none;
-  padding: 12px 18px;
-  border-radius: 999px;
-  font-size: 14px;
-  font-weight: 700;
-  color:#fff;
-  background: linear-gradient(to bottom, #17335f, #0f2547);
-  box-shadow: 0 10px 20px rgba(15, 37, 71, .22);
+  direction: rtl;
 }
 
-/* ===== Section steps (top small list) ===== */
-   .section-steps::-webkit-scrollbar{
-  display:none;
-}
-.section-steps{
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px;
-  width: min(420px, 100%);
-  margin: 0;
-}
- .section-steps--nav{
-  flex: 1;
-  width: min(420px, 100%);
-  margin: 0 auto;
-}
-  /* Desktop: grouped rows for section pills */
-@media (min-width: 700px){
-  .section-steps.is-grouped{
-    display: block;
-    overflow: visible;
-    white-space: normal;
-  }
-  .section-steps.is-grouped .section-row{
-    display: flex;
-    gap: 8px;
-   justify-content: flex-end;
-    flex-wrap: wrap;
-    margin-bottom: 8px;
-  }
-} 
-
-.section-pill{
-  display:inline-flex;
-  align-items:center;
-  gap: 8px;
-  justify-content: space-between;
-
-  min-height: 36px;
-  padding: 8px 10px;
-  font-size: 12px;
-  white-space: nowrap;
-
-  border-radius: 999px;
-  line-height: 1;
-
-  background: rgba(15,23,42,.06);
-  color: rgba(15,23,42,.75);
-  border: 1px solid rgba(15,23,42,.14);
-
-  cursor: pointer;
-  appearance: none;
-  -webkit-appearance: none;
-  outline: none;
-  font-family: inherit;
-  width: auto;
-  margin-top: 0;
-}
-  /* locked pills */
-.section-pill.is-locked{
-  opacity: .45;
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
-}
-.section-pill.is-locked .pill-meta{
-  opacity: .8;
-} 
-
-/* states (non-active) */
-.section-pill.is-empty{
-  background: rgba(15,23,42,.06);
-  border-color: rgba(15,23,42,.14);
-  color: rgba(15,23,42,.74);
-}
-.section-pill.is-warn{
-  background: rgba(15,23,42,.06);
-  border-color: rgba(15,23,42,.18);
-  color: rgba(15,23,42,.82);
-}
-.section-pill.is-done{
-  background: rgba(31,107,74,.14);
-  border-color: rgba(31,107,74,.28);
-  color: rgba(15,23,42,.88);
-}
-
-/* active = ONLY YELLOW */
-.section-pill.is-active{
-  font-weight: 900;
-  border: 2px solid rgba(245,158,11,.85);
-  background: rgba(245,158,11,.18);
-  box-shadow: 0 14px 22px rgba(2,8,23,.14);
-  transform: translateY(-1px);
-}
-
-/* ensure active overrides done/warn visually */
-.section-pill.is-active.is-done{
-  background: rgba(245,158,11,.18);
-  border-color: rgba(245,158,11,.85);
-}
-.section-pill.is-active .pill-title{ font-weight: 900; }
-.section-pill.is-active .pill-meta{
-  border-color: rgba(245,158,11,.35);
-  background: rgba(245,158,11,.10);
-}
-
-.section-pill.is-active .pill-title{
-  font-weight: 900;
-}
-
-/* title + meta */
-.section-pill .pill-title{
-  font-weight: 800;
-}
-.section-pill .pill-meta{
-  font-weight: 900;
-  font-size: 11px;
-  color: rgba(15,23,42,.72);
-  background: rgba(15,23,42,.06);
-  border: 1px solid rgba(15,23,42,.12);
-  padding: 4px 8px;
-  border-radius: 999px;
-  line-height: 1;
-}
-
-.section-pill .tick{
-  font-size: 12px;
-  color: #1f6b4a;
-  line-height: 1;
-}
-
-/* ===== Head becomes the main hero (question+input) ===== */
-/* ===== Head becomes the main hero (question+input) ===== */
+/* ===== Wizard shell ===== */
 .flow-head--compact{
   margin: 20px 6px 10px;
 }
- /* ===== Wizard (multi-field per page) ===== */
+
 .wizard-shell{
   width: min(520px, 100%);
   margin: 0 auto;
@@ -454,7 +200,8 @@ box-shadow: 0 14px 26px rgba(2,8,23,.14);
   box-shadow: 0 14px 30px rgba(2,8,23,.08);
   overflow: hidden;
 }
-/* ===== Top progress (global) ===== */
+
+/* Top progress (global) */
 .progress-top{
   flex: 1;
   display:flex;
@@ -462,14 +209,12 @@ box-shadow: 0 14px 26px rgba(2,8,23,.14);
   gap: 6px;
   min-width: 0;
 }
-
 .progress-top__bar{
   height: 8px;
   border-radius: 999px;
   background: rgba(15,23,42,.10);
   overflow: hidden;
 }
-
 .progress-top__fill{
   height: 100%;
   width: 0%;
@@ -477,42 +222,29 @@ box-shadow: 0 14px 26px rgba(2,8,23,.14);
   border-radius: 999px;
   transition: width .18s ease;
 }
-
 .progress-top__text{
   font-size: 12px;
   font-weight: 800;
   color: rgba(15,23,42,.70);
   white-space: nowrap;
 }
+
 .wizard-nav{
   display:flex;
   align-items:center;
   justify-content: space-between;
   gap: 10px;
-
-  padding: 10px 12px 14px; /* bottom spacing زیر pills */
+  padding: 10px 12px 14px;
   background: rgba(255,255,255,.92);
   z-index: 5;
-
   border-bottom: 1px solid rgba(2,8,23,.08);
 }
-
-   
-  @media (max-width: 480px){
+@media (max-width: 480px){
   .wizard-nav{
     position: sticky;
     top: 0;
     backdrop-filter: blur(8px);
   }
-} 
-
-.wizard-progress{
-  flex: 1;
-  text-align: center;
-  font-size: 12px;
-  font-weight: 800;
-  color: rgba(15,23,42,.65);
-  white-space: nowrap;
 }
 
 .voice--inline{
@@ -533,154 +265,160 @@ box-shadow: 0 14px 26px rgba(2,8,23,.14);
 .wizard-body{
   padding: 14px 14px 16px;
 }
-
-.wizard-title{
-  display: none;
-}
+.wizard-title{ display: none; }
 
 .wizard-fields{
   display:flex;
   flex-direction: column;
   gap: 10px;
 }
-   .field{
+
+/* Footer nav buttons */
+.wizard-footer{
+  display:flex;
+  gap: 10px;
+  padding: 12px 14px 16px;
+  background: rgba(255,255,255,.92);
+  border-top: 1px solid rgba(2,8,23,.08);
+}
+.nav-btn{
+  width: 100%;
+  margin-top: 0;
+  min-height: 48px;
+  border-radius: 14px;
+  font-weight: 900;
+  font-size: 14px;
+}
+.nav-btn--ghost{
+  background: rgba(15,23,42,.06);
+  border: 1px solid rgba(2,8,23,.12);
+  color: rgba(15,23,42,.85);
+}
+.nav-btn--primary{
+  background: linear-gradient(to bottom, #17335f, #0f2547);
+  color:#fff;
+  box-shadow: 0 10px 20px rgba(15, 37, 71, .20);
+}
+.nav-btn:disabled{
+  opacity: .55;
+  cursor: not-allowed;
+}
+
+/* Section pills */
+.section-steps::-webkit-scrollbar{ display:none; }
+.section-steps{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  width: min(420px, 100%);
+  margin: 0;
+}
+.section-steps--nav{
+  flex: 1;
+  width: min(420px, 100%);
+  margin: 0 auto;
+}
+.section-pill{
+  display:inline-flex;
+  align-items:center;
+  gap: 8px;
+  justify-content: space-between;
+  min-height: 36px;
+  padding: 8px 10px;
+  font-size: 12px;
+  white-space: nowrap;
+  border-radius: 999px;
+  line-height: 1;
+  background: rgba(15,23,42,.06);
+  color: rgba(15,23,42,.75);
+  border: 1px solid rgba(15,23,42,.14);
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  outline: none;
+  font-family: inherit;
+  width: auto;
+  margin-top: 0;
+}
+.section-pill.is-locked{
+  opacity: .45;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+.section-pill.is-empty{
+  background: rgba(15,23,42,.06);
+  border-color: rgba(15,23,42,.14);
+  color: rgba(15,23,42,.74);
+}
+.section-pill.is-warn{
+  background: rgba(15,23,42,.06);
+  border-color: rgba(15,23,42,.18);
+  color: rgba(15,23,42,.82);
+}
+.section-pill.is-done{
+  background: rgba(31,107,74,.14);
+  border-color: rgba(31,107,74,.28);
+  color: rgba(15,23,42,.88);
+}
+.section-pill.is-active{
+  font-weight: 900;
+  border: 2px solid rgba(245,158,11,.85);
+  background: rgba(245,158,11,.18);
+  box-shadow: 0 14px 22px rgba(2,8,23,.14);
+  transform: translateY(-1px);
+}
+.section-pill .pill-title{ font-weight: 800; }
+.section-pill .pill-meta{
+  font-weight: 900;
+  font-size: 11px;
+  color: rgba(15,23,42,.72);
+  background: rgba(15,23,42,.06);
+  border: 1px solid rgba(15,23,42,.12);
+  padding: 4px 8px;
+  border-radius: 999px;
+  line-height: 1;
+}
+.section-pill .tick{
+  font-size: 12px;
+  color: #1f6b4a;
+  line-height: 1;
+}
+
+/* Fields */
+.field{
   position: relative;
   display:flex;
   flex-direction: column;
   gap: 4px;
 }
-/* ===== Field label (smaller + bullet) ===== */
+
 .field-label{
   font-size: 13px;
   font-weight: 800;
   color: rgba(15,23,42,.82);
-  display: inline-flex;       /* مهم */
-  align-items: baseline;      /* هم‌خط با متن */
-  gap: 6px;                   /* نزدیک‌تر */
-  margin-bottom: 0;           /* چسبیده‌تر به کنترل */
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 0;
 }
-
 .field-label::before{
   content: "•";
   font-weight: 900;
   font-size: 16px;
   line-height: 1;
   color: rgba(15,37,71,.85);
-  margin: 0;                 /* مهم: حذف فاصله پرت */
+  margin: 0;
   transform: translateY(-1px);
 }
 
- /* کنترلِ داخل کادر: مثال باید داخل همین محدوده حبس شود */
 .field-control{
   position: relative;
   overflow: hidden;
   border-radius: 14px;
 }
-/* ===== Group (collapsible) ===== */
-.field-group{
-  border-radius: 14px;
-  border: 1px solid rgba(2,8,23,.12);
-  background: #f8fafc;
-  overflow: hidden;
-}
 
-.field-group__head{
-  width: 100%;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;     /* وسط‌چین */
-  gap: 10px;
-  padding: 14px 14px;
-  cursor: pointer;
-  background: transparent;
-  border: none;
-  font-family: inherit;
-}
-
-.field-group__head .fg-title{
-  width: 100%;
-  text-align: center;          /* متن وسط */
-  padding: 0 34px;             /* جا برای + */
-}
-
-.field-group__head .fg-chev{
-  position: absolute;
-  left: 14px;                  /* آیکن + کنار */
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 18px;
-  font-weight: 900;
-  opacity: .85;
-}
-
-.field-group__head .fg-title{
-  font-weight: 900;
-  font-size: 14px;
-  color: rgba(15,23,42,.85);
-}
-
-.field-group__head .fg-chev{
-  font-size: 14px;
-  opacity: .7;
-}
-
-.field-group__body{
-  padding: 0 12px 12px;
-  display: none;
-}
-
-.field-group.is-open .field-group__body{
-  display: block;
-}
-
-
-
-   
-/* ===== Inline Yes/No (final) ===== */
-
-.field--yn{
-  flex-direction: row;
-  align-items: center;
-justify-content: space-between; /* دو ستون کنار هم */
-  gap: 10px;
-}
-
-.field--yn .field-label{
-  margin: 0;
-  flex: 1 1 auto;
-  min-width: 0;
-  white-space: nowrap;
-}
-
-/* buttons stick next to label */
-.field--yn .choice-row{
-  flex: 0 0 auto;
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-  flex-wrap: nowrap;
-}
-
-/* push the button group right next to label (no drifting) */
-.field--yn .choice-row{
-  margin-inline-start: 0;
-}
-   
-.field--yn .choice-btn{
-  height: 34px;
-  font-size: 13px;
-}
-/* textarea: مثال کمی پایین‌تر شروع شود */
-.field-control.is-textarea .field-example{
-  top: 16px;
-}
-.field.has-value .field-control.is-textarea .field-example,
-.field:focus-within .field-control.is-textarea .field-example{
-  top: 8px;
-}
-
-/* ===== Floating example (placeholder که حذف نمی‌شود) ===== */
+/* Floating example */
 .field-example{
   position: absolute;
   right: 12px;
@@ -690,16 +428,12 @@ justify-content: space-between; /* دو ستون کنار هم */
   color: rgba(15,23,42,.18);
   opacity: .90;
   pointer-events: none;
-
   max-width: calc(100% - 24px);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-
   transition: top .14s ease, font-size .14s ease, opacity .14s ease;
 }
-
-/* حالت نهایی مثال: با فوکوس/مقدار فقط کوچکتر و کمرنگ‌تر شود (نه تیره/مشکی) */
 .field.has-value .field-example,
 .field:focus-within .field-example{
   top: 8px;
@@ -707,9 +441,11 @@ justify-content: space-between; /* دو ستون کنار هم */
   opacity: .55;
   color: rgba(15,23,42,.22);
 }
+.field-control.is-textarea .field-example{ top: 16px; }
+.field.has-value .field-control.is-textarea .field-example,
+.field:focus-within .field-control.is-textarea .field-example{ top: 8px; }
 
-
-/* choice inside wizard */
+/* Choice buttons */
 .choice-row{
   display:flex;
   flex-wrap: wrap;
@@ -717,52 +453,116 @@ justify-content: space-between; /* دو ستون کنار هم */
   overflow: hidden;
 }
 .choice-row::-webkit-scrollbar{ display:none; }
-.choice-row .choice-btn{
+
+.choice-btn{
+  width: auto !important;
+  min-height: 0 !important;
+  margin-top: 0 !important;
+  padding: 0 12px !important;
   height: 36px;
   font-size: 13px;
-  padding: 0 10px;
   white-space: nowrap;
-}
- /* [FIX:CHOICE-BTN-OVERRIDE] */
-.choice-btn{
-  width: auto !important;     /* مهم: ضدِ button{width:100%} */
-  min-height: 0 !important;   /* ضدِ button{min-height:52px} */
-  margin-top: 0 !important;   /* ضدِ button{margin-top:10px} */
-
-  padding: 0 12px !important;
   border-radius: 14px !important;
-
   border: 1px solid rgba(2,8,23,.16);
   background: rgba(255,255,255,.95);
   color: #0f2547;
-
   font-family: inherit;
   font-weight: 800;
   cursor: pointer;
-}  
+}
+.choice-btn.is-selected{
+  border-color: rgba(15,37,71,.70);
+  background: rgba(15,37,71,.12);
+}
+.choice-btn.is-selected.is-yes{
+  border-color: rgba(31,107,74,.70);
+  background: rgba(31,107,74,.12);
+}
+.choice-btn.is-selected.is-no{
+  border-color: rgba(185,28,28,.70);
+  background: rgba(185,28,28,.10);
+}
 
-/* Desktop: کمی فشرده‌تر */
-@media (min-width: 700px){
-  .wizard-shell{ width: min(460px, 100%); }
+/* Inline Yes/No */
+.field--yn{
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.field--yn .field-label{
+  margin: 0;
+  flex: 1 1 auto;
+  min-width: 0;
+  white-space: nowrap;
+}
+.field--yn .choice-row{
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  flex-wrap: nowrap;
+}
+.field--yn .choice-btn{
+  height: 34px;
+  font-size: 13px;
+}
 
-  
-  .wizard-body{ padding: 12px 14px 14px; }
-  .voice--inline{ width: 48px; height: 48px; }
-}  
+/* Group (collapsible) */
+.field-group{
+  border-radius: 14px;
+  border: 1px solid rgba(2,8,23,.12);
+  background: #f8fafc;
+  overflow: hidden;
+}
+.field-group__head{
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 14px;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  font-family: inherit;
+}
+.field-group__head .fg-title{
+  width: 100%;
+  text-align: center;
+  padding: 0 34px;
+  font-weight: 900;
+  font-size: 14px;
+  color: rgba(15,23,42,.85);
+}
+.field-group__head .fg-chev{
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  font-weight: 900;
+  opacity: .85;
+}
+.field-group__body{
+  padding: 0 12px 12px;
+  display: none;
+}
+.field-group.is-open .field-group__body{ display: block; }
 
-
-/* پیش‌نمایش داخل صفحه (نه sticky) */
+/* Preview inline meter */
 .preview-bar--inline{
   position: static;
   width: min(520px, 100%);
   margin: 12px auto 0;
   border-radius: 18px;
   box-shadow: 0 14px 26px rgba(2,8,23,.14);
-  background: linear-gradient(to bottom, #111827, #0b1220); /* ذغالی */
+  background: linear-gradient(to bottom, #111827, #0b1220);
   position: relative;
   overflow: hidden;
 }
- .preview-meter{
+.preview-meter{
   position:absolute;
   inset:0;
   background: rgba(255,255,255,.08);
@@ -772,354 +572,266 @@ justify-content: space-between; /* دو ستون کنار هم */
   position:absolute;
   top:0;
   bottom:0;
-  right:0;            /* RTL: از راست پر شود */
+  right:0;
   width: 0%;
   background: rgba(34,197,94,.40);
 }
 .preview-bar--inline > *{
   position: relative;
   z-index: 1;
-}  
-.preview-bar--inline .preview-bar__title{
-  font-weight: 800;
 }
+.preview-bar--inline .preview-bar__title{ font-weight: 800; }
 
-/* bottom-row تک‌لینک */
-.bottom-row--single{
-  justify-content: center;
-} 
- .flow-head--compact{ position: relative; }
-
-.choice-btn.is-selected{
-  border-color: rgba(15,37,71,.70);
-  background: rgba(15,37,71,.12);
-}
-.choice-btn.is-selected.is-yes{
-  border-color: rgba(31,107,74,.70);
-  background: rgba(31,107,74,.12);
-}
-
-.choice-btn.is-selected.is-no{
-  border-color: rgba(185,28,28,.70);
-  background: rgba(185,28,28,.10);
-}
-
-/* Actions card becomes minimal (just buttons) */
+/* Actions card minimal */
 .card--actions{
   margin-top: 18px;
   max-width: 560px;
-
-  /* حذف ظاهر کارت، ولی محتوا باقی بماند */
   background: transparent;
   border: none;
   box-shadow: none;
   padding: 0;
 }
 
-/* Mobile tweaks (choices only) */
+.bottom-row--single{ justify-content: center; }
+
 @media (max-width: 480px){
+  body{ padding: 14px; }
+  .wizard-shell{ width: 86vw; margin: 0 auto; }
+  .preview-bar--inline{ width: 86vw; }
   .choice-row .choice-btn{
     height: 34px;
     font-size: 12px;
-    padding: 0 10px;
+    padding: 0 10px !important;
   }
 }
-
-
-
-
-   
-</style>
+@media (min-width: 700px){
+  .wizard-shell{ width: min(460px, 100%); }
+  .wizard-body{ padding: 12px 14px 14px; }
+  .voice--inline{ width: 48px; height: 48px; }
+}
+  </style>
 </head>
+
 <body>
-
-<div class="flow-wrap">
-
-<div class="flow-top flow-top--service">
-  <!-- بازگشت (بالا-چپ) -->
-  <a class="back-link" href="passport.html" aria-label="بازگشت">بازگشت</a>
-
-  <!-- لیست بخش‌ها (بالا-راست) -->
- </div>
-
- <div class="flow-head flow-head--compact">
-
-<!-- [ANCHOR:A1 HERO-ROW] -->
-<div class="wizard-shell" id="wizardShell">
-  <div class="wizard-nav">
-      <div class="progress-top" aria-label="پیشرفت کلی">
-    <div class="progress-top__bar" aria-hidden="true">
-      <div class="progress-top__fill" id="topProgressFill"></div>
+  <div class="flow-wrap">
+    <div class="flow-top flow-top--service">
+      <a class="back-link" href="passport.html" aria-label="بازگشت">بازگشت</a>
     </div>
-    <div class="progress-top__text" id="topProgressText">0% تکمیل شده</div>
+
+    <div class="flow-head flow-head--compact">
+      <div class="wizard-shell" id="wizardShell">
+        <div class="wizard-nav">
+          <div class="progress-top" aria-label="پیشرفت کلی">
+            <div class="progress-top__bar" aria-hidden="true">
+              <div class="progress-top__fill" id="topProgressFill"></div>
+            </div>
+            <div class="progress-top__text" id="topProgressText">0% تکمیل شده</div>
+          </div>
+
+          <div class="section-steps section-steps--nav" id="sectionSteps" aria-label="بخش‌های فرم"></div>
+
+          <button class="voice voice--inline" id="voiceButton" type="button" aria-label="ورود صوتی">🎤</button>
+        </div>
+
+        <div class="wizard-body">
+          <div class="wizard-title" id="wizardTitle">—</div>
+          <div class="wizard-fields" id="wizardFields"></div>
+        </div>
+
+        <div class="wizard-footer" aria-label="ناوبری مراحل">
+          <button class="nav-btn nav-btn--ghost" id="prevStepBtn" type="button">مرحله قبل</button>
+          <button class="nav-btn nav-btn--primary" id="nextStepBtn" type="button">ادامه</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card card--actions">
+      <button class="preview-bar preview-bar--inline" id="bottomPreviewBar" type="button" aria-label="پیش‌نمایش فرم گذرنامه">
+        <span class="preview-meter" aria-hidden="true"><span class="preview-meter__fill" id="previewFill"></span></span>
+        <span class="preview-bar__title">پیش‌نمایش فرم گذرنامه</span>
+        <span class="preview-bar__cta" id="bottomPreviewCta">—</span>
+      </button>
+
+      <div class="ios-hint" id="iosHint">در آیفون، برای ورود صوتی از میکروفونِ کیبورد استفاده کنید.</div>
+
+      <div class="bottom-row bottom-row--single">
+        <a href="#" onclick="location.reload(); return false;">شروع مجدد</a>
+      </div>
+
+      <div class="success-note" id="wmNote" style="display:none;">فایل خروجی شامل واترمارک دفتر است.</div>
+    </div>
   </div>
-    <div class="section-steps section-steps--nav" id="sectionSteps" aria-label="بخش‌های فرم"></div>
-       <button class="voice voice--inline" id="voiceButton" type="button" aria-label="ورود صوتی">🎤</button>
-  </div>
 
-  <div class="wizard-body">
-    <div class="wizard-title" id="wizardTitle">—</div>
-    <div class="wizard-fields" id="wizardFields"></div>
-  </div>
-    <div class="wizard-footer" aria-label="ناوبری مراحل">
-    <button class="nav-btn nav-btn--ghost" id="prevStepBtn" type="button">مرحله قبل</button>
-    <button class="nav-btn nav-btn--primary" id="nextStepBtn" type="button">ادامه</button>
-  </div>
-</div>
-   
+  <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <script src="https://unpkg.com/@pdf-lib/fontkit@1.1.1/dist/fontkit.umd.min.js"></script>
 
+  <script>
+document.addEventListener("DOMContentLoaded", function () {
+  // ===== DEV MODE (for testing) =====
+  // فعال با ?dev=1
+  const DEV_MODE = new URLSearchParams(location.search).get("dev") === "1";
 
-</div>
+  // ===== Wizard Schema =====
+  const wizardSchema = {
+    formTitle: "پرسشنامه درخواست صدور گذرنامه",
+    pages: [
+      {
+        id: "p1_identity",
+        title: "هویت فردی",
+        fields: [
+          { key: "identity__fullName", label: "نام و نام خانوادگی" },
+          { key: "identity__nationalId", label: "کد ملی", inputMode: "numeric", dir: "ltr" },
+          { key: "identity__birthDateShamsi", label: "تاریخ تولد (شمسی)", placeholder: "مثال: ۱۳۷۲/۰۵/۲۱", inputMode: "numeric", dir: "ltr" },
+          { key: "identity__birthPlace", label: "محل تولد" },
+          { key: "identity__fatherName", label: "نام پدر" },
 
- <div class="card card--actions">
-<!-- دکمه پیش‌نمایش/دانلود (حالا داخل صفحه، نه sticky) -->
-<button class="preview-bar preview-bar--inline" id="bottomPreviewBar" type="button" aria-label="پیش‌نمایش فرم گذرنامه">
-    <span class="preview-meter" aria-hidden="true"><span class="preview-meter__fill" id="previewFill"></span></span>
-  <span class="preview-bar__title">پیش‌نمایش فرم گذرنامه</span>
-  <span class="preview-bar__cta" id="bottomPreviewCta">—</span>
-</button>
-  <div class="ios-hint" id="iosHint">
-    در آیفون، برای ورود صوتی از میکروفونِ کیبورد استفاده کنید.
-  </div>
+          { key: "identity__statusBlock", label: "وضعیت فردی", placeholder: "مثال: مرد | متأهل | اسلام" },
 
- <div class="bottom-row bottom-row--single">
-  <a href="#" onclick="location.reload(); return false;">شروع مجدد</a>
-</div>
+          { key: "identity__hasPrevName", label: "آیا قبلاً تغییر نام داشته‌اید؟", type: "choice", choices: ["بله","خیر"] },
+          {
+            key: "identity__prevName",
+            label: "اگر بله: نام قبلی",
+            placeholder: "مثال: نام و نام خانوادگی قبلی",
+            when: { key: "identity__hasPrevName", equals: "بله" }
+          },
 
-  <div class="success-note" id="wmNote" style="display:none;">
-    فایل خروجی شامل واترمارک دفتر است.
-  </div>
-</div>
+          {
+            type: "group",
+            key: "identity__idCardGroup",
+            label: "مشخصات شناسنامه",
+            fields: [
+              { key: "identity__idNumber", label: "شماره شناسنامه", inputMode: "numeric", dir: "ltr" },
+              { key: "identity__idIssuePlace", label: "محل صدور شناسنامه" },
+              { key: "identity__idIssueDate", label: "تاریخ صدور شناسنامه", inputMode: "numeric", dir: "ltr" },
+              { key: "identity__idSerialCombo", label: "سری و سریال شناسنامه" }
+            ]
+          },
 
-</div>
-<script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
-<script src="https://unpkg.com/@pdf-lib/fontkit@1.1.1/dist/fontkit.umd.min.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-  // ====== Wizard Schema (6 pages balanced) ======
-  // نکته: نام و نام خانوادگی یکجا گرفته می‌شود (identity__fullName)
-  // و در generatePdf برای mapping قدیمی split می‌شود.
+          {
+            type: "group",
+            key: "identity__educationGroup",
+            label: "تحصیلات",
+            fields: [
+              {
+                key: "identity__educationLevel",
+                label: "مقطع تحصیلی",
+                type: "choice",
+                choices: ["زیر دیپلم","دیپلم","فوق‌دیپلم","کارشناسی","کارشناسی ارشد","دکتری","سایر"]
+              },
+              {
+                key: "identity__educationOther",
+                label: "توضیح تحصیلات",
+                when: { key: "identity__educationLevel", equals: "سایر" }
+              },
+              {
+                key: "identity__major",
+                label: "رشته",
+                when: { key: "identity__educationLevel", in: ["فوق‌دیپلم","کارشناسی","کارشناسی ارشد","دکتری"] }
+              }
+            ]
+          }
+        ]
+      },
 
-const wizardSchema = {
-  formTitle: "پرسشنامه درخواست صدور گذرنامه",
-  pages: [
-    {
-      id: "p1_identity",
-      title: "هویت فردی",
-      fields: [
-        { key: "identity__fullName", label: "نام و نام خانوادگی" },
-        { key: "identity__nationalId", label: "کد ملی", inputMode: "numeric", dir: "ltr" },
-        { key: "identity__birthDateShamsi", label: "تاریخ تولد (شمسی)", placeholder: "مثال: ۱۳۷۲/۰۵/۲۱", inputMode: "numeric", dir: "ltr" },
-        { key: "identity__birthPlace", label: "محل تولد" },
-        { key: "identity__fatherName", label: "نام پدر" },
+      {
+        id: "p2_personal_job",
+        title: "فعالیت شغلی",
+        fields: [
+          { key: "physical__heightCm", label: "قد (سانتی‌متر)", inputMode: "numeric", dir: "ltr" },
+          { key: "physical__weightKg", label: "وزن (کیلوگرم)", inputMode: "numeric", dir: "ltr" },
+          { key: "physical__marksShort", label: "علائم ممیزه", placeholder: "مثال: جای زخم گونه چپ", optional: true },
 
-      // --- وضعیت فردی (همان بلاک فعلی) ---
-        {
-          key: "identity__statusBlock",
-          label: "وضعیت فردی",
-          placeholder: "مثال: مرد | متأهل | اسلام"
-        },
+          {
+            key: "job__block",
+            label: "اطلاعات شغلی",
+            placeholder: "مثال: کارمند | شرکت X | تهران، ...",
+            multiline: true
+          },
 
-        // --- تغییر نام قبلی (شرطی) ---
-        { key: "identity__hasPrevName", label: "آیا قبلاً تغییر نام داشته‌اید؟", type: "choice", choices: ["بله","خیر"] },
-        {
-          key: "identity__prevName",
-          label: "اگر بله: نام قبلی",
-          placeholder: "مثال: نام و نام خانوادگی قبلی",
-          when: { key: "identity__hasPrevName", equals: "بله" }
-        },
-{
-  type: "group",
-  key: "identity__idCardGroup",
-  label: "مشخصات شناسنامه",
-  fields: [
-    { key: "identity__idNumber", label: "شماره شناسنامه", inputMode: "numeric", dir: "ltr" },
-    { key: "identity__idIssuePlace", label: "محل صدور شناسنامه" },
-    { key: "identity__idIssueDate", label: "تاریخ صدور شناسنامه", inputMode: "numeric", dir: "ltr" },
-    { key: "identity__idSerialCombo", label: "سری و سریال شناسنامه" }
-  ]
-},
-{
-  type: "group",
-  key: "identity__educationGroup",
-  label: "تحصیلات",
-  fields: [
-    {
-      key: "identity__educationLevel",
-      label: "مقطع تحصیلی",
-      type: "choice",
-      choices: ["زیر دیپلم","دیپلم","فوق‌دیپلم","کارشناسی","کارشناسی ارشد","دکتری","سایر"]
-    },
-    {
-      key: "identity__educationOther",
-      label: "توضیح تحصیلات",
-      when: { key: "identity__educationLevel", equals: "سایر" }
-    },
-    {
-      key: "identity__major",
-      label: "رشته",
-      when: { key: "identity__educationLevel", in: ["فوق‌دیپلم","کارشناسی","کارشناسی ارشد","دکتری"] }
-    }
-  ]
-},
-      ]
-    },
-        
+          { key: "military__has", label: "سابقه نیروهای مسلح داشته‌اید؟", type: "choice", choices: ["بله","خیر"] },
+          {
+            key: "military__detailBlock",
+            label: "جزئیات سابقه",
+            placeholder: "مثال: راننده | پایان خدمت",
+            when: { key: "military__has", equals: "بله" },
+            multiline: true
+          },
 
-   
+          {
+            type: "group",
+            key: "physical__colorsGroup",
+            label: "رنگ چهره و چشم",
+            fields: [
+              { key: "physical__faceColor", label: "رنگ چهره", type: "choice", choices: ["سفید","گندمگون","سبزه","تیره","سایر"] },
+              { key: "physical__eyeColor",  label: "رنگ چشم",  type: "choice", choices: ["مشکی","قهوه‌ای","عسلی","آبی","سبز","میشی","سایر"] }
+            ]
+          }
+        ]
+      },
 
-    {
-      id: "p2_personal_job",
-      title: "فعالیت شغلی",
-      fields: [
-        { key: "physical__heightCm", label: "قد (سانتی‌متر)", inputMode: "numeric", dir: "ltr" },
-        { key: "physical__weightKg", label: "وزن (کیلوگرم)", inputMode: "numeric", dir: "ltr" },
-        { key: "physical__marksShort", label: "علائم ممیزه", placeholder: "مثال: جای زخم گونه چپ", optional: true },
+      {
+        id: "p3_address",
+        title: "نشانی اقامت",
+        fields: [
+          { key: "residenceIran__addressFull", label: "نشانی کامل محل سکونت در ایران", multiline: true },
+          { key: "residenceIran__postalCode", label: "کد پستی", inputMode: "numeric", dir: "ltr" },
+          { key: "residenceIran__phoneMobile", label: "تلفن همراه", inputMode: "numeric", dir: "ltr" },
 
-        {
-          key: "job__block",
-          label: "اطلاعات شغلی",
-          placeholder: "مثال: کارمند | شرکت X | تهران، ...",
-          multiline: true
-        },
+          { key: "residenceAbroad__has", label: "اقامت خارج از کشور دارید؟", type: "choice", choices: ["بله","خیر"] },
 
-        { key: "military__has", label: "سابقه نیروهای مسلح داشته‌اید؟", type: "choice", choices: ["بله","خیر"] },
-        {
-          key: "military__detailBlock",
-          label: "جزئیات سابقه",
-          placeholder: "مثال: راننده | پایان خدمت",
-          when: { key: "military__has", equals: "بله" },
-          multiline: true
-        },
-{
-  type: "group",
-  key: "physical__colorsGroup",
-  label: "رنگ چهره و چشم",
-  fields: [
-    {
-      key: "physical__faceColor",
-      label: "رنگ چهره",
-      type: "choice",
-      choices: ["سفید","گندمگون","سبزه","تیره","سایر"]
-    },
-    {
-      key: "physical__eyeColor",
-      label: "رنگ چشم",
-      type: "choice",
-      choices: ["مشکی","قهوه‌ای","عسلی","آبی","سبز","میشی","سایر"]
-    }
-  ]
-},
-        
-      ]
-    },
+          {
+            key: "residenceAbroad__addressFull",
+            label: "اگر بله: نشانی محل اقامت خارج",
+            placeholder: "Example: Street... City...",
+            when: { key: "residenceAbroad__has", equals: "بله" },
+            multiline: true,
+            dir: "ltr"
+          },
+          {
+            key: "residenceAbroad__phone",
+            label: "اگر بله: تلفن خارج از کشور",
+            placeholder: "Example: +49...",
+            when: { key: "residenceAbroad__has", equals: "بله" },
+            dir: "ltr"
+          },
+          {
+            key: "residenceAbroad__years",
+            label: "اگر بله: مدت اقامت (سال)",
+            placeholder: "مثال: 3",
+            when: { key: "residenceAbroad__has", equals: "بله" },
+            inputMode: "numeric",
+            dir: "ltr"
+          }
+        ]
+      },
 
-    {
-      id: "p3_address",
-      title: "نشانی اقامت",
-      fields: [
-        { key: "residenceIran__addressFull", label: "نشانی کامل محل سکونت در ایران", multiline: true },
-        { key: "residenceIran__postalCode", label: "کد پستی", inputMode: "numeric", dir: "ltr" },
-        { key: "residenceIran__phoneMobile", label: "تلفن همراه", inputMode: "numeric", dir: "ltr" },
+      {
+        id: "p4_travel_extra",
+        title: "سفر و تکمیلی",
+        fields: [
+          { key: "travel__country", label: "کشور مقصد" },
+          { key: "travel__purpose", label: "منظور از سفر" },
 
-        { key: "residenceAbroad__has", label: "اقامت خارج از کشور دارید؟", type: "choice", choices: ["بله","خیر"] },
+          { key: "rel1__block", label: "بستگان ۱", placeholder: "مثال: علی رضایی | آزاد | تهران... | 0912...", multiline: true },
+          { key: "rel2__block", label: "بستگان ۲", placeholder: "مثال: مریم محمدی | کارمند | تهران... | 0912...", multiline: true },
 
-        // اقامت خارج: فیلدهای جدا
-        {
-          key: "residenceAbroad__addressFull",
-          label: "اگر بله: نشانی محل اقامت خارج",
-          placeholder: "Example: Street... City...",
-          when: { key: "residenceAbroad__has", equals: "بله" },
-          multiline: true,
-          dir: "ltr"
-        },
-        {
-          key: "residenceAbroad__phone",
-          label: "اگر بله: تلفن خارج از کشور",
-          placeholder: "Example: +49...",
-          when: { key: "residenceAbroad__has", equals: "بله" },
-          dir: "ltr"
-        },
-        {
-          key: "residenceAbroad__years",
-          label: "اگر بله: مدت اقامت (سال)",
-          placeholder: "مثال: 3",
-          when: { key: "residenceAbroad__has", equals: "بله" },
-          inputMode: "numeric",
-          dir: "ltr"
-        }
-      ]
-    },
-
-    {
-      id: "p4_travel_extra",
-      title: "سفر و تکمیلی",
-      fields: [
-        { key: "travel__country", label: "کشور مقصد" },
-        { key: "travel__purpose", label: "منظور از سفر" },
-
-    
-
-        {
-          key: "rel1__block",
-          label: "بستگان ۱",
-          placeholder: "مثال: علی رضایی | آزاد | تهران... | 0912...",
-          multiline: true
-        },
-        {
-          key: "rel2__block",
-          label: "بستگان ۲",
-          placeholder: "مثال: مریم محمدی | کارمند | تهران... | 0912...",
-          multiline: true
-        },
-       {
-  type: "group",
-  key: "previousPassport__group",
-  label: "اطلاعات گذرنامه قبلی",
-  fields: [
-    {
-      key: "previousPassport__has",
-      label: "قبلاً گذرنامه داشته‌اید؟",
-      type: "choice",
-      choices: ["بله","خیر"]
-    },
-    {
-      key: "previousPassport__number",
-      label: "شماره گذرنامه قبلی",
-      when: { key: "previousPassport__has", equals: "بله" },
-      dir: "ltr"
-    },
-    {
-      key: "previousPassport__issueDate",
-      label: "تاریخ صدور",
-      when: { key: "previousPassport__has", equals: "بله" },
-      inputMode: "numeric",
-      dir: "ltr"
-    },
-    {
-      key: "previousPassport__issuePlace",
-      label: "محل صدور",
-      when: { key: "previousPassport__has", equals: "بله" }
-    },
-    {
-      key: "previousPassport__expireDate",
-      label: "تاریخ انقضا",
-      when: { key: "previousPassport__has", equals: "بله" },
-      inputMode: "numeric",
-      dir: "ltr"
-    },
-    {
-      key: "previousPassport__replaceReason",
-      label: "توضیح",
-      when: { key: "previousPassport__has", equals: "بله" }
-    }
-  ]
-}, 
-      ]
-    }
-  ]
-};
-  
+          {
+            type: "group",
+            key: "previousPassport__group",
+            label: "اطلاعات گذرنامه قبلی",
+            fields: [
+              { key: "previousPassport__has", label: "قبلاً گذرنامه داشته‌اید؟", type: "choice", choices: ["بله","خیر"] },
+              { key: "previousPassport__number", label: "شماره گذرنامه قبلی", when: { key: "previousPassport__has", equals: "بله" }, dir: "ltr" },
+              { key: "previousPassport__issueDate", label: "تاریخ صدور", when: { key: "previousPassport__has", equals: "بله" }, inputMode: "numeric", dir: "ltr" },
+              { key: "previousPassport__issuePlace", label: "محل صدور", when: { key: "previousPassport__has", equals: "بله" } },
+              { key: "previousPassport__expireDate", label: "تاریخ انقضا", when: { key: "previousPassport__has", equals: "بله" }, inputMode: "numeric", dir: "ltr" },
+              { key: "previousPassport__replaceReason", label: "توضیح", when: { key: "previousPassport__has", equals: "بله" } }
+            ]
+          }
+        ]
+      }
+    ]
+  };
 
   // ===== DOM refs =====
   const voiceBtn = document.getElementById("voiceButton");
@@ -1129,19 +841,16 @@ const wizardSchema = {
   const bottomPreviewBar = document.getElementById("bottomPreviewBar");
   const bottomPreviewCta = document.getElementById("bottomPreviewCta");
   const previewFill = document.getElementById("previewFill");
+
   const topProgressFill = document.getElementById("topProgressFill");
-const topProgressText = document.getElementById("topProgressText");
-const prevStepBtn = document.getElementById("prevStepBtn");
-const nextStepBtn = document.getElementById("nextStepBtn");
+  const topProgressText = document.getElementById("topProgressText");
+
+  const prevStepBtn = document.getElementById("prevStepBtn");
+  const nextStepBtn = document.getElementById("nextStepBtn");
 
   const wizardTitleEl = document.getElementById("wizardTitle");
- 
   const wizardFieldsEl = document.getElementById("wizardFields");
-  wizardFieldsEl.addEventListener("focusin", (e) => {
-  const el = e.target;
-  const k = el && el.getAttribute && el.getAttribute("data-key");
-  if (k) lastFocusedKey = k;
-});
+
   const wmNote = document.getElementById("wmNote");
 
   // iOS: voice hidden + hint
@@ -1152,9 +861,14 @@ const nextStepBtn = document.getElementById("nextStepBtn");
   }
 
   const answers = {};
-let lastFocusedKey = "";
-  
+  let lastFocusedKey = "";
   let currentPage = 0;
+
+  wizardFieldsEl.addEventListener("focusin", (e) => {
+    const el = e.target;
+    const k = el && el.getAttribute && el.getAttribute("data-key");
+    if (k) lastFocusedKey = k;
+  });
 
   function normalizePersianNumbers(text) {
     return String(text || "")
@@ -1166,7 +880,6 @@ let lastFocusedKey = "";
     const w = field.when;
     if (!w) return true;
     const v = (answers[w.key] || "").trim();
-
     if (typeof w.equals !== "undefined") return v === w.equals;
     if (Array.isArray(w.in)) return w.in.includes(v);
     return true;
@@ -1176,486 +889,462 @@ let lastFocusedKey = "";
     return (page.fields || []).filter(shouldShowField);
   }
 
- function isGroupField(f){
-  return !!(f && f.type === "group" && Array.isArray(f.fields));
-}
+  function isGroupField(f){
+    return !!(f && f.type === "group" && Array.isArray(f.fields));
+  }
 
-// فقط فیلدهای "برگ" برای محاسبه completion/progress:
-// اگر group باشد، children آن را (با رعایت when) برمی‌گرداند
-function getVisibleLeafFields(page){
-  const out = [];
-  (page.fields || []).forEach(f => {
-    if (!shouldShowField(f)) return;
+  // leaf fields برای completion/progress
+  function getVisibleLeafFields(page){
+    const out = [];
+    (page.fields || []).forEach(f => {
+      if (!shouldShowField(f)) return;
+      if (isGroupField(f)) {
+        (f.fields || []).forEach(ch => {
+          if (shouldShowField(ch)) out.push(ch);
+        });
+        return;
+      }
+      out.push(f);
+    });
+    return out;
+  }
 
-    if (isGroupField(f)) {
-      (f.fields || []).forEach(ch => {
-        if (shouldShowField(ch)) out.push(ch);
-      });
+  function isConditionalDriverKey(key) {
+    return [
+      "identity__educationLevel",
+      "identity__hasPrevName",
+      "military__has",
+      "residenceAbroad__has",
+      "previousPassport__has"
+    ].includes(String(key || ""));
+  }
+
+  function clearDependentFields(driverKey, driverValue) {
+    const k = String(driverKey || "").trim();
+    const v = String(driverValue || "").trim();
+
+    if (k === "identity__educationLevel") {
+      const uniLevels = ["فوق‌دیپلم","کارشناسی","کارشناسی ارشد","دکتری"];
+      if (!uniLevels.includes(v)) answers["identity__major"] = "";
+      if (v !== "سایر") answers["identity__educationOther"] = "";
       return;
     }
 
-    out.push(f);
-  });
-  return out;
-} 
+    if (k === "identity__hasPrevName" && v !== "بله") {
+      answers["identity__prevName"] = "";
+      return;
+    }
 
-function isConditionalDriverKey(key) {
-  return [
-    "identity__educationLevel",
-    "identity__hasPrevName",
-    "military__has",
-    "residenceAbroad__has",
-    "previousPassport__has"
-  ].includes(String(key || ""));
-}
+    if (k === "military__has" && v !== "بله") {
+      answers["military__detailBlock"] = "";
+      return;
+    }
 
-function clearDependentFields(driverKey, driverValue) {
-  const k = String(driverKey || "").trim();
-  const v = String(driverValue || "").trim();
+    if (k === "residenceAbroad__has" && v !== "بله") {
+      answers["residenceAbroad__addressFull"] = "";
+      answers["residenceAbroad__phone"] = "";
+      answers["residenceAbroad__years"] = "";
+      return;
+    }
 
-  // تحصیلات
-  if (k === "identity__educationLevel") {
-    const uniLevels = ["فوق‌دیپلم","کارشناسی","کارشناسی ارشد","دکتری"];
-    if (!uniLevels.includes(v)) answers["identity__major"] = "";
-    if (v !== "سایر") answers["identity__educationOther"] = "";
-    return;
+    if (k === "previousPassport__has" && v !== "بله") {
+      answers["previousPassport__number"] = "";
+      answers["previousPassport__issueDate"] = "";
+      answers["previousPassport__issuePlace"] = "";
+      answers["previousPassport__expireDate"] = "";
+      answers["previousPassport__replaceReason"] = "";
+      return;
+    }
   }
-
-  // تغییر نام
-  if (k === "identity__hasPrevName" && v !== "بله") {
-    answers["identity__prevName"] = "";
-    return;
-  }
-
-  // سابقه نظامی
-  if (k === "military__has" && v !== "بله") {
-    answers["military__detailBlock"] = "";
-    return;
-  }
-
-  // اقامت خارج (فیلدهای جدا)
-  if (k === "residenceAbroad__has" && v !== "بله") {
-    answers["residenceAbroad__addressFull"] = "";
-    answers["residenceAbroad__phone"] = "";
-    answers["residenceAbroad__years"] = "";
-    return;
-  }
-
-  // گذرنامه قبلی (۴ فیلد جدا)
-  if (k === "previousPassport__has" && v !== "بله") {
-    answers["previousPassport__number"] = "";
-    answers["previousPassport__issueDate"] = "";
-    answers["previousPassport__issuePlace"] = "";
-    answers["previousPassport__expireDate"] = "";
-    answers["previousPassport__replaceReason"] = "";
-    return;
-  }
-}
-  
 
   function isFieldFilled(key) {
     return ((answers[key] || "").trim() !== "");
   }
 
-function isPageComplete(page) {
-  const leaf = getVisibleLeafFields(page);
-  return leaf.every(f => {
-    if (f.optional) return true;
-    return isFieldFilled(f.key);
-  });
-}
+  function isPageComplete(page) {
+    if (DEV_MODE) return true;
+    const leaf = getVisibleLeafFields(page);
+    return leaf.every(f => (f.optional ? true : isFieldFilled(f.key)));
+  }
 
-
-
-  
   function isAllComplete() {
+    if (DEV_MODE) return true;
     return wizardSchema.pages.every(p => isPageComplete(p));
   }
 
-function renderPills() {
-  if (!sectionStepsEl) return;
-  sectionStepsEl.innerHTML = "";
-  // قفل مراحل: فقط تا اولین صفحه ناقص (و صفحات قبلی) قابل کلیک هستند
-  let maxUnlocked = 0;
-  for (let i = 0; i < wizardSchema.pages.length; i++) {
-    if (isPageComplete(wizardSchema.pages[i])) maxUnlocked = i + 1;
-    else break;
+  function renderPills() {
+    if (!sectionStepsEl) return;
+    sectionStepsEl.innerHTML = "";
+
+    // unlocked index: تا اولین صفحه ناقص
+    let unlocked = 0;
+    while (unlocked < wizardSchema.pages.length && isPageComplete(wizardSchema.pages[unlocked])) unlocked++;
+
+    wizardSchema.pages.forEach((p, idx) => {
+      const leaf = getVisibleLeafFields(p);
+      const pageDone = isPageComplete(p);
+      const anyAnswered = leaf.some(f => isFieldFilled(f.key));
+
+      const pill = document.createElement("button");
+      const stateClass = pageDone ? " is-done" : (anyAnswered ? " is-warn" : " is-empty");
+
+      const isLocked = DEV_MODE ? false : (idx > unlocked);
+      pill.className = "section-pill" + (idx === currentPage ? " is-active" : "") + stateClass + (isLocked ? " is-locked" : "");
+      pill.disabled = isLocked;
+      pill.type = "button";
+
+      const required = leaf.filter(f => !f.optional);
+      const answered = required.filter(f => isFieldFilled(f.key)).length;
+
+      const titleSpan = document.createElement("span");
+      titleSpan.className = "pill-title";
+      titleSpan.textContent = `(${idx + 1}) ${p.title}`;
+
+      const metaSpan = document.createElement("span");
+      metaSpan.className = "pill-meta";
+      metaSpan.textContent = `${answered}/${required.length}`;
+
+      pill.appendChild(titleSpan);
+      pill.appendChild(metaSpan);
+
+      if (pageDone) {
+        const tick = document.createElement("span");
+        tick.className = "tick";
+        tick.textContent = "✔";
+        pill.appendChild(tick);
+      }
+
+      pill.addEventListener("click", () => {
+        if (pill.disabled) return;
+        currentPage = idx;
+        renderPage();
+      });
+
+      sectionStepsEl.appendChild(pill);
+    });
   }
-    function maxUnlockedIndex(){
-    // تا وقتی صفحه کامل است، اجازه رفتن به بعدی را می‌دهد
-    let i = 0;
-    while (i < wizardSchema.pages.length && isPageComplete(wizardSchema.pages[i])) i++;
-    return i; // این صفحه (i) اولین صفحه ناقص است؛ پس تا i مجاز است
-  }
-  const unlocked = maxUnlockedIndex();
-  wizardSchema.pages.forEach((p, idx) => {
-    const leaf = getVisibleLeafFields(p);
 
-    const pageDone = isPageComplete(p);
-    const anyAnswered = leaf.some(f => isFieldFilled(f.key));
+  function buildSelectField(field) {
+    const wrap = document.createElement("div");
+    wrap.className = "field";
 
-    const pill = document.createElement("button");
-    const stateClass = pageDone ? " is-done" : (anyAnswered ? " is-warn" : " is-empty");
+    const label = document.createElement("div");
+    label.className = "field-label";
+    label.textContent = (field.label || field.key);
 
-const isLocked = (idx > unlocked);
-pill.className = "section-pill" + (idx === currentPage ? " is-active" : "") + stateClass + (isLocked ? " is-locked" : "");
-pill.disabled = isLocked;    pill.type = "button";
+    const control = document.createElement("div");
+    control.className = "field-control";
 
-    // required/answered فقط برای leaf و غیر-optional
-    const required = leaf.filter(f => !f.optional);
-    const answered = required.filter(f => isFieldFilled(f.key)).length;
+    const sel = document.createElement("select");
+    sel.setAttribute("data-key", field.key);
 
-    const titleSpan = document.createElement("span");
-    titleSpan.className = "pill-title";
-    titleSpan.textContent = `(${idx + 1}) ${p.title}`;
+    const ph = document.createElement("option");
+    ph.value = "";
+    ph.textContent = "انتخاب کنید";
+    sel.appendChild(ph);
 
-    const metaSpan = document.createElement("span");
-    metaSpan.className = "pill-meta";
-    metaSpan.textContent = `${answered}/${required.length}`;
-
-    pill.appendChild(titleSpan);
-    pill.appendChild(metaSpan);
-
-    if (pageDone) {
-      const tick = document.createElement("span");
-      tick.className = "tick";
-      tick.textContent = "✔";
-      pill.appendChild(tick);
-    }
-      if (isLocked) pill.disabled = true;
-     pill.addEventListener("click", () => {
-  if (pill.disabled) return;
-  currentPage = idx;
-  renderPage();
-});
-    sectionStepsEl.appendChild(pill);
-  });
-}
-
-
-  
-
-function buildSelectField(field) {
-  const wrap = document.createElement("div");
-  wrap.className = "field";
-  
-  wrap.appendChild(label);
-  const label = document.createElement("div");
-  label.className = "field-label";
-  label.textContent = (field.label || field.key);
-  const control = document.createElement("div");
-  control.className = "field-control";
-
-  const sel = document.createElement("select");
-  sel.setAttribute("data-key", field.key);
-
-  const ph = document.createElement("option");
-  ph.value = "";
- ph.textContent = "انتخاب کنید";
-  sel.appendChild(ph);
-
-  const currentVal = (answers[field.key] || "").trim();
-  (field.choices || []).forEach(ch => {
-    const opt = document.createElement("option");
-    opt.value = ch;
-    opt.textContent = ch;
-    if (currentVal === ch) opt.selected = true;
-    sel.appendChild(opt);
-  });
-
-  sel.addEventListener("change", (e) => {
-    answers[field.key] = String(e.target.value || "");
-    clearDependentFields(field.key, answers[field.key]);
-    updateNav();
-
-    if (isConditionalDriverKey(field.key)) {
-      try { sel.blur(); } catch(e) {}
-      setTimeout(() => { renderPage(); }, 0);
-    }
-  });
- wrap.appendChild(label);
-  control.appendChild(sel);
-    wrap.appendChild(control);
-  return wrap;
-}
-
-function buildTextField(field) {
-  const wrap = document.createElement("div");
-  wrap.className = "field";
-  const label = document.createElement("div");
-  label.className = "field-label";
-  label.textContent = (field.label || field.key);
-  let input;
-  const isTextarea = !!field.multiline;
-  if (isTextarea) {
-    input = document.createElement("textarea");
-    input.rows = 1; // شروع هم‌قد بقیه
-  } else {
-    input = document.createElement("input");
-    input.type = "text";
-  }
-  input.value = answers[field.key] || "";
-  input.setAttribute("data-key", field.key);
-  input.inputMode = field.inputMode || "text";
-  if (field.dir) input.dir = field.dir;
-  else input.dir = "rtl";
-  // placeholder واقعی را خالی می‌گذاریم
-  input.placeholder = "";
-  // کنترل‌ورپ: input/textarea + example
-  const control = document.createElement("div");
-  control.className = "field-control";
-  if (isTextarea) control.classList.add("is-textarea");
-  // مثال ثابت
-  if (field.placeholder) {
-    const ex = document.createElement("div");
-    ex.className = "field-example";
-    ex.textContent = String(field.placeholder);
-    control.appendChild(ex);
-  }
-  control.appendChild(input);
-  function syncHasValue() {
-    wrap.classList.toggle("has-value", String(input.value || "").trim() !== "");
-  }
-  function autoGrow() {
-    if (!isTextarea) return;
-    input.style.height = "auto";
-    input.style.height = (input.scrollHeight) + "px";
-  }
-   wrap.appendChild(label);
-
-   // init
-  syncHasValue();
-  autoGrow();
-
-  input.addEventListener("input", (e) => {
-    answers[field.key] = normalizePersianNumbers(e.target.value || "");
-    syncHasValue();
-    autoGrow();
-    updateNav();
-
-    if (isConditionalDriverKey(field.key)) {
-      renderPage({ preserveFocusKey: field.key });
-    }
-  });
-
-  wrap.appendChild(control);
-  return wrap;
-}
-
-function buildGroupField(groupField) {
-  const wrap = document.createElement("div");
-  wrap.className = "field";
-
-   const box = document.createElement("div");
-  box.className = "field-group";
-
-  const head = document.createElement("button");
-  head.type = "button";
-  head.className = "field-group__head";
-
-  const t = document.createElement("span");
-  t.className = "fg-title";
-   t.textContent = (groupField.label ? `${groupField.label} (برای باز کردن بزنید)` : "گروه");
-
-  const chev = document.createElement("span");
-  chev.className = "fg-chev";
- chev.textContent = "+";
-
-  head.appendChild(t);
-  head.appendChild(chev);
-
-  const body = document.createElement("div");
-  body.className = "field-group__body";
-
-  // state
-  const uiKey = `__ui_open__${groupField.key}`;
-  const isOpen = (answers[uiKey] === "1");
-  if (isOpen) box.classList.add("is-open");
-
-  head.addEventListener("click", () => {
-    const nowOpen = !box.classList.contains("is-open");
-    box.classList.toggle("is-open", nowOpen);
-    chev.textContent = nowOpen ? "−" : "+";
-    answers[uiKey] = nowOpen ? "1" : "0";
-  });
-
-  // children render
-   (groupField.fields || []).forEach(f => {
-    if (!shouldShowField(f)) return;
-    if (f.type === "choice") body.appendChild(buildChoiceField(f));
-    else body.appendChild(buildTextField(f));
-  });
-
-  box.appendChild(head);
-  box.appendChild(body);
-
-   wrap.appendChild(box);
-  return wrap;
-}
-  
-
-  
-function buildChoiceField(field) {
-  const wrap = document.createElement("div");
-  wrap.className = "field";
-
-  const isYesNo = Array.isArray(field.choices) &&
-    field.choices.length === 2 &&
-    field.choices.includes("بله") &&
-    field.choices.includes("خیر");
-
-  if (isYesNo) wrap.classList.add("field--yn");
-
-  const label = document.createElement("div");
-  label.className = "field-label";
-  label.textContent = (field.label || field.key);
-
-  const row = document.createElement("div");
-  row.className = "choice-row";
-
-  const currentVal = (answers[field.key] || "").trim();
-
-  (field.choices || []).forEach(ch => {
-    const b = document.createElement("button");
-    b.type = "button";
-    b.className = "choice-btn" + (currentVal === ch ? " is-selected" : "");
-    b.textContent = ch;
-
-    if (currentVal === ch) {
-      if (ch === "بله") b.classList.add("is-yes");
-      if (ch === "خیر") b.classList.add("is-no");
-    }
-
-    b.addEventListener("click", () => {
-      answers[field.key] = ch;
-      clearDependentFields(field.key, ch);
-      updateNav();
-      renderPage();
+    const currentVal = (answers[field.key] || "").trim();
+    (field.choices || []).forEach(ch => {
+      const opt = document.createElement("option");
+      opt.value = ch;
+      opt.textContent = ch;
+      if (currentVal === ch) opt.selected = true;
+      sel.appendChild(opt);
     });
 
-    row.appendChild(b);
-  });
+    sel.addEventListener("change", (e) => {
+      answers[field.key] = String(e.target.value || "");
+      clearDependentFields(field.key, answers[field.key]);
+      updateNav();
 
-  wrap.appendChild(label);
-  wrap.appendChild(row);
-  return wrap;
-}
+      if (isConditionalDriverKey(field.key)) {
+        try { sel.blur(); } catch(e) {}
+        setTimeout(() => { renderPage(); }, 0);
+      }
+    });
+
+    control.appendChild(sel);
+    wrap.appendChild(label);
+    wrap.appendChild(control);
+    return wrap;
+  }
+
+  function buildTextField(field) {
+    const wrap = document.createElement("div");
+    wrap.className = "field";
+
+    const label = document.createElement("div");
+    label.className = "field-label";
+    label.textContent = (field.label || field.key);
+
+    let input;
+    const isTextarea = !!field.multiline;
+
+    if (isTextarea) {
+      input = document.createElement("textarea");
+      input.rows = 1;
+    } else {
+      input = document.createElement("input");
+      input.type = "text";
+    }
+
+    input.value = answers[field.key] || "";
+    input.setAttribute("data-key", field.key);
+    input.inputMode = field.inputMode || "text";
+    input.dir = field.dir ? field.dir : "rtl";
+    input.placeholder = "";
+
+    const control = document.createElement("div");
+    control.className = "field-control";
+    if (isTextarea) control.classList.add("is-textarea");
+
+    if (field.placeholder) {
+      const ex = document.createElement("div");
+      ex.className = "field-example";
+      ex.textContent = String(field.placeholder);
+      control.appendChild(ex);
+    }
+
+    control.appendChild(input);
+
+    function syncHasValue() {
+      wrap.classList.toggle("has-value", String(input.value || "").trim() !== "");
+    }
+
+    function autoGrow() {
+      if (!isTextarea) return;
+      input.style.height = "auto";
+      input.style.height = (input.scrollHeight) + "px";
+    }
+
+    // init
+    syncHasValue();
+    autoGrow();
+
+    input.addEventListener("input", (e) => {
+      answers[field.key] = normalizePersianNumbers(e.target.value || "");
+      syncHasValue();
+      autoGrow();
+      updateNav();
+
+      if (isConditionalDriverKey(field.key)) {
+        renderPage({ preserveFocusKey: field.key });
+      }
+    });
+
+    wrap.appendChild(label);
+    wrap.appendChild(control);
+    return wrap;
+  }
+
+  function buildGroupField(groupField) {
+    const wrap = document.createElement("div");
+    wrap.className = "field";
+
+    const box = document.createElement("div");
+    box.className = "field-group";
+
+    const head = document.createElement("button");
+    head.type = "button";
+    head.className = "field-group__head";
+
+    const t = document.createElement("span");
+    t.className = "fg-title";
+    t.textContent = (groupField.label ? `${groupField.label} (برای باز کردن بزنید)` : "گروه");
+
+    const chev = document.createElement("span");
+    chev.className = "fg-chev";
+    chev.textContent = "+";
+
+    head.appendChild(t);
+    head.appendChild(chev);
+
+    const body = document.createElement("div");
+    body.className = "field-group__body";
+
+    const uiKey = `__ui_open__${groupField.key}`;
+    const isOpen = (answers[uiKey] === "1");
+    if (isOpen) { box.classList.add("is-open"); chev.textContent = "−"; }
+
+    head.addEventListener("click", () => {
+      const nowOpen = !box.classList.contains("is-open");
+      box.classList.toggle("is-open", nowOpen);
+      chev.textContent = nowOpen ? "−" : "+";
+      answers[uiKey] = nowOpen ? "1" : "0";
+    });
+
+    (groupField.fields || []).forEach(f => {
+      if (!shouldShowField(f)) return;
+      if (f.type === "choice") body.appendChild(buildChoiceField(f));
+      else body.appendChild(buildTextField(f));
+    });
+
+    box.appendChild(head);
+    box.appendChild(body);
+
+    wrap.appendChild(box);
+    return wrap;
+  }
+
+  function buildChoiceField(field) {
+    const wrap = document.createElement("div");
+    wrap.className = "field";
+
+    const isYesNo = Array.isArray(field.choices) &&
+      field.choices.length === 2 &&
+      field.choices.includes("بله") &&
+      field.choices.includes("خیر");
+
+    if (isYesNo) wrap.classList.add("field--yn");
+
+    const label = document.createElement("div");
+    label.className = "field-label";
+    label.textContent = (field.label || field.key);
+
+    const row = document.createElement("div");
+    row.className = "choice-row";
+
+    const currentVal = (answers[field.key] || "").trim();
+
+    (field.choices || []).forEach(ch => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "choice-btn" + (currentVal === ch ? " is-selected" : "");
+      b.textContent = ch;
+
+      if (currentVal === ch) {
+        if (ch === "بله") b.classList.add("is-yes");
+        if (ch === "خیر") b.classList.add("is-no");
+      }
+
+      b.addEventListener("click", () => {
+        answers[field.key] = ch;
+        clearDependentFields(field.key, ch);
+        updateNav();
+        renderPage();
+      });
+
+      row.appendChild(b);
+    });
+
+    wrap.appendChild(label);
+    wrap.appendChild(row);
+    return wrap;
+  }
 
   function renderPage(opts) {
     const page = wizardSchema.pages[currentPage];
     const visible = getVisibleFields(page);
 
     wizardTitleEl.textContent = page.title;
-      wizardFieldsEl.innerHTML = "";
+    wizardFieldsEl.innerHTML = "";
 
-visible.forEach(f => {
-  if (f.type === "group") {
-    wizardFieldsEl.appendChild(buildGroupField(f));
-    return;
-  }
+    visible.forEach(f => {
+      if (f.type === "group") {
+        wizardFieldsEl.appendChild(buildGroupField(f));
+        return;
+      }
 
-  if (f.type === "choice") {
-    const key = String(f.key || "");
-    const useSelect =
-      key === "identity__educationLevel" ||
-      key === "physical__faceColor" ||
-      key === "physical__eyeColor";
+      if (f.type === "choice") {
+        const key = String(f.key || "");
+        const useSelect =
+          key === "identity__educationLevel" ||
+          key === "physical__faceColor" ||
+          key === "physical__eyeColor";
 
-    wizardFieldsEl.appendChild(useSelect ? buildSelectField(f) : buildChoiceField(f));
-  } else {
-    wizardFieldsEl.appendChild(buildTextField(f));
-  }
-});
-
-
-
-
-    
+        wizardFieldsEl.appendChild(useSelect ? buildSelectField(f) : buildChoiceField(f));
+      } else {
+        wizardFieldsEl.appendChild(buildTextField(f));
+      }
+    });
 
     renderPills();
     updateNav();
 
-    wmNote.style.display = "none";
+    if (wmNote) wmNote.style.display = "none";
 
-    // Restore focus (optional)
     if (opts && opts.preserveFocusKey) {
       const el = wizardFieldsEl.querySelector(`[data-key="${opts.preserveFocusKey}"]`);
       if (el) el.focus();
     }
   }
 
-function updateNav() {
-  // Progress = بر اساس همه فیلدهای لازم (leaf + non-optional) در کل فرم
-  const allLeaf = wizardSchema.pages.flatMap(p => getVisibleLeafFields(p));
-  const requiredAll = allLeaf.filter(f => !f.optional);
-  const answeredAll = requiredAll.filter(f => isFieldFilled(f.key)).length;
+  function updateNav() {
+    const allLeaf = wizardSchema.pages.flatMap(p => getVisibleLeafFields(p));
+    const requiredAll = allLeaf.filter(f => !f.optional);
+    const answeredAll = requiredAll.filter(f => isFieldFilled(f.key)).length;
 
-  const denom = Math.max(1, requiredAll.length);
-  const percent = Math.round((answeredAll / denom) * 100);
+    const denom = Math.max(1, requiredAll.length);
+    const percent = Math.round((answeredAll / denom) * 100);
 
-  if (previewFill) previewFill.style.width = `${percent}%`;
-  if (topProgressFill) topProgressFill.style.width = `${percent}%`;
-if (topProgressText) topProgressText.textContent = `${percent}% تکمیل شده`;
+    if (previewFill) previewFill.style.width = `${percent}%`;
+    if (topProgressFill) topProgressFill.style.width = `${percent}%`;
+    if (topProgressText) topProgressText.textContent = `${percent}% تکمیل شده`;
 
-  // CTA عددیِ ساده + “آماده”
- if (bottomPreviewCta) {
-  bottomPreviewCta.textContent =
-    (answeredAll >= requiredAll.length) ? "نمایش فرم نهایی" : `تکمیل: ${answeredAll}/${requiredAll.length}`;
-}
-if (bottomPreviewBar) bottomPreviewBar.disabled = !(answeredAll >= requiredAll.length);
-
-  // تب‌ها لایو آپدیت شوند
-  renderPills();
-  // Next/Prev buttons
-if (prevStepBtn) prevStepBtn.disabled = (currentPage === 0);
-
-const isLast = (currentPage === wizardSchema.pages.length - 1);
-const page = wizardSchema.pages[currentPage];
-
-if (nextStepBtn) {
-  if (!isLast) {
-    nextStepBtn.textContent = `ادامه به: ${wizardSchema.pages[currentPage + 1].title}`;
-    nextStepBtn.disabled = !isPageComplete(page); // تا این مرحله کامل نشود، مرحله بعد قفل
-  } else {
-    nextStepBtn.textContent = "نمایش فرم نهایی";
-    nextStepBtn.disabled = !isAllComplete();
-  }
-}
-}
-  if (prevStepBtn) {
-  prevStepBtn.addEventListener("click", () => {
-    if (currentPage > 0) {
-      currentPage -= 1;
-      renderPage();
+    if (bottomPreviewCta) {
+      bottomPreviewCta.textContent =
+        (answeredAll >= requiredAll.length) ? "نمایش فرم نهایی" : `تکمیل: ${answeredAll}/${requiredAll.length}`;
     }
-  });
-}
 
-if (nextStepBtn) {
-  nextStepBtn.addEventListener("click", () => {
+    if (bottomPreviewBar) {
+      bottomPreviewBar.disabled = DEV_MODE ? false : !(answeredAll >= requiredAll.length);
+    }
+
+    // Next/Prev
+    if (prevStepBtn) prevStepBtn.disabled = (currentPage === 0);
+
     const isLast = (currentPage === wizardSchema.pages.length - 1);
     const page = wizardSchema.pages[currentPage];
 
-    if (!isLast) {
-      if (!isPageComplete(page)) {
-        alert("اول این مرحله را کامل کنید، سپس وارد مرحله بعد شوید.");
-        return;
+    if (nextStepBtn) {
+      if (!isLast) {
+        nextStepBtn.textContent = `ادامه به: ${wizardSchema.pages[currentPage + 1].title}`;
+        nextStepBtn.disabled = DEV_MODE ? false : !isPageComplete(page);
+      } else {
+        nextStepBtn.textContent = "نمایش فرم نهایی";
+        nextStepBtn.disabled = DEV_MODE ? false : !isAllComplete();
       }
-      currentPage += 1;
-      renderPage();
-      return;
     }
 
-    // last step
-    if (!isAllComplete()) {
-      alert("برای نمایش فرم نهایی، همه مراحل باید کامل شوند.");
-      return;
-    }
-    // همان دکمه نهایی را اجرا کن
-    if (bottomPreviewBar) bottomPreviewBar.click();
-  });
-}
- // ===== Voice input: put transcript into focused input =====
+    // pills live
+    renderPills();
+  }
+
+  // ===== Nav button events (bind ONCE) =====
+  if (prevStepBtn) {
+    prevStepBtn.addEventListener("click", () => {
+      if (currentPage > 0) {
+        currentPage -= 1;
+        renderPage();
+      }
+    });
+  }
+
+  if (nextStepBtn) {
+    nextStepBtn.addEventListener("click", () => {
+      const isLast = (currentPage === wizardSchema.pages.length - 1);
+      const page = wizardSchema.pages[currentPage];
+
+      if (!isLast) {
+        if (!DEV_MODE && !isPageComplete(page)) {
+          alert("اول این مرحله را کامل کنید، سپس وارد مرحله بعد شوید.");
+          return;
+        }
+        currentPage += 1;
+        renderPage();
+        return;
+      }
+
+      if (!DEV_MODE && !isAllComplete()) {
+        alert("برای نمایش فرم نهایی، همه مراحل باید کامل شوند.");
+        return;
+      }
+
+      if (bottomPreviewBar) bottomPreviewBar.click();
+    });
+  }
+
+  // ===== Voice input =====
   voiceBtn.addEventListener("click", function () {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRecognition) {
@@ -1663,13 +1352,9 @@ if (nextStepBtn) {
       return;
     }
 
-const active = document.activeElement;
-const key = (active && active.getAttribute && active.getAttribute("data-key")) || lastFocusedKey;
+    const active = document.activeElement;
+    const key = (active && active.getAttribute && active.getAttribute("data-key")) || lastFocusedKey;
 
-
-
-
-    
     if (!key) {
       alert("اول روی یکی از فیلدهای متنی کلیک کنید.");
       return;
@@ -1687,7 +1372,6 @@ const key = (active && active.getAttribute && active.getAttribute("data-key")) |
       const text = event.results?.[0]?.[0]?.transcript || "";
       answers[key] = normalizePersianNumbers(text);
 
-      // مقدار را در input بگذار
       const el = wizardFieldsEl.querySelector(`[data-key="${key}"]`);
       if (el) el.value = answers[key];
 
@@ -1707,7 +1391,7 @@ const key = (active && active.getAttribute && active.getAttribute("data-key")) |
     recognition.start();
   });
 
-  // ====== PNG TEXT RENDER (unchanged) ======
+  // ====== PNG TEXT RENDER ======
   async function drawTextAsPngOnPdf(pdfDoc, page, text, x, y, fontSize) {
     const t = String(text ?? "").trim();
     if (!t) return;
@@ -1760,188 +1444,110 @@ const key = (active && active.getAttribute && active.getAttribute("data-key")) |
     if (parts.length === 1) return { firstName: t, lastName: "" };
     return { firstName: parts[0], lastName: parts.slice(1).join(" ") };
   }
-function splitByPipeOrComma(text) {
-  const t = String(text || "").trim();
-  if (!t) return [];
-  // جداکننده‌های رایج: | ، , ؛ ;
-  return t
-    .split(/[\|،,؛;]+/g)
-    .map(s => s.trim())
-    .filter(Boolean);
-}
 
-function parseIdCardCombo(text) {
-  // انتظار: شماره | محل صدور | تاریخ صدور | سری/سریال
-  const parts = splitByPipeOrComma(text);
-  return {
-    idNumber: parts[0] || "",
-    idIssuePlace: parts[1] || "",
-    idIssueDate: parts[2] || "",
-    idSerialCombo: parts[3] || (String(text || "").trim())
-  };
-}
-
-function parseStatusBlock(text) {
-  // انتظار: جنسیت | تأهل | دین
-  const parts = splitByPipeOrComma(text);
-
-  const p0 = parts[0] || "";
-  const p1 = parts[1] || "";
-  const p2 = parts[2] || "";
-
-  const gender = (p0.includes("زن") ? "زن" : (p0.includes("مرد") ? "مرد" : p0));
-  // تأهل را normalize
-  let marital = p1;
-  if (p1.includes("مجرد")) marital = "مجرد";
-  else if (p1.includes("متأهل") || p1.includes("متاهل")) marital = "متأهل";
-
-  const religion = p2 || "";
-
-  return { gender: String(gender || "").trim(), marital: String(marital || "").trim(), religion: String(religion || "").trim() };
-}
-
-function parseJobBlock(text) {
-  // انتظار: شغل | نام موسسه | نشانی
-  const parts = splitByPipeOrComma(text);
-  return {
-    title: parts[0] || "",
-    org: parts[1] || "",
-    addressFull: parts.slice(2).join(" | ") || ""
-  };
-}
-
-function parseMilitaryDetailBlock(text) {
-  // انتظار: شغل پیشین | نوع انفصال
-  const parts = splitByPipeOrComma(text);
-  return {
-    job: parts[0] || "",
-    exitType: parts[1] || ""
-  };
-}
-
-function parseAbroadBlock(text) {
-  // انتظار: نشانی | تلفن | مدت (سال)
-  const parts = splitByPipeOrComma(text);
-  return {
-    addressFull: parts[0] || "",
-    phone: parts[1] || "",
-    years: parts[2] || ""
-  };
-}
-
-function parsePreviousPassportBlock(text) {
-  // انتظار: شماره | علت
-  const parts = splitByPipeOrComma(text);
-  return {
-    number: parts[0] || "",
-    replaceReason: parts.slice(1).join(" | ") || ""
-  };
-}
-
-function parseRelativeBlock(text) {
-  // انتظار: نام | شغل | نشانی | تلفن
-  const parts = splitByPipeOrComma(text);
-  return {
-    fullName: parts[0] || "",
-    job: parts[1] || "",
-    address: parts[2] || "",
-    phone: parts[3] || ""
-  };
-}
-
-function buildExpandedAnswers(answersObj) {
-  const a = Object.assign({}, answersObj);
-
-  // 1) Full name -> first/last
-  if (a["identity__fullName"]) {
-    const s = splitFullName(a["identity__fullName"]);
-    a["identity__firstName"] = s.firstName;
-    a["identity__lastName"] = s.lastName;
+  function splitByPipeOrComma(text) {
+    const t = String(text || "").trim();
+    if (!t) return [];
+    return t.split(/[\|،,؛;]+/g).map(s => s.trim()).filter(Boolean);
   }
 
-  // 2) idCard combo -> detailed fields
-  if (a["identity__idCardCombo"]) {
-    const p = parseIdCardCombo(a["identity__idCardCombo"]);
-    a["identity__idNumber"] = p.idNumber;
-    a["identity__idIssuePlace"] = p.idIssuePlace;
-    a["identity__idIssueDate"] = p.idIssueDate;
-    a["identity__idSerialCombo"] = p.idSerialCombo;
+  function parseStatusBlock(text) {
+    const parts = splitByPipeOrComma(text);
+    const p0 = parts[0] || "";
+    const p1 = parts[1] || "";
+    const p2 = parts[2] || "";
+
+    const gender = (p0.includes("زن") ? "زن" : (p0.includes("مرد") ? "مرد" : p0));
+    let marital = p1;
+    if (p1.includes("مجرد")) marital = "مجرد";
+    else if (p1.includes("متأهل") || p1.includes("متاهل")) marital = "متأهل";
+
+    const religion = p2 || "";
+    return { gender: String(gender || "").trim(), marital: String(marital || "").trim(), religion: String(religion || "").trim() };
   }
 
-  // 3) status block -> gender/marital/religion
-  if (a["identity__statusBlock"]) {
-    const p = parseStatusBlock(a["identity__statusBlock"]);
-    if (p.gender) a["identity__gender"] = p.gender;
-    if (p.marital) a["identity__marital"] = p.marital;
-    if (p.religion) a["identity__religion"] = p.religion;
+  function parseJobBlock(text) {
+    const parts = splitByPipeOrComma(text);
+    return { title: parts[0] || "", org: parts[1] || "", addressFull: parts.slice(2).join(" | ") || "" };
   }
 
-  // 4) job block -> job__title/org/addressFull
-  if (a["job__block"]) {
-    const p = parseJobBlock(a["job__block"]);
-    a["job__title"] = p.title;
-    a["job__org"] = p.org;
-    a["job__addressFull"] = p.addressFull;
+  function parseMilitaryDetailBlock(text) {
+    const parts = splitByPipeOrComma(text);
+    return { job: parts[0] || "", exitType: parts[1] || "" };
   }
 
-  // 5) marksShort -> old hasMarks
-  const ms = String(a["physical__marksShort"] || "").trim();
-  a["physical__hasMarks"] = ms ? "بله" : "خیر";
-  // فعلاً PDF مختصات marksDesc ندارد، پس فقط hasMarks را پر می‌کنیم.
-
-  // 6) military detail -> old keys (اگر has=بله)
-  if ((String(a["military__has"] || "").trim() === "بله") && a["military__detailBlock"]) {
-    const p = parseMilitaryDetailBlock(a["military__detailBlock"]);
-    a["military__job"] = p.job;
-    a["military__exitType"] = p.exitType;
-  } else {
-    a["military__job"] = a["military__job"] || "";
-    a["military__exitType"] = a["military__exitType"] || "";
+  function parseRelativeBlock(text) {
+    const parts = splitByPipeOrComma(text);
+    return { fullName: parts[0] || "", job: parts[1] || "", address: parts[2] || "", phone: parts[3] || "" };
   }
 
-  // 7) abroad block -> detailed (اگر has=بله)
-  if ((String(a["residenceAbroad__has"] || "").trim() === "بله") && a["residenceAbroad__block"]) {
-    const p = parseAbroadBlock(a["residenceAbroad__block"]);
-    a["residenceAbroad__addressFull"] = p.addressFull;
-    a["residenceAbroad__phone"] = p.phone;
-    a["residenceAbroad__years"] = p.years;
+  function buildExpandedAnswers(answersObj) {
+    const a = Object.assign({}, answersObj);
+
+    // Full name -> first/last
+    if (a["identity__fullName"]) {
+      const s = splitFullName(a["identity__fullName"]);
+      a["identity__firstName"] = s.firstName;
+      a["identity__lastName"] = s.lastName;
+    }
+
+    // status block -> gender/marital/religion
+    if (a["identity__statusBlock"]) {
+      const p = parseStatusBlock(a["identity__statusBlock"]);
+      if (p.gender) a["identity__gender"] = p.gender;
+      if (p.marital) a["identity__marital"] = p.marital;
+      if (p.religion) a["identity__religion"] = p.religion;
+    }
+
+    // job block
+    if (a["job__block"]) {
+      const p = parseJobBlock(a["job__block"]);
+      a["job__title"] = p.title;
+      a["job__org"] = p.org;
+      a["job__addressFull"] = p.addressFull;
+    }
+
+    // marksShort -> hasMarks
+    const ms = String(a["physical__marksShort"] || "").trim();
+    a["physical__hasMarks"] = ms ? "بله" : "خیر";
+
+    // military detail -> old keys (اگر has=بله)
+    if ((String(a["military__has"] || "").trim() === "بله") && a["military__detailBlock"]) {
+      const p = parseMilitaryDetailBlock(a["military__detailBlock"]);
+      a["military__job"] = p.job;
+      a["military__exitType"] = p.exitType;
+    } else {
+      a["military__job"] = a["military__job"] || "";
+      a["military__exitType"] = a["military__exitType"] || "";
+    }
+
+    // relatives for future
+    if (a["rel1__block"]) {
+      const p = parseRelativeBlock(a["rel1__block"]);
+      a["rel1__fullName"] = p.fullName;
+      a["rel1__job"] = p.job;
+      a["rel1__address"] = p.address;
+      a["rel1__phone"] = p.phone;
+    }
+    if (a["rel2__block"]) {
+      const p = parseRelativeBlock(a["rel2__block"]);
+      a["rel2__fullName"] = p.fullName;
+      a["rel2__job"] = p.job;
+      a["rel2__address"] = p.address;
+      a["rel2__phone"] = p.phone;
+    }
+
+    // UI حذف شده؛ برای map خالی نگه می‌داریم
+    a["identity__enFullName"] = "";
+
+    return a;
   }
 
-  // 8) previous passport block -> number/reason (اگر has=بله)
-  if ((String(a["previousPassport__has"] || "").trim() === "بله") && a["previousPassport__block"]) {
-    const p = parsePreviousPassportBlock(a["previousPassport__block"]);
-    a["previousPassport__number"] = p.number;
-    a["previousPassport__replaceReason"] = p.replaceReason;
-  } else {
-    a["previousPassport__number"] = a["previousPassport__number"] || "";
-    a["previousPassport__replaceReason"] = a["previousPassport__replaceReason"] || "";
-  }
-
-  // 9) relatives blocks -> detailed keys (برای آینده PDF)
-  if (a["rel1__block"]) {
-    const p = parseRelativeBlock(a["rel1__block"]);
-    a["rel1__fullName"] = p.fullName;
-    a["rel1__job"] = p.job;
-    a["rel1__address"] = p.address;
-    a["rel1__phone"] = p.phone;
-  }
-  if (a["rel2__block"]) {
-    const p = parseRelativeBlock(a["rel2__block"]);
-    a["rel2__fullName"] = p.fullName;
-    a["rel2__job"] = p.job;
-    a["rel2__address"] = p.address;
-    a["rel2__phone"] = p.phone;
-  }
-
-  // این فیلد در UI حذف است؛ برای سازگاری map خالی نگه می‌داریم
-  a["identity__enFullName"] = "";
-
-  return a;
-}
   async function generatePdf(answersObj) {
     const { PDFDocument } = PDFLib;
-const a = buildExpandedAnswers(answersObj);
-  const templateUrl = "assets/forms/passport.pdf";
+    const a = buildExpandedAnswers(answersObj);
+
+    const templateUrl = "assets/forms/passport.pdf";
     const existingPdfBytes = await fetch(templateUrl).then(r => r.arrayBuffer());
     const pdfDoc = await PDFDocument.load(existingPdfBytes);
 
@@ -1984,7 +1590,7 @@ const a = buildExpandedAnswers(answersObj);
       "previousPassport__number":        { "page": 0, "x": 202.5, "y": 188.13, "size": 11 },
       "previousPassport__issueDate":     { "page": 0, "x": 92.5,  "y": 190.63, "size": 11 },
       "previousPassport__issuePlace":    { "page": 0, "x": 461.63,"y": 175.37, "size": 11 },
-      "previousPassport__expireDate":    { "page": 0, "x": 209.75,"y": 173.62, "size": 11 },
+      "previousPassport__expireDate":    { "page": 0, "x": 209.75,"y": 173.62, "size": 11 }
     };
 
     for (const [key, cfg] of Object.entries(PDF_FIELD_MAP)) {
@@ -2015,7 +1621,7 @@ const a = buildExpandedAnswers(answersObj);
 
   if (bottomPreviewBar) {
     bottomPreviewBar.addEventListener("click", async function () {
-          try {
+      try {
         await generatePdf(answers);
       } catch (err) {
         console.error(err);
@@ -2023,46 +1629,10 @@ const a = buildExpandedAnswers(answersObj);
       }
     });
   }
-/* =========================
-   DEV MODE – UI FREE NAV
-   فعال با ?dev=1 در URL
-   ========================= */
 
-(function(){
-  const DEV_MODE = new URLSearchParams(location.search).get("dev") === "1";
-  if (!DEV_MODE) return;
-
-  console.log("DEV MODE ENABLED");
-
-  // 1) باز کردن همه تب‌ها
-  window.isPageComplete = function(){ return true; };
-  window.isAllComplete = function(){ return true; };
-
-  // 2) غیرفعال نکردن دکمه‌ها
-  const observer = new MutationObserver(() => {
-    const pills = document.querySelectorAll(".section-pill");
-    pills.forEach(p => {
-      p.disabled = false;
-      p.classList.remove("is-locked");
-    });
-
-    const next = document.getElementById("nextStepBtn");
-    const prev = document.getElementById("prevStepBtn");
-    const preview = document.getElementById("bottomPreviewBar");
-
-    if (next) next.disabled = false;
-    if (prev) prev.disabled = false;
-    if (preview) preview.disabled = false;
-  });
-
-  observer.observe(document.body, { childList:true, subtree:true });
-
-})();
   // init
   renderPage();
 });
-</script>
-
-
+  </script>
 </body>
 </html>
