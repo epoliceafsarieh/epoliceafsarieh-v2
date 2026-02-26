@@ -110,48 +110,44 @@ h3{
 }
 
 /* ===== Unified Controls (input / textarea / select) ===== */
+/* ===== Unified controls (input/textarea/select) ===== */
 input, textarea, select{
   width: 100%;
-  box-sizing: border-box;
-
-  padding: 13px 14px;
+  padding: 14px 14px;
   font-size: 16px;            /* iOS zoom نشود */
-  line-height: 1.6;
-
   border-radius: 14px;
   border: 1px solid #e5eaf3;
   background: #f8fafc;
   outline: none;
-
   text-align: right;
   direction: rtl;
+  box-sizing: border-box;
+  min-height: 52px;           /* همه یک‌قد */
+  line-height: 1.6;
+}
 
+/* textarea behavior: auto-grow friendly */
+textarea{
+  resize: none;               /* با auto-grow */
+  overflow: hidden;
+}
+
+/* select polish */
+select{
   appearance: none;
   -webkit-appearance: none;
-}
-
-/* textarea height + resize */
-textarea{
-  min-height: 96px;
-  resize: vertical;
-  padding-top: 16px; /* برای همزیستی با example */
-}
-
-/* select: هم‌قد input + فلش */
-select{
-  height: 52px;
-  padding-left: 40px; /* جا برای فلش */
   background-image:
     linear-gradient(45deg, transparent 50%, rgba(15,23,42,.55) 50%),
     linear-gradient(135deg, rgba(15,23,42,.55) 50%, transparent 50%);
   background-position:
-    16px 22px,
-    22px 22px;
-  background-size:
-    6px 6px,
-    6px 6px;
+    calc(14px) calc(50% - 3px),
+    calc(9px)  calc(50% - 3px);
+  background-size: 6px 6px, 6px 6px;
   background-repeat: no-repeat;
+  padding-left: 34px;         /* جا برای فلش */
 }
+
+   
 
 /* focus polish */
 input:focus, textarea:focus, select:focus{
@@ -464,6 +460,8 @@ box-shadow: 0 14px 26px rgba(2,8,23,.14);
   z-index: 5;
     background: rgba(255,255,255,.92);
   z-index: 5;
+    padding-bottom: 14px; /* فاصله سفید زیر pills */
+    border-bottom: 1px solid rgba(2,8,23,.08);
 }
   @media (max-width: 480px){
   .wizard-nav{
@@ -514,24 +512,39 @@ box-shadow: 0 14px 26px rgba(2,8,23,.14);
   position: relative;
   display:flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
 }
 /* ===== Field label (smaller + bullet) ===== */
 .field-label{
   font-size: 13px;
   font-weight: 800;
-  color: rgba(15,23,42,.88);
-  line-height: 1.6;
+  color: rgba(15,23,42,.82);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 2px;       /* نزدیک‌تر به مستطیل */
+}
+
+
+
+/* bullet */
+.field-label::before{
+  content: "•";
+  font-size: 18px;
+  line-height: 1;
+  color: rgba(15,37,71,.85);
 }
 
 .field-label::before{
   content: "•";
   display: inline-block;
   margin-left: 8px; /* RTL */
-  color: rgba(15,37,71,.70);
   font-weight: 900;
+ font-size: 18px;
+  line-height: 1;
+  color: rgba(15,37,71,.85);
 }
-   
+  
  /* کنترلِ داخل کادر: مثال باید داخل همین محدوده حبس شود */
 .field-control{
   position: relative;
