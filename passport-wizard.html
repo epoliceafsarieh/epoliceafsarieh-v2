@@ -1459,7 +1459,7 @@ function buildGroupField(groupField) {
 
   const chev = document.createElement("span");
   chev.className = "fg-chev";
-  chev.textContent = "▾";
+ chev.textContent = "+";
 
   head.appendChild(t);
   head.appendChild(chev);
@@ -1475,6 +1475,7 @@ function buildGroupField(groupField) {
   head.addEventListener("click", () => {
     const nowOpen = !box.classList.contains("is-open");
     box.classList.toggle("is-open", nowOpen);
+    chev.textContent = nowOpen ? "−" : "+";
     answers[uiKey] = nowOpen ? "1" : "0";
   });
 
