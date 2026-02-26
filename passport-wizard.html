@@ -1247,7 +1247,7 @@ function buildSelectField(field) {
 
   const ph = document.createElement("option");
   ph.value = "";
-   ph.textContent = (field.label || "");
+   ph.textContent = (field.label ? `${field.label} — انتخاب کنید` : "انتخاب کنید");
   sel.appendChild(ph);
 
   const currentVal = (answers[field.key] || "").trim();
@@ -1271,8 +1271,7 @@ function buildSelectField(field) {
   });
 
   control.appendChild(sel);
-  wrap.appendChild(label);
-  wrap.appendChild(control);
+   wrap.appendChild(control);
   return wrap;
 }
 
@@ -1387,7 +1386,8 @@ function buildGroupField(groupField) {
   });
 
   // children render
-  (groupField.fields || []).forEach(f => {
+   (groupField.fields || []).forEach(f => {
+    if (!shouldShowField(f)) return;
     if (f.type === "choice") body.appendChild(buildChoiceField(f));
     else body.appendChild(buildTextField(f));
   });
@@ -1491,19 +1491,24 @@ visible.forEach(f => {
   }
 
   function updateNav() {
-   const total = wizardSchema.pages.length;
-const done = wizardSchema.pages.filter(p => isPageComplete(p)).length;
-const percent = Math.round((done / total) * 100);
+ const allLeaf = wizardSchema.pages.flatMap(p => getVisibleLeafFields(p));
+const requiredAll = allLeaf.filter(f => !f.optional);
+const answeredAll = requiredAll.filter(f => isFieldFilled(f.key)).length;
+
+const denom = Math.max(1, requiredAll.length);
+const percent = Math.round((answeredAll / denom) * 100);
 
 if (previewFill) previewFill.style.width = `${percent}%`;
 
-// CTA: حالت مرحله‌ای 1/4 ... و در انتها "آماده"
-if (bottomPreviewCta) bottomPreviewCta.textContent = (done === total) ? "آماده" : `${done}/${total}`;
+// CTA: دقیق بر اساس فیلدهای لازم
+if (bottomPreviewCta) {
+  bottomPreviewCta.textContent = (answeredAll >= requiredAll.length) ? "آماده" : `${answeredAll}/${requiredAll.length}`;
+}
 
 // همیشه فعال
 if (bottomPreviewBar) bottomPreviewBar.disabled = false;
-    renderPills(); // لازم: تب‌ها (answered/required) لایو آپدیت شوند
-  }
+
+renderPills(); // تب‌ها live }
 
  // ===== Voice input: put transcript into focused input =====
   voiceBtn.addEventListener("click", function () {
