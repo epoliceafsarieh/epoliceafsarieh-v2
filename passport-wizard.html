@@ -353,11 +353,22 @@ box-shadow: 0 14px 26px rgba(2,8,23,.14);
 /* active emphasis */
 .section-pill.is-active{
   font-weight: 900;
-  border-color: rgba(15,37,71,.55);
-  background: rgba(15,37,71,.10);
-  box-shadow: 0 10px 18px rgba(2,8,23,.10);
+  border: 2px solid rgba(15,37,71,.85);
+  background: rgba(15,37,71,.16);
+  box-shadow: 0 14px 22px rgba(2,8,23,.14);
   transform: translateY(-1px);
 }
+
+.section-pill.is-active .pill-title{
+  font-weight: 900;
+}
+
+.section-pill.is-active .pill-meta{
+  font-weight: 900;
+  border-color: rgba(15,37,71,.30);
+  background: rgba(15,37,71,.10);
+}
+   
 
 /* title + meta */
 .section-pill .pill-title{
@@ -1036,16 +1047,11 @@ function renderPills() {
     const required = visible.filter(f => !f.optional);
     const answered = required.filter(f => isFieldFilled(f.key)).length;
 
-    const titleSpan = document.createElement("span");
-    titleSpan.className = "pill-title";
-    titleSpan.textContent = `${idx + 1}) ${p.title}`;
+const titleSpan = document.createElement("span");
+titleSpan.className = "pill-title";
+titleSpan.textContent = `(${idx + 1}) ${p.title} ${answered}/${required.length}`;
 
-    const metaSpan = document.createElement("span");
-    metaSpan.className = "pill-meta";
-    metaSpan.textContent = `${answered}/${required.length}`;
-
-    pill.appendChild(titleSpan);
-    pill.appendChild(metaSpan);
+pill.appendChild(titleSpan);
 
     pill.addEventListener("click", () => {
       currentPage = idx;
@@ -1107,78 +1113,71 @@ function renderPills() {
   wrap.appendChild(sel);
   return wrap;
 }
-  function buildTextField(field) {
-    const wrap = document.createElement("div");
-    wrap.className = "field";
 
-    const label = document.createElement("div");
-    label.className = "field-label";
-label.textContent = (field.label || field.key);
+function buildTextField(field) {
+  const wrap = document.createElement("div");
+  wrap.className = "field";
 
-    let input;
-    if (field.multiline) {
-      input = document.createElement("textarea");
-    } else {
-      input = document.createElement("input");
-      input.type = "text";
+  const label = document.createElement("div");
+  label.className = "field-label";
+  label.textContent = (field.label || field.key);
+
+  let input;
+  if (field.multiline) {
+    input = document.createElement("textarea");
+  } else {
+    input = document.createElement("input");
+    input.type = "text";
+  }
+
+  input.value = answers[field.key] || "";
+  input.setAttribute("data-key", field.key);
+  input.inputMode = field.inputMode || "text";
+
+  if (field.dir) input.dir = field.dir;
+  else input.dir = "rtl";
+
+  input.addEventListener("input", (e) => {
+    answers[field.key] = normalizePersianNumbers(e.target.value || "");
+    updateNav();
+
+    // فقط اگر این فیلد driver شرطی‌هاست، صفحه را دوباره بساز
+    if (isConditionalDriverKey(field.key)) {
+      renderPage({ preserveFocusKey: field.key });
     }
+  });
 
-    input.value = answers[field.key] || "";
-    input.setAttribute("data-key", field.key);
-    input.inputMode = field.inputMode || "text";
+  // placeholder واقعی را خالی می‌گذاریم
+  input.placeholder = "";
 
-    if (field.dir) input.dir = field.dir;
-    else input.dir = "rtl";
+  // کنترل‌ورپ: input + example باید داخل این باشد تا بیرون نزند
+  const control = document.createElement("div");
+  control.className = "field-control";
+  if (field.multiline) control.classList.add("is-textarea");
 
-   input.addEventListener("input", (e) => {
-  answers[field.key] = normalizePersianNumbers(e.target.value || "");
-  updateNav();
-
-  // فقط اگر این فیلد driver شرطی‌هاست، صفحه را دوباره بساز
-  if (isConditionalDriverKey(field.key)) {
-    renderPage({ preserveFocusKey: field.key });
+  // مثالِ ثابت
+  if (field.placeholder) {
+    const ex = document.createElement("div");
+    ex.className = "field-example";
+    ex.textContent = String(field.placeholder);
+    control.appendChild(ex);
   }
-});
 
-// placeholder واقعی را خالی می‌گذاریم
-input.placeholder = "";
+  control.appendChild(input);
 
-// کنترل‌ورپ: input + example باید داخل این باشد تا بیرون نزند
-const control = document.createElement("div");
-control.className = "field-control";
-
-// برای textarea: استایل مثال متفاوت
-if (field.multiline) control.classList.add("is-textarea");
-
-// مثالِ ثابت
-if (field.placeholder) {
-  const ex = document.createElement("div");
-  ex.className = "field-example";
-  ex.textContent = String(field.placeholder);
-  control.appendChild(ex);
-}
-
-control.appendChild(input);
-
-// کلاس has-value برای کوچک شدن مثال
-function syncHasValue() {
-  wrap.classList.toggle("has-value", String(input.value || "").trim() !== "");
-}
-syncHasValue();
-
-input.addEventListener("input", () => {
+  // کلاس has-value برای کوچک شدن مثال
+  function syncHasValue() {
+    wrap.classList.toggle("has-value", String(input.value || "").trim() !== "");
+  }
   syncHasValue();
-});
+  input.addEventListener("input", syncHasValue);
 
-wrap.appendChild(label);
-wrap.appendChild(control);
+  wrap.appendChild(label);
+  wrap.appendChild(control);
+  return wrap;
+}
 
-return wrap;
-wrap.appendChild(control);
-
-return wrap;
-  }
-
+  
 function buildChoiceField(field) {
   const wrap = document.createElement("div");
   wrap.className = "field";
