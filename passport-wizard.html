@@ -1238,6 +1238,10 @@ function renderPills() {
 function buildSelectField(field) {
   const wrap = document.createElement("div");
   wrap.className = "field";
+    const label = document.createElement("div");
+  label.className = "field-label";
+  label.textContent = (field.label || field.key);
+  wrap.appendChild(label);
 
   const control = document.createElement("div");
   control.className = "field-control";
@@ -1247,7 +1251,7 @@ function buildSelectField(field) {
 
   const ph = document.createElement("option");
   ph.value = "";
-   ph.textContent = (field.label ? `${field.label} — انتخاب کنید` : "انتخاب کنید");
+ ph.textContent = "انتخاب کنید";
   sel.appendChild(ph);
 
   const currentVal = (answers[field.key] || "").trim();
@@ -1328,7 +1332,7 @@ function buildTextField(field) {
     input.style.height = "auto";
     input.style.height = (input.scrollHeight) + "px";
   }
-
+   wrap.appendChild(label);
   // init
   syncHasValue();
   autoGrow();
@@ -1344,7 +1348,7 @@ function buildTextField(field) {
     }
   });
 
-
+ wrap.appendChild(label);
   wrap.appendChild(control);
   return wrap;
 }
@@ -1490,26 +1494,27 @@ visible.forEach(f => {
     }
   }
 
-  function updateNav() {
- const allLeaf = wizardSchema.pages.flatMap(p => getVisibleLeafFields(p));
-const requiredAll = allLeaf.filter(f => !f.optional);
-const answeredAll = requiredAll.filter(f => isFieldFilled(f.key)).length;
+function updateNav() {
+  const allLeaf = wizardSchema.pages.flatMap(p => getVisibleLeafFields(p));
+  const requiredAll = allLeaf.filter(f => !f.optional);
+  const answeredAll = requiredAll.filter(f => isFieldFilled(f.key)).length;
 
-const denom = Math.max(1, requiredAll.length);
-const percent = Math.round((answeredAll / denom) * 100);
+  const denom = Math.max(1, requiredAll.length);
+  const percent = Math.round((answeredAll / denom) * 100);
 
-if (previewFill) previewFill.style.width = `${percent}%`;
+  if (previewFill) previewFill.style.width = `${percent}%`;
 
-// CTA: دقیق بر اساس فیلدهای لازم
-if (bottomPreviewCta) {
-  bottomPreviewCta.textContent = (answeredAll >= requiredAll.length) ? "آماده" : `${answeredAll}/${requiredAll.length}`;
+  // CTA: دقیق بر اساس فیلدهای لازم
+  if (bottomPreviewCta) {
+    bottomPreviewCta.textContent =
+      (answeredAll >= requiredAll.length) ? "آماده" : `${answeredAll}/${requiredAll.length}`;
+  }
+
+  // همیشه فعال
+  if (bottomPreviewBar) bottomPreviewBar.disabled = false;
+
+  renderPills(); // تب‌ها live
 }
-
-// همیشه فعال
-if (bottomPreviewBar) bottomPreviewBar.disabled = false;
-
-renderPills(); // تب‌ها live }
-
  // ===== Voice input: put transcript into focused input =====
   voiceBtn.addEventListener("click", function () {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
