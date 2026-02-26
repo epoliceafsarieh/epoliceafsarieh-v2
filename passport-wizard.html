@@ -366,6 +366,16 @@ box-shadow: 0 14px 26px rgba(2,8,23,.14);
   width: auto;
   margin-top: 0;
 }
+  /* locked pills */
+.section-pill.is-locked{
+  opacity: .45;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+.section-pill.is-locked .pill-meta{
+  opacity: .8;
+} 
 
 /* states (non-active) */
 .section-pill.is-empty{
@@ -444,7 +454,36 @@ box-shadow: 0 14px 26px rgba(2,8,23,.14);
   box-shadow: 0 14px 30px rgba(2,8,23,.08);
   overflow: hidden;
 }
+/* ===== Top progress (global) ===== */
+.progress-top{
+  flex: 1;
+  display:flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
 
+.progress-top__bar{
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(15,23,42,.10);
+  overflow: hidden;
+}
+
+.progress-top__fill{
+  height: 100%;
+  width: 0%;
+  background: rgba(34,197,94,.55);
+  border-radius: 999px;
+  transition: width .18s ease;
+}
+
+.progress-top__text{
+  font-size: 12px;
+  font-weight: 800;
+  color: rgba(15,23,42,.70);
+  white-space: nowrap;
+}
 .wizard-nav{
   display:flex;
   align-items:center;
@@ -808,6 +847,12 @@ justify-content: space-between; /* دو ستون کنار هم */
 <!-- [ANCHOR:A1 HERO-ROW] -->
 <div class="wizard-shell" id="wizardShell">
   <div class="wizard-nav">
+      <div class="progress-top" aria-label="پیشرفت کلی">
+    <div class="progress-top__bar" aria-hidden="true">
+      <div class="progress-top__fill" id="topProgressFill"></div>
+    </div>
+    <div class="progress-top__text" id="topProgressText">0% تکمیل شده</div>
+  </div>
     <div class="section-steps section-steps--nav" id="sectionSteps" aria-label="بخش‌های فرم"></div>
        <button class="voice voice--inline" id="voiceButton" type="button" aria-label="ورود صوتی">🎤</button>
   </div>
@@ -815,6 +860,10 @@ justify-content: space-between; /* دو ستون کنار هم */
   <div class="wizard-body">
     <div class="wizard-title" id="wizardTitle">—</div>
     <div class="wizard-fields" id="wizardFields"></div>
+  </div>
+    <div class="wizard-footer" aria-label="ناوبری مراحل">
+    <button class="nav-btn nav-btn--ghost" id="prevStepBtn" type="button">مرحله قبل</button>
+    <button class="nav-btn nav-btn--primary" id="nextStepBtn" type="button">ادامه</button>
   </div>
 </div>
    
@@ -1079,6 +1128,10 @@ const wizardSchema = {
   const bottomPreviewBar = document.getElementById("bottomPreviewBar");
   const bottomPreviewCta = document.getElementById("bottomPreviewCta");
   const previewFill = document.getElementById("previewFill");
+  const topProgressFill = document.getElementById("topProgressFill");
+const topProgressText = document.getElementById("topProgressText");
+const prevStepBtn = document.getElementById("prevStepBtn");
+const nextStepBtn = document.getElementById("nextStepBtn");
 
   const wizardTitleEl = document.getElementById("wizardTitle");
  
@@ -1227,6 +1280,13 @@ function renderPills() {
     if (isPageComplete(wizardSchema.pages[i])) maxUnlocked = i + 1;
     else break;
   }
+    function maxUnlockedIndex(){
+    // تا وقتی صفحه کامل است، اجازه رفتن به بعدی را می‌دهد
+    let i = 0;
+    while (i < wizardSchema.pages.length && isPageComplete(wizardSchema.pages[i])) i++;
+    return i; // این صفحه (i) اولین صفحه ناقص است؛ پس تا i مجاز است
+  }
+  const unlocked = maxUnlockedIndex();
   wizardSchema.pages.forEach((p, idx) => {
     const leaf = getVisibleLeafFields(p);
 
@@ -1236,8 +1296,9 @@ function renderPills() {
     const pill = document.createElement("button");
     const stateClass = pageDone ? " is-done" : (anyAnswered ? " is-warn" : " is-empty");
 
-    pill.className = "section-pill" + (idx === currentPage ? " is-active" : "") + stateClass;
-    pill.type = "button";
+const isLocked = (idx > unlocked);
+pill.className = "section-pill" + (idx === currentPage ? " is-active" : "") + stateClass + (isLocked ? " is-locked" : "");
+pill.disabled = isLocked;    pill.type = "button";
 
     // required/answered فقط برای leaf و غیر-optional
     const required = leaf.filter(f => !f.optional);
@@ -1262,11 +1323,11 @@ function renderPills() {
     }
     const isLocked = idx > maxUnlocked;
     if (isLocked) pill.disabled = true;
-       pill.addEventListener("click", () => {
-      if (idx > maxUnlocked) return;
-      currentPage = idx;
-      renderPage();
-    });
+     pill.addEventListener("click", () => {
+  if (pill.disabled) return;
+  currentPage = idx;
+  renderPage();
+});
     sectionStepsEl.appendChild(pill);
   });
 }
@@ -1277,6 +1338,9 @@ function renderPills() {
 function buildSelectField(field) {
   const wrap = document.createElement("div");
   wrap.className = "field";
+    const label = document.createElement("div");
+  label.className = "field-label";
+  label.textContent = (field.label || field.key);
     const label = document.createElement("div");
   label.className = "field-label";
   label.textContent = (field.label || field.key);
@@ -1314,6 +1378,7 @@ function buildSelectField(field) {
   });
 
   control.appendChild(sel);
+  wrap.appendChild(label);
    wrap.appendChild(control);
   return wrap;
 }
@@ -1543,17 +1608,68 @@ function updateNav() {
   const percent = Math.round((answeredAll / denom) * 100);
 
   if (previewFill) previewFill.style.width = `${percent}%`;
+  if (topProgressFill) topProgressFill.style.width = `${percent}%`;
+if (topProgressText) topProgressText.textContent = `${percent}% تکمیل شده`;
 
   // CTA عددیِ ساده + “آماده”
-  if (bottomPreviewCta) {
-    bottomPreviewCta.textContent =
-      (answeredAll >= requiredAll.length) ? "آماده" : `${answeredAll}/${requiredAll.length}`;
-  }
+ if (bottomPreviewCta) {
+  bottomPreviewCta.textContent =
+    (answeredAll >= requiredAll.length) ? "نمایش فرم نهایی" : `تکمیل: ${answeredAll}/${requiredAll.length}`;
+}
+if (bottomPreviewBar) bottomPreviewBar.disabled = !(answeredAll >= requiredAll.length);
 
   if (bottomPreviewBar) bottomPreviewBar.disabled = false;
 
   // تب‌ها لایو آپدیت شوند
   renderPills();
+  // Next/Prev buttons
+if (prevStepBtn) prevStepBtn.disabled = (currentPage === 0);
+
+const isLast = (currentPage === wizardSchema.pages.length - 1);
+const page = wizardSchema.pages[currentPage];
+
+if (nextStepBtn) {
+  if (!isLast) {
+    nextStepBtn.textContent = `ادامه به: ${wizardSchema.pages[currentPage + 1].title}`;
+    nextStepBtn.disabled = !isPageComplete(page); // تا این مرحله کامل نشود، مرحله بعد قفل
+  } else {
+    nextStepBtn.textContent = "نمایش فرم نهایی";
+    nextStepBtn.disabled = !isAllComplete();
+  }
+}
+}
+  if (prevStepBtn) {
+  prevStepBtn.addEventListener("click", () => {
+    if (currentPage > 0) {
+      currentPage -= 1;
+      renderPage();
+    }
+  });
+}
+
+if (nextStepBtn) {
+  nextStepBtn.addEventListener("click", () => {
+    const isLast = (currentPage === wizardSchema.pages.length - 1);
+    const page = wizardSchema.pages[currentPage];
+
+    if (!isLast) {
+      if (!isPageComplete(page)) {
+        alert("اول این مرحله را کامل کنید، سپس وارد مرحله بعد شوید.");
+        return;
+      }
+      currentPage += 1;
+      renderPage();
+      return;
+    }
+
+    // last step
+    if (!isAllComplete()) {
+      alert("برای نمایش فرم نهایی، همه مراحل باید کامل شوند.");
+      return;
+    }
+    // همان دکمه نهایی را اجرا کن
+    if (bottomPreviewBar) bottomPreviewBar.click();
+  });
 }
  // ===== Voice input: put transcript into focused input =====
   voiceBtn.addEventListener("click", function () {
