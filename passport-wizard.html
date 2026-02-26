@@ -962,7 +962,8 @@ const wizardSchema = {
     }
   ]
 },
-
+      ]
+    },
         
 
    
@@ -989,7 +990,7 @@ const wizardSchema = {
           placeholder: "مثال: راننده | پایان خدمت",
           when: { key: "military__has", equals: "بله" },
           multiline: true
-        }
+        },
 {
   type: "group",
   key: "physical__colorsGroup",
@@ -1070,7 +1071,7 @@ const wizardSchema = {
           label: "بستگان ۲",
           placeholder: "مثال: مریم محمدی | کارمند | تهران... | 0912...",
           multiline: true
-        }
+        },
        {
   type: "group",
   key: "previousPassport__group",
@@ -1321,8 +1322,7 @@ pill.disabled = isLocked;    pill.type = "button";
       tick.textContent = "✔";
       pill.appendChild(tick);
     }
-    const isLocked = idx > maxUnlocked;
-    if (isLocked) pill.disabled = true;
+      if (isLocked) pill.disabled = true;
      pill.addEventListener("click", () => {
   if (pill.disabled) return;
   currentPage = idx;
@@ -1338,14 +1338,11 @@ pill.disabled = isLocked;    pill.type = "button";
 function buildSelectField(field) {
   const wrap = document.createElement("div");
   wrap.className = "field";
-    const label = document.createElement("div");
-  label.className = "field-label";
-  label.textContent = (field.label || field.key);
-    const label = document.createElement("div");
-  label.className = "field-label";
-  label.textContent = (field.label || field.key);
+  
   wrap.appendChild(label);
-
+  const label = document.createElement("div");
+  label.className = "field-label";
+  label.textContent = (field.label || field.key);
   const control = document.createElement("div");
   control.className = "field-control";
 
@@ -1376,24 +1373,20 @@ function buildSelectField(field) {
       setTimeout(() => { renderPage(); }, 0);
     }
   });
-
+ wrap.appendChild(label);
   control.appendChild(sel);
-  wrap.appendChild(label);
-   wrap.appendChild(control);
+    wrap.appendChild(control);
   return wrap;
 }
 
 function buildTextField(field) {
   const wrap = document.createElement("div");
   wrap.className = "field";
-
   const label = document.createElement("div");
   label.className = "field-label";
   label.textContent = (field.label || field.key);
-
   let input;
   const isTextarea = !!field.multiline;
-
   if (isTextarea) {
     input = document.createElement("textarea");
     input.rows = 1; // شروع هم‌قد بقیه
@@ -1401,22 +1394,17 @@ function buildTextField(field) {
     input = document.createElement("input");
     input.type = "text";
   }
-
   input.value = answers[field.key] || "";
   input.setAttribute("data-key", field.key);
   input.inputMode = field.inputMode || "text";
-
   if (field.dir) input.dir = field.dir;
   else input.dir = "rtl";
-
   // placeholder واقعی را خالی می‌گذاریم
   input.placeholder = "";
-
   // کنترل‌ورپ: input/textarea + example
   const control = document.createElement("div");
   control.className = "field-control";
   if (isTextarea) control.classList.add("is-textarea");
-
   // مثال ثابت
   if (field.placeholder) {
     const ex = document.createElement("div");
@@ -1424,20 +1412,18 @@ function buildTextField(field) {
     ex.textContent = String(field.placeholder);
     control.appendChild(ex);
   }
-
   control.appendChild(input);
-
   function syncHasValue() {
     wrap.classList.toggle("has-value", String(input.value || "").trim() !== "");
   }
-
   function autoGrow() {
     if (!isTextarea) return;
     input.style.height = "auto";
     input.style.height = (input.scrollHeight) + "px";
   }
    wrap.appendChild(label);
-  // init
+
+   // init
   syncHasValue();
   autoGrow();
 
@@ -1452,7 +1438,6 @@ function buildTextField(field) {
     }
   });
 
- wrap.appendChild(label);
   wrap.appendChild(control);
   return wrap;
 }
@@ -1617,8 +1602,6 @@ if (topProgressText) topProgressText.textContent = `${percent}% تکمیل شد�
     (answeredAll >= requiredAll.length) ? "نمایش فرم نهایی" : `تکمیل: ${answeredAll}/${requiredAll.length}`;
 }
 if (bottomPreviewBar) bottomPreviewBar.disabled = !(answeredAll >= requiredAll.length);
-
-  if (bottomPreviewBar) bottomPreviewBar.disabled = false;
 
   // تب‌ها لایو آپدیت شوند
   renderPills();
