@@ -279,19 +279,20 @@ box-shadow: 0 14px 26px rgba(2,8,23,.14);
   .card{ margin-top: 12px; }
 }
 
-/* ===== Service-like top bar ===== */
-.flow-top--service{
-  padding: 14px 6px 6px;
-}
+  /* ===== Service-like top bar ===== */
 /* [ANCHOR:C1 TOPBAR-ALIGN] */
 .flow-top--service{
+  padding: 14px 6px 6px;
   direction: ltr; /* ترتیب بصری را چپ→راست می‌کند */
 }
 .flow-top--service *{
   direction: rtl; /* متن‌ها همچنان RTL بمانند */
-}
-
-.cta-service{
+} 
+   
+   
+   
+   
+   .cta-service{
   display:inline-flex;
   align-items:center;
   justify-content:center;
@@ -405,13 +406,6 @@ box-shadow: 0 14px 26px rgba(2,8,23,.14);
   font-weight: 900;
 }
 
-.section-pill.is-active .pill-meta{
-  font-weight: 900;
-  border-color: rgba(15,37,71,.30);
-  background: rgba(15,37,71,.10);
-}
-   
-
 /* title + meta */
 .section-pill .pill-title{
   font-weight: 800;
@@ -454,15 +448,15 @@ box-shadow: 0 14px 26px rgba(2,8,23,.14);
   align-items:center;
   justify-content: space-between;
   gap: 10px;
-  padding: 10px 12px;
-  border-bottom: none;
-    background: rgba(255,255,255,.92);
+
+  padding: 10px 12px 14px; /* bottom spacing زیر pills */
+  background: rgba(255,255,255,.92);
   z-index: 5;
-    background: rgba(255,255,255,.92);
-  z-index: 5;
-    padding-bottom: 14px; /* فاصله سفید زیر pills */
-    border-bottom: 1px solid rgba(2,8,23,.08);
+
+  border-bottom: 1px solid rgba(2,8,23,.08);
 }
+
+   
   @media (max-width: 480px){
   .wizard-nav{
     position: sticky;
@@ -526,14 +520,6 @@ box-shadow: 0 14px 26px rgba(2,8,23,.14);
 }
 
 
-
-/* bullet */
-.field-label::before{
-  content: "•";
-  font-size: 18px;
-  line-height: 1;
-  color: rgba(15,37,71,.85);
-}
 
 .field-label::before{
   content: "•";
@@ -781,16 +767,12 @@ justify-content: space-between; /* دو ستون کنار هم */
     font-size: 12px;
     padding: 0 10px;
   }
-  @media (max-width: 480px){
-  .wizard-shell{
-    width: 92vw;      /* کمتر از تمام عرض */
-    margin: 0 auto;
-  }
-  .preview-bar--inline{
-    width: 92vw;
-  }
 }
-}
+
+
+
+
+   
 </style>
 </head>
 <body>
@@ -1107,6 +1089,29 @@ let lastFocusedKey = "";
     return (page.fields || []).filter(shouldShowField);
   }
 
+ function isGroupField(f){
+  return !!(f && f.type === "group" && Array.isArray(f.fields));
+}
+
+// فقط فیلدهای "برگ" برای محاسبه completion/progress:
+// اگر group باشد، children آن را (با رعایت when) برمی‌گرداند
+function getVisibleLeafFields(page){
+  const out = [];
+  (page.fields || []).forEach(f => {
+    if (!shouldShowField(f)) return;
+
+    if (isGroupField(f)) {
+      (f.fields || []).forEach(ch => {
+        if (shouldShowField(ch)) out.push(ch);
+      });
+      return;
+    }
+
+    out.push(f);
+  });
+  return out;
+} 
+
 function isConditionalDriverKey(key) {
   return [
     "identity__educationLevel",
@@ -1165,13 +1170,17 @@ function clearDependentFields(driverKey, driverValue) {
     return ((answers[key] || "").trim() !== "");
   }
 
- function isPageComplete(page) {
-  const visible = getVisibleFields(page);
-  return visible.every(f => {
+function isPageComplete(page) {
+  const leaf = getVisibleLeafFields(page);
+  return leaf.every(f => {
     if (f.optional) return true;
     return isFieldFilled(f.key);
   });
 }
+
+
+
+  
   function isAllComplete() {
     return wizardSchema.pages.every(p => isPageComplete(p));
   }
@@ -1181,10 +1190,10 @@ function renderPills() {
   sectionStepsEl.innerHTML = "";
 
   wizardSchema.pages.forEach((p, idx) => {
-    const visible = getVisibleFields(p);
+    const leaf = getVisibleLeafFields(p);
 
     const pageDone = isPageComplete(p);
-    const anyAnswered = visible.some(f => isFieldFilled(f.key));
+    const anyAnswered = leaf.some(f => isFieldFilled(f.key));
 
     const pill = document.createElement("button");
     const stateClass = pageDone ? " is-done" : (anyAnswered ? " is-warn" : " is-empty");
@@ -1192,16 +1201,14 @@ function renderPills() {
     pill.className = "section-pill" + (idx === currentPage ? " is-active" : "") + stateClass;
     pill.type = "button";
 
-    // required/answered فقط برای visible و غیر-optional
-    const required = visible.filter(f => !f.optional);
+    // required/answered فقط برای leaf و غیر-optional
+    const required = leaf.filter(f => !f.optional);
     const answered = required.filter(f => isFieldFilled(f.key)).length;
 
-    // ---- title (راست) ----
     const titleSpan = document.createElement("span");
     titleSpan.className = "pill-title";
     titleSpan.textContent = `(${idx + 1}) ${p.title}`;
 
-    // ---- meta (چپ) ----
     const metaSpan = document.createElement("span");
     metaSpan.className = "pill-meta";
     metaSpan.textContent = `${answered}/${required.length}`;
