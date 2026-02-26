@@ -2023,7 +2023,41 @@ const a = buildExpandedAnswers(answersObj);
       }
     });
   }
+/* =========================
+   DEV MODE – UI FREE NAV
+   فعال با ?dev=1 در URL
+   ========================= */
 
+(function(){
+  const DEV_MODE = new URLSearchParams(location.search).get("dev") === "1";
+  if (!DEV_MODE) return;
+
+  console.log("DEV MODE ENABLED");
+
+  // 1) باز کردن همه تب‌ها
+  window.isPageComplete = function(){ return true; };
+  window.isAllComplete = function(){ return true; };
+
+  // 2) غیرفعال نکردن دکمه‌ها
+  const observer = new MutationObserver(() => {
+    const pills = document.querySelectorAll(".section-pill");
+    pills.forEach(p => {
+      p.disabled = false;
+      p.classList.remove("is-locked");
+    });
+
+    const next = document.getElementById("nextStepBtn");
+    const prev = document.getElementById("prevStepBtn");
+    const preview = document.getElementById("bottomPreviewBar");
+
+    if (next) next.disabled = false;
+    if (prev) prev.disabled = false;
+    if (preview) preview.disabled = false;
+  });
+
+  observer.observe(document.body, { childList:true, subtree:true });
+
+})();
   // init
   renderPage();
 });
