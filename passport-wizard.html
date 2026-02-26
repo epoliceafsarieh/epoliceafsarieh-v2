@@ -109,11 +109,15 @@ h3{
   font-weight: 700;
 }
 
-/* Input */
-input{
+/* ===== Unified Controls (input / textarea / select) ===== */
+input, textarea, select{
   width: 100%;
-  padding: 14px 14px;
-  font-size: 16px; /* مهم: iOS zoom نشود */
+  box-sizing: border-box;
+
+  padding: 13px 14px;
+  font-size: 16px;            /* iOS zoom نشود */
+  line-height: 1.6;
+
   border-radius: 14px;
   border: 1px solid #e5eaf3;
   background: #f8fafc;
@@ -121,7 +125,38 @@ input{
 
   text-align: right;
   direction: rtl;
-  box-sizing: border-box;
+
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+/* textarea height + resize */
+textarea{
+  min-height: 96px;
+  resize: vertical;
+  padding-top: 16px; /* برای همزیستی با example */
+}
+
+/* select: هم‌قد input + فلش */
+select{
+  height: 52px;
+  padding-left: 40px; /* جا برای فلش */
+  background-image:
+    linear-gradient(45deg, transparent 50%, rgba(15,23,42,.55) 50%),
+    linear-gradient(135deg, rgba(15,23,42,.55) 50%, transparent 50%);
+  background-position:
+    16px 22px,
+    22px 22px;
+  background-size:
+    6px 6px,
+    6px 6px;
+  background-repeat: no-repeat;
+}
+
+/* focus polish */
+input:focus, textarea:focus, select:focus{
+  border-color: rgba(15,37,71,.45);
+  box-shadow: 0 0 0 4px rgba(15,37,71,.10);
 }
 
 .voice{
@@ -333,15 +368,15 @@ box-shadow: 0 14px 26px rgba(2,8,23,.14);
   margin-top: 0;
 }
 
-/* states */
+/* states (non-active) */
 .section-pill.is-empty{
   background: rgba(15,23,42,.06);
   border-color: rgba(15,23,42,.14);
-  color: rgba(15,23,42,.70);
+  color: rgba(15,23,42,.74);
 }
 .section-pill.is-warn{
-  background: rgba(245,158,11,.16);
-  border-color: rgba(245,158,11,.30);
+  background: rgba(15,23,42,.06);
+  border-color: rgba(15,23,42,.18);
   color: rgba(15,23,42,.82);
 }
 .section-pill.is-done{
@@ -350,13 +385,24 @@ box-shadow: 0 14px 26px rgba(2,8,23,.14);
   color: rgba(15,23,42,.88);
 }
 
-/* active emphasis */
+/* active = ONLY YELLOW */
 .section-pill.is-active{
   font-weight: 900;
-  border: 2px solid rgba(15,37,71,.85);
-  background: rgba(15,37,71,.16);
+  border: 2px solid rgba(245,158,11,.85);
+  background: rgba(245,158,11,.18);
   box-shadow: 0 14px 22px rgba(2,8,23,.14);
   transform: translateY(-1px);
+}
+
+/* ensure active overrides done/warn visually */
+.section-pill.is-active.is-done{
+  background: rgba(245,158,11,.18);
+  border-color: rgba(245,158,11,.85);
+}
+.section-pill.is-active .pill-title{ font-weight: 900; }
+.section-pill.is-active .pill-meta{
+  border-color: rgba(245,158,11,.35);
+  background: rgba(245,158,11,.10);
 }
 
 .section-pill.is-active .pill-title{
@@ -470,6 +516,22 @@ box-shadow: 0 14px 26px rgba(2,8,23,.14);
   flex-direction: column;
   gap: 6px;
 }
+/* ===== Field label (smaller + bullet) ===== */
+.field-label{
+  font-size: 13px;
+  font-weight: 800;
+  color: rgba(15,23,42,.88);
+  line-height: 1.6;
+}
+
+.field-label::before{
+  content: "•";
+  display: inline-block;
+  margin-left: 8px; /* RTL */
+  color: rgba(15,37,71,.70);
+  font-weight: 900;
+}
+   
  /* کنترلِ داخل کادر: مثال باید داخل همین محدوده حبس شود */
 .field-control{
   position: relative;
@@ -477,23 +539,35 @@ box-shadow: 0 14px 26px rgba(2,8,23,.14);
   border-radius: 14px;
 }
 /* ===== Inline Yes/No (final) ===== */
+
 .field--yn{
   flex-direction: row;
   align-items: center;
   gap: 10px;
 }
+
 .field--yn .field-label{
   margin: 0;
   flex: 1 1 auto;
   min-width: 0;
   white-space: nowrap;
 }
+
+/* buttons stick next to label */
 .field--yn .choice-row{
+  display: inline-flex;
   flex: 0 0 auto;
-  justify-content: flex-end;
   gap: 8px;
-  flex-wrap: nowrap; /* یک خط */
+  flex-wrap: nowrap;
+  margin-right: 0;
+  margin-left: 0;
 }
+
+/* push the button group right next to label (no drifting) */
+.field--yn .choice-row{
+  margin-inline-start: 0;
+}
+   
 .field--yn .choice-btn{
   height: 34px;
   font-size: 13px;
@@ -1069,14 +1143,16 @@ pill.appendChild(titleSpan);
   });
 }
 
-  // ===== Build field UI =====
-  function buildSelectField(field) {
+function buildSelectField(field) {
   const wrap = document.createElement("div");
   wrap.className = "field";
 
   const label = document.createElement("div");
   label.className = "field-label";
   label.textContent = (field.label || field.key);
+
+  const control = document.createElement("div");
+  control.className = "field-control";
 
   const sel = document.createElement("select");
   sel.setAttribute("data-key", field.key);
@@ -1096,24 +1172,25 @@ pill.appendChild(titleSpan);
   });
 
   sel.addEventListener("change", (e) => {
-  answers[field.key] = String(e.target.value || "");
-  clearDependentFields(field.key, answers[field.key]);
-  updateNav();
+    answers[field.key] = String(e.target.value || "");
+    clearDependentFields(field.key, answers[field.key]);
+    updateNav();
 
-  // جلوگیری از دوبار باز شدن منو در موبایل: قبل از رندر blur + رندر با تاخیر
-  if (isConditionalDriverKey(field.key)) {
-    try { sel.blur(); } catch(e) {}
-    setTimeout(() => {
-      renderPage(); // بدون preserveFocusKey تا دوباره منو باز نشود
-    }, 0);
-  }
-});
+    if (isConditionalDriverKey(field.key)) {
+      try { sel.blur(); } catch(e) {}
+      setTimeout(() => { renderPage(); }, 0);
+    }
+  });
 
+  control.appendChild(sel);
   wrap.appendChild(label);
-  wrap.appendChild(sel);
+  wrap.appendChild(control);
   return wrap;
 }
 
+
+
+  
 function buildTextField(field) {
   const wrap = document.createElement("div");
   wrap.className = "field";
@@ -1269,6 +1346,7 @@ if (bottomPreviewCta) bottomPreviewCta.textContent = (done === total) ? "آما�
 
 // همیشه فعال
 if (bottomPreviewBar) bottomPreviewBar.disabled = false;
+    renderPills(); // لازم: تب‌ها (answered/required) لایو آپدیت شوند
   }
 
  // ===== Voice input: put transcript into focused input =====
