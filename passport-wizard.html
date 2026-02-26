@@ -547,15 +547,32 @@ box-shadow: 0 14px 26px rgba(2,8,23,.14);
 
 .field-group__head{
   width: 100%;
+  position: relative;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;     /* وسط‌چین */
   gap: 10px;
   padding: 14px 14px;
   cursor: pointer;
   background: transparent;
   border: none;
   font-family: inherit;
+}
+
+.field-group__head .fg-title{
+  width: 100%;
+  text-align: center;          /* متن وسط */
+  padding: 0 34px;             /* جا برای + */
+}
+
+.field-group__head .fg-chev{
+  position: absolute;
+  left: 14px;                  /* آیکن + کنار */
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  font-weight: 900;
+  opacity: .85;
 }
 
 .field-group__head .fg-title{
@@ -1188,7 +1205,12 @@ function isPageComplete(page) {
 function renderPills() {
   if (!sectionStepsEl) return;
   sectionStepsEl.innerHTML = "";
-
+  // قفل مراحل: فقط تا اولین صفحه ناقص (و صفحات قبلی) قابل کلیک هستند
+  let maxUnlocked = 0;
+  for (let i = 0; i < wizardSchema.pages.length; i++) {
+    if (isPageComplete(wizardSchema.pages[i])) maxUnlocked = i + 1;
+    else break;
+  }
   wizardSchema.pages.forEach((p, idx) => {
     const leaf = getVisibleLeafFields(p);
 
@@ -1222,12 +1244,13 @@ function renderPills() {
       tick.textContent = "✔";
       pill.appendChild(tick);
     }
-
-    pill.addEventListener("click", () => {
+    const isLocked = idx > maxUnlocked;
+    if (isLocked) pill.disabled = true;
+       pill.addEventListener("click", () => {
+      if (idx > maxUnlocked) return;
       currentPage = idx;
       renderPage();
     });
-
     sectionStepsEl.appendChild(pill);
   });
 }
@@ -1495,6 +1518,7 @@ visible.forEach(f => {
   }
 
 function updateNav() {
+  // Progress = بر اساس همه فیلدهای لازم (leaf + non-optional) در کل فرم
   const allLeaf = wizardSchema.pages.flatMap(p => getVisibleLeafFields(p));
   const requiredAll = allLeaf.filter(f => !f.optional);
   const answeredAll = requiredAll.filter(f => isFieldFilled(f.key)).length;
@@ -1504,16 +1528,16 @@ function updateNav() {
 
   if (previewFill) previewFill.style.width = `${percent}%`;
 
-  // CTA: دقیق بر اساس فیلدهای لازم
+  // CTA عددیِ ساده + “آماده”
   if (bottomPreviewCta) {
     bottomPreviewCta.textContent =
       (answeredAll >= requiredAll.length) ? "آماده" : `${answeredAll}/${requiredAll.length}`;
   }
 
-  // همیشه فعال
   if (bottomPreviewBar) bottomPreviewBar.disabled = false;
 
-  renderPills(); // تب‌ها live
+  // تب‌ها لایو آپدیت شوند
+  renderPills();
 }
  // ===== Voice input: put transcript into focused input =====
   voiceBtn.addEventListener("click", function () {
