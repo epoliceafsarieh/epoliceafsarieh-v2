@@ -261,6 +261,28 @@ button{
     position: sticky;
     top: 0;
     backdrop-filter: blur(8px);
+
+    /* موبایل: جلوگیری از تداخل */
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .progress-top{
+    flex: 1 1 100%;
+    order: 1;
+  }
+
+  .section-steps--nav{
+    flex: 1 1 100%;
+    order: 2;
+    width: 100%;
+    margin: 0;
+  }
+
+  .voice--inline{
+    order: 3;
+    margin-right: auto; /* در RTL باعث می‌شود سمت چپ قرار بگیرد */
   }
 }
 
@@ -376,6 +398,16 @@ button{
   width: auto;
   margin-top: 0;
 }
+  @media (max-width: 480px){
+  .section-pill{
+    min-height: 38px;
+    padding: 8px 12px;
+    font-size: 11px;
+  }
+  .section-pill .pill-title{
+    font-weight: 900;
+  }
+}  
 .section-pill.is-locked{
   opacity: .45;
   cursor: not-allowed;
