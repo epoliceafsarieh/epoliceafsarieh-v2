@@ -1100,7 +1100,7 @@ function clearDependentFields(driverKey, driverValue) {
   function isAllComplete() {
     return wizardSchema.pages.every(p => isPageComplete(p));
   }
-// ===== Pills (page-level) =====
+
 function renderPills() {
   if (!sectionStepsEl) return;
   sectionStepsEl.innerHTML = "";
@@ -1121,16 +1121,18 @@ function renderPills() {
     const required = visible.filter(f => !f.optional);
     const answered = required.filter(f => isFieldFilled(f.key)).length;
 
-const titleSpan = document.createElement("span");
-titleSpan.className = "pill-title";
-titleSpan.textContent = `(${idx + 1}) ${p.title} ${answered}/${required.length}`;
+    // ---- title (راست) ----
+    const titleSpan = document.createElement("span");
+    titleSpan.className = "pill-title";
+    titleSpan.textContent = `(${idx + 1}) ${p.title}`;
 
-pill.appendChild(titleSpan);
+    // ---- meta (چپ) ----
+    const metaSpan = document.createElement("span");
+    metaSpan.className = "pill-meta";
+    metaSpan.textContent = `${answered}/${required.length}`;
 
-    pill.addEventListener("click", () => {
-      currentPage = idx;
-      renderPage();
-    });
+    pill.appendChild(titleSpan);
+    pill.appendChild(metaSpan);
 
     if (pageDone) {
       const tick = document.createElement("span");
@@ -1139,9 +1141,17 @@ pill.appendChild(titleSpan);
       pill.appendChild(tick);
     }
 
+    pill.addEventListener("click", () => {
+      currentPage = idx;
+      renderPage();
+    });
+
     sectionStepsEl.appendChild(pill);
   });
 }
+
+
+  
 
 function buildSelectField(field) {
   const wrap = document.createElement("div");
