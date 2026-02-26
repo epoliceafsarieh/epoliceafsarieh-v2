@@ -1068,6 +1068,11 @@ const wizardSchema = {
   const wizardTitleEl = document.getElementById("wizardTitle");
  
   const wizardFieldsEl = document.getElementById("wizardFields");
+  wizardFieldsEl.addEventListener("focusin", (e) => {
+  const el = e.target;
+  const k = el && el.getAttribute && el.getAttribute("data-key");
+  if (k) lastFocusedKey = k;
+});
   const wmNote = document.getElementById("wmNote");
 
   // iOS: voice hidden + hint
@@ -1078,6 +1083,8 @@ const wizardSchema = {
   }
 
   const answers = {};
+let lastFocusedKey = "";
+  
   let currentPage = 0;
 
   function normalizePersianNumbers(text) {
@@ -1508,9 +1515,13 @@ if (bottomPreviewBar) bottomPreviewBar.disabled = false;
       return;
     }
 
-    const active = document.activeElement;
-    const key = active && active.getAttribute && active.getAttribute("data-key");
+const active = document.activeElement;
+const key = (active && active.getAttribute && active.getAttribute("data-key")) || lastFocusedKey;
 
+
+
+
+    
     if (!key) {
       alert("اول روی یکی از فیلدهای متنی کلیک کنید.");
       return;
