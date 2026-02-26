@@ -190,7 +190,24 @@ button{
 .flow-head--compact{
   margin: 20px 6px 10px;
 }
-
+.wizard-intro{
+  padding: 14px 14px 10px;
+  border-bottom: 1px solid rgba(2,8,23,.08);
+  background: rgba(255,255,255,.92);
+}
+.wizard-intro__title{
+  font-size: 18px;
+  font-weight: 800;
+  color: rgba(15,23,42,.92);
+  line-height: 1.25;
+}
+.wizard-intro__desc{
+  margin-top: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(15,23,42,.70);
+  line-height: 1.7;
+}
 .wizard-shell{
   width: min(520px, 100%);
   margin: 0 auto;
@@ -290,9 +307,12 @@ button{
   font-size: 14px;
 }
 .nav-btn--ghost{
-  background: rgba(15,23,42,.06);
-  border: 1px solid rgba(2,8,23,.12);
-  color: rgba(15,23,42,.85);
+  background: rgba(15,37,71,.10);
+  border: 1px solid rgba(15,37,71,.22);
+  color: rgba(15,37,71,.92);
+}
+.nav-btn--ghost:hover{
+  background: rgba(15,37,71,.14);
 }
 .nav-btn--primary{
   background: linear-gradient(to bottom, #17335f, #0f2547);
@@ -307,11 +327,27 @@ button{
 /* Section pills */
 .section-steps::-webkit-scrollbar{ display:none; }
 .section-steps{
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  display: flex;
   gap: 8px;
-  width: min(420px, 100%);
+  width: min(520px, 100%);
   margin: 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 2px;
+}
+.section-pill{
+  flex: 0 0 auto;
+}
+@media (min-width: 700px){
+  .section-steps{
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    overflow: visible;
+  }
+  .section-pill{
+    width: 100%;
+    justify-content: center;
+  }
 }
 .section-steps--nav{
   flex: 1;
@@ -615,6 +651,10 @@ button{
 
     <div class="flow-head flow-head--compact">
       <div class="wizard-shell" id="wizardShell">
+                <div class="wizard-intro" aria-label="راهنمای تکمیل فرم">
+          <div class="wizard-intro__title">ساخت فرم گذرنامه</div>
+          <div class="wizard-intro__desc">لطفاً اطلاعات را مرحله‌به‌مرحله تکمیل کنید. در پایان می‌توانید فرم نهایی را مشاهده و بررسی کنید. (این ثبت نهایی نیست)</div>
+        </div>
         <div class="wizard-nav">
           <div class="progress-top" aria-label="پیشرفت کلی">
             <div class="progress-top__bar" aria-hidden="true">
@@ -1140,7 +1180,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const t = document.createElement("span");
     t.className = "fg-title";
-    t.textContent = (groupField.label ? `${groupField.label} (برای باز کردن بزنید)` : "گروه");
+       t.textContent = (groupField.label ? `${groupField.label}` : "گروه");
 
     const chev = document.createElement("span");
     chev.className = "fg-chev";
