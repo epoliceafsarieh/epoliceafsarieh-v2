@@ -551,11 +551,56 @@ box-shadow: 0 14px 26px rgba(2,8,23,.14);
   overflow: hidden;
   border-radius: 14px;
 }
+/* ===== Group (collapsible) ===== */
+.field-group{
+  border-radius: 14px;
+  border: 1px solid rgba(2,8,23,.12);
+  background: #f8fafc;
+  overflow: hidden;
+}
+
+.field-group__head{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 14px 14px;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  font-family: inherit;
+}
+
+.field-group__head .fg-title{
+  font-weight: 900;
+  font-size: 14px;
+  color: rgba(15,23,42,.85);
+}
+
+.field-group__head .fg-chev{
+  font-size: 14px;
+  opacity: .7;
+}
+
+.field-group__body{
+  padding: 0 12px 12px;
+  display: none;
+}
+
+.field-group.is-open .field-group__body{
+  display: block;
+}
+
+
+
+   
 /* ===== Inline Yes/No (final) ===== */
 
 .field--yn{
   flex-direction: row;
   align-items: center;
+justify-content: space-between; /* دو ستون کنار هم */
   gap: 10px;
 }
 
@@ -568,12 +613,11 @@ box-shadow: 0 14px 26px rgba(2,8,23,.14);
 
 /* buttons stick next to label */
 .field--yn .choice-row{
-  display: inline-flex;
   flex: 0 0 auto;
+  display: flex;
+  justify-content: flex-end;
   gap: 8px;
   flex-wrap: nowrap;
-  margin-right: 0;
-  margin-left: 0;
 }
 
 /* push the button group right next to label (no drifting) */
@@ -822,11 +866,22 @@ const wizardSchema = {
         { key: "identity__fatherName", label: "نام پدر" },
 
         // --- شناسنامه (۴ فیلد جدا) ---
-        { key: "identity__idNumber", label: "شماره شناسنامه", placeholder: "مثال: ۱۲۳۴۵", inputMode: "numeric", dir: "ltr" },
-        { key: "identity__idIssuePlace", label: "محل صدور شناسنامه", placeholder: "مثال: تهران" },
-        { key: "identity__idIssueDate", label: "تاریخ صدور شناسنامه", placeholder: "مثال: ۱۳۸۵/۰۲/۱۰", inputMode: "numeric", dir: "ltr" },
-        { key: "identity__idSerialCombo", label: "سری و سریال شناسنامه", placeholder: "مثال: الف ۱۲۳۴۵۶" },
 
+{
+  type: "group",
+  key: "identity__idCardGroup",
+  label: "مشخصات شناسنامه",
+  fields: [
+    { key: "identity__idNumber", label: "شماره شناسنامه", placeholder: "مثال: ۱۲۳۴۵", inputMode: "numeric", dir: "ltr" },
+    { key: "identity__idIssuePlace", label: "محل صدور شناسنامه", placeholder: "مثال: تهران" },
+    { key: "identity__idIssueDate", label: "تاریخ صدور شناسنامه", placeholder: "مثال: ۱۳۸۵/۰۲/۱۰", inputMode: "numeric", dir: "ltr" },
+    { key: "identity__idSerialCombo", label: "سری و سریال شناسنامه", placeholder: "مثال: الف ۱۲۳۴۵۶" }
+  ]
+},
+
+
+
+        
         // --- وضعیت فردی (همان بلاک فعلی) ---
         {
           key: "identity__statusBlock",
@@ -1211,9 +1266,6 @@ function buildSelectField(field) {
   return wrap;
 }
 
-
-
-  
 function buildTextField(field) {
   const wrap = document.createElement("div");
   wrap.className = "field";
@@ -1223,8 +1275,11 @@ function buildTextField(field) {
   label.textContent = (field.label || field.key);
 
   let input;
-  if (field.multiline) {
+  const isTextarea = !!field.multiline;
+
+  if (isTextarea) {
     input = document.createElement("textarea");
+    input.rows = 2; // شروع هم‌قد بقیه
   } else {
     input = document.createElement("input");
     input.type = "text";
@@ -1237,25 +1292,15 @@ function buildTextField(field) {
   if (field.dir) input.dir = field.dir;
   else input.dir = "rtl";
 
-  input.addEventListener("input", (e) => {
-    answers[field.key] = normalizePersianNumbers(e.target.value || "");
-    updateNav();
-
-    // فقط اگر این فیلد driver شرطی‌هاست، صفحه را دوباره بساز
-    if (isConditionalDriverKey(field.key)) {
-      renderPage({ preserveFocusKey: field.key });
-    }
-  });
-
   // placeholder واقعی را خالی می‌گذاریم
   input.placeholder = "";
 
-  // کنترل‌ورپ: input + example باید داخل این باشد تا بیرون نزند
+  // کنترل‌ورپ: input/textarea + example
   const control = document.createElement("div");
   control.className = "field-control";
-  if (field.multiline) control.classList.add("is-textarea");
+  if (isTextarea) control.classList.add("is-textarea");
 
-  // مثالِ ثابت
+  // مثال ثابت
   if (field.placeholder) {
     const ex = document.createElement("div");
     ex.className = "field-example";
@@ -1265,17 +1310,90 @@ function buildTextField(field) {
 
   control.appendChild(input);
 
-  // کلاس has-value برای کوچک شدن مثال
   function syncHasValue() {
     wrap.classList.toggle("has-value", String(input.value || "").trim() !== "");
   }
+
+  function autoGrow() {
+    if (!isTextarea) return;
+    input.style.height = "auto";
+    input.style.height = (input.scrollHeight) + "px";
+  }
+
+  // init
   syncHasValue();
-  input.addEventListener("input", syncHasValue);
+  autoGrow();
+
+  input.addEventListener("input", (e) => {
+    answers[field.key] = normalizePersianNumbers(e.target.value || "");
+    syncHasValue();
+    autoGrow();
+    updateNav();
+
+    if (isConditionalDriverKey(field.key)) {
+      renderPage({ preserveFocusKey: field.key });
+    }
+  });
 
   wrap.appendChild(label);
   wrap.appendChild(control);
   return wrap;
 }
+
+function buildGroupField(groupField) {
+  const wrap = document.createElement("div");
+  wrap.className = "field";
+
+  const label = document.createElement("div");
+  label.className = "field-label";
+  label.textContent = (groupField.label || groupField.key);
+
+  const box = document.createElement("div");
+  box.className = "field-group";
+
+  const head = document.createElement("button");
+  head.type = "button";
+  head.className = "field-group__head";
+
+  const t = document.createElement("span");
+  t.className = "fg-title";
+  t.textContent = (groupField.label || "گروه");
+
+  const chev = document.createElement("span");
+  chev.className = "fg-chev";
+  chev.textContent = "▾";
+
+  head.appendChild(t);
+  head.appendChild(chev);
+
+  const body = document.createElement("div");
+  body.className = "field-group__body";
+
+  // state
+  const uiKey = `__ui_open__${groupField.key}`;
+  const isOpen = (answers[uiKey] === "1");
+  if (isOpen) box.classList.add("is-open");
+
+  head.addEventListener("click", () => {
+    const nowOpen = !box.classList.contains("is-open");
+    box.classList.toggle("is-open", nowOpen);
+    answers[uiKey] = nowOpen ? "1" : "0";
+  });
+
+  // children render
+  (groupField.fields || []).forEach(f => {
+    if (f.type === "choice") body.appendChild(buildChoiceField(f));
+    else body.appendChild(buildTextField(f));
+  });
+
+  box.appendChild(head);
+  box.appendChild(body);
+
+  wrap.appendChild(label);
+  wrap.appendChild(box);
+  return wrap;
+}
+  
 
   
 function buildChoiceField(field) {
@@ -1330,10 +1448,15 @@ function buildChoiceField(field) {
 
     wizardTitleEl.textContent = page.title;
       wizardFieldsEl.innerHTML = "";
-  visible.forEach(f => {
+
+visible.forEach(f => {
+  if (f.type === "group") {
+    wizardFieldsEl.appendChild(buildGroupField(f));
+    return;
+  }
+
   if (f.type === "choice") {
     const key = String(f.key || "");
-
     const useSelect =
       key === "identity__educationLevel" ||
       key === "physical__faceColor" ||
@@ -1344,6 +1467,11 @@ function buildChoiceField(field) {
     wizardFieldsEl.appendChild(buildTextField(f));
   }
 });
+
+
+
+
+    
 
     renderPills();
     updateNav();
