@@ -82,6 +82,8 @@ input, textarea, select{
   box-sizing: border-box;
   min-height: 48px;
   line-height: 1.5;
+  scroll-margin-top: 120px;
+  scroll-margin-bottom: 220px;
 }
 
 textarea{
@@ -392,6 +394,13 @@ button{
   background: rgba(255,255,255,.92);
   border-top: 1px solid rgba(2,8,23,.08);
 }
+ .complete-note{
+  width: 100%;
+  margin-bottom: 6px;
+  font-size: 12px;
+  font-weight: 900;
+  color: rgba(31,107,74,.92);
+}   
 .wizard-footer .nav-btn--ghost{ flex: .85; font-weight: 800; box-shadow: none; }
 .wizard-footer .nav-btn--primary{ flex: 1.15; border-radius: 16px; } 
  /* داخل کارت: پیش‌نمایش موقت (فقط مراحل 1-3) */
@@ -923,6 +932,7 @@ button{
 </div>
 
         <div class="wizard-footer" aria-label="ناوبری مراحل">
+            <div class="complete-note" id="completeNote" style="display:none;">تمام مراحل تکمیل شد</div>
           <button class="nav-btn nav-btn--ghost" id="prevStepBtn" type="button">مرحله قبل</button>
           <button class="nav-btn nav-btn--primary" id="nextStepBtn" type="button">ادامه</button>
         </div>
@@ -1121,7 +1131,8 @@ const stageHintEl = document.getElementById("stageHint");
 const stageMicroEl = document.getElementById("stageMicro");
 
   const wmNote = document.getElementById("wmNote");
-  const wizardPreview = document.getElementById("wizardPreview");
+  coconst completeNote = document.getElementById("completeNote");nst wizardPreview = document.getElementById("wizardPreview");
+  
   // iOS: voice hidden + hint
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
   if (isIOS) {
@@ -1143,6 +1154,10 @@ const stageMicroEl = document.getElementById("stageMicro");
       const vb = wrap.querySelector(".field-voice");
       if (vb) vb.style.display = "inline-flex";
     }
+       // Keyboard UX: bring active field to center
+    setTimeout(() => {
+      try { el.scrollIntoView({ behavior: "smooth", block: "center" }); } catch(e) {}
+    }, 60); 
   });
 
   function normalizePersianNumbers(text) {
