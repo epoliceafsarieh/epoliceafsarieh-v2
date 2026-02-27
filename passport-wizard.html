@@ -328,6 +328,73 @@ button{
   flex-direction: column;
   gap: 18px;
 }
+/* ===== Stage Card (Mini-app feel) ===== */
+.stage-card{
+  position: relative;
+  background: rgba(255,255,255,.98);
+  border-radius: 16px;
+  box-shadow: 0 18px 34px rgba(2,8,23,.10);
+  padding: 16px 14px 16px;
+  overflow: hidden;
+}
+
+.stage-card__head{
+  position: relative;
+  padding: 2px 2px 12px;
+  border-bottom: 1px solid rgba(2,8,23,.08);
+  margin-bottom: 14px;
+}
+
+.stage-card__title{
+  font-size: 16px;
+  font-weight: 950;
+  color: rgba(15,23,42,.92);
+}
+
+.stage-card__hint{
+  margin-top: 6px;
+  font-size: 12px;
+  font-weight: 800;
+  color: rgba(15,23,42,.62);
+}
+
+.stage-card__micro{
+  margin-top: 10px;
+  font-size: 12px;
+  font-weight: 900;
+  color: rgba(31,107,74,.92);
+  display: none;
+}
+
+/* watermark icon (CSS-only) */
+.stage-card::after{
+  content: "";
+  position: absolute;
+  left: -24px;
+  top: -22px;
+  width: 160px;
+  height: 160px;
+  opacity: .06;
+  background-repeat: no-repeat;
+  background-size: contain;
+  transform: rotate(-8deg);
+  pointer-events: none;
+  filter: saturate(0.6);
+}
+
+/* 4 stages icons via inline SVG */
+.stage-card[data-stage="1"]::after{
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 24 24' fill='%230f2547'><path d='M4 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7zm2 0v10h12V7H6zm2 2h5v2H8V9zm0 4h8v2H8v-2z'/></svg>");
+}
+.stage-card[data-stage="2"]::after{
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 24 24' fill='%230f2547'><path d='M10 2h4a2 2 0 0 1 2 2v2h3a2 2 0 0 1 2 2v3h-2v-3H3v3H1V10a2 2 0 0 1 2-2h3V4a2 2 0 0 1 2-2zm0 2v2h4V4h-4zm-7 9h18v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7zm6 2H5v2h4v-2z'/></svg>");
+}
+.stage-card[data-stage="3"]::after{
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 24 24' fill='%230f2547'><path d='M12 2a7 7 0 0 1 7 7c0 5-7 13-7 13S5 14 5 9a7 7 0 0 1 7-7zm0 9.5A2.5 2.5 0 1 0 12 6a2.5 2.5 0 0 0 0 5.5z'/></svg>");
+}
+.stage-card[data-stage="4"]::after{
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 24 24' fill='%230f2547'><path d='M21 16v2a2 2 0 0 1-2 2H7l-4 3V6a2 2 0 0 1 2-2h8v2H5v13.2L6.6 18H19v-2h2zM14 2h7v12h-7V2zm2 2v8h3V4h-3z'/></svg>");
+}    
 
 /* Footer nav buttons */
 .wizard-footer{
@@ -350,14 +417,17 @@ button{
 .preview-mini{
   width: auto;
   margin-top: 0;
-  min-height: 44px;
-  padding: 10px 14px;
-  border-radius: 12px;
-  border: 1px solid rgba(2,8,23,.14);
-  background: rgba(15,23,42,.06);
-  color: rgba(15,23,42,.88);
-  font-weight: 800;
+  min-height: 40px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(2,8,23,.10);
+  background: transparent;
+  color: rgba(15,23,42,.72);
+  font-weight: 900;
   cursor: pointer;
+}
+.preview-mini:hover{
+  background: rgba(15,23,42,.04);
 }
 .preview-mini:active{ transform: translateY(1px); }
 .preview-mini__hint{
@@ -397,131 +467,97 @@ button{
   cursor: not-allowed;
 }
 
-/* Section pills */
+/* ===== Step Indicator (Modern) ===== */
 .section-steps::-webkit-scrollbar{ display:none; }
 .section-steps{
   display: flex;
-  gap: 8px;
-  width: min(520px, 100%);
-  margin: 0;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  padding-bottom: 2px;
+  padding: 2px 2px 6px;
 }
-.section-pill{
-  flex: 0 0 auto;
-}
-@media (min-width: 700px){
-  .section-steps{
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
-    overflow: visible;
-    width: 100%;
-  }
 
-  .section-pill{
-    width: 100%;
-    justify-content: center;
-    min-height: 44px;
-    padding: 10px 12px;
-    white-space: normal;      /* اجازه چندخطی */
-    line-height: 1.2;
-  }
-
-  .section-pill .pill-title{
-    font-size: 12px;
-  }
-}
 .section-steps--nav{
   flex: 1;
-  width: min(420px, 100%);
+  width: min(520px, 100%);
   margin: 0 auto;
-}
-.section-pill{
-  display:inline-flex;
-  align-items:center;
-  gap: 8px;
-  justify-content: space-between;
-  min-height: 36px;
-  padding: 8px 10px;
-  font-size: 12px;
-  white-space: nowrap;
-  border-radius:12px;
-  line-height: 1;
-  background: rgba(15,23,42,.06);
-  color: rgba(15,23,42,.75);
-  border: 1px solid rgba(15,23,42,.14);
-  cursor: pointer;
-  appearance: none;
-  -webkit-appearance: none;
-  outline: none;
-  font-family: inherit;
-  width: auto;
-  margin-top: 0;
-}
-  @media (max-width: 480px){
-  .section-pill{
-    min-height: 38px;
-    padding: 8px 12px;
-    font-size: 11px;
-  }
-  .section-pill .pill-title{
-    font-weight: 900;
-  }
-}  
-.section-pill.is-locked{
-  opacity: .45;
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
-}
-.section-pill.is-empty{
-  background: rgba(15,23,42,.06);
-  border-color: rgba(15,23,42,.14);
-  color: rgba(15,23,42,.74);
-}
-.section-pill.is-warn{
-  background: rgba(15,23,42,.06);
-  border-color: rgba(15,23,42,.18);
-  color: rgba(15,23,42,.82);
-}
-.section-pill.is-done{
-  background: rgba(15,37,71,.08);       /* آبی-خاکستری ملایم */
-  border-color: rgba(15,37,71,.28);
-  color: rgba(15,23,42,.92);
-}
-.section-pill.is-done .pill-meta{
-  background: rgba(15,37,71,.08);
-  border-color: rgba(15,37,71,.18);
-}
-.section-pill.is-done .tick{
-  color: #0f2547; /* تیک سرمه‌ای (رسمی‌تر از سبز) */
-}
-.section-pill.is-active{
-  font-weight: 900;
-  border: 2px solid rgba(15,23,42,.28);
-  background: rgba(15,23,42,.04);
-  box-shadow: 0 12px 20px rgba(2,8,23,.12);
-  transform: translateY(-1px);
-}
-.section-pill .pill-title{ font-weight: 800; }
-.section-pill .pill-meta{
-  font-weight: 900;
-  font-size: 11px;
-  color: rgba(15,23,42,.72);
-  background: rgba(15,23,42,.06);
-  border: 1px solid rgba(15,23,42,.12);
-  padding: 4px 8px;
-  border-radius: 999px;
-  line-height: 1;
-}
-.section-pill .tick{
-  font-size: 12px;
-  color: #1f6b4a;
-  line-height: 1;
+  justify-content: center;
 }
 
+.step-pill{
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(2,8,23,.10);
+  background: rgba(15,23,42,.04);
+  color: rgba(15,23,42,.74);
+  cursor: pointer;
+  font-family: inherit;
+  margin-top: 0;
+  outline: none;
+}
+
+.step-pill:disabled{
+  opacity: .45;
+  cursor: not-allowed;
+}
+
+.step-dot{
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 900;
+  border: 1px solid rgba(15,23,42,.18);
+  background: rgba(255,255,255,.92);
+  color: rgba(15,23,42,.72);
+}
+
+.step-pill.is-active .step-dot{
+  background: #0f2547;
+  border-color: #0f2547;
+  color: #fff;
+}
+
+.step-pill.is-done .step-dot{
+  background: rgba(15,37,71,.10);
+  border-color: rgba(15,37,71,.35);
+  color: #0f2547;
+}
+
+.step-pill.is-done .step-dot::before{
+  content: "✔";
+}
+
+.step-pill.is-done .step-dot{
+  font-size: 0; /* عدد را حذف کنیم، فقط تیک */
+}
+
+.step-pill.is-future .step-dot{
+  background: rgba(255,255,255,.78);
+  border-color: rgba(15,23,42,.12);
+  color: rgba(15,23,42,.40);
+}
+
+.step-label{
+  font-size: 12px;
+  font-weight: 800;
+  color: rgba(15,23,42,.70);
+  white-space: nowrap;
+}
+
+@media (max-width: 480px){
+  .step-label{ display:none; } /* موبایل: فقط دایره‌ها */
+  .step-dot{ width: 28px; height: 28px; }
+}
 /* Fields */
 .field{
   position: relative;
@@ -650,14 +686,14 @@ button{
   font-weight: 950;
 }
 .choice-btn.is-selected.is-yes{
-  border-color: rgba(31,107,74,.88);
-  background: rgba(31,107,74,.12);
-  font-weight: 900;
+  border-color: rgba(15,37,71,.88);
+  background: rgba(15,37,71,.12);
+  font-weight: 950;
 }
 .choice-btn.is-selected.is-no{
-  border-color: rgba(185,28,28,.88);
-  background: rgba(185,28,28,.10);
-  font-weight: 900;
+  border-color: rgba(15,37,71,.88);
+  background: rgba(15,37,71,.12);
+  font-weight: 950;
 }
 
 /* Inline Yes/No */
@@ -828,7 +864,8 @@ button{
       <div class="wizard-shell" id="wizardShell">
                 <div class="wizard-intro" aria-label="راهنمای تکمیل فرم">
           <div class="wizard-intro__title">ساخت فرم گذرنامه</div>
-          <div class="wizard-intro__desc">اطلاعات را مرحله‌به‌مرحله تکمیل کنید. در پایان، می‌توانید فرم نهایی را مشاهده و چاپ کنید و سپس آن را به کانتر گذرنامه تحویل دهید.</div>
+          <div class="wizard-intro__desc">۴ مرحله · حدود ۴ دقیقه</div>
+          <div class="wizard-intro__trust">ثبت نهایی در دفتر انجام می‌شود.</div>        
         </div>
         <div class="wizard-nav">
           <div class="progress-top" aria-label="پیشرفت کلی">
@@ -842,10 +879,16 @@ button{
 
          </div>
 
-        <div class="wizard-body">
-          <div class="wizard-title" id="wizardTitle">—</div>
-          <div class="wizard-fields" id="wizardFields"></div>
-        </div>
+       <div class="wizard-body">
+  <div class="stage-card" id="stageCard" data-stage="1">
+    <div class="stage-card__head">
+      <div class="stage-card__title" id="wizardTitle">—</div>
+      <div class="stage-card__hint" id="stageHint"></div>
+      <div class="stage-card__micro" id="stageMicro" aria-live="polite"></div>
+    </div>
+    <div class="wizard-fields" id="wizardFields"></div>
+  </div>
+</div>
 
         <div class="wizard-footer" aria-label="ناوبری مراحل">
           <button class="nav-btn nav-btn--ghost" id="prevStepBtn" type="button">مرحله قبل</button>
@@ -1053,6 +1096,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const wizardTitleEl = document.getElementById("wizardTitle");
   const wizardFieldsEl = document.getElementById("wizardFields");
+  const stageCardEl = document.getElementById("stageCard");
+const stageHintEl = document.getElementById("stageHint");
+const stageMicroEl = document.getElementById("stageMicro");
 
   const wmNote = document.getElementById("wmNote");
   const wizardPreview = document.getElementById("wizardPreview");
@@ -1234,52 +1280,49 @@ document.addEventListener("DOMContentLoaded", function () {
     return wizardSchema.pages.every(p => isPageComplete(p));
   }
 
-  function renderPills() {
-    if (!sectionStepsEl) return;
-    sectionStepsEl.innerHTML = "";
+ function renderPills() {
+  if (!sectionStepsEl) return;
+  sectionStepsEl.innerHTML = "";
 
-    // unlocked index: تا اولین صفحه ناقص
-    let unlocked = 0;
-    while (unlocked < wizardSchema.pages.length && isPageComplete(wizardSchema.pages[unlocked])) unlocked++;
+  // unlocked index: تا اولین صفحه ناقص
+  let unlocked = 0;
+  while (unlocked < wizardSchema.pages.length && isPageComplete(wizardSchema.pages[unlocked])) unlocked++;
 
-    wizardSchema.pages.forEach((p, idx) => {
-      const leaf = getVisibleLeafFields(p);
-      const pageDone = isPageComplete(p);
-      const anyAnswered = leaf.some(f => isFieldFilled(f.key));
+  wizardSchema.pages.forEach((p, idx) => {
+    const pageDone = isPageComplete(p);
 
-      const pill = document.createElement("button");
-      const stateClass = pageDone ? " is-done" : (anyAnswered ? " is-warn" : " is-empty");
+    const isLocked = DEV_MODE ? false : (idx > unlocked);
+    const pill = document.createElement("button");
+    pill.type = "button";
+    pill.className =
+      "step-pill" +
+      (idx === currentPage ? " is-active" : "") +
+      (pageDone ? " is-done" : " is-future");
 
-      const isLocked = DEV_MODE ? false : (idx > unlocked);
-      pill.className = "section-pill" + (idx === currentPage ? " is-active" : "") + stateClass + (isLocked ? " is-locked" : "");
-      pill.disabled = isLocked;
-      pill.type = "button";
+    if (isLocked) pill.disabled = true;
 
-      const required = leaf.filter(f => !f.optional);
-      const answered = required.filter(f => isFieldFilled(f.key)).length;
+    const dot = document.createElement("span");
+    dot.className = "step-dot";
+    dot.textContent = String(idx + 1);
 
-      const titleSpan = document.createElement("span");
-      titleSpan.className = "pill-title";
-      titleSpan.textContent = `(${idx + 1}) ${p.title}`;
+    const label = document.createElement("span");
+    label.className = "step-label";
+    label.textContent = p.title;
 
-      pill.appendChild(titleSpan);
+    pill.appendChild(dot);
+    pill.appendChild(label);
 
-      if (pageDone) {
-        const tick = document.createElement("span");
-        tick.className = "tick";
-        tick.textContent = "✔";
-        pill.appendChild(tick);
-      }
-
-      pill.addEventListener("click", () => {
-        if (pill.disabled) return;
-        currentPage = idx;
-        renderPage();
-      });
-
-      sectionStepsEl.appendChild(pill);
+    pill.addEventListener("click", () => {
+      if (pill.disabled) return;
+      currentPage = idx;
+      renderPage();
+      const card = document.getElementById("stageCard");
+      if (card) card.scrollIntoView({ behavior: "smooth", block: "start" });
     });
-  }
+
+    sectionStepsEl.appendChild(pill);
+  });
+}
 
   function buildSelectField(field) {
     const wrap = document.createElement("div");
@@ -1518,12 +1561,6 @@ document.addEventListener("DOMContentLoaded", function () {
       b.type = "button";
       b.className = "choice-btn" + (currentVal === ch ? " is-selected" : "");
       b.textContent = ch;
-
-      if (currentVal === ch) {
-        if (ch === "بله") b.classList.add("is-yes");
-        if (ch === "خیر") b.classList.add("is-no");
-      }
-
       b.addEventListener("click", () => {
         answers[field.key] = ch;
         clearDependentFields(field.key, ch);
@@ -1545,6 +1582,24 @@ document.addEventListener("DOMContentLoaded", function () {
 
     wizardTitleEl.textContent = page.title;
     wizardFieldsEl.innerHTML = "";
+    // stage card header + watermark stage
+if (stageCardEl) stageCardEl.setAttribute("data-stage", String(currentPage + 1));
+
+if (stageHintEl) {
+  const hints = [
+    "اطلاعات شناسنامه و هویت",
+    "مشخصات ظاهری و فعالیت",
+    "نشانی و تماس",
+    "سفر و موارد تکمیلی"
+  ];
+  stageHintEl.textContent = hints[currentPage] || "";
+}
+
+// micro message reset on render
+if (stageMicroEl) {
+  stageMicroEl.style.display = "none";
+  stageMicroEl.textContent = "";
+}
         // پاکسازی خطاهای صفحه
     clearAllFieldErrors();
 
@@ -1588,7 +1643,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (topProgressFill) {
     topProgressFill.style.backgroundColor = (percent >= 100) ? "rgba(31,107,74,.88)" : "#0f2547";
     }
-    if (topProgressText) topProgressText.textContent = `${percent}% تکمیل شده`;
+  if (topProgressText) topProgressText.textContent = `مرحله ${currentPage + 1} از ${wizardSchema.pages.length} · ${percent}%`;
 
            // پیش‌نمایش فقط مراحل 1-3 (صفحه 0 تا 2). در صفحه 4 حذف می‌شود.
     const isLast = (currentPage === wizardSchema.pages.length - 1);
@@ -1630,8 +1685,8 @@ bottomPreviewCta.textContent = isLast ? "" : "این پیش‌نمایش ثبت 
       if (currentPage > 0) {
         currentPage -= 1;
        renderPage();
-const shell = document.getElementById("wizardShell");
-if (shell) shell.scrollIntoView({ behavior: "smooth", block: "start" });
+const card = document.getElementById("stageCard");
+if (card) card.scrollIntoView({ behavior: "smooth", block: "start" });
       }
     });
   }
@@ -1651,11 +1706,23 @@ if (shell) shell.scrollIntoView({ behavior: "smooth", block: "start" });
           }
           return;
         }
-        currentPage += 1;
-        renderPage();
-        const shell = document.getElementById("wizardShell");
-        if (shell) shell.scrollIntoView({ behavior: "smooth", block: "start" });
-        return;
+      currentPage += 1;
+renderPage();
+
+const card = document.getElementById("stageCard");
+if (card) card.scrollIntoView({ behavior: "smooth", block: "start" });
+
+// micro-confirm: اگر صفحه قبلی کامل بود
+const micro = document.getElementById("stageMicro");
+if (micro) {
+  micro.textContent = "✔ این بخش تکمیل شد";
+  micro.style.display = "block";
+  setTimeout(() => {
+    micro.style.display = "none";
+    micro.textContent = "";
+  }, 1400);
+}
+return;
       }
 
            if (!DEV_MODE && !isAllComplete()) {
