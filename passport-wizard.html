@@ -158,7 +158,7 @@ button{
 
 /* Bottom links */
 .bottom-row{
-  margin-top: 14px;
+  margin-top: 8px;
   display: flex;
   justify-content: space-between;
   gap: 10px;
@@ -169,6 +169,11 @@ button{
   text-decoration: none;
   color: rgba(15, 37, 71, .95);
   opacity: .9;
+    padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(15,37,71,.18);
+  background: rgba(15,23,42,.04);
+  font-weight: 800;
 }
 
 .success-note{
@@ -220,8 +225,10 @@ button{
   border-radius: 22px;
   border: 1px solid rgba(2,8,23,.10);
   background: rgba(255,255,255,.92);
+  border-radius: 22px;
+  isolation: isolate;
   box-shadow: 0 14px 30px rgba(2,8,23,.08);
-  overflow: hidden;
+  overflow: visible;
 }
 
 /* Top progress (global) */
@@ -241,7 +248,7 @@ button{
 .progress-top__fill{
   height: 100%;
   width: 0%;
-  background: rgba(34,197,94,.65);
+  background: #0f2547;
   border-radius: 4px;
   transition: width .18s ease;
 }
@@ -278,22 +285,15 @@ button{
     align-items: flex-start;
   }
 
-  .progress-top{
-    flex: 1 1 100%;
-    order: 1;
+ @media (max-width: 700px){
+  .wizard-nav{
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: flex-start;
   }
-
-  .section-steps--nav{
-    flex: 1 1 100%;
-    order: 2;
-    width: 100%;
-    margin: 0;
-  }
-
-  .voice--inline{
-    order: 3;
-    margin-right: auto; /* در RTL باعث می‌شود سمت چپ قرار بگیرد */
-  }
+  .progress-top{ flex: 1 1 100%; order: 1; }
+  .section-steps--nav{ flex: 1 1 100%; order: 2; width: 100%; margin: 0; }
+  .voice--inline{ order: 3; margin-right: auto; }
 }
 
 .voice--inline{
@@ -358,7 +358,8 @@ button{
   font-weight: 700;
   color: rgba(15,23,42,.62);
   white-space: nowrap;
-}   
+}  
+.preview-mini__hint:empty{ display:none; }
 .nav-btn{
   width: 100%;
   margin-top: 0;
@@ -479,9 +480,9 @@ button{
   color: rgba(15,23,42,.82);
 }
 .section-pill.is-done{
-  background: rgba(31,107,74,.14);
-  border-color: rgba(31,107,74,.28);
-  color: rgba(15,23,42,.88);
+  background: rgba(15,37,71,.10);
+  border-color: rgba(15,37,71,.24);
+  color: rgba(15,23,42,.92);
 }
 .section-pill.is-active{
   font-weight: 900;
@@ -801,7 +802,7 @@ button{
           <button class="preview-mini" id="bottomPreviewBar" type="button">
             پیش‌نمایش موقت
           </button>
-          <div class="preview-mini__hint" id="bottomPreviewCta">برای بررسی اولیه</div>
+          <div class="preview-mini__hint" id="bottomPreviewCta"></div>
         </div>
 
         <div class="ios-hint" id="iosHint">در آیفون، برای ورود صوتی از میکروفونِ کیبورد استفاده کنید.</div>
@@ -1395,14 +1396,9 @@ document.addEventListener("DOMContentLoaded", function () {
     chev.className = "fg-chev";
     chev.textContent = "+";
     // میکروکپی
-    const sub = document.createElement("span");
-    sub.className = "fg-sub";
-    sub.textContent = "در صورت نیاز تکمیل کنید";
+   
     head.appendChild(t);
-    
     head.appendChild(chev);
-    t.appendChild(sub);
-
     const status = document.createElement("span");
     status.className = "fg-status";
     status.textContent = "";
@@ -1434,7 +1430,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // وضعیت تکمیل گروه: اگر همه فیلدهای لازمِ قابل‌نمایش پر است
     const groupLeaf = (groupField.fields || []).filter(ch => shouldShowField(ch) && !ch.optional);
     const groupDone = groupLeaf.length > 0 && groupLeaf.every(ch => isFieldFilled(ch.key));
-    status.textContent = groupDone ? "✔ تکمیل شد" : "";
+    status.textContent = groupDone ? "✔" : "";
     return wrap;
   }
 
@@ -1561,7 +1557,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (nextStepBtn) {
       if (!isLast) {
-        nextStepBtn.textContent = `ادامه به: ${wizardSchema.pages[currentPage + 1].title}`;
+      nextStepBtn.textContent = "ادامه";
         nextStepBtn.disabled = DEV_MODE ? false : !isPageComplete(page);
       } else {
          nextStepBtn.textContent = "نمایش و بررسی فرم نهایی";
