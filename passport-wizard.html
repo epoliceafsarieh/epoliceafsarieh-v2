@@ -291,9 +291,29 @@ button{
     gap: 8px;
     align-items: flex-start;
   }
-  .progress-top{ flex: 1 1 100%; order: 1; }
-  .section-steps--nav{ flex: 1 1 100%; order: 2; width: 100%; margin: 0; }
-  .voice--inline{ order: 3; margin-right: auto; }
+ @media (max-width: 700px){
+  .wizard-nav{
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .progress-top{
+    flex: 1 1 100%;
+    order: 1;
+  }
+
+  .section-steps--nav{
+    flex: 1 1 100%;
+    order: 2;
+    width: 100%;
+    margin: 0;
+  }
+
+  .voice--inline{
+    order: 3;
+    margin-right: auto;
+  }
 }
 
 .voice--inline{
