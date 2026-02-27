@@ -54,6 +54,19 @@ body{
 .back-link:hover{
   background: rgba(255,255,255,.16);
 }
+ .restart-link{
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 8px 12px;
+  border-radius: 999px;
+  color: rgba(255,255,255,.92);
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.14);
+}
+.restart-link:hover{
+  background: rgba(255,255,255,.12);
+}   
 
 /* ===== Unified Controls ===== */
 input, textarea, select{
@@ -89,12 +102,10 @@ select{
   background-repeat: no-repeat;
   padding-left: 34px;
 }
-
 input:focus, textarea:focus, select:focus{
-  border-color: rgba(245,158,11,.65);
-  box-shadow: 0 0 0 4px rgba(245,158,11,.14);
+  border-color: rgba(15,37,71,.55);
+  box-shadow: 0 0 0 4px rgba(15,37,71,.10);
 }
-
 /* Buttons (global) */
 button{
   width: 100%;
@@ -231,9 +242,11 @@ button{
 }
 .progress-top__text{
   font-size: 12px;
-  font-weight: 800;
-  color: rgba(15,23,42,.70);
+  font-weight: 900;
+  color: rgba(15,23,42,.78);
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .wizard-nav{
@@ -315,7 +328,7 @@ button{
   position: relative;
   padding: 2px 2px 12px;
   border-bottom: 1px solid rgba(2,8,23,.08);
-  margin-bottom: 14px;
+  margin-bottom: 24px;
 }
 
 .stage-card__title{
@@ -345,9 +358,9 @@ button{
   position: absolute;
   left: -24px;
   top: -22px;
-  width: 160px;
-  height: 160px;
-  opacity: .06;
+  width: 140px;
+  height: 140px;
+  opacity: .04;
   background-repeat: no-repeat;
   background-size: contain;
   transform: rotate(-8deg);
@@ -372,20 +385,25 @@ button{
 /* Footer nav buttons */
 .wizard-footer{
   display:flex;
+  position: sticky;
+  bottom: 0;
   gap: 10px;
   padding: 12px 14px calc(16px + env(safe-area-inset-bottom));
   background: rgba(255,255,255,.92);
   border-top: 1px solid rgba(2,8,23,.08);
 }
+.wizard-footer .nav-btn--ghost{ flex: .85; font-weight: 800; box-shadow: none; }
+.wizard-footer .nav-btn--primary{ flex: 1.15; border-radius: 16px; } 
  /* داخل کارت: پیش‌نمایش موقت (فقط مراحل 1-3) */
 .wizard-preview{
-  padding: 10px 14px calc(12px + env(safe-area-inset-bottom));
-  background: rgba(255,255,255,.92);
-  border-top: 1px solid rgba(2,8,23,.08);
+  margin-top: 6px;
+  padding: 8px 2px 0;
+  background: transparent;
+  border: none;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
 }
 .preview-mini{
   width: auto;
@@ -393,10 +411,16 @@ button{
   min-height: 40px;
   padding: 8px 10px;
   border-radius: 10px;
-  border: 1px solid rgba(2,8,23,.10);
+  border: none;
   background: transparent;
   color: rgba(15,23,42,.72);
   font-weight: 900;
+   padding: 0;
+  min-height: 0;
+  font-weight: 900;
+  color: rgba(15,37,71,.95);
+  text-decoration: underline;
+  text-underline-offset: 3px;
   cursor: pointer;
 }
 .preview-mini:hover{
@@ -494,16 +518,32 @@ button{
   color: rgba(15,23,42,.72);
 }
 
-.step-pill.is-active .step-dot{
-  background: #0f2547;
+.step-pill.is-current{
+  border-color: rgba(15,37,71,.55);
+  background: rgba(15,37,71,.04);
+}
+.step-pill.is-current .step-dot{
   border-color: #0f2547;
-  color: #fff;
+  background: rgba(15,37,71,.06);
+  color: #0f2547;
+  font-weight: 950;
+}
+.step-pill.is-current .step-label{
+  color: rgba(15,23,42,.88);
+  font-weight: 900;
 }
 
+.step-pill.is-done{
+  background: rgba(15,37,71,.05);
+  border-color: rgba(15,37,71,.22);
+}
 .step-pill.is-done .step-dot{
-  background: rgba(15,37,71,.10);
-  border-color: rgba(15,37,71,.35);
-  color: #0f2547;
+  background: rgba(15,37,71,.08);
+  border-color: rgba(15,37,71,.30);
+  color: rgba(15,37,71,.95);
+}
+.step-pill.is-done .step-label{
+  color: rgba(15,23,42,.78);
 }
 
 .step-pill.is-done .step-dot::before{
@@ -513,6 +553,20 @@ button{
 .step-pill.is-done .step-dot{
   font-size: 0; /* عدد را حذف کنیم، فقط تیک */
 }
+.step-pill.is-locked{
+  background: rgba(15,23,42,.02);
+  border-color: rgba(15,23,42,.10);
+  opacity: .55;
+  cursor: not-allowed;
+}
+.step-pill.is-locked .step-dot{
+  background: rgba(255,255,255,.70);
+  border-color: rgba(15,23,42,.10);
+  color: rgba(15,23,42,.35);
+}
+.step-pill.is-locked .step-label{
+  color: rgba(15,23,42,.45);
+}    
 
 .step-pill.is-future .step-dot{
   background: rgba(255,255,255,.78);
@@ -830,6 +884,7 @@ button{
   <div class="flow-wrap">
     <div class="flow-top flow-top--service">
       <a class="back-link" href="passport.html" aria-label="بازگشت">بازگشت</a>
+      <a class="restart-link" href="#" onclick="location.reload(); return false;">شروع مجدد</a>
     </div>
 
     <div class="flow-head flow-head--compact">
@@ -859,6 +914,11 @@ button{
       <div class="stage-card__micro" id="stageMicro" aria-live="polite"></div>
     </div>
     <div class="wizard-fields" id="wizardFields"></div>
+    <div class="wizard-preview" id="wizardPreview" aria-label="پیش‌نمایش">
+  <button class="preview-mini" id="bottomPreviewBar" type="button">
+👁 پیش‌نمایش موقت  </button>
+  <div class="preview-mini__hint" id="bottomPreviewCta"></div>
+</div>
   </div>
 </div>
 
@@ -866,19 +926,7 @@ button{
           <button class="nav-btn nav-btn--ghost" id="prevStepBtn" type="button">مرحله قبل</button>
           <button class="nav-btn nav-btn--primary" id="nextStepBtn" type="button">ادامه</button>
         </div>
-                <div class="wizard-preview" id="wizardPreview" aria-label="پیش‌نمایش">
-          <button class="preview-mini" id="bottomPreviewBar" type="button">
-            پیش‌نمایش موقت
-          </button>
-          <div class="preview-mini__hint" id="bottomPreviewCta"></div>
-        </div>
-
-        <div class="ios-hint" id="iosHint">در آیفون، برای ورود صوتی از میکروفونِ کیبورد استفاده کنید.</div>
-
-        <div class="bottom-row bottom-row--single">
-          <a href="#" onclick="location.reload(); return false;">شروع مجدد</a>
-        </div>
-
+               <div class="ios-hint" id="iosHint">در آیفون، برای ورود صوتی از میکروفونِ کیبورد استفاده کنید.</div>
         <div class="success-note" id="wmNote" style="display:none;">فایل خروجی شامل واترمارک دفتر است.</div>
       </div>
     </div>
@@ -1266,10 +1314,12 @@ const stageMicroEl = document.getElementById("stageMicro");
     const isLocked = DEV_MODE ? false : (idx > unlocked);
     const pill = document.createElement("button");
     pill.type = "button";
-    pill.className =
-      "step-pill" +
-      (idx === currentPage ? " is-active" : "") +
-      (pageDone ? " is-done" : " is-future");
+   const stateClass =
+  (idx === currentPage) ? " is-current" :
+  (pageDone) ? " is-done" :
+  (isLocked) ? " is-locked" : " is-future";
+
+pill.className = "step-pill" + stateClass;
 
     if (isLocked) pill.disabled = true;
 
@@ -1648,7 +1698,7 @@ function updateGroupStatuses(){
     if (topProgressFill) {
     topProgressFill.style.backgroundColor = (percent >= 100) ? "rgba(31,107,74,.88)" : "#0f2547";
     }
-  if (topProgressText) topProgressText.textContent = `مرحله ${currentPage + 1} از ${wizardSchema.pages.length} · ${percent}%`;
+if (topProgressText) topProgressText.textContent = wizardSchema.pages[currentPage].title;
 
            // پیش‌نمایش فقط مراحل 1-3 (صفحه 0 تا 2). در صفحه 4 حذف می‌شود.
     const isLast = (currentPage === wizardSchema.pages.length - 1);
