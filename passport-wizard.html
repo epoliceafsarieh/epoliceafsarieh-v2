@@ -132,23 +132,7 @@ button{
 }
 
 /* Preview bar */
-.preview-bar{
-  position: static;
-  width: 100%;
-  border: none;
-  cursor: pointer;
-  font-family: inherit;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 16px 18px;
-  background: linear-gradient(to bottom, #17335f, #0f2547);
-  color: #fff;
-  box-shadow: 0 14px 26px rgba(2,8,23,.14);
-}
 
-.preview-bar__title{ font-size: 14px; font-weight: 800; }
 .preview-bar__cta{ font-size: 14px; font-weight: 900; opacity: .95; }
 
 .preview-bar:disabled{
@@ -229,7 +213,6 @@ button{
   border-radius: 22px;
   border: 1px solid rgba(2,8,23,.10);
   background: rgba(255,255,255,.92);
-  border-radius: 22px;
   isolation: isolate;
   box-shadow: 0 14px 30px rgba(2,8,23,.08);
   overflow: visible;
@@ -1562,11 +1545,11 @@ const stageMicroEl = document.getElementById("stageMicro");
       b.className = "choice-btn" + (currentVal === ch ? " is-selected" : "");
       b.textContent = ch;
       b.addEventListener("click", () => {
-        answers[field.key] = ch;
-        clearDependentFields(field.key, ch);
-        updateNav();
-        renderPage();
-      });
+  answers[field.key] = ch;
+  clearDependentFields(field.key, ch);
+  updateNav();
+  renderPage({ preserveFocusKey: field.key });
+});
 
       row.appendChild(b);
     });
@@ -1631,7 +1614,40 @@ if (stageMicroEl) {
       if (el) el.focus();
     }
   }
+function updateGroupStatuses(){
+  // هر گروهی که روی صفحه رندر شده: اگر همه فیلدهای لازمِ قابل‌نمایش پر باشند => ✔
+  const groups = wizardFieldsEl.querySelectorAll(".field-group");
+  groups.forEach(box => {
+    const head = box.querySelector(".field-group__head");
+    const status = head ? head.querySelector(".fg-status") : null;
+    if (!status) return;
 
+    // همه input/textarea/select داخل همین گروه
+    const inputs = box.querySelectorAll("[data-key]");
+    let requiredCount = 0;
+    let filledCount = 0;
+
+    inputs.forEach(el => {
+      const key = el.getAttribute("data-key");
+      if (!key) return;
+
+      // اینجا «اختیاری/اجباری» را از schema نمی‌خوانیم (چون DOM فقط key دارد)
+      // بنابراین قاعده ساده می‌گذاریم:
+      // اگر در label همین فیلد ستاره * دارد => اجباری
+      const fieldWrap = el.closest(".field");
+      const label = fieldWrap ? fieldWrap.querySelector(".field-label") : null;
+      const isRequired = !!(label && label.querySelector(".req-star"));
+
+      if (isRequired) {
+        requiredCount += 1;
+        if (String(answers[key] || "").trim() !== "") filledCount += 1;
+      }
+    });
+
+    const done = (requiredCount > 0 && filledCount === requiredCount);
+    status.textContent = done ? "✔" : "";
+  });
+}
   function updateNav() {
     const allLeaf = wizardSchema.pages.flatMap(p => getVisibleLeafFields(p));
     const requiredAll = allLeaf.filter(f => !f.optional);
@@ -1677,6 +1693,7 @@ bottomPreviewCta.textContent = isLast ? "" : "این پیش‌نمایش ثبت 
 
     // pills live
     renderPills();
+    updateGroupStatuses();
   }
 
   // ===== Nav button events (bind ONCE) =====
@@ -1749,7 +1766,7 @@ return;
     const ctx = canvas.getContext("2d");
     const pad = Math.ceil(fontSize * 0.6);
 
-    ctx.font = `${fontSize}px Vazirmatn`;
+   ctx.font = `${fontSize}px "Vazirmatn"`;
     ctx.direction = "rtl";
     ctx.textAlign = "right";
     ctx.textBaseline = "alphabetic";
@@ -1761,7 +1778,7 @@ return;
     canvas.width = w;
     canvas.height = h;
 
-    ctx.font = `${fontSize}px Vazirmatn`;
+   ctx.font = `${fontSize}px "Vazirmatn"`;
     ctx.direction = "rtl";
     ctx.textAlign = "right";
     ctx.textBaseline = "alphabetic";
