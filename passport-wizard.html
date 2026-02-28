@@ -910,10 +910,10 @@ button{
   <div class="flow-wrap">
     <div class="flow-top flow-top--service">
       <a class="back-link" href="passport.html" aria-label="بازگشت">بازگشت</a>
-      <a class="restart-link" href="#" onclick="location.reload(); return false;">شروع مجدد</a>
-    </div>
-
-    <div class="flow-head flow-head--compact">
+      <a class="restart-link" href="#" onclick="if(confirm('همه اطلاعات پاک شود و از ابتدا شروع کنید؟')) location.reload(); 
+      return false;">شروع مجدد</a>    
+      </div>
+      <div class="flow-head flow-head--compact">
       <div class="wizard-shell" id="wizardShell">
                 <div class="wizard-intro" aria-label="راهنمای تکمیل فرم">
           <div class="wizard-intro__title">ساخت فرم گذرنامه</div>
@@ -925,7 +925,7 @@ button{
             <div class="progress-top__bar" aria-hidden="true">
               <div class="progress-top__fill" id="topProgressFill"></div>
             </div>
-            <div class="progress-top__text" id="topProgressText">0% تکمیل شده</div>
+            <div class="progress-top__text" id="topProgressText">—</div>      
           </div>
 
           <div class="section-steps section-steps--nav" id="sectionSteps" aria-label="بخش‌های فرم"></div>
@@ -1361,7 +1361,9 @@ pill.className = "step-pill" + stateClass;
 
     const dot = document.createElement("span");
     dot.className = "step-dot";
-    dot.textContent = String(idx + 1);
+    const isDone = pageDone; // برای خوانایی
+dot.textContent = isDone ? "" : String(idx + 1);
+dot.setAttribute("aria-hidden", "true");
 
     const label = document.createElement("span");
     label.className = "step-label";
