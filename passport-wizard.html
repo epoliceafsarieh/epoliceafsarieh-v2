@@ -418,17 +418,13 @@ button{
 .preview-mini{
   width: auto;
   margin-top: 0;
-  min-height: 40px;
-  padding: 8px 10px;
-  border-radius: 10px;
-  border: none;
-  background: transparent;
-  color: rgba(15,23,42,.72);
-  font-weight: 900;
-   padding: 0;
+  padding: 0;
   min-height: 0;
-  font-weight: 900;
+  border: none;
+  border-radius: 0;
+  background: transparent;
   color: rgba(15,37,71,.95);
+  font-weight: 900;
   text-decoration: underline;
   text-underline-offset: 3px;
   cursor: pointer;
@@ -556,12 +552,16 @@ button{
   color: rgba(15,23,42,.78);
 }
 
+.step-pill.is-done .step-dot{
+  font-size: 12px;         /* برگردان */
+}
 .step-pill.is-done .step-dot::before{
   content: "✔";
+  font-size: 12px;
+  line-height: 1;
 }
-
 .step-pill.is-done .step-dot{
-  font-size: 0; /* عدد را حذف کنیم، فقط تیک */
+  color: rgba(15,37,71,.95);
 }
 .step-pill.is-locked{
   background: rgba(15,23,42,.02);
@@ -1173,9 +1173,12 @@ const stageMicroEl = document.getElementById("stageMicro");
       if (vb) vb.style.display = "inline-flex";
     }
        // Keyboard UX: bring active field to center
-    setTimeout(() => {
-      try { el.scrollIntoView({ behavior: "smooth", block: "center" }); } catch(e) {}
-    }, 60); 
+setTimeout(() => {
+  const tag = (el && el.tagName) ? el.tagName.toLowerCase() : "";
+  if (tag === "input" || tag === "textarea" || tag === "select") {
+    try { el.scrollIntoView({ behavior: "smooth", block: "center" }); } catch(e) {}
+  }
+}, 60); 
   });
 
   function normalizePersianNumbers(text) {
@@ -1731,8 +1734,8 @@ function updateGroupStatuses(){
     if (topProgressFill) {
     topProgressFill.style.backgroundColor = (percent >= 100) ? "rgba(31,107,74,.88)" : "#0f2547";
     }
-if (topProgressText) topProgressText.textContent = wizardSchema.pages[currentPage].title;
-
+if (topProgressText) topProgressText.textContent = `${percent}% · ${wizardSchema.pages[currentPage].title}`;
+    
            // پیش‌نمایش فقط مراحل 1-3 (صفحه 0 تا 2). در صفحه 4 حذف می‌شود.
     const isLast = (currentPage === wizardSchema.pages.length - 1);
 
@@ -1743,12 +1746,10 @@ if (topProgressText) topProgressText.textContent = wizardSchema.pages[currentPag
   completeNote.style.display = (isLast && (DEV_MODE ? true : isAllComplete())) ? "block" : "none";
 }
 
-    if (bottomPreviewBar) {
-      bottomPreviewBar.textContent = isLast ? "نمایش و بررسی فرم نهایی" : "پیش‌نمایش موقت";
-      // پیش‌نمایش در مراحل 1-3 همیشه در دسترس است (حتی اگر ناقص باشد)
-      bottomPreviewBar.disabled = false;
-    }
-
+   if (bottomPreviewBar) {
+  bottomPreviewBar.textContent = "پیش‌نمایش موقت";
+  bottomPreviewBar.disabled = false;
+}
     if (bottomPreviewCta) {
 bottomPreviewCta.textContent = isLast ? "" : "این پیش‌نمایش ثبت نهایی محسوب نمی‌شود.";    }
 
@@ -1769,7 +1770,14 @@ bottomPreviewCta.textContent = isLast ? "" : "این پیش‌نمایش ثبت 
     // pills live
     renderPills();
     updateGroupStatuses();
-  }
+    // micro status inside stage card
+if (stageMicroEl) {
+  const pageNow = wizardSchema.pages[currentPage];
+  const doneNow = isPageComplete(pageNow);
+  stageMicroEl.textContent = doneNow ? "✔ این بخش آماده است" : "";
+  stageMicroEl.style.display = doneNow ? "block" : "none";
+}
+ 
 
   // ===== Nav button events (bind ONCE) =====
   if (prevStepBtn) {
