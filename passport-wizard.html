@@ -1777,16 +1777,21 @@ if (stageMicroEl) {
   stageMicroEl.textContent = doneNow ? "✔ این بخش آماده است" : "";
   stageMicroEl.style.display = doneNow ? "block" : "none";
 }
- 
+ }
+// ===== Nav button events (bind ONCE) =====
+let __navBound = false;
 
-  // ===== Nav button events (bind ONCE) =====
+function bindNavEventsOnce(){
+  if (__navBound) return;
+  __navBound = true;
+
   if (prevStepBtn) {
     prevStepBtn.addEventListener("click", () => {
       if (currentPage > 0) {
         currentPage -= 1;
-       renderPage();
-const card = document.getElementById("stageCard");
-if (card) card.scrollIntoView({ behavior: "smooth", block: "start" });
+        renderPage();
+        const card = document.getElementById("stageCard");
+        if (card) card.scrollIntoView({ behavior: "smooth", block: "start" });
       }
     });
   }
@@ -1797,7 +1802,7 @@ if (card) card.scrollIntoView({ behavior: "smooth", block: "start" });
       const page = wizardSchema.pages[currentPage];
 
       if (!isLast) {
-              if (!DEV_MODE && !isPageComplete(page)) {
+        if (!DEV_MODE && !isPageComplete(page)) {
           const leaf = getVisibleLeafFields(page).filter(f => !f.optional);
           const firstMissing = leaf.find(f => !isFieldFilled(f.key));
           if (firstMissing) {
@@ -1806,27 +1811,26 @@ if (card) card.scrollIntoView({ behavior: "smooth", block: "start" });
           }
           return;
         }
-      currentPage += 1;
-renderPage();
 
-const card = document.getElementById("stageCard");
-if (card) card.scrollIntoView({ behavior: "smooth", block: "start" });
+        currentPage += 1;
+        renderPage();
 
-// micro-confirm: اگر صفحه قبلی کامل بود
-const micro = document.getElementById("stageMicro");
-if (micro) {
-  micro.textContent = "✔ این بخش تکمیل شد";
-  micro.style.display = "block";
-  setTimeout(() => {
-    micro.style.display = "none";
-    micro.textContent = "";
-  }, 1400);
-}
-return;
+        const card = document.getElementById("stageCard");
+        if (card) card.scrollIntoView({ behavior: "smooth", block: "start" });
+
+        // micro-confirm: اگر صفحه قبلی کامل بود
+        if (stageMicroEl) {
+          stageMicroEl.textContent = "✔ این بخش تکمیل شد";
+          stageMicroEl.style.display = "block";
+          setTimeout(() => {
+            stageMicroEl.style.display = "none";
+            stageMicroEl.textContent = "";
+          }, 1400);
+        }
+        return;
       }
 
-           if (!DEV_MODE && !isAllComplete()) {
-        // برو به اولین صفحه ناقص
+      if (!DEV_MODE && !isAllComplete()) {
         const idx = wizardSchema.pages.findIndex(p => !isPageComplete(p));
         if (idx >= 0) {
           currentPage = idx;
@@ -1838,8 +1842,7 @@ return;
       if (bottomPreviewBar) bottomPreviewBar.click();
     });
   }
-
-
+}
   // ====== PNG TEXT RENDER ======
   async function drawTextAsPngOnPdf(pdfDoc, page, text, x, y, fontSize) {
     const t = String(text ?? "").trim();
@@ -2091,6 +2094,7 @@ return;
 
   // init
   renderPage();
+  bindNavEventsOnce();
 });
   </script>
 </body>
