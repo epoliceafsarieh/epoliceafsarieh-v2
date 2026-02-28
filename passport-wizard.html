@@ -394,6 +394,8 @@ button{
   background: rgba(255,255,255,.92);
   border-top: 1px solid rgba(2,8,23,.08);
 }
+   .wizard-footer .nav-btn--ghost{ flex: .85; font-weight: 800; box-shadow: none; }
+   .wizard-footer .nav-btn--primary{ flex: 1.15; border-radius: 16px; }  
  .complete-note{
   width: 100%;
   margin-bottom: 6px;
@@ -401,8 +403,7 @@ button{
   font-weight: 900;
   color: rgba(31,107,74,.92);
 }   
-.wizard-footer .nav-btn--ghost{ flex: .85; font-weight: 800; box-shadow: none; }
-.wizard-footer .nav-btn--primary{ flex: 1.15; border-radius: 16px; } 
+
  /* داخل کارت: پیش‌نمایش موقت (فقط مراحل 1-3) */
 .wizard-preview{
   margin-top: 6px;
@@ -749,12 +750,28 @@ button{
   flex: 0 0 auto;
   display: flex;
   justify-content: flex-end;
-  gap: 8px;
+  gap: 0;
   flex-wrap: nowrap;
+  border: 1px solid rgba(2,8,23,.14);
+  background: rgba(15,23,42,.03);
+  border-radius: 999px;
+  padding: 3px;
+  overflow: hidden;
 }
+
 .field--yn .choice-btn{
   height: 34px;
   font-size: 13px;
+  border: none !important;
+  background: transparent;
+  border-radius: 999px !important;
+  padding: 0 14px !important;
+  box-shadow: none !important;
+}
+
+.field--yn .choice-btn.is-selected{
+  background: rgba(15,37,71,.14);
+  color: rgba(15,37,71,.98);
 }
 
 /* Group (collapsible) */
@@ -1131,7 +1148,8 @@ const stageHintEl = document.getElementById("stageHint");
 const stageMicroEl = document.getElementById("stageMicro");
 
   const wmNote = document.getElementById("wmNote");
-  coconst completeNote = document.getElementById("completeNote");nst wizardPreview = document.getElementById("wizardPreview");
+  const wizardPreview = document.getElementById("wizardPreview");
+  const completeNote = document.getElementById("completeNote");
   
   // iOS: voice hidden + hint
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
@@ -1721,6 +1739,9 @@ if (topProgressText) topProgressText.textContent = wizardSchema.pages[currentPag
     if (wizardPreview) {
       wizardPreview.style.display = isLast ? "none" : "flex";
     }
+    if (completeNote) {
+  completeNote.style.display = (isLast && (DEV_MODE ? true : isAllComplete())) ? "block" : "none";
+}
 
     if (bottomPreviewBar) {
       bottomPreviewBar.textContent = isLast ? "نمایش و بررسی فرم نهایی" : "پیش‌نمایش موقت";
